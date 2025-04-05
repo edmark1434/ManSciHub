@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Services System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="../colors.css">
+</head>
+
+<body class="bg-warm-white flex flex-col items-center min-h-screen">
+
+    <div class="w-full h-[64px] bg-green text-white text-center py-3 text-[22px] ">
+        Logged in as an administrator. <a href="#" class="underline font-bold">Log out?</a>
+    </div>
+
+    <div class="text-center">
+        <img src="../logo.svg" alt="Logo" class="mx-auto mb-4 mt-12 w-10 h-10">
+        <h1 class="text-[28px] font-bold text-green-900">Mandaue City Science High School<br>Student Services System</h1>
+        <p class="mt-16 text-[22px] text-green">Please select a service:</p>
+
+        <div class="mt-4 flex flex-col sm:flex-row justify-center gap-6">
+
+            <div class="w-full h-full" id="app">
+                <a href="#" class="group relative block h-[427px] w-[469px]">
+                    <span class="absolute inset-0 border-2 border-dashed border-black"></span>
+
+                    <div
+                        class="relative flex h-full transform items-center border-2 border-green bg-ivory group-hover:bg-[#F1D580]/50">
+                        <div
+                            class="flex flex-col items-center !pt-0 transition-opacity group-hover:absolute sm:p-6 lg:p-8">
+                            <img src="../school-admissions.svg" class="size-20">
+                            <h2 class="mt-4 text-[28px] text-green font-bold sm:text-2xl">School Admission</h2>
+                            <p class="mt-4 text-[22px] text-green sm:text-base">
+                                Submit an application form to complete your admission
+                            </p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="w-full h-full" id="app">
+                <a href="#" class="group relative block h-[427px] w-[469px]">
+                    <span class="absolute inset-0 border-2 border-dashed border-black"></span>
+
+                    <div
+                        class="relative flex h-full transform items-center border-2 border-green bg-ivory group-hover:bg-[#F1D580]/50">
+                        <div
+                            class="flex flex-col items-center !pt-0 transition-opacity group-hover:absolute sm:p-6 lg:p-8">
+                            <img src="../document-requests.svg" class="size-20">
+                            <h2 class="mt-4 text-[28px] text-green font-bold sm:text-2xl">Document Request</h2>
+                            <p class="mt-4 text-[22px] text-green sm:text-base">
+                                Request student documents from the school registrar
+                            </p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="w-full h-full" id="app">
+                <a href="#" class="group relative block h-[427px] w-[469px]">
+                    <span class="absolute inset-0 border-2 border-dashed border-black"></span>
+
+                    <div
+                        class="relative flex h-full transform items-center border-2 border-green bg-ivory group-hover:bg-[#F1D580]/50">
+                        <div class="flex flex-col items-center !pt-0 transition-opacity group-hover:absolute sm:p-6 lg:p-8">
+                            <img src="../request-tracking.svg" class="size-20">
+                            <h2 class="mt-4 text-[28px] text-green font-bold sm:text-2xl">Request Tracking</h2>
+                            <p class="mt-4 text-[22px] text-green sm:text-base">
+                                View details and status of your request with a tracking code
+                            </p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+
+        </div>
+
+    </div>
+</body>
+
+</html>

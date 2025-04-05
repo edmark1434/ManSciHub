@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Request Tracking</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="../colors.css">
+    <link rel="stylesheet" href="../style.css">
+</head>
+
+<body class="w-full min-h-screen flex justify-center items-center bg-ivory">
+
+    <div class="bg-warm-white p-6  shadow-md w-[624px] h-[712px] border-[2px] border-green ">
+
+        <a class="inline-block mt-5 text-green hover:bg-[#325930] hover:text-[#F8EED1] focus:ring-3 focus:outline-none"
+            href="#">
+            <svg class="size-5 shadow-sm rotate-180" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+            </svg>
+        </a>
+
+
+        <h2 class="text-[34px] font-bold text-green mt-14 mb-12">Administrator Login</h2>
+        <label for="Username">
+            <span class="text-[22px] text-green"> Username </span>
+
+            <input type="text" id="Username" style="border: solid #aaa;"
+                class="mt-0.5 mb-4 w-full h-[58px] outline-green shadow-sm sm:text-sm" />
+        </label>
+        <label for="Username">
+            <span class="text-[22px] text-green"> Password </span>
+
+            <input type="text" id="Password" style="border: solid #aaa;"
+                class="mt-0.5 w-full h-[58px] outline-green shadow-sm sm:text-sm" />
+        </label>
+        <p class="text-[22px] text-error mt-3 mb-8">Invalid credentials. Access denied.</p>
+
+        <a class="w-full text-center mt-4 py-2 inline-block border border-green bg-green px-12 py-3 text-[22px] font-medium text-warm-white hover:bg-[#F8EED1] hover:text-[#325930] focus:ring-3 focus:outline-hidden"
+            href="#">
+            Login
+        </a>
+    </div>
+
+</body>
+
+</html>
