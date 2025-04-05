@@ -8,12 +8,11 @@ class Login{
     }
 
     public function login($username, $password): void{
-        $admin = $this->adminRepository->getAdminByUsername($username);
+        $admin = $this->adminRepository->getAdminByFilter(["admin_username" => $username]);
         $admin_password = isset($admin['admin_password']) ? $admin['admin_password'] : null;
         $admin_username = isset($admin['admin_username']) ? $admin['admin_username'] : null;
-        $hash_pass = password_hash($admin_password, PASSWORD_DEFAULT);
         if (!empty($username || $password)) {
-            if($admin_username === $username && password_verify($password,$hash_pass)){
+            if($admin_username === $username && password_verify($password,$admin_password)){
                 echo json_encode(["message"=> "Login Successfully!","data" => $admin]);
             }else{
                 http_response_code(400);
