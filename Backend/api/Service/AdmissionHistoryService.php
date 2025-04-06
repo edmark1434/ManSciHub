@@ -35,6 +35,10 @@ class AdmissionHistoryService{
     public function updateAdmissionHistory($AdmissionHistory){
         $this->serviceLogic->checkExistence($AdmissionHistory["admhs_id"],$this->AdmissionHistoryRepository,"getAdmissionHistoryById","Admission History with id {$AdmissionHistory["admhs_id"]} does not exist!");
         $this->serviceLogic->checkExistence($AdmissionHistory["stud_id"], $this->studentRepository, 'getStudentById', "Student with id {$AdmissionHistory["stud_id"]} does not exist!");
+        $result = $this->getAdmissionHistoryById( $AdmissionHistory["admhs_id"] );
+        if($result["stud_id"] != $AdmissionHistory["stud_id"]){
+        $this->serviceLogic->checkExistence(["stud_id" => $AdmissionHistory["stud_id"]],$this->AdmissionHistoryRepository,"getAdmissionHistoryByFilter","Admission History with Student id {$AdmissionHistory["stud_id"]} is already exist!");
+        }
         $AdmissionHistory =  $this->AdmissionHistoryObject($AdmissionHistory);
         $this->AdmissionHistoryRepository->updateAdmissionHistory($AdmissionHistory);
     }

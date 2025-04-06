@@ -28,6 +28,10 @@ class DocumentService{
     }
     public function updateDocument($Document){
         $this->serviceLogic->checkExistence($Document["docu_id"], $this->DocumentRepository, "getDocumentById", "Document with id {$Document["docu_id"]} does not exist");
+        $result = $this->getDocumentByID($Document["docu_id"]);
+        if($result->docu_type != $Document["docu_type"]){
+            $this->serviceLogic->checkExistence($Document["docu_type"], $this->DocumentRepository, 'getDocumentByFilter', "Document type {$Document["docu_type"]} is already exist!");           
+        }
         $Document = $this->DocumentObject($Document);
         $this->DocumentRepository->updateDocument($Document);
     }

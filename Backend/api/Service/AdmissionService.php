@@ -36,6 +36,10 @@ class AdmissionService{
         //validation
         $this->serviceLogic->checkExistence($admission["adms_id"],$this->admissionRepository,"getAdmissionById","Admission with Student id {$admission["adms_id"]} does not exist!");
         $this->serviceLogic->checkExistence($admission["stud_id"], $this->studentRepository, 'getStudentById', "Student with id {$admission["stud_id"]} does not exist!");
+        $result = $this->getAdmissionById( $admission["adms_id"] );
+        if($result["stud_id"] != $admission["stud_id"]){
+            $this->serviceLogic->checkExistence(["stud_id" => $admission["stud_id"]],$this->admissionRepository,"getAdmissionByFilter","Admission with Student id {$admission["stud_id"]} is already exist!");
+        }
         $admission =  $this->AdmissionObject($admission);
         $this->admissionRepository->updateAdmission($admission);
     }

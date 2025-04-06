@@ -31,6 +31,13 @@ class StudentService{
     }
     public function updateStudent($student){
         $this->serviceLogic->checkExistence($student["stud_id"],$this->studentRepository,'getStudentById',"Student with {$student["stud_id"]} Does not Exist!");
+        $result = $this->getStudentByID($student["stud_id"]);
+        if($student["stud_email"] != $result->stud_email){
+            $this->serviceLogic->checkExistence(["stud_email" => $student["stud_email"]], $this->studentRepository, 'getStudentByFilter', "Email is already used");
+        }
+        if($student["stud_lrn"] != $result->stud_lrn){
+            $this->serviceLogic->checkExistence(["stud_lrn" => $student["stud_lrn"]], $this->studentRepository, 'getStudentByFilter', "Lrn is already exist");
+        }
         $student = $this->StudentObject($student);
         $this->studentRepository->updateStudent($student);
     }

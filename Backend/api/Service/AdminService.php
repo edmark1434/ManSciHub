@@ -28,6 +28,10 @@ class AdminService{
     }
     public function updateAdmin($Admin){
         $this->serviceLogic->checkExistence($Admin["admin_id"],$this->adminRepository,'getAdminByID','Admin '.$Admin["admin_id"]. " Does not Exist!");
+        $result = $this->getAdminByID($Admin["admin_id"]);
+        if($Admin["admin_username"] != $result->admin_username){
+            $this->serviceLogic->checkExistence(["admin_username" => $Admin["admin_username"]],  $this->adminRepository, 'getAdminByFilter', 'Username is already exist!');
+        }
         $Admin = $this->adminObject($Admin);
         $this->adminRepository->updateAdmin($Admin);
     }

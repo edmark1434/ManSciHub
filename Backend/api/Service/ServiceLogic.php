@@ -2,7 +2,6 @@
 require_once "api/Repository/AdminRepository.php";
 class ServiceLogic{
 
-
         public function checkGetMethod($entity,$message){
             if($entity){
             return $entity;
