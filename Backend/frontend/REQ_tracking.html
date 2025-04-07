@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Request Tracking</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="../colors.css">
+    <link rel="stylesheet" href="../style.css">
+</head>
+
+<body class="w-full min-h-screen flex justify-center items-center bg-ivory">
+
+    <div class="bg-warm-white p-9 shadow-md w-[540px] border-2 border-green ">
+
+        <a class="inline-block text-green hover:bg-[#325930] hover:text-[#F8EED1] focus:ring-3 focus:outline-none"
+            href="#">
+            <svg class="size-5 rotate-180" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+            </svg>
+        </a>
+
+
+        <h2 class="text-xl font-bold text-green-900 mt-9 mb-3">Request Tracking</h2>
+        <p class="text-green text-base mb-4">Enter request ID to see details and status.</p>
+
+        <label>
+            <input type="text" id="Username"
+                class="mt-0.5 w-full h-12 px-3 border-2 border-green outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none" />
+        </label>
+        <p class="text-base text-error mt-1 mb-4">This field is required.</p>
+
+        <div class="flex justify-center">
+            <a class="w-full text-center inline-block bg-green px-6 py-3 text-base font-bold text-warm-white hover-bg-mid-green"
+                href="#">
+                Track request
+            </a>
+        </div>
+
+    </div>
+
+</body>
+
+</html>
