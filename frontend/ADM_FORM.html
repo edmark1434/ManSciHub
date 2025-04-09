@@ -123,3 +123,128 @@
 </body>
 
 </html>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>School Admission Form</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="../colors.css">
+    <link rel="stylesheet" href="../style.css">
+</head>
+
+<body class="w-full min-h-screen bg-ivory flex justify-center items-center py-12">
+
+    <div class="bg-warm-white border-2 border-green p-9 w-[720px] shadow-lg text-green">
+        <img src="../school-admissions.svg" alt="Logo" class="w-12 mb-9">
+        <div class="flex items-center mb-3">
+            <h1 class="text-green-900 font-bold text-3xl">School Admission Form</h1>
+        </div>
+        <p class="text-base text-green mb-9">
+            Fill out all fields marked with an asterisk (*).<br>
+            Email address will only be used to notify you of regarding your admission.
+        </p>
+
+        <!-- Personal Information -->
+        <div class="mb-9">
+
+            <label>
+                <span class="text-base font-medium text-green">First name*</span>
+
+                <input type="text" id="Username"
+                    class="mt-0.5 w-full h-12 px-3 border-2 border-green outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none" />
+            </label>
+            <p class="text-sm text-error mt-1 mb-4">This field is required.</p>
+
+            <label>
+                <span class="text-base font-medium text-green">Middle name</span>
+
+                <input type="text" id="Username"
+                    class="mt-0.5 mb-4 w-full h-12 px-3 border-2 border-green outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none" />
+            </label>
+
+            <div class="flex gap-4 mt-2 mb-4">
+                <div class="flex-1">
+                    <label>
+                        <span class="text-base font-medium text-green">Last name*</span>
+        
+                        <input type="text" id="Username"
+                            class="mt-0.5 w-full h-12 px-3 border-2 border-green outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none" />
+                    </label>
+                    <p class="text-sm text-error mt-1">This field is required.</p>
+                </div>
+                <div class="w-36">
+                    <label>
+                        <span class="text-base font-medium text-green">Extension</span>
+                        
+                        <div class="mt-0.5 w-full h-12 px-2 border-2 border-green outline-green bg-warm-white shadow-sm text-base focus:outline-none focus:ring-0 focus:rounded-none" >
+                            <select
+                                name="Headline"
+                                id="Headline"
+                                class="w-full h-full p-0 bg-transparent focus:outline-none focus:ring-0 focus:rounded-none" >
+                                <option value="">N/A</option>
+                                <option value="JM">Jr.</option>
+                                <option value="SRV">Sr.</option>
+                                <option value="JH">I</option>
+                                <option value="BBK">II</option>
+                                <option value="AK">III</option>
+                                <option value="BG">IV</option>
+                            </select>
+                        </div>
+                    </label>
+                </div>
+            </div>
+
+            <label>
+                <span class="text-base font-medium text-green">Date of birth*</span>
+
+                <input type="date" id="Username"
+                    class="mt-0.5 w-full h-12 px-3 border-2 border-green outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none" />
+            </label>
+            <p class="text-sm text-error mt-1 mb-4">Please enter a valid date of birth.</p>
+
+            <label>
+                <span class="text-base font-medium text-green">Learner reference number*</span>
+
+                <input type="text" id="Username"
+                    class="mt-0.5 w-full h-12 px-3 border-2 border-green outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none" />
+            </label>
+            <p class="text-sm text-error mt-1 mb-4">Please enter a valid LRN.</p>
+
+            <label>
+                <span class="text-base font-medium text-green">Home address*</span>
+
+                <input type="text" id="Username"
+                    class="mt-0.5 w-full h-12 px-3 border-2 border-green outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none" />
+            </label>
+            <p class="text-sm text-error mt-1 mb-4">This field is required.</p>
+
+            <label>
+                <span class="text-base font-medium text-green">Email address</span>
+
+                <input type="text" id="Username"
+                    class="mt-0.5 w-full h-12 px-3 border-2 border-green outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none" />
+            </label>
+            <p class="text-sm text-error mt-1 mb-4">Please enter a valid email address.</p>
+        </div>
+
+        <!-- Buttons -->
+        <div class="flex justify-between">
+            <a class="text-center inline-block border-2 border-warm-white bg-ivory px-6 py-3 text-base font-bold text-green hover:bg-[#F1D580]/50"
+                href="#">
+                Cancel
+            </a>
+
+            <a class="text-center inline-block bg-green px-6 py-3 text-base font-bold text-warm-white hover-bg-mid-green"
+                href="#">
+                Submit request
+            </a>
+        </div>
+
+    </div>
+
+</body>
+
+</html>
