@@ -9,7 +9,11 @@ require_once "api/Controller/ChangeHistoryController.php";
 require_once "api/Controller/AdmissionHistoryController.php";
 require_once "api/Controller/RequestHistoryController.php";
 require_once "api/Controller/AdminControlsController.php";
-require_once "backend/login.php";
+require_once "backend/controller/loginController.php";
+require_once "backend/controller/DocumentRequestController.php";
+require_once "backend/controller/AdmissionRequestController.php";
+require_once "backend/controller/TransferAdmissionHistoryController.php";
+require_once "backend/controller/TransferRequestHistoryController.php";
 class Router{
     private AdminController $admincontroller;
     private StudentController $studentcontroller;
@@ -20,7 +24,11 @@ class Router{
     private RequestHistoryController $requestHistoryController;
     private AdmissionHistoryController $admissionHistorycontroller;
     private AdminControlsController $adminControlsController;
-    private Login $login;
+    private LoginController $loginController;
+    private DocumentRequestController $documentRequestController;
+    private AdmissionRequestController $admissionRequestController;
+    private TransferAdmissionHistoryController $transferAdmissionHistoryController;
+    private TransferRequestHistoryController $transferRequestHistoryController;
     public function __construct()
     {
         $this->admincontroller = new AdminController();
@@ -32,7 +40,11 @@ class Router{
         $this->admissionHistorycontroller = new AdmissionHistoryController();
         $this->requestHistoryController = new RequestHistoryController();
         $this->adminControlsController = new AdminControlsController();
-        $this->login = new Login();
+        $this->loginController = new LoginController();
+        $this->documentRequestController = new DocumentRequestController();
+        $this->admissionRequestController = new AdmissionRequestController();
+        $this->transferAdmissionHistoryController = new TransferAdmissionHistoryController();
+        $this->transferRequestHistoryController = new TransferRequestHistoryController();
     }
 
     public function route()
@@ -52,6 +64,10 @@ class Router{
                 $this->getRequest("RequestHistory",$requestUri,$this->requestHistoryController,'getRequestHistoryById','getAllRequestHistory');
                 $this->getRequest("AdmissionHistory",$requestUri,$this->admissionHistorycontroller,'getAdmissionHistoryById','getAllAdmissionHistory');
                 $this->getRequest("AdminControls",$requestUri,$this->adminControlsController,'getAdminControlsByKey','getAllAdminControls');
+                //Transfer Admission
+                if($requestUri === "/api/Service/TransferAdmission"){
+                    $this->transferAdmissionHistoryController->TransferAllAdmission();
+                }
                 break;
             case 'POST':
                 $this->postAndPutRequest("Admin",$requestUri,$this->admincontroller,"addAdmin");
@@ -63,13 +79,19 @@ class Router{
                 $this->postAndPutRequest("RequestHistory",$requestUri,$this->requestHistoryController,"addRequestHistory");
                 $this->postAndPutRequest("AdmissionHistory",$requestUri,$this->admissionHistorycontroller,"addAdmissionHistory");
                 $this->postAndPutRequest("AdminControls",$requestUri,$this->adminControlsController,"addAdminControls");
+                //Document Request
+                $this->BackendLogicRequest("DocumentRequest", $requestUri, $this->documentRequestController, 'DocumentRequest');
+                //Admission Request
+                $this->BackendLogicRequest("AdmissionRequest", $requestUri, $this->admissionRequestController,"Admission");
+                //Transfer Request
+                $this->BackendLogicRequest("TransferRequest", $requestUri, $this->transferRequestHistoryController, "transferRequestHistory");
                 //login
                 if($requestUri === "/api/Admin/login"){
                     $data = json_decode(file_get_contents("php://input"), true);
                     $username = $data["username"] ?? NULL;
                     $password = $data["password"] ?? NULL;
                     if ($username !== null && $password !== null) {
-                        $this->login->login($username, $password);
+                        $this->loginController->loginController($username, $password);
                     }
                 }
                 break;
@@ -147,6 +169,12 @@ class Router{
             if (preg_match("/\/api\/{$model}\/Delete\/([a-zA-Z0-9]+)/", $requestUri, $matches)) {
                 $controller->$method($matches[1]);
             }
+        }
+    }
+    private function BackendLogicRequest($model,$requestUri,$controller,$method){
+        if ($requestUri === "/api/Service/{$model}") {
+            $entity = json_decode(file_get_contents("php://input"), true);
+            $controller->$method($entity);
         }
     }
 }

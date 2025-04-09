@@ -34,11 +34,13 @@
         $result = $this->repository->executeQuery($query, $params);
         return $this->repository->BuildResultQuery($result);       
     }
+    
 
-    public function addRequest(Request $request): void{
-        $query = "INSERT INTO REQUEST (REQ_PURPOSE,DOCU_ID,STUD_ID) VALUES ( :REQ_PURPOSE, :DOCU_ID, :STUD_ID)";
+
+    public function addRequest(Request $request): array{
+        $query = "INSERT INTO REQUEST (REQ_PURPOSE,DOCU_ID,STUD_ID) VALUES ( :REQ_PURPOSE, :DOCU_ID, :STUD_ID) RETURNING *";
         $params = $this->RequestParameter($request);
-        $this->repository->executeQuery($query, $params);
+        return $this->repository->executeQuery($query, $params);
     }
 
     public function updateRequest($request): void{

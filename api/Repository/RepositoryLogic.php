@@ -18,10 +18,7 @@ class RepositoryLogic{
     {
         $stmt = $this->connection->prepare($query);
         $stmt->execute($param);
-        if (stripos($query, "SELECT") === 0) {
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);
-        }
-        return null;
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
 

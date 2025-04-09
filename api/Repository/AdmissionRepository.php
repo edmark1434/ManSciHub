@@ -14,6 +14,7 @@
         $result = $this->repository->executeQuery($query,[]);
         return $result;
     }
+
     public function getAdmissionById($id):? array{
         $query = "SELECT ADMISSION.*, STUDENT.* FROM ADMISSION JOIN STUDENT ON
         STUDENT.STUD_ID = ADMISSION.STUD_ID
@@ -23,12 +24,12 @@
         return $this->repository->BuildResultQuery($result);       
     }
 
-        public function getAdmissionByFilter($params):? array{
+        public function getAdmissionByFilter($request):? array{
         $query = "SELECT ADMISSION.*, STUDENT.* FROM ADMISSION JOIN STUDENT ON
         STUDENT.STUD_ID = ADMISSION.STUD_ID
         WHERE 1=1 ";
         $params = [];
-        $stud_id = isset($params["stud_id"]) ? $params["stud_id"] : null;
+        $stud_id = isset($request["stud_id"]) ? $request["stud_id"] : null;
         if(!empty($stud_id)){
             $query .= "AND ADMISSION.STUD_ID = :id";
             $params[":id"] = $stud_id;
@@ -37,10 +38,10 @@
         return $this->repository->BuildResultQuery($result);       
     }
 
-    public function addAdmission($admission): void{
-        $query = "INSERT INTO Admission (ADMS_STATUS,STUD_ID) VALUES (:ADMS_STATUS,:STUD_ID)";
+    public function addAdmission($admission): array{
+        $query = "INSERT INTO Admission (ADMS_STATUS,STUD_ID) VALUES (:ADMS_STATUS,:STUD_ID) RETURNING * ";
         $params = $this->AdmissionParameter($admission);
-        $this->repository->executeQuery($query, $params);
+        return $this->repository->executeQuery($query, $params);
     }
 
     public function updateAdmission($admission): void{
@@ -49,12 +50,21 @@
         $params = $this->AdmissionParameter($admission);
         $this->repository->executeQuery($query, $params);
     }
+    public function getAllStudentWithLimits($offset){
+        $query = "SELECT * FROM Admission LIMIT 1000 OFFSET :offset";
+        $params = [":offset"=> $offset];
+        $this->repository->executeQuery($query, $params);
+    }
 
     public function deleteAdmission($id): void
     {
         $query = "DELETE FROM Admission where ADMS_ID = :id";
         $params = [":id" => $id];
         $this->repository->executeQuery($query, $params);
+    }
+    public function deleteAllAdmission(){
+        $query = "DELETE FROM Admission";
+        $this->repository->executeQuery($query, []);
     }
     private function AdmissionParameter($admission){
         $params = [

@@ -1,11 +1,9 @@
 <?php
 require_once "api/Service/AdminService.php";
 require_once "api/Service/StudentService.php";
-require_once "backend/login.php";
     class AdminController{
         private StudentService $studentService;
         private AdminService $adminService;
-        private Login $login;
 
         public function __construct(){
             $this->studentService = new StudentService();

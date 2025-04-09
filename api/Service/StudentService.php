@@ -25,7 +25,9 @@ class StudentService{
     public function addStudent($student)
     {
         $this->serviceLogic->checkExistence(["stud_email" => $student["stud_email"]], $this->studentRepository, 'getStudentByFilter', "Email is already used");
-        $this->serviceLogic->checkExistence(["stud_lrn" => $student["stud_lrn"]], $this->studentRepository, 'getStudentByFilter', "Lrn is already exist");
+        if (isset($student["stud_lrn"])) {
+            $this->serviceLogic->checkExistence(["stud_lrn" => $student["stud_lrn"]], $this->studentRepository, 'getStudentByFilter', "Lrn is already used");
+        }
         $student = $this->StudentObject($student);
         $this->studentRepository->addStudent($student);
     }
@@ -58,6 +60,7 @@ class StudentService{
         $student->stud_email = $entity['stud_email'] ?? NULL;
         $student->stud_add = $entity['stud_add'] ?? NULL;
         $student->stud_dob = $entity['stud_dob'] ?? NULL;
+        $student->stud_enroll = $entity['stud_enroll'] ?? NULL;
         return $student;
     }
 

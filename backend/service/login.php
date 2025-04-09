@@ -7,20 +7,18 @@ class Login{
         $this->adminRepository = new AdminRepository();
     }
 
-    public function login($username, $password): void{
+    public function login($username, $password): array{
         $admin = $this->adminRepository->getAdminByFilter(["admin_username" => $username]);
         $admin_password = isset($admin['admin_password']) ? $admin['admin_password'] : null;
         $admin_username = isset($admin['admin_username']) ? $admin['admin_username'] : null;
         if (!empty($username || $password)) {
             if($admin_username === $username && password_verify($password,$admin_password)){
-                echo json_encode(["message"=> "Login Successfully!","data" => $admin]);
+                return $admin;
             }else{
-                http_response_code(400);
-                echo json_encode(["message"=> "Incorrect Credentials!"]);
+                throw new Exception("Incorrect Credentials");
             }
         }else{
-            http_response_code(400);
-            echo json_encode(["message"=> "Fields is Empty, Please Input"]);
+            throw new Exception("Empty Fields");
         }
     }
 }

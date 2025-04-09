@@ -26,11 +26,11 @@ class RequestService{
         $request = $this->requestRepository->getRequestById($id);
         return $this->serviceLogic->checkGetMethod($request, "Request id {$id} does not exist");
     }
-    public function addRequest($request){
-        $this->serviceLogic->checkExistence($request["stud_id"], $this->studentRepository,'getStudentById',"Student with id {$request["stud_id"]} does not exist!");
-        $this->serviceLogic->checkExistence($request["docu_id"], $this->documentRepository,'getDocumentById',"Document with id {$request["docu_id"]} does not exist!");
+    public function addRequest($request):?array{
+        $stud = $this->serviceLogic->checkExistence($request["stud_id"], $this->studentRepository,'getStudentById',"Student with id {$request["stud_id"]} does not exist!");
+        $docu = $this->serviceLogic->checkExistence($request["docu_id"], $this->documentRepository,'getDocumentById',"Document with id {$request["docu_id"]} does not exist!");
         $request = $this->RequestObject($request);
-        $this->requestRepository->addRequest($request);
+        return $this->requestRepository->addRequest($request);
     }
     public function updateRequest($request){
         $this->serviceLogic->checkExistence($request["req_track_id"], $this->requestRepository, "getRequestById", "Request with id {$request["req_track_id"]} does not exist");

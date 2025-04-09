@@ -10,5 +10,6 @@ class Student
     public $stud_lrn;
     public $stud_email;
     public $stud_dob;
+    public $stud_enroll;
 }   
 ?>

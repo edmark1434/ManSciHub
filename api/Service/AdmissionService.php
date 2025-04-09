@@ -19,17 +19,23 @@ class AdmissionService{
         $admissions = $this->admissionRepository->getAllAdmission();
         return $this->serviceLogic->checkGetMethod($admissions,"No Admission found");
     }
+
+    public function getAdmissions(){
+        $admissions = $this->admissionRepository->getAllAdmission();
+        $admissions = $this->AdmissionObject($admissions);
+        return $admissions;
+    }
     public function getAdmissionById($id)
     {
         $admission = $this->admissionRepository->getAdmissionById($id);
         return $this->serviceLogic->checkGetMethod($admission, "Admission with {$id} does not exist!");
     }
 
-    public function addAdmission($admission){
+    public function addAdmission($admission):array{
         $this->serviceLogic->checkExistence(["stud_id" => $admission["stud_id"]],$this->admissionRepository,"getAdmissionByFilter","Admission with Student id {$admission["stud_id"]} is already exist!");
         $this->serviceLogic->checkExistence($admission["stud_id"], $this->studentRepository, 'getStudentById', "Student with id {$admission["stud_id"]} does not exist!");
         $admission =  $this->AdmissionObject($admission);
-        $this->admissionRepository->addAdmission( $admission);
+        return $this->admissionRepository->addAdmission( $admission);
     }
 
     public function updateAdmission($admission){

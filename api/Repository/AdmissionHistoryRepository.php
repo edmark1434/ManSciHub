@@ -39,6 +39,24 @@
         $this->repository->executeQuery($query, $params);
     }
 
+public function addAllAdmissionHistory($AdmissionHistoryList) {
+    if (empty($AdmissionHistoryList)) return;
+
+    $placeholders = [];
+    $params = [];
+
+    foreach ($AdmissionHistoryList as $index => $adms) {
+        $placeholders[] = "(:ADMHS_DATE$index, :ADMHS_STATUS$index, :STUD_ID$index)";
+        $params["ADMHS_DATE$index"] = $adms["adms_date"];
+        $params["ADMHS_STATUS$index"] = $adms["adms_status"];
+        $params["STUD_ID$index"] = $adms["stud_id"];
+    }
+
+    $query = "INSERT INTO Admission_History (ADMHS_DATE, ADMHS_STATUS, STUD_ID) VALUES " . implode(",", $placeholders);
+    $this->repository->executeQuery($query, $params);
+}
+
+
     public function updateAdmissionHistory($AdmissionHistory): void{
         $query = "UPDATE Admission_History SET ADMHS_STATUS = :ADMHS_STATUS, ADMHS_DATE = :ADMHS_DATE, ADMHS_PROC_DATE = :ADMHS_PROC_DATE,
         STUD_ID = :STUD_ID WHERE ADMHS_ID = :ADMHS_ID";
