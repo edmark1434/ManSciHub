@@ -19,13 +19,6 @@
         return $this->repository->BuildResultQuery($result);       
     }
 
-    public function getDocumentByType($type): ?array
-    {
-        $query = "SELECT * FROM DOCUMENT WHERE DOCU_TYPE = :DOCU_TYPE";
-        $params = [":DOCU_TYPE" => $type];
-        $result = $this->repository->executeQuery($query, $params);
-        return $this->repository->BuildResultQuery($result);
-    }
 
     public function addDocument($document): void{
         $query = "INSERT INTO DOCUMENT (DOCU_TYPE) VALUES (:DOCU_TYPE)";

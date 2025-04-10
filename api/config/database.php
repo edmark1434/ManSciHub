@@ -1,12 +1,24 @@
 <?php
+require 'vendor/autoload.php';
 
+$dotenv = Dotenv\Dotenv::createImmutable(dirname(__DIR__,2));
+$dotenv->load();
 class database{
+    
     private $conn;
-    private $db_host = "localhost";
-    private $db_port = 5432;
-    private $db_user = "postgres";
-    private $db_pass = "F1R3eX17";
-    private $db_name = "ManSci";
+    private $db_host;
+    private $db_port;
+    private $db_user;
+    private $db_pass;
+    private $db_name;
+    public function __construct()
+    {
+        $this->db_host = $_ENV["DB_HOST"];
+        $this->db_port = $_ENV["DB_PORT"];
+        $this->db_user = $_ENV["DB_USER"];
+        $this->db_pass = $_ENV["DB_PASS"];
+        $this->db_name = $_ENV["DB_NAME"];
+    }
     public function getConnection():PDO
     {
         try{

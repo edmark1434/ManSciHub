@@ -14,6 +14,7 @@ require_once "backend/controller/DocumentRequestController.php";
 require_once "backend/controller/AdmissionRequestController.php";
 require_once "backend/controller/TransferAdmissionHistoryController.php";
 require_once "backend/controller/TransferRequestHistoryController.php";
+require_once "backend/controller/EmailController.php";
 class Router{
     private AdminController $admincontroller;
     private StudentController $studentcontroller;
@@ -29,6 +30,7 @@ class Router{
     private AdmissionRequestController $admissionRequestController;
     private TransferAdmissionHistoryController $transferAdmissionHistoryController;
     private TransferRequestHistoryController $transferRequestHistoryController;
+    private EmailController $emailController;
     public function __construct()
     {
         $this->admincontroller = new AdminController();
@@ -45,6 +47,7 @@ class Router{
         $this->admissionRequestController = new AdmissionRequestController();
         $this->transferAdmissionHistoryController = new TransferAdmissionHistoryController();
         $this->transferRequestHistoryController = new TransferRequestHistoryController();
+        $this->emailController = new EmailController();
     }
 
     public function route()
@@ -85,6 +88,7 @@ class Router{
                 $this->BackendLogicRequest("AdmissionRequest", $requestUri, $this->admissionRequestController,"Admission");
                 //Transfer Request
                 $this->BackendLogicRequest("TransferRequest", $requestUri, $this->transferRequestHistoryController, "transferRequestHistory");
+                $this->BackendLogicRequest("EmailNotification", $requestUri, $this->emailController, "EmailNotification");
                 //login
                 if($requestUri === "/api/Admin/login"){
                     $data = json_decode(file_get_contents("php://input"), true);
@@ -116,6 +120,9 @@ class Router{
                 $this->deleteRequest("RequestHistory",$requestUri,$this->requestHistoryController,"deleteRequestHistory");
                 $this->deleteRequest("AdmissionHistory",$requestUri,$this->admissionHistorycontroller,"deleteAdmissionHistory");
                 $this->deleteRequest("AdminControls",$requestUri,$this->adminControlsController,"deleteAdminControls");
+                break;
+            default:
+                http_response_code(404);
                 break;
         }
     }
