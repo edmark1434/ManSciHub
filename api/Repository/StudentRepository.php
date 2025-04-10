@@ -123,7 +123,9 @@ class StudentRepository{
         if (!empty($student->stud_id)) {
             $params[":STUD_ID"] = $student->stud_id;
         }
-
+        if(!empty($student->stud_enroll)){
+            $params[":STUD_ENROLL"] = $student->stud_enroll;
+        }
         return $params;
     }
 }

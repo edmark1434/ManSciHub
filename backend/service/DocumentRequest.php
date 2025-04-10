@@ -25,9 +25,8 @@ class DocumentRequest{
             //check if student exist
             $student = $this->checkStudentExist($request);
             //get the document type
-            $document = $this->documentRepository->getDocumentByType($request["docu_type"]);
             //make request as object
-            $request_object = $this->RequestObject($request["req_purpose"], $student["stud_id"], $document["docu_id"]);
+            $request_object = $this->RequestObject($request["req_purpose"], $student["stud_id"], $request["docu_id"]);
             //add new request
             $request = $this->requestController->addRequest($request_object);
             return $request;
@@ -63,7 +62,6 @@ class DocumentRequest{
             "stud_lname"=> $request["stud_lname"],
             "stud_mname"=> $request["stud_mname"] ?? NULL,
             "stud_suffix"=> $request["stud_suffix"] ?? NULL
-            
         ];
         return $student;
     }
