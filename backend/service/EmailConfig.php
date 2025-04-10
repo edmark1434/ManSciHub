@@ -27,7 +27,7 @@ class EmailConfig{
             $this->mail->Body = $this->getBody($subject);
             $this->mail->send();
         } catch (Exception $e) {
-            throw new Exception($e->getMessage());  
+            throw new Exception("Email doesn't send successfully");  
         }
     }
 
