@@ -5,5 +5,6 @@ class Admission{
     public $adms_date;
     public $adms_status;
     public $stud_id;
+    public $adms_lvl;
 }
 ?>

@@ -1,10 +1,11 @@
 <?php
 
 class AdmissionHistory{
-    private $admission_history_id;
-    private $admission_history_date;
-    private $admission_history_status;
-    private $admission_history_process_date;
-    private $student_id;
+    public $admhs_id;
+    public $admhs_date;
+    public $admhs_status;
+    public $admhs_proc_date;
+    public $stud_id;
+    public $admhs_lvl;
 }
 ?>

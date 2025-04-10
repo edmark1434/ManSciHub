@@ -19,7 +19,7 @@ class AdmissionRequest{
     public function AdmissionEntry($request){
         $student = $this->checkStudentExist($request);
         $request["adms_status"] = "PENDING";
-        $admission = $this->AdmissionObject([$request["adms_status"],$student["stud_id"]]);
+        $admission = $this->AdmissionObject([$request["adms_status"],$student["stud_id"],$request["adms_lvl"]]);
         return $this->admissionController->addAdmission($admission);
     }
     public function checkStudentExist($request){
@@ -35,7 +35,8 @@ class AdmissionRequest{
     public function AdmissionObject($admission){
         $admission = [
             "adms_status" => $admission[0],
-            "stud_id" => $admission[1]
+            "stud_id" => $admission[1],
+            "adms_lvl"=> $admission[2],
         ];
         return $admission;
     }

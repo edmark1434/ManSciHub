@@ -39,14 +39,14 @@
     }
 
     public function addAdmission($admission): array{
-        $query = "INSERT INTO Admission (ADMS_STATUS,STUD_ID) VALUES (:ADMS_STATUS,:STUD_ID) RETURNING * ";
+        $query = "INSERT INTO Admission (ADMS_STATUS,STUD_ID,ADMS_LVL) VALUES (:ADMS_STATUS,:STUD_ID,:ADMS_LVL) RETURNING * ";
         $params = $this->AdmissionParameter($admission);
         return $this->repository->executeQuery($query, $params);
     }
 
     public function updateAdmission($admission): void{
         $query = "UPDATE Admission SET ADMS_STATUS = :ADMS_STATUS, STUD_ID = :STUD_ID ,
-        ADMS_DATE = :ADMS_DATE WHERE ADMS_ID = :ADMS_ID";
+        ADMS_DATE = :ADMS_DATE, ADMS_LVL = :ADMS_LVL WHERE ADMS_ID = :ADMS_ID";
         $params = $this->AdmissionParameter($admission);
         $this->repository->executeQuery($query, $params);
     }
@@ -69,7 +69,8 @@
     private function AdmissionParameter($admission){
         $params = [
             ":ADMS_STATUS" =>$admission->adms_status,
-            ":STUD_ID" =>$admission->stud_id
+            ":STUD_ID" =>$admission->stud_id,
+            ":ADMS_LVL" => $admission->adms_lvl
         ];
         if(!empty($admission->adms_id)){
             $params[":ADMS_ID"] = $admission->adms_id;

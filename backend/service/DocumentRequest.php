@@ -21,7 +21,7 @@ class DocumentRequest{
         $this->requestService = new RequestService();
     }
 
-    public function request($request):array{
+    public function request($request):?array{
             //check if student exist
             $student = $this->checkStudentExist($request);
             //get the document type

@@ -34,7 +34,7 @@
         return $this->repository->BuildResultQuery($result);       
     }
     public function addAdmissionHistory($AdmissionHistory): void{
-        $query = "INSERT INTO Admission_History (ADMHS_DATE,ADMHS_STATUS,STUD_ID) VALUES (:ADMHS_DATE,:ADMHS_STATUS,:STUD_ID)";
+        $query = "INSERT INTO Admission_History (ADMHS_DATE,ADMHS_STATUS,STUD_ID,ADMHS_LVL) VALUES (:ADMHS_DATE,:ADMHS_STATUS,:STUD_ID,:ADMHS_LVL)";
         $params = $this->AdmissionHistoryParameter($AdmissionHistory);
         $this->repository->executeQuery($query, $params);
     }
@@ -46,20 +46,21 @@ public function addAllAdmissionHistory($AdmissionHistoryList) {
     $params = [];
 
     foreach ($AdmissionHistoryList as $index => $adms) {
-        $placeholders[] = "(:ADMHS_DATE$index, :ADMHS_STATUS$index, :STUD_ID$index)";
+        $placeholders[] = "(:ADMHS_DATE$index, :ADMHS_STATUS$index, :STUD_ID$index, :ADMHS_LVL$index)";
         $params["ADMHS_DATE$index"] = $adms["adms_date"];
         $params["ADMHS_STATUS$index"] = $adms["adms_status"];
         $params["STUD_ID$index"] = $adms["stud_id"];
+        $params["ADMHS_LVL$index"] = $adms["adms_lvl"];
     }
 
-    $query = "INSERT INTO Admission_History (ADMHS_DATE, ADMHS_STATUS, STUD_ID) VALUES " . implode(",", $placeholders);
+    $query = "INSERT INTO Admission_History (ADMHS_DATE, ADMHS_STATUS, STUD_ID, ADMHS_LVL) VALUES " . implode(",", $placeholders);
     $this->repository->executeQuery($query, $params);
 }
 
 
     public function updateAdmissionHistory($AdmissionHistory): void{
         $query = "UPDATE Admission_History SET ADMHS_STATUS = :ADMHS_STATUS, ADMHS_DATE = :ADMHS_DATE, ADMHS_PROC_DATE = :ADMHS_PROC_DATE,
-        STUD_ID = :STUD_ID WHERE ADMHS_ID = :ADMHS_ID";
+        STUD_ID = :STUD_ID, ADMHS_LVL = :ADMHS_LVL WHERE ADMHS_ID = :ADMHS_ID";
         $params = $this->AdmissionHistoryParameter($AdmissionHistory);
         $this->repository->executeQuery($query, $params);
     }
@@ -74,6 +75,7 @@ public function addAllAdmissionHistory($AdmissionHistoryList) {
         $params = [
             ":ADMHS_DATE" =>$AdmissionHistory->admhs_date,
             ":ADMHS_STATUS" =>$AdmissionHistory->admhs_status,
+            ":ADMHS_LVL" =>$AdmissionHistory->admhs_lvl,
             ":STUD_ID" =>$AdmissionHistory->stud_id
         ];
         if (!empty($AdmissionHistory->admhs_id)) {

@@ -54,6 +54,7 @@ class AdmissionHistoryService{
         $AdmissionHistory->admhs_id = $entity["admhs_id"] ?? NULL;
         $AdmissionHistory->admhs_date = $entity["admhs_date"] ?? NULL;
         $AdmissionHistory->admhs_status = $entity["admhs_status"] ?? NULL;
+        $AdmissionHistory->admhs_lvl = $entity["admhs_lvl"] ?? NULL;
         $AdmissionHistory->admhs_proc_date = $entity["admhs_proc_date"] ?? NULL;
         $AdmissionHistory->stud_id = $entity["stud_id"] ?? NULL;
         return $AdmissionHistory;

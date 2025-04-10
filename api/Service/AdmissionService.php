@@ -22,7 +22,6 @@ class AdmissionService{
 
     public function getAdmissions(){
         $admissions = $this->admissionRepository->getAllAdmission();
-        $admissions = $this->AdmissionObject($admissions);
         return $admissions;
     }
     public function getAdmissionById($id)
@@ -60,6 +59,7 @@ class AdmissionService{
         $admission->adms_id = $entity["adms_id"] ?? NULL;
         $admission->adms_date = $entity["adms_date"] ?? NULL;
         $admission->adms_status = $entity["adms_status"] ?? NULL;
+        $admission->adms_lvl = $entity["adms_lvl"] ?? NULL;
         $admission->stud_id = $entity["stud_id"] ?? NULL;
         return $admission;
     }
