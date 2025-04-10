@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/vue@3"></script>
+    <link rel="stylesheet" href="css/colors.css">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/App.js" async></script>
+</head>
+
+<body class="w-screen h-[100svh] bg-ivory text-green">
+
+    <!-- TEMPORARY DIV -->
+    <div id="app" class="w-full flex flex-col gap-64 justify-center items-center">
+
+        <!-- User boot Screen -->
+        <section v-if="ShowAdminBoot" class="w-screen h-screen">
+            <div
+                class="w-full h-full flex justify-center items-center transition-opacity duration-500">
+                <p class="text-[34px] font-bold">Welcome, Administrator!</p>
+            </div>
+
+        </section>
+        <!-- ADMIN Login Screen -->
+        <section v-if="ShowAdminLogin" class="w-screen h-screen flex justify-center items-center">
+            <div 
+                class="bg-warm-white p-6 shadow-md w-[624px] h-[712px] border-[2px] border-green">
+                <h2 class="text-[34px] font-bold text-green mt-14 mb-12">Administrator Login</h2>
+
+                <label>
+                    <span class="text-[22px] text-green"> Username </span>
+                    <input v-model="username" type="text" id="Username" style="border: solid #325930;"
+                        class="mt-0.5 mb-4 w-full h-[58px] outline-green shadow-sm sm:text-sm" />
+                </label>
+
+                <label for="Password">
+                    <span class="text-[22px] text-green"> Password </span>
+                    <input v-model="password" type="password" id="Password" style="border: solid #325930;"
+                        class="mt-0.5 w-full h-[58px] outline-green shadow-sm sm:text-sm" />
+                </label>
+
+                <!-- Show this only when login fails -->
+                <p v-if="loginFailed" class="text-[22px] text-error mt-3 mb-8">Invalid credentials. Access denied.</p>
+
+                <button @click="checkLogin"
+                    class="w-full text-center mt-24 py-2 inline-block border border-green bg-green px-12 py-3 text-[22px] font-medium text-warm-white hover:bg-[#F8EED1] hover:text-[#325930] focus:ring-3 focus:outline-hidden">
+                    Login
+                </button>
+            </div>
+        </section>
+
+
+
+        <!-- USER BOOT SCREEN  -->
+        <section v-if="ShowAdminLogin" class="w-screen h-screen">
+            <div class="w-full h-full flex justify-center items-center">
+                <p class="text-green text-[34px] font-bold">Welcome, Schihyista!</p>
+            </div>
+        </section>
+
+
+
+        <!-- USER MENU SCREEN -->
+        <section v-if="ShowAdminLogin" class="w-screen h-screen flex justify-center items-center">
+            <div class="text-center">
+                <img src="assets/logo.svg" alt="Logo" class="mx-auto mb-4 w-10 h-10">
+                <h1 class="text-[28px] font-bold text-green-900">Mandaue City Science High School<br>Student Services
+                    System
+                </h1>
+                <p class="mt-16 text-[22px] text-green">Please select a service:</p>
+
+                <div class="mt-4 flex flex-col sm:flex-row justify-center gap-6">
+
+                    <div class="w-full h-full" id="app">
+                        <a href="#" class="group relative block h-[427px] w-[469px]">
+                            <span class="absolute inset-0 border-2 border-dashed border-black"></span>
+
+                            <div
+                                class="relative flex h-full transform items-center border-2 border-green bg-ivory group-hover:bg-[#F1D580]/50">
+                                <div
+                                    class="flex flex-col items-center !pt-0 transition-opacity group-hover:absolute sm:p-6 lg:p-8">
+                                    <img src="assets/school-admissions.svg" class="size-20">
+                                    <h2 class="mt-4 text-[28px] text-green font-bold sm:text-2xl">School Admission</h2>
+                                    <p class="mt-4 text-[22px] text-green sm:text-base">
+                                        Submit an application form to complete your admission
+                                    </p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="w-full h-full" id="app">
+                        <a href="#" class="group relative block h-[427px] w-[469px]">
+                            <span class="absolute inset-0 border-2 border-dashed border-black"></span>
+
+                            <div
+                                class="relative flex h-full transform items-center border-2 border-green bg-ivory group-hover:bg-[#F1D580]/50">
+                                <div
+                                    class="flex flex-col items-center !pt-0 transition-opacity group-hover:absolute sm:p-6 lg:p-8">
+                                    <img src="assets/document-requests.svg" class="size-20">
+                                    <h2 class="mt-4 text-[28px] text-green font-bold sm:text-2xl">Document Request</h2>
+                                    <p class="mt-4 text-[22px] text-green sm:text-base">
+                                        Request student documents from the school registrar
+                                    </p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="w-full h-full" id="app">
+                        <a href="#" class="group relative block h-[427px] w-[469px]">
+                            <span class="absolute inset-0 border-2 border-dashed border-black"></span>
+
+                            <div
+                                class="relative flex h-full transform items-center border-2 border-green bg-ivory group-hover:bg-[#F1D580]/50">
+                                <div
+                                    class="flex flex-col items-center !pt-0 transition-opacity group-hover:absolute sm:p-6 lg:p-8">
+                                    <img src="assets/request-tracking.svg" class="size-20">
+                                    <h2 class="mt-4 text-[28px] text-green font-bold sm:text-2xl">Request Tracking</h2>
+                                    <p class="mt-4 text-[22px] text-green sm:text-base">
+                                        View details and status of your request with a tracking code
+                                    </p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+
+        <!-- DOCUMENT REQUEST SCREEN -->
+        <section v-if="ShowAdminLogin" class="w-screen h-screen flex justify-center items-center">
+            <div class="bg-warm-white border-[2px] border-green p-6 w-[720px] shadow-lg text-green">
+                <img src="assets/logo.svg" alt="Logo" class="w-[84px] h-[84] mb-6">
+                <div class="flex items-center mb-4">
+                    <h1 class="text-green-900 font-bold text-[34px]">Document Request Form</h1>
+                </div>
+                <p class="text-[22px] text-green mb-4">
+                    Fill out all fields unless marked as optional.<br>
+                    Email address will only be used for notification.
+                </p>
+
+                <!-- Personal Information -->
+                <div class="mb-4">
+                    <h2 class="text-green text-[28px] font-bold mb-2">Personal Information</h2>
+
+                    <label>
+                        <span class="text-[22px] font-medium text-green">First Name</span>
+
+                        <input type="text" id="FirstName" style="border: solid #aaa;"
+                            class="mt-0.5 w-full h-[58px] outline-green shadow-sm sm:text-sm" />
+                    </label>
+                    <p class="text-[22px] text-error mt-1">This field is required.</p>
+
+                    <label>
+                        <span class="text-[22px] font-medium text-green">Middle Name</span>
+
+                        <input type="text" id="MiddleName" style="border: solid #aaa;"
+                            class="mt-0.5 w-full h-[58px] outline-green shadow-sm sm:text-sm" />
+                    </label>
+
+                    <div class="flex gap-2 mt-2">
+                        <div class="flex-1">
+                            <label>
+                                <span class="text-[22px] font-medium text-green">Last Name</span>
+
+                                <input type="text" id="LastName" style="border: solid #aaa;"
+                                    class="mt-0.5 w-full h-[58px] outline-green shadow-sm sm:text-sm" />
+                            </label>
+                            <p class="text-[22px] text-error mt-1">This field is required.</p>
+                        </div>
+                        <div class="w-24">
+                            <label>
+                                <span class="text-[22px] font-medium text-green">Extension</span>
+
+                                <input type="text" id="Extension" style="border: solid #aaa;"
+                                    class="mt-0.5 w-full h-[58px] outline-green shadow-sm sm:text-sm" />
+                            </label>
+                        </div>
+                    </div>
+
+                    <label>
+                        <span class="text-[22px] font-medium text-green">Email Address</span>
+
+                        <input type="text" id="Email" style="border: solid #aaa;"
+                            class="mt-0.5 w-full h-[58px] outline-green shadow-sm sm:text-sm" />
+                    </label>
+                    <p class="text-[22px] text-error mt-1">That is not an Email address.</p>
+                </div>
+
+                <!-- Request Details -->
+                <div class="mb-4">
+                    <h2 class="text-green text-[22px] font-bold mb-2">Request Details</h2>
+
+                    <label>
+                        <span class="text-[22px] font-medium text-green">Document type</span>
+
+                        <input type="text" id="DocType" style="border: solid #aaa;"
+                            class="mt-0.5 w-full h-[58px] outline-green shadow-sm sm:text-sm" />
+                    </label>
+                    <p class="text-[22px] text-error mt-1">This field is required.</p>
+
+                    <label>
+                        <span class="text-[22px] font-medium text-green">Purpose of request</span>
+
+                        <input type="text" id="Purpose" style="border: solid #aaa;"
+                            class="mt-0.5 w-full h-[58px] outline-green shadow-sm sm:text-sm" />
+                    </label>
+                    <p class="text-[22px] text-error mt-1">This field is required.</p>
+                </div>
+
+                <!-- Buttons -->
+                <div class="flex justify-between">
+                    <a class="text-center mt-4 py-2 inline-block border border-green bg-ivory px-12 py-3 text-[22px] font-medium text-green hover:bg-[#325930] hover:text-[#F8EED1]"
+                        href="#">
+                        Cancel
+                    </a>
+
+                    <a class="text-center mt-4 py-2 inline-block border border-green bg-green px-12 py-3 text-[22px] font-medium text-warm-white hover:bg-[#F8EED1] hover:text-[#325930]"
+                        href="#">
+                        Submit request
+                    </a>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- SERVICE SUCCESS  SCREEN-->
+        <section v-if="ShowAdminLogin" class="w-screen h-screen flex justify-center items-center">
+            <div class="w-[324px] h-[312px] p-6  text-center">
+                <p class="text-green text-[22px]">We have sent your document request!</p>
+                <p class="font-bold text-[22px] text-green mt-2">Request ID: <span class="text-green">1023943214</span>
+                </p>
+                <p class="text-green text-[22px] mt-2">Use the request ID to
+                    track your request.</p>
+
+                <div class="flex justify-center">
+                    <a class="w-full text-center mt-12 py-2 inline-block border border-green bg-green px-12 py-3 text-[22px] text-warm-white hover:bg-[#F8EED1] hover:text-[#325930] "
+                        href="#">
+                        Back to Menu
+                    </a>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- REQUEST TRACKING SCREEN-->
+        <section v-if="ShowAdminLogin" class="w-screen h-screen flex justify-center items-center">
+            <div class="bg-warm-white p-6  shadow-md w-[600px] h-[461px] border-[2px] border-green ">
+
+                <a class="inline-block text-green hover:bg-[#325930] hover:text-[#F8EED1] focus:ring-3 focus:outline-none"
+                    href="#">
+                    <svg class="size-5 shadow-sm rotate-180" xmlns="http://www.w3.org/2000/svg" fill="none"
+                        viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                    </svg>
+                </a>
+
+
+                <h2 class="text-[28px] font-bold text-green-900 mt-8">Request Tracking</h2>
+                <p class="text-green text-[22px] mb-8">Enter request ID to see details and status.</p>
+
+                <label>
+                    <input type="text" id="ReqID" style="border: solid #aaa;"
+                        class="mt-0.5 w-full h-[58px] outline-green shadow-sm sm:text-sm mb-6" />
+                </label>
+
+                <div class="flex justify-center">
+                    <a class="w-full text-center mt-4 py-2 inline-block border border-green bg-green px-12 py-3 text-sm font-medium text-warm-white hover:bg-[#F8EED1] hover:text-[#325930] "
+                        href="#">
+                        Track Request
+                    </a>
+                </div>
+
+            </div>
+        </section>
+
+
+
+        <!-- REQUEST DETAILS -->
+        <section v-if="ShowAdminLogin" class="w-screen h-screen flex justify-center items-center">
+            <div class="text-center w-[413px] h-[340px]">
+                <p class="font-bold text-[22px] text-green">Request ID: <span
+                        class="font-bold text-[22px]">1023943214</span>
+                </p>
+
+                <p class="text-green mt-2 text-[22px]">Document: SF9</p>
+                <p class="text-green text-[22px]">Requested by: Jodeci A. Pacibe</p>
+                <p class="text-green text-[22px]">Email Address: pacibejodeci@gmail.com</p>
+                <p class="text-green text-[22px]">Purpose: College Admission</p>
+
+                <p class="mt-4 font-bold text-green text-[22px]">Status: <span
+                        class="font-bold text-[22px]">Pending</span>
+                </p>
+
+                <div class="flex justify-center">
+                    <a class="w-full text-center mt-4 py-2 inline-block border border-green bg-green px-12 py-3 text-[22px] font-medium text-warm-white hover:bg-[#F8EED1] hover:text-[#325930] "
+                        href="#">
+                        Back to Menu
+                    </a>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+
+
+</body>
+
+</html>
