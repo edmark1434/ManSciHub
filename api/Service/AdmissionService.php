@@ -39,7 +39,7 @@ class AdmissionService{
 
     public function updateAdmission($admission){
         //validation
-        $this->serviceLogic->checkExistence($admission["adms_id"],$this->admissionRepository,"getAdmissionById","Admission with Student id {$admission["adms_id"]} does not exist!");
+        $this->serviceLogic->checkExistence($admission["adms_id"],$this->admissionRepository,"getAdmissionById","Admission with id {$admission["adms_id"]} does not exist!");
         $this->serviceLogic->checkExistence($admission["stud_id"], $this->studentRepository, 'getStudentById', "Student with id {$admission["stud_id"]} does not exist!");
         $result = $this->getAdmissionById( $admission["adms_id"] );
         if($result["stud_id"] != $admission["stud_id"]){
