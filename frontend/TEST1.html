@@ -477,8 +477,10 @@
                 <p class="text-green text-base mb-4">Enter request ID to see details and status.</p>
 
                 <label>
-                    <input type="text" id="Username" v-model="trackID"
-                        class="mt-0.5 w-full h-12 mb-6 px-3 border-2 border-green outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none" />
+                    <input type="text" id="Username" v-model="trackID" :class="[
+                    'mt-0.5 w-full h-12 mb-6 px-3 outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none',
+                    submitted && !trackID ? 'transition-colors duration-500 border-[3px] border-red-500 font-bold' : 'border-2 border-green'
+                  ]" />
                 </label>
                 <p v-if="submitted && !trackID" class="text-base text-error mb-4">This field is required.</p>
 
@@ -487,10 +489,14 @@
                         href="#" @click.prevent="submitTrackID">
                         Track request
                     </a>
+                    
                 </div>
 
             </div>
         </section>
+
+
+
 
 
 
