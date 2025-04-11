@@ -12,23 +12,21 @@
     <script src="js/App.js" async></script>
 </head>
 
-<body class="w-screen h-[100svh] bg-ivory text-green">
+<body class="w-screen h-[100svh] bg-warm-white text-green">
 
     <!-- TEMPORARY DIV -->
     <div id="app" class="w-full flex flex-col gap-64 justify-center items-center">
 
         <!-- User boot Screen -->
         <section v-if="ShowAdminBoot" class="w-screen h-screen">
-            <div
-                class="w-full h-full flex justify-center items-center transition-opacity duration-500">
+            <div class="w-full h-full flex justify-center items-center transition-opacity duration-500">
                 <p class="text-[34px] font-bold">Welcome, Administrator!</p>
             </div>
 
         </section>
         <!-- ADMIN Login Screen -->
         <section v-if="ShowAdminLogin" class="w-screen h-screen flex justify-center items-center">
-            <div 
-                class="bg-warm-white p-6 shadow-md w-[624px] h-[712px] border-[2px] border-green">
+            <div class="bg-warm-white p-6 shadow-md w-[624px] h-[712px] border-[2px] border-green">
                 <h2 class="text-[34px] font-bold text-green mt-14 mb-12">Administrator Login</h2>
 
                 <label>
@@ -55,8 +53,15 @@
 
 
 
+
+
+
+
+
+
+
         <!-- USER BOOT SCREEN  -->
-        <section v-if="ShowAdminLogin" class="w-screen h-screen">
+        <section v-if="ShowUserBoot" class="w-screen h-screen">
             <div class="w-full h-full flex justify-center items-center">
                 <p class="text-green text-[34px] font-bold">Welcome, Schihyista!</p>
             </div>
@@ -64,8 +69,13 @@
 
 
 
+
+
+
+
+
         <!-- USER MENU SCREEN -->
-        <section v-if="ShowAdminLogin" class="w-screen h-screen flex justify-center items-center">
+        <section v-if="ShowUserMenu" class="w-screen h-screen flex justify-center items-center">
             <div class="text-center">
                 <img src="assets/logo.svg" alt="Logo" class="mx-auto mb-4 w-10 h-10">
                 <h1 class="text-[28px] font-bold text-green-900">Mandaue City Science High School<br>Student Services
@@ -76,7 +86,7 @@
                 <div class="mt-4 flex flex-col sm:flex-row justify-center gap-6">
 
                     <div class="w-full h-full" id="app">
-                        <a href="#" class="group relative block h-[427px] w-[469px]">
+                        <a href="#" @click.prevent="goToAdmissionForm" class="group relative block h-[427px] w-[469px]">
                             <span class="absolute inset-0 border-2 border-dashed border-black"></span>
 
                             <div
@@ -94,7 +104,7 @@
                     </div>
 
                     <div class="w-full h-full" id="app">
-                        <a href="#" class="group relative block h-[427px] w-[469px]">
+                        <a href="#" @click.prevent="goToRequestForm" class="group relative block h-[427px] w-[469px]">
                             <span class="absolute inset-0 border-2 border-dashed border-black"></span>
 
                             <div
@@ -112,7 +122,7 @@
                     </div>
 
                     <div class="w-full h-full" id="app">
-                        <a href="#" class="group relative block h-[427px] w-[469px]">
+                        <a href="#" @click.prevent="trackRequest" class="group relative block h-[427px] w-[469px]">
                             <span class="absolute inset-0 border-2 border-dashed border-black"></span>
 
                             <div
@@ -134,105 +144,281 @@
 
 
 
-        <!-- DOCUMENT REQUEST SCREEN -->
-        <section v-if="ShowAdminLogin" class="w-screen h-screen flex justify-center items-center">
-            <div class="bg-warm-white border-[2px] border-green p-6 w-[720px] shadow-lg text-green">
-                <img src="assets/logo.svg" alt="Logo" class="w-[84px] h-[84] mb-6">
-                <div class="flex items-center mb-4">
-                    <h1 class="text-green-900 font-bold text-[34px]">Document Request Form</h1>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <!-- ADMISSION FORM  -->
+        <section v-if="ShowAdmissionForm" class="w-screen flex justify-center items-center">
+            <div class="bg-warm-white border-2 border-green p-9 w-[720px] shadow-lg text-green">
+                <img src="assets/school-admissions.svg" alt="Logo" class="w-12 mb-9">
+                <div class="flex items-center mb-3">
+                    <h1 class="text-green-900 font-bold text-3xl">School Admission Form</h1>
                 </div>
-                <p class="text-[22px] text-green mb-4">
-                    Fill out all fields unless marked as optional.<br>
-                    Email address will only be used for notification.
+                <p class="text-base text-green mb-9">
+                    Fill out all fields marked with an asterisk (*).<br>
+                    Email address will only be used to notify you of regarding your admission.
                 </p>
 
                 <!-- Personal Information -->
-                <div class="mb-4">
-                    <h2 class="text-green text-[28px] font-bold mb-2">Personal Information</h2>
+                <div class="mb-9">
 
                     <label>
-                        <span class="text-[22px] font-medium text-green">First Name</span>
+                        <span class="text-base font-medium text-green">First name*</span>
 
-                        <input type="text" id="FirstName" style="border: solid #aaa;"
-                            class="mt-0.5 w-full h-[58px] outline-green shadow-sm sm:text-sm" />
+                        <input type="text" id="Username" v-model="firstName"
+                            class="mt-0.5 w-full h-12 px-3 border-2 border-green outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none" />
                     </label>
-                    <p class="text-[22px] text-error mt-1">This field is required.</p>
+                    <p v-if="submitted && !firstName" class="text-sm text-error">This field is required.</p>
 
                     <label>
-                        <span class="text-[22px] font-medium text-green">Middle Name</span>
+                        <span class="text-base font-medium text-green">Middle name</span>
 
-                        <input type="text" id="MiddleName" style="border: solid #aaa;"
-                            class="mt-0.5 w-full h-[58px] outline-green shadow-sm sm:text-sm" />
+                        <input type="text" id="Username"
+                            class="mt-0.5 mb-4 w-full h-12 px-3 border-2 border-green outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none" />
                     </label>
 
-                    <div class="flex gap-2 mt-2">
+                    <div class="flex gap-4 mt-2 mb-4">
                         <div class="flex-1">
                             <label>
-                                <span class="text-[22px] font-medium text-green">Last Name</span>
+                                <span class="text-base font-medium text-green">Last name*</span>
 
-                                <input type="text" id="LastName" style="border: solid #aaa;"
-                                    class="mt-0.5 w-full h-[58px] outline-green shadow-sm sm:text-sm" />
+                                <input type="text" id="Username" v-model="lastName"
+                                    class="mt-0.5 w-full h-12 px-3 border-2 border-green outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none" />
                             </label>
-                            <p class="text-[22px] text-error mt-1">This field is required.</p>
+                            <p v-if="submitted && !lastName" class="text-sm text-error">This field is required.</p>
                         </div>
-                        <div class="w-24">
+                        <div class="w-36">
                             <label>
-                                <span class="text-[22px] font-medium text-green">Extension</span>
-
-                                <input type="text" id="Extension" style="border: solid #aaa;"
-                                    class="mt-0.5 w-full h-[58px] outline-green shadow-sm sm:text-sm" />
+                                <span class="text-base font-medium text-green">Extension</span>
+                                <select name="Headline" id="Headline"
+                                    class="mt-0.5 w-full h-12 px-2 border-2 border-green outline-green bg-warm-white shadow-sm text-base focus:outline-none focus:ring-0 focus:rounded-none">
+                                    <option value="">N/A</option>
+                                    <option value="JM">Jr.</option>
+                                    <option value="SRV">Sr.</option>
+                                    <option value="JH">I</option>
+                                    <option value="BBK">II</option>
+                                    <option value="AK">III</option>
+                                    <option value="BG">IV</option>
+                                </select>
                             </label>
                         </div>
                     </div>
 
                     <label>
-                        <span class="text-[22px] font-medium text-green">Email Address</span>
+                        <span class="text-base font-medium text-green">Date of birth*</span>
 
-                        <input type="text" id="Email" style="border: solid #aaa;"
-                            class="mt-0.5 w-full h-[58px] outline-green shadow-sm sm:text-sm" />
+                        <input type="date" id="Username" v-model="dateOfBirth"
+                            class="mt-0.5 w-full h-12 px-3 border-2 border-green outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none" />
                     </label>
-                    <p class="text-[22px] text-error mt-1">That is not an Email address.</p>
-                </div>
-
-                <!-- Request Details -->
-                <div class="mb-4">
-                    <h2 class="text-green text-[22px] font-bold mb-2">Request Details</h2>
+                    <p v-if="submitted && !dateOfBirth" class="text-sm text-error">Please enter a valid date of birth.
+                    </p>
 
                     <label>
-                        <span class="text-[22px] font-medium text-green">Document type</span>
+                        <span class="text-base font-medium text-green">Learner reference number*</span>
 
-                        <input type="text" id="DocType" style="border: solid #aaa;"
-                            class="mt-0.5 w-full h-[58px] outline-green shadow-sm sm:text-sm" />
+                        <input type="text" id="Username" v-model="lrn"
+                            class="mt-0.5 w-full h-12 px-3 border-2 border-green outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none" />
                     </label>
-                    <p class="text-[22px] text-error mt-1">This field is required.</p>
+                    <p v-if="submitted && !lrn" class="text-sm text-error">Please enter a valid LRN.</p>
 
                     <label>
-                        <span class="text-[22px] font-medium text-green">Purpose of request</span>
+                        <span class="text-base font-medium text-green">Home address*</span>
 
-                        <input type="text" id="Purpose" style="border: solid #aaa;"
-                            class="mt-0.5 w-full h-[58px] outline-green shadow-sm sm:text-sm" />
+                        <input type="text" id="Username" v-model="homeAddress"
+                            class="mt-0.5 w-full h-12 px-3 border-2 border-green outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none" />
                     </label>
-                    <p class="text-[22px] text-error mt-1">This field is required.</p>
+                    <p v-if="submitted && !homeAdress" class="text-sm text-error">This field is required.</p>
+
+                    <label>
+                        <span class="text-base font-medium text-green">Email address</span>
+
+                        <input type="text" id="Username" v-model="email"
+                            class="mt-0.5 w-full h-12 px-3 border-2 border-green outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none" />
+                    </label>
+                    <p v-if="submitted && email && !isEmailValid()" class="text-sm text-error">Please enter a valid
+                        email address.</p>
                 </div>
 
                 <!-- Buttons -->
                 <div class="flex justify-between">
-                    <a class="text-center mt-4 py-2 inline-block border border-green bg-ivory px-12 py-3 text-[22px] font-medium text-green hover:bg-[#325930] hover:text-[#F8EED1]"
-                        href="#">
+                    <a class="text-center inline-block border-2 border-warm-white bg-ivory px-6 py-3 text-base font-bold text-green hover:bg-[#F1D580]/50"
+                        href="#" @click.prevent="goToMenu">
                         Cancel
                     </a>
 
-                    <a class="text-center mt-4 py-2 inline-block border border-green bg-green px-12 py-3 text-[22px] font-medium text-warm-white hover:bg-[#F8EED1] hover:text-[#325930]"
-                        href="#">
+                    <a class="text-center inline-block bg-green px-6 py-3 text-base font-bold text-warm-white hover-bg-mid-green"
+                        href="#" @click.prevent="validateAdmissionForm">
                         Submit request
                     </a>
                 </div>
+
             </div>
         </section>
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <!-- DOCUMENT REQUEST SCREEN -->
+        <section v-if="ShowUserRequest" class="w-screen flex justify-center items-center p-8">
+            <div class="bg-warm-white border-2 border-green p-9 w-[720px] shadow-lg text-green">
+                <img src="assets/document-requests.svg" alt="Logo" class="w-12 mb-9">
+                <div class="flex items-center mb-3">
+                    <h1 class="text-green-900 font-bold text-3xl">Document Request Form</h1>
+                </div>
+                <p class="text-base text-green mb-9">
+                    Fill out all fields marked with an asterisk (*).<br>
+                    Email address will only be used to notify you of the status of your request.
+                </p>
+
+                <!-- Personal Information -->
+                <div class="mb-9">
+                    <h2 class="text-green text-xl font-bold mb-4">Personal Information</h2>
+
+                    <label>
+                        <span class="text-base font-medium text-green">First name*</span>
+
+                        <input type="text" id="Username" v-model="firstName"
+                            class="mt-0.5 w-full h-12 px-3 border-2 border-green outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none" />
+                    </label>
+                    <p v-if="submitted && !firstName" class="text-sm text-error">This field is required.</p>
+
+
+                    <label>
+                        <span class="text-base font-medium text-green">Middle name</span>
+
+                        <input type="text" id="Username"
+                            class="mt-0.5 mb-4 w-full h-12 px-3 border-2 border-green outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none" />
+                    </label>
+
+                    <div class="flex gap-4 mt-2 mb-4">
+                        <div class="flex-1">
+                            <label>
+                                <span class="text-base font-medium text-green">Last name*</span>
+
+                                <input type="text" id="Username" v-model="lastName"
+                                    class="mt-0.5 w-full h-12 px-3 border-2 border-green outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none" />
+                            </label>
+                            <p v-if="submitted && !lastName" class="text-sm text-error">This field is required.</p>
+
+                        </div>
+                        <div class="w-36">
+                            <label>
+                                <span class="text-base font-medium text-green">Extension</span>
+
+                                <select name="Headline" id="Headline"
+                                    class="mt-0.5 w-full h-12 px-2 border-2 border-green outline-green bg-warm-white shadow-sm text-base focus:outline-none focus:ring-0 focus:rounded-none">
+                                    <option value="">N/A</option>
+                                    <option value="JM">Jr.</option>
+                                    <option value="SRV">Sr.</option>
+                                    <option value="JH">I</option>
+                                    <option value="BBK">II</option>
+                                    <option value="AK">III</option>
+                                    <option value="BG">IV</option>
+                                </select>
+                            </label>
+                        </div>
+                    </div>
+
+                    <label>
+                        <span class="text-base font-medium text-green">Email address</span>
+
+                        <input type="text" id="Username" v-model="email"
+                            class="mt-0.5 w-full h-12 px-3 border-2 border-green outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none" />
+                    </label>
+                    <p v-if="submitted && email && !isEmailValid()" class="text-sm text-error">Please enter a valid
+                        email address.</p>
+                </div>
+
+                <!-- Request Details -->
+                <div class="mb-9">
+                    <h2 class="text-green text-xl font-bold mb-4">Request Details</h2>
+
+                    <label>
+                        <span class="text-base font-medium text-green">Document type*</span>
+
+                        <select name="Headline" id="Headline" v-model="documentType"
+                            class="mt-0.5 w-full h-12 px-2 border-2 border-green outline-green bg-warm-white shadow-sm text-base focus:outline-none focus:ring-0 focus:rounded-none">
+                            <option value="">CARD NI JODECI</option>
+                            <option value="JM">GRADO NI EDMARK</option>
+                            <option value="SRV">MCDO NI JESSIE</option>
+                            <option value="JH">BOARDING HOUSE NI JM GRR</option>
+                            <option value="BBK">SYSTEM NGA GIATAY</option>
+                            <option value="AK">KAPOYA NA ANI UY</option>
+                            <option value="BG">ATAY MANI</option>
+                        </select>
+                    </label>
+                    <p v-if="submitted && !documentType" class="text-sm text-error">This field is required.</p>
+
+                    <label>
+                        <span class="text-base font-medium text-green">Purpose of request*</span>
+ 
+                        <input type="text" id="Username" v-model="purpose"
+                            class="mt-0.5 w-full h-12 px-3 border-2 border-green outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none" />
+                    </label>
+                    <p v-if="submitted && !purpose" class="text-sm text-error">This field is required.</p>
+                    
+                </div>
+
+                <!-- Buttons -->
+                <div class="flex justify-between">
+                    <a class="text-center inline-block border-2 border-warm-white bg-ivory px-6 py-3 text-base font-bold text-green hover:bg-[#F1D580]/50"
+                        href="#" @click.prevent="goToMenu">
+                        Cancel
+                    </a>
+
+                    <a class="text-center inline-block bg-green px-6 py-3 text-base font-bold text-warm-white hover-bg-mid-green"
+                        href="#" @click.prevent="submitRequest">
+                        Submit request
+                    </a>
+                </div>
+
+            </div>
+        </section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         <!-- SERVICE SUCCESS  SCREEN-->
-        <section v-if="ShowAdminLogin" class="w-screen h-screen flex justify-center items-center">
+        <section v-if="ShowServiceSuccess" class="w-screen h-screen flex justify-center items-center">
             <div class="w-[324px] h-[312px] p-6  text-center">
                 <p class="text-green text-[22px]">We have sent your document request!</p>
                 <p class="font-bold text-[22px] text-green mt-2">Request ID: <span class="text-green">1023943214</span>
@@ -242,7 +428,7 @@
 
                 <div class="flex justify-center">
                     <a class="w-full text-center mt-12 py-2 inline-block border border-green bg-green px-12 py-3 text-[22px] text-warm-white hover:bg-[#F8EED1] hover:text-[#325930] "
-                        href="#">
+                        href="#" @click.prevent="goToMenu">
                         Back to Menu
                     </a>
                 </div>
@@ -251,11 +437,11 @@
 
 
         <!-- REQUEST TRACKING SCREEN-->
-        <section v-if="ShowAdminLogin" class="w-screen h-screen flex justify-center items-center">
+        <section v-if="ShowTrackRequest" class="w-screen h-screen flex justify-center items-center">
             <div class="bg-warm-white p-6  shadow-md w-[600px] h-[461px] border-[2px] border-green ">
 
                 <a class="inline-block text-green hover:bg-[#325930] hover:text-[#F8EED1] focus:ring-3 focus:outline-none"
-                    href="#">
+                    href="#" @click.prevent="goToMenu">
                     <svg class="size-5 shadow-sm rotate-180" xmlns="http://www.w3.org/2000/svg" fill="none"
                         viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -274,7 +460,7 @@
 
                 <div class="flex justify-center">
                     <a class="w-full text-center mt-4 py-2 inline-block border border-green bg-green px-12 py-3 text-sm font-medium text-warm-white hover:bg-[#F8EED1] hover:text-[#325930] "
-                        href="#">
+                        href="#" @click.prevent="showRequestDetails">
                         Track Request
                     </a>
                 </div>
@@ -285,7 +471,7 @@
 
 
         <!-- REQUEST DETAILS -->
-        <section v-if="ShowAdminLogin" class="w-screen h-screen flex justify-center items-center">
+        <section v-if="ShowRequestDetails" class="w-screen h-screen flex justify-center items-center">
             <div class="text-center w-[413px] h-[340px]">
                 <p class="font-bold text-[22px] text-green">Request ID: <span
                         class="font-bold text-[22px]">1023943214</span>
@@ -302,7 +488,7 @@
 
                 <div class="flex justify-center">
                     <a class="w-full text-center mt-4 py-2 inline-block border border-green bg-green px-12 py-3 text-[22px] font-medium text-warm-white hover:bg-[#F8EED1] hover:text-[#325930] "
-                        href="#">
+                        href="#" @click.prevent="goToMenu">
                         Back to Menu
                     </a>
                 </div>
