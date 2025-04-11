@@ -61,7 +61,8 @@ class DocumentRequest{
             "stud_fname"=> $request["stud_fname"],
             "stud_lname"=> $request["stud_lname"],
             "stud_mname"=> $request["stud_mname"] ?? NULL,
-            "stud_suffix"=> $request["stud_suffix"] ?? NULL
+            "stud_suffix"=> $request["stud_suffix"] ?? NULL,
+            "stud_lrn"=> $request["stud_lrn"] ?? NULL
         ];
         return $student;
     }
