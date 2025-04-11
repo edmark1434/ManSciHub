@@ -19,7 +19,7 @@ export async function getAllRequest() {
         return data.message;
     }
 }
-export async function getAllRequest() {
+export async function getAllAdmission() {
     const response = await fetch("http://localhost:8000/api/Admission");
     let data = {};
     if (response.ok) {
