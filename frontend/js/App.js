@@ -14,16 +14,34 @@ createApp({
 
       // Form fields
       firstName: '',
+      firstNameReq: '',
       middleName: '',
       lastName: '',
+      lastNameReq: '',
       extension: '',
       dateOfBirth: '',
       lrn: '',
       homeAddress: '',
       email: '',
+      emailReq: '',
       documentType: '',
       purpose: '',
-
+      lrnMessage: 'This field is required.',
+      
+      //fields Validation Admission
+      firstNameField: false,
+      lastNameField: false,
+      dateOfBirthField: false,
+      lrnField: false,
+      homeAddressField: false,
+      emailField: false,
+      currentDate: new Date().toISOString().split('T')[0],
+      
+      //fields Validation Request
+      firstNameReqField: false,
+      lastNameReqField: false,
+      emailReqField: false,
+      purposeReqField: false,
 
       // Validation
       submitted: false,
@@ -49,13 +67,17 @@ createApp({
     },
     submitRequest() {
       this.submitted = true;
-
+      this.firstNameReqField = this.firstNameReq ? true : false;
+      this.lastNameReqField = this.lastNameReq ? true : false;
+      this.emailReqField = this.emailReq ? true : false;
+      this.purposeReqField = this.purposeReq ? true : false;
       if (
-        this.firstName &&
-        this.lastName &&
+        this.firstNameReqField &&
+        this.lastNameField &&
         this.documentType &&
-        this.purpose &&
-        (this.email === '' || this.isEmailValid())
+        this.purposeField &&
+        this.emailField &&
+        this.isEmailValid()
       ) {
         alert('Request submitted successfully!');
         this.resetScreens();
@@ -96,22 +118,44 @@ createApp({
         /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(this.email)
       );
     },
-
+    isNumeric(event) {
+      this.lrn = event.target.value.replace(/\D/g, '').slice(0, 12);
+    },
+    isLrnValid() {
+      if (this.lrn && this.lrn.length !== 12) {
+        this.lrnField = false;
+        this.lrnMessage = "Please enter a valid lrn";
+      }
+    },
     validateAdmissionForm() {
       this.submitted = true;
 
+      this.firstNameField = this.firstName ? true : false;
+      this.lastNameField = this.lastName ? true : false;
+      this.dateOfBirthField = this.dateOfBirth ? true : false;
+      this.lrnField = this.lrn ? true : false;
+      this.homeAddressField = this.homeAddress ? true : false;
+      this.emailField = this.email ? true : false;
+      this.isLrnValid()
       if (
-        this.firstName &&
-        this.lastName &&
-        this.dateOfBirth &&
-        this.lrn &&
-        this.homeAddress &&
+        this.firstNameField &&
+        this.lastNameField &&
+        this.dateOfBirthField &&
+        this.lrnField &&
+        this.homeAddressField &&
+        this.emailField &&
         this.isEmailValid()
       ) {
-        alert('Form submitted successfully!');
         this.resetScreens();
-        this.ShowUserMenu = true;
-        // Do actual submit or switch screen
+        this.ShowServiceSuccess = true;
+        this.ShowAdmissionForm = false;
+        this.firstName = '';
+        this.middleName = '';
+        this.lastName = '';
+        this.extension = '';
+        this.email = '';
+        this.documentType = '';
+        this.purpose = '';
       }
     }
 

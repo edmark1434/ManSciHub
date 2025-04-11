@@ -29,3 +29,24 @@ export async function getAllAdmission() {
         return data.message;
     }
 }
+export async function getAllAdmin() {
+    const response = await fetch("http://localhost:8000/api/Admin");
+    let data = {};
+        if (response.ok) {
+        data = await response.json();
+        return data;
+    } else {
+        return data.message;
+    }
+}
+
+export async function AdmissionClose() {
+    const response = await fetch("http://localhost:8000/api/Service/TransferAdmission");
+    let data = {};
+        if (response.ok) {
+        data = await response.json();
+        return data;
+    } else {
+        return data.message;
+    }
+}

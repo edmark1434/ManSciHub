@@ -184,7 +184,7 @@
                         <input type="text" id="Username" v-model="firstName"
                             class="mt-0.5 w-full h-12 px-3 border-2 border-green outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none" />
                     </label>
-                    <p v-if="submitted && !firstName" class="text-sm text-error">This field is required.</p>
+                    <p v-if="submitted && !firstNameField" class="text-sm text-error">This field is required.</p>
 
                     <label>
                         <span class="text-base font-medium text-green">Middle name</span>
@@ -201,7 +201,7 @@
                                 <input type="text" id="Username" v-model="lastName"
                                     class="mt-0.5 w-full h-12 px-3 border-2 border-green outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none" />
                             </label>
-                            <p v-if="submitted && !lastName" class="text-sm text-error">This field is required.</p>
+                            <p v-if="submitted && !lastNameField" class="text-sm text-error">This field is required.</p>
                         </div>
                         <div class="w-36">
                             <label>
@@ -223,19 +223,19 @@
                     <label>
                         <span class="text-base font-medium text-green">Date of birth*</span>
 
-                        <input type="date" id="Username" v-model="dateOfBirth"
+                        <input type="date" id="Username" v-model="dateOfBirth" :max="currentDate"
                             class="mt-0.5 w-full h-12 px-3 border-2 border-green outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none" />
                     </label>
-                    <p v-if="submitted && !dateOfBirth" class="text-sm text-error">Please enter a valid date of birth.
+                    <p v-if="submitted && !dateOfBirthField" class="text-sm text-error">Please enter a valid date of birth.
                     </p>
 
                     <label>
                         <span class="text-base font-medium text-green">Learner reference number*</span>
 
-                        <input type="text" id="Username" v-model="lrn"
+                        <input type="text" id="Username" v-model="lrn" @input="isNumeric"
                             class="mt-0.5 w-full h-12 px-3 border-2 border-green outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none" />
                     </label>
-                    <p v-if="submitted && !lrn" class="text-sm text-error">Please enter a valid LRN.</p>
+                    <p v-if="submitted && !lrnField" class="text-sm text-error">{{ lrnMessage }}</p>
 
                     <label>
                         <span class="text-base font-medium text-green">Home address*</span>
@@ -243,7 +243,7 @@
                         <input type="text" id="Username" v-model="homeAddress"
                             class="mt-0.5 w-full h-12 px-3 border-2 border-green outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none" />
                     </label>
-                    <p v-if="submitted && !homeAdress" class="text-sm text-error">This field is required.</p>
+                    <p v-if="submitted && !homeAddressField" class="text-sm text-error">This field is required.</p>
 
                     <label>
                         <span class="text-base font-medium text-green">Email address</span>
@@ -251,7 +251,7 @@
                         <input type="text" id="Username" v-model="email"
                             class="mt-0.5 w-full h-12 px-3 border-2 border-green outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none" />
                     </label>
-                    <p v-if="submitted && email && !isEmailValid()" class="text-sm text-error">Please enter a valid
+                    <p v-if="submitted && !emailField && !isEmailValid()" class="text-sm text-error">Please enter a valid
                         email address.</p>
                 </div>
 
@@ -308,7 +308,7 @@
                         <input type="text" id="Username" v-model="firstName"
                             class="mt-0.5 w-full h-12 px-3 border-2 border-green outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none" />
                     </label>
-                    <p v-if="submitted && !firstName" class="text-sm text-error">This field is required.</p>
+                    <p v-if="submitted && !firstNameReqField" class="text-sm text-error">This field is required.</p>
 
 
                     <label>
@@ -326,7 +326,7 @@
                                 <input type="text" id="Username" v-model="lastName"
                                     class="mt-0.5 w-full h-12 px-3 border-2 border-green outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none" />
                             </label>
-                            <p v-if="submitted && !lastName" class="text-sm text-error">This field is required.</p>
+                            <p v-if="submitted && !lastNameReqField" class="text-sm text-error">This field is required.</p>
 
                         </div>
                         <div class="w-36">
@@ -353,7 +353,7 @@
                         <input type="text" id="Username" v-model="email"
                             class="mt-0.5 w-full h-12 px-3 border-2 border-green outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none" />
                     </label>
-                    <p v-if="submitted && email && !isEmailValid()" class="text-sm text-error">Please enter a valid
+                    <p v-if="submitted && !emailReqField && !isEmailValid()" class="text-sm text-error">Please enter a valid
                         email address.</p>
                 </div>
 
@@ -383,7 +383,7 @@
                         <input type="text" id="Username" v-model="purpose"
                             class="mt-0.5 w-full h-12 px-3 border-2 border-green outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none" />
                     </label>
-                    <p v-if="submitted && !purpose" class="text-sm text-error">This field is required.</p>
+                    <p v-if="submitted && !purposeReqField" class="text-sm text-error">This field is required.</p>
                     
                 </div>
 
