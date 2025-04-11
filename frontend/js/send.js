@@ -95,7 +95,11 @@ export async function UpdateLogin(data) {
     }
 }
 export async function DeleteLogin(data) {
-    const response = await fetch("http://localhost:8000/api/Admin/Delete/${data}");
+    const response = await fetch("http://localhost:8000/api/Admin/Delete/${data}", {
+        method: 'DELETE',
+        headers: {
+            "Content-Type": "application/json"
+        }});
     let response_data = {};
     response_data = await response.json();
         if (response.ok) {

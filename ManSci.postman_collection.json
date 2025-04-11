@@ -44,7 +44,7 @@
 					"response": []
 				},
 				{
-					"name": "Post data Copy",
+					"name": "insert",
 					"event": [
 						{
 							"listen": "test",
@@ -80,47 +80,6 @@
 							"path": [
 								"api",
 								"Admin"
-							]
-						},
-						"description": "This is a POST request, submitting data to an API via the request body. This request submits JSON data, and the data is reflected in the response.\n\nA successful POST request typically returns a `200 OK` or `201 Created` response code."
-					},
-					"response": []
-				},
-				{
-					"name": "Post data",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Successful POST request\", function () {",
-									"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
-									"});",
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n\t\"name\": \"Add your name in the body\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{base_url}}/info",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"info"
 							]
 						},
 						"description": "This is a POST request, submitting data to an API via the request body. This request submits JSON data, and the data is reflected in the response.\n\nA successful POST request typically returns a `200 OK` or `201 Created` response code."
@@ -232,14 +191,14 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{base_url}}/api/Student/12305",
+							"raw": "{{base_url}}/api/Student/12351",
 							"host": [
 								"{{base_url}}"
 							],
 							"path": [
 								"api",
 								"Student",
-								"12305"
+								"12351"
 							]
 						}
 					},
@@ -279,7 +238,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"stud_id\": 12302,\r\n    \"stud_fname\": \"Juandwd\",\r\n    \"stud_lname\": \"Dela Cruz\",\r\n    \"stud_mname\": \"Santos\",\r\n    \"stud_suffix\": \"Sr.\",\r\n    \"stud_add\": \"123 Mabini St., Cebu City\",\r\n    \"stud_lrn\": \"123456789012\",\r\n    \"stud_email\": \"juan.delacruz@example.com\",\r\n    \"stud_dob\": \"2005-10-27\"\r\n}",
+							"raw": "{\r\n    \"stud_id\": 12302,\r\n    \"stud_fname\": \"Juandwd\",\r\n    \"stud_lname\": \"Dela Cruz\",\r\n    \"stud_mname\": \"Santos\",\r\n    \"stud_suffix\": \"Sr.\",\r\n    \"stud_add\": \"123 Mabini St., Cebu City\",\r\n    \"stud_lrn\": \"123456789012\",\r\n    \"stud_email\": \"juan.delacruWWefwWfdwz@example.com\",\r\n    \"stud_dob\": \"2005-10-27\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -356,7 +315,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"adms_status\" : \"pending\",\r\n    \"stud_id\" : \"12304\"\r\n}",
+							"raw": "{\r\n    \"adms_status\" : \"pending\",\r\n    \"adms_lvl\" : 7,\r\n    \"stud_id\" : \"12304\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -383,7 +342,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"adms_id\": \"1002\",\r\n    \"adms_status\" : \"pending\",\r\n    \"adms_date\" : \"2005-10-27\",\r\n    \"stud_id\" : \"12302\"\r\n}",
+							"raw": "{\r\n    \"adms_id\": \"1012\",\r\n    \"adms_status\" : \"ACCEPTED\",\r\n    \"adms_date\" : \"2005-10-27\",\r\n    \"adms_lvl\" : 11,\r\n    \"stud_id\" : \"12330\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -440,13 +399,14 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{base_url}}/api/Request",
+							"raw": "{{base_url}}/api/Request/12345634",
 							"host": [
 								"{{base_url}}"
 							],
 							"path": [
 								"api",
-								"Request"
+								"Request",
+								"12345634"
 							]
 						}
 					},
@@ -589,7 +549,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"docu_id\" : 3,\r\n    \"docu_type\" : \"cards\"\r\n}",
+							"raw": "{\r\n    \"docu_id\" : 3,\r\n    \"docu_type\" : \"good moral\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -868,7 +828,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"admhs_id\" : 1,\r\n    \"admhs_proc_date\" : \"2025-04-04\",\r\n    \"admhs_status\" : \"pending\",\r\n    \"admhs_date\" : \"2005-10-27\",\r\n    \"stud_id\" : \"12303\"\r\n}",
+							"raw": "{\r\n    \"admhs_id\" : 2,\r\n    \"admhs_proc_date\" : \"2025-04-04\",\r\n    \"admhs_status\" : \"pending\",\r\n    \"admhs_date\" : \"2005-10-27\",\r\n    \"stud_id\" : \"12305\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1007,6 +967,186 @@
 								"AdminControls",
 								"Delete",
 								"test"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "backend",
+			"item": [
+				{
+					"name": "TransferAdmission",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/Service/TransferAdmission",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"Service",
+								"TransferAdmission"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Successful POST request\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"username\" : \"joanna1434678\",\n    \"password\" : \"Admin\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/Admin/login",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"Admin",
+								"login"
+							]
+						},
+						"description": "This is a POST request, submitting data to an API via the request body. This request submits JSON data, and the data is reflected in the response.\n\nA successful POST request typically returns a `200 OK` or `201 Created` response code."
+					},
+					"response": []
+				},
+				{
+					"name": "DocumentRequest",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"stud_fname\": \"Juanddawd\",\r\n    \"stud_lname\": \"Deladwaawd\",\r\n    \"stud_mname\": \"Sandwatos\",\r\n    \"stud_suffix\" : \"Sr.\",\r\n    \"stud_email\": \"jqawwwdawe.com\",\r\n    \"docu_type\" : \"test\",\r\n    \"req_purpose\" : \"Scholarship prog\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/Service/DocumentRequest",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"Service",
+								"DocumentRequest"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "AdmissionRequest",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n        \"stud_fname\": \"Dan\",\r\n        \"stud_lname\": \"Bejec\",\r\n        \"stud_mname\": \"Cujardo\",\r\n        \"stud_suffix\": \"\",\r\n        \"stud_add\": \"Cebu City\",\r\n        \"stud_lrn\": 123456711233480,\r\n        \"stud_email\": \"edmarktalingting1@gmail.com\",\r\n        \"stud_dob\": \"2005-10-27\",\r\n        \"adms_lvl\" : 11\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/Service/AdmissionRequest",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"Service",
+								"AdmissionRequest"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "TransferRequest",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n            \"req_track_id\": 12345603,\r\n            \"req_date\": \"2025-04-06\",\r\n            \"req_purpose\": \"college admission\",\r\n            \"req_status\": \"PENDING\",\r\n            \"docu_id\": 2,\r\n            \"stud_id\": 12303\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/Service/TransferRequest",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"Service",
+								"TransferRequest"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "EmailNotification",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"stud_fname\": \"Edmark\",\r\n    \"stud_lname\": \"Talingting\",\r\n    \"stud_mname\": \"Santos\",\r\n    \"stud_suffix\": \"Jr.\",\r\n    \"stud_email\": \"edmarktalingting0@gmail.com\",\r\n    \"email_subject\" : \"REJECTION\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/Service/EmailNotification",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"Service",
+								"EmailNotification"
 							]
 						}
 					},
