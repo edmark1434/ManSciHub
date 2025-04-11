@@ -14,16 +14,34 @@ createApp({
 
       // Form fields
       firstName: '',
+      firstNameReq: '',
       middleName: '',
       lastName: '',
+      lastNameReq: '',
       extension: '',
       dateOfBirth: '',
       lrn: '',
       homeAddress: '',
       email: '',
+      emailReq: '',
       documentType: '',
       purpose: '',
-      trackID: '',
+      lrnMessage: 'This field is required.',
+      
+      //fields Validation Admission
+      firstNameField: false,
+      lastNameField: false,
+      dateOfBirthField: false,
+      lrnField: false,
+      homeAddressField: false,
+      emailField: false,
+      currentDate: new Date().toISOString().split('T')[0],
+      
+      //fields Validation Request
+      firstNameReqField: false,
+      lastNameReqField: false,
+      emailReqField: false,
+      purposeReqField: false,
 
       // Validation
       submitted: false,
@@ -32,56 +50,23 @@ createApp({
   mounted() {
     setTimeout(() => {
       this.goToMenu();
-    }, 3000);
+    }, 2000);
   },
   methods: {
     goToMenu() {
       this.resetScreens();
-      this.resetFormValidation();  // Reset validation (red borders) when going to menu
       this.ShowUserMenu = true;
     },
     goToAdmissionForm() {
       this.resetScreens();
-      this.resetAdmissionForm();
       this.ShowAdmissionForm = true;
-    },
-    resetAdmissionForm() {
-      this.submitted = false;
-      this.firstName = '';
-      this.middleName = '';
-      this.lastName = '';
-      this.extension = '';
-      this.dateOfBirth = '';
-      this.lrn = '';
-      this.homeAddress = '';
-      this.email = '';
-      this.documentType = '';
     },
     goToRequestForm() {
       this.resetScreens();
-      this.resetFormValidation();  // Reset validation (red borders) when going to request form
       this.ShowUserRequest = true;
-    },
-    submitTrackID() {
-      this.submitted = true;
-      if (this.trackID) {
-        alert('Tracking request!');
-        this.resetScreens();
-        this.ShowRequestDetails = true;
-      }
     },
     submitRequest() {
       this.submitted = true;
-<<<<<<< HEAD
-
-      if (
-        this.firstName &&
-        this.lastName &&
-        this.documentType &&
-        this.purpose &&
-        this.lrn &&
-        (this.email === '' || this.isEmailValid())
-=======
       this.firstNameReqField = this.firstNameReq ? true : false;
       this.lastNameReqField = this.lastNameReq ? true : false;
       this.emailReqField = (this.emailReq && this.isEmailValid(this.emailReq)) ? true : false;
@@ -95,20 +80,24 @@ createApp({
         this.emailReqField &&
         this.isEmailValid(this.emailReq)
 
->>>>>>> main
       ) {
         alert('Request submitted successfully!');
         this.resetScreens();
         this.ShowServiceSuccess = true;
 
         // Reset form (optional)
-        this.resetFormValidation();  // Reset form after successful submission
+        this.firstName = '';
+        this.middleName = '';
+        this.lastName = '';
+        this.extension = '';
+        this.email = '';
+        this.documentType = '';
+        this.purpose = '';
+        this.submitted = false;
       }
     },
     trackRequest() {
       this.resetScreens();
-      this.submitted = false; // Clear validation state
-      this.trackID = '';      // Clear input field
       this.ShowTrackRequest = true;
     },
     showRequestDetails() {
@@ -128,19 +117,18 @@ createApp({
     isEmailValid(email) {
       return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
     },
-
+    isNumeric(event) {
+      this.lrn = event.target.value.replace(/\D/g, '').slice(0, 12);
+    },
+    isLrnValid() {
+      if (this.lrn && this.lrn.length !== 12) {
+        this.lrnField = false;
+        this.lrnMessage = "Please enter a valid lrn";
+      }
+    },
     validateAdmissionForm() {
       this.submitted = true;
 
-<<<<<<< HEAD
-      if (
-        this.firstName &&
-        this.lastName &&
-        this.dateOfBirth &&
-        this.lrn &&
-        this.homeAddress &&
-        this.isEmailValid()
-=======
       this.firstNameField = this.firstName ? true : false;
       this.lastNameField = this.lastName ? true : false;
       this.dateOfBirthField = this.dateOfBirth ? true : false;
@@ -156,37 +144,19 @@ createApp({
         this.homeAddressField &&
         this.emailField &&
         this.isEmailValid(this.email)
->>>>>>> main
       ) {
-        alert('Form submitted successfully!');
         this.resetScreens();
         this.ShowServiceSuccess = true;
-<<<<<<< HEAD
-        // Do actual submit or switch screen
-=======
         this.ShowAdmissionForm = false;
         this.firstName = '';
         this.middleName = '';
         this.lastName = '';
         this.extension = '';
         this.email = '';
->>>>>>> main
       }
-    },
-
-    // Reset the validation state (red borders) and form fields
-    resetFormValidation() {
-      this.submitted = false;  // Remove red error borders
-      this.firstName = '';
-      this.middleName = '';
-      this.lastName = '';
-      this.extension = '';
-      this.dateOfBirth = '';
-      this.lrn = '';
-      this.homeAddress = '';
-      this.email = '';
-      this.documentType = '';
-      this.purpose = '';
     }
+
+
+
   }
 }).mount('#app');
