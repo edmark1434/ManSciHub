@@ -263,7 +263,7 @@
                         submitted && !emailField ? 'transition-colors duration-500 border-[3px] border-red-500 ' : 'border-2 border-green'
                       ]" />
                     </label>
-                    <p v-if="submitted && !emailField" class="text-sm text-error">Please enter a valid
+                    <p v-if="submitted && !emailField && !isEmailValid()" class="text-sm text-error">Please enter a valid
                         email address.</p>
                     <label>
                         <span class="text-base font-medium text-green">Grade level*</span>
@@ -330,10 +330,8 @@
                     <label>
                         <span class="text-base font-medium text-green">First name*</span>
 
-                        <input type="text" id="Username" v-model="firstNameReq" :class="[
-                        'mt-0.5 w-full h-12 mb-2 px-3 outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none',
-                        submitted && !firstNameReqField ? 'transition-colors duration-500 border-[3px] border-red-500' : 'border-2 border-green'
-                      ]" />
+                        <input type="text" id="Username" v-model="firstNameReq"
+                            class="mt-0.5 w-full h-12 px-3 border-2 border-green outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none" />
                     </label>
                     <p v-if="submitted && !firstNameReqField" class="text-sm text-error">This field is required.</p>
 
@@ -350,10 +348,8 @@
                             <label>
                                 <span class="text-base font-medium text-green">Last name*</span>
 
-                                <input type="text" id="Username" v-model="lastNameReqField" :class="[
-                                'mt-0.5 w-full h-12 mb-2 px-3 outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none',
-                                submitted && !lastNameReqField ? 'transition-colors duration-500 border-[3px] border-red-500 ' : 'border-2 border-green'
-                            ]" />
+                                <input type="text" id="Username" v-model="lastNameReq"
+                                    class="mt-0.5 w-full h-12 px-3 border-2 border-green outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none" />
                             </label>
                             <p v-if="submitted && !lastNameReqField" class="text-sm text-error">This field is required.</p>
 
@@ -390,12 +386,10 @@
                     <label>
                         <span class="text-base font-medium text-green">Email address</span>
 
-                        <input type="text" id="Username" v-model="emailReq" :class="[
-                        'mt-0.5 w-full h-12 mb-2 px-3 outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none',
-                        submitted && !emailReqField ? 'transition-colors duration-500 border-[3px] border-red-500 ' : 'border-2 border-green'
-                    ]" />
+                        <input type="text" id="Username" v-model="email"
+                            class="mt-0.5 w-full h-12 px-3 border-2 border-green outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none" />
                     </label>
-                    <p v-if="submitted && !emailReqField" class="text-sm text-error">Please enter a valid
+                    <p v-if="submitted && !emailReqField && !isEmailValid()" class="text-sm text-error">Please enter a valid
                         email address.</p>
                 </div>
 
@@ -423,11 +417,9 @@
 
                     <label>
                         <span class="text-base font-medium text-green">Purpose of request*</span>
-
-                        <input type="text" id="Username" v-model="purposeReq" :class="[
-                        'mt-0.5 w-full h-12 mb-2 px-3 outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none',
-                        submitted && !purposeReqField ? 'transition-colors duration-500 border-[3px] border-red-500 ' : 'border-2 border-green'
-                    ]" />
+ 
+                        <input type="text" id="Username" v-model="purposeReq"
+                            class="mt-0.5 w-full h-12 px-3 border-2 border-green outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none" />
                     </label>
                     <p v-if="submitted && !purposeReqField" class="text-sm text-error">This field is required.</p>
 

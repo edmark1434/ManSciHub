@@ -72,6 +72,7 @@ createApp({
     },
     submitRequest() {
       this.submitted = true;
+<<<<<<< HEAD
 
       if (
         this.firstName &&
@@ -80,6 +81,21 @@ createApp({
         this.purpose &&
         this.lrn &&
         (this.email === '' || this.isEmailValid())
+=======
+      this.firstNameReqField = this.firstNameReq ? true : false;
+      this.lastNameReqField = this.lastNameReq ? true : false;
+      this.emailReqField = (this.emailReq && this.isEmailValid(this.emailReq)) ? true : false;
+      this.purposeReqField = this.purposeReq ? true : false;
+
+      if (
+        this.firstNameReqField &&
+        this.lastNameReqField &&
+        this.documentType &&
+        this.purposeReqField &&
+        this.emailReqField &&
+        this.isEmailValid(this.emailReq)
+
+>>>>>>> main
       ) {
         alert('Request submitted successfully!');
         this.resetScreens();
@@ -109,16 +125,14 @@ createApp({
       this.ShowAdmissionForm = false;
     },
 
-    isEmailValid() {
-      return (
-        this.email === '' ||
-        /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(this.email)
-      );
+    isEmailValid(email) {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
     },
 
     validateAdmissionForm() {
       this.submitted = true;
 
+<<<<<<< HEAD
       if (
         this.firstName &&
         this.lastName &&
@@ -126,11 +140,37 @@ createApp({
         this.lrn &&
         this.homeAddress &&
         this.isEmailValid()
+=======
+      this.firstNameField = this.firstName ? true : false;
+      this.lastNameField = this.lastName ? true : false;
+      this.dateOfBirthField = this.dateOfBirth ? true : false;
+      this.lrnField = this.lrn ? true : false;
+      this.homeAddressField = this.homeAddress ? true : false;
+      this.emailField = (this.email && this.isEmailValid(this.email)) ? true : false;
+      this.isLrnValid()
+      if (
+        this.firstNameField &&
+        this.lastNameField &&
+        this.dateOfBirthField &&
+        this.lrnField &&
+        this.homeAddressField &&
+        this.emailField &&
+        this.isEmailValid(this.email)
+>>>>>>> main
       ) {
         alert('Form submitted successfully!');
         this.resetScreens();
         this.ShowServiceSuccess = true;
+<<<<<<< HEAD
         // Do actual submit or switch screen
+=======
+        this.ShowAdmissionForm = false;
+        this.firstName = '';
+        this.middleName = '';
+        this.lastName = '';
+        this.extension = '';
+        this.email = '';
+>>>>>>> main
       }
     },
 
