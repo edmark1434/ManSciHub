@@ -21,11 +21,15 @@ createApp({
       extension: '',
       dateOfBirth: '',
       lrn: '',
+      lrnReq: '',
       homeAddress: '',
       email: '',
       emailReq: '',
       documentType: '',
       purpose: '',
+      purposeReq: '',
+      admissionLevel: '',
+      trackID: '',
       lrnMessage: 'This field is required.',
       
       //fields Validation Admission
@@ -41,6 +45,7 @@ createApp({
       firstNameReqField: false,
       lastNameReqField: false,
       emailReqField: false,
+      lrnReqField: false,
       purposeReqField: false,
 
       // Validation
@@ -71,33 +76,30 @@ createApp({
       this.lastNameReqField = this.lastNameReq ? true : false;
       this.emailReqField = (this.emailReq && this.isEmailValid(this.emailReq)) ? true : false;
       this.purposeReqField = this.purposeReq ? true : false;
-
+      this.lrnReqField = this.lrnReq ? true : false;
+      this.isLrnValid()
       if (
         this.firstNameReqField &&
         this.lastNameReqField &&
         this.documentType &&
         this.purposeReqField &&
         this.emailReqField &&
+        this.lrnReqField &&
         this.isEmailValid(this.emailReq)
-
+        
       ) {
         alert('Request submitted successfully!');
         this.resetScreens();
         this.ShowServiceSuccess = true;
 
         // Reset form (optional)
-        this.firstName = '';
-        this.middleName = '';
-        this.lastName = '';
-        this.extension = '';
-        this.email = '';
-        this.documentType = '';
-        this.purpose = '';
-        this.submitted = false;
+        this.resetFormValidation();
       }
     },
     trackRequest() {
       this.resetScreens();
+      this.submitted = false; 
+      this.trackID = '';     
       this.ShowTrackRequest = true;
     },
     showRequestDetails() {
@@ -112,13 +114,16 @@ createApp({
       this.ShowTrackRequest = false;
       this.ShowRequestDetails = false;
       this.ShowAdmissionForm = false;
+      this.resetFormValidation();
     },
 
     isEmailValid(email) {
       return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
     },
-    isNumeric(event) {
-      this.lrn = event.target.value.replace(/\D/g, '').slice(0, 12);
+    async isNumeric(event) {
+      const limit = event.target.value.replace(/\D/g, '').slice(0, 12);
+      this.lrn = limit;
+      this.lrnReq = limit;
     },
     isLrnValid() {
       if (this.lrn && this.lrn.length !== 12) {
@@ -142,20 +147,35 @@ createApp({
         this.dateOfBirthField &&
         this.lrnField &&
         this.homeAddressField &&
+        this.admissionLevel &&
         this.emailField &&
         this.isEmailValid(this.email)
       ) {
         this.resetScreens();
         this.ShowServiceSuccess = true;
         this.ShowAdmissionForm = false;
-        this.firstName = '';
-        this.middleName = '';
-        this.lastName = '';
-        this.extension = '';
-        this.email = '';
+        this.resetFormValidation();
       }
+    },
+    resetFormValidation() {
+      this.submitted = false;
+      this.firstName = '';
+      this.firstNameReq = '';
+      this.middleName = '';
+      this.lastName= '';
+      this.lastNameReq= '';
+      this.extension= '';
+      this.dateOfBirth= '';
+      this.lrn= '';
+      this.lrnReq= '';
+      this.homeAddress= '';
+      this.email= '';
+      this.emailReq= '';
+      this.documentType= '';
+      this.purpose= '';
+      this.purposeReq= '';
+      this.admissionLevel= '';
     }
-
 
 
   }
