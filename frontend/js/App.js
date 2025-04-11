@@ -84,8 +84,10 @@ createApp({
         this.submitted = false;
       }
     },
-    trackRequest() {
+     trackRequest() {
       this.resetScreens();
+      this.submitted = false; // Clear validation state
+      this.trackID = '';      // Clear input field
       this.ShowTrackRequest = true;
     },
     showRequestDetails() {
