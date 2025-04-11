@@ -69,15 +69,17 @@ createApp({
       this.submitted = true;
       this.firstNameReqField = this.firstNameReq ? true : false;
       this.lastNameReqField = this.lastNameReq ? true : false;
-      this.emailReqField = this.emailReq ? true : false;
+      this.emailReqField = (this.emailReq && this.isEmailValid(this.emailReq)) ? true : false;
       this.purposeReqField = this.purposeReq ? true : false;
+
       if (
         this.firstNameReqField &&
-        this.lastNameField &&
+        this.lastNameReqField &&
         this.documentType &&
-        this.purposeField &&
-        this.emailField &&
-        this.isEmailValid()
+        this.purposeReqField &&
+        this.emailReqField &&
+        this.isEmailValid(this.emailReq)
+
       ) {
         alert('Request submitted successfully!');
         this.resetScreens();
@@ -112,11 +114,8 @@ createApp({
       this.ShowAdmissionForm = false;
     },
 
-    isEmailValid() {
-      return (
-        this.email === '' ||
-        /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(this.email)
-      );
+    isEmailValid(email) {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
     },
     isNumeric(event) {
       this.lrn = event.target.value.replace(/\D/g, '').slice(0, 12);
@@ -135,7 +134,7 @@ createApp({
       this.dateOfBirthField = this.dateOfBirth ? true : false;
       this.lrnField = this.lrn ? true : false;
       this.homeAddressField = this.homeAddress ? true : false;
-      this.emailField = this.email ? true : false;
+      this.emailField = (this.email && this.isEmailValid(this.email)) ? true : false;
       this.isLrnValid()
       if (
         this.firstNameField &&
@@ -144,7 +143,7 @@ createApp({
         this.lrnField &&
         this.homeAddressField &&
         this.emailField &&
-        this.isEmailValid()
+        this.isEmailValid(this.email)
       ) {
         this.resetScreens();
         this.ShowServiceSuccess = true;
@@ -154,8 +153,6 @@ createApp({
         this.lastName = '';
         this.extension = '';
         this.email = '';
-        this.documentType = '';
-        this.purpose = '';
       }
     }
 
