@@ -78,6 +78,22 @@ export async function CreateLogin(data) {
         return response_data.message;
     }
 }
+export async function UpdateAdm(data) {
+    let response_data = {};
+    const response = await fetch("http://localhost:8000/api/Admin/Update", {
+        method: 'PUT',
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data),
+    })
+    response_data = await response.json();
+    if (response.ok) {
+        return response_data.message;
+    } else {
+        return response_data.message;
+    }
+}
 export async function UpdateLogin(data) {
     let response_data = {};
     const response = await fetch("http://localhost:8000/api/Admin/Update", {
