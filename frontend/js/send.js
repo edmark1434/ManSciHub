@@ -17,7 +17,7 @@ export async function AdmissionRequest(data) {
             "Content-Type": "application/json"
         },
         body: JSON.stringify(data),
-    })
+    });
     response_data = await response.json();
     return response_data;
 }
@@ -51,7 +51,6 @@ export async function TransferRequest(data) {
     }
 }
 export async function AdminLogin(data) {
-    let response_data = {};
     const response = await fetch("http://localhost:8000/api/Admin/login", {
         method: 'POST',
         headers: {
@@ -59,13 +58,16 @@ export async function AdminLogin(data) {
         },
         body: JSON.stringify(data),
     })
-    response_data = await response.json();
-    if (response.ok) {
-        return response_data;
-    } else {
-        return response_data.message;
+    let response_data = {};
+    const text = await response.text();
+    if (!text) {
+        return { message: "Error" };
     }
-}
+    else {
+        response_data = JSON.parse(text);
+    }
+    return response_data;
+    }
 export async function CreateLogin(data) {
     let response_data = {};
     const response = await fetch("http://localhost:8000/api/Admin", {

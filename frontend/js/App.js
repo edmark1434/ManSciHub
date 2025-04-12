@@ -6,7 +6,9 @@ createApp({
   data() {
     return {
       // Screen controls
-      ShowUserBoot: true,
+      ShowUserBoot: false,
+      ShowAdminBoot: false,
+      ShowAdminLogin: true,
       ShowUserMenu: false,
       ShowUserRequest: false,
       ShowServiceAdmissionSuccess: false,
@@ -16,6 +18,8 @@ createApp({
       ShowAdmissionForm: false,
 
       // Form fields
+      username: '',
+      password: '',
       firstName: '',
       firstNameReq: '',
       middleName: '',
@@ -35,6 +39,7 @@ createApp({
       admissionLevel: '',
       trackID: '',
       status: '',
+      loginFailed: '',
       emailResult: false,
       lrnResult: false,
       docType: {},
@@ -43,6 +48,7 @@ createApp({
       admission: {},
       requestDetail: {},
       admissionResponse: {},
+      userDetails: {},
       lrnMessage: 'This field is required.',
       emailMessage: 'This field is required.',
       lrnReqMessage: 'This field is required.',
@@ -67,6 +73,11 @@ createApp({
 
       // Validation
       submitted: false,
+
+      //admin login validation
+      login: false,
+      loginMessage: '',
+      verified : false,
     };
   },
   mounted() {
@@ -129,6 +140,22 @@ createApp({
           });
         this.resetScreens();
         this.ShowRequestDetails = true;
+      }
+    },
+    async checkLogin() {
+      const loginObject = {
+        username: this.username,
+        password: this.password
+      }; 
+      let data = await send.AdminLogin(loginObject);
+      if (data.data) {
+        this.login = true;
+        this.loginMessage = data.message;
+        this.userDetails = data.data;
+        this.verified = true;
+      } else {
+        this.login = true;
+        loginMessage = "Invalid Credentials.Access denied!";
       }
     },
     async checkEmail(entity) {
@@ -247,7 +274,9 @@ createApp({
           this.lastNameReqField = false;
           this.emailReqField = false;
           this.lrnReqField = false;
-          this.purposeReqField = false;
+      this.purposeReqField = false;
+      this.verified = false;
+      this.login = false;
       this.resetFormValidation();
     },
     isEmailValid(email) {
@@ -323,6 +352,7 @@ createApp({
       this.lrnMessage = 'Please input field';
       this.emailReqMessage = 'Please input field';
       this.lrnReqMessage = 'Please input field';
+      this.loginMessage = "Invalid Credentials. Access denied!";
     }
 
 

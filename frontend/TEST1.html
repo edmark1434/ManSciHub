@@ -42,7 +42,7 @@
                 </label>
 
                 <!-- Show this only when login fails -->
-                <p v-if="loginFailed" class="text-[22px] text-error mt-3 mb-8">Invalid credentials. Access denied.</p>
+                <p v-if="login" class=" text-[22px] (login && !verified) ? 'text-error' : 'text-green' mt-3 mb-8">{{ loginMessage }}</p>
 
                 <button @click="checkLogin"
                     class="w-full text-center mt-24 py-2 inline-block border border-green bg-green px-12 py-3 text-[22px] font-medium text-warm-white hover:bg-[#F8EED1] hover:text-[#325930] focus:ring-3 focus:outline-hidden">
