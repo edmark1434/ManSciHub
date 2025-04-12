@@ -202,7 +202,7 @@
                 <div class="mt-4">
                     <span class="text-base font-medium text-green">Learner reference number*</span>
 
-                    <input type="text" id="Username" v-model="lrn" :class="[
+                    <input type="text" id="Username" @input="isNumeric" v-model="lrn" :class="[
                         'mt-0.5 w-full h-12 mb-2 px-3 outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none',
                         submitted && !lrn ? 'transition-colors duration-500 border-[3px] border-red-500 ' : 'border-2 border-green'
                       ]" />
@@ -339,7 +339,7 @@
                 <div class="mt-4">
                     <span class="text-base font-medium text-green">Learner reference number*</span>
 
-                    <input type="text" id="Username" v-model="lrn" :class="[
+                    <input type="text" id="Username" @input="isNumeric" v-model="lrn" :class="[
                         'mt-0.5 w-full h-12 mb-2 px-3 outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none',
                         submitted && !lrn ? 'transition-colors duration-500 border-[3px] border-red-500 ' : 'border-2 border-green'
                       ]" />
