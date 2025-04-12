@@ -60,71 +60,49 @@
         </section>
 
         <!-- USER MENU SCREEN -->
-        <section v-if="ShowUserMenu" class="w-screen h-screen flex justify-center items-center">
-            <div class="text-center">
-                <img src="assets/logo.svg" alt="Logo" class="mx-auto mb-4 w-10 h-10">
-                <h1 class="text-[28px] font-bold text-green-900">Mandaue City Science High School<br>Student Services
-                    System
-                </h1>
-                <p class="mt-16 text-[22px] text-green">Please select a service:</p>
+        <section v-if="ShowUserMenu" class="w-screen h-screen flex justify-center items-center bg-warm-white">
+        <div class="text-center">
+            <img src="assets/logo.svg" alt="Logo" class="mx-auto mb-4 w-12">
+            <h1 class="text-xl font-bold text-green-900">Mandaue City Science National<br>High School Student Services System</h1>
+            <p class="mt-9 text-base text-green">Please select a service:</p>
 
-                <div class="mt-4 flex flex-col sm:flex-row justify-center gap-6">
+            <div class="mt-6 flex flex-col sm:flex-row justify-center gap-6">
 
-                    <div class="w-full h-full">
-                        <a href="#" @click.prevent="goToAdmissionForm" class="group relative block h-[427px] w-[469px]">
-                            <span class="absolute inset-0 border-2 border-dashed border-black"></span>
-
-                            <div
-                                class="relative flex h-full transform items-center border-2 border-green bg-ivory group-hover:bg-[#F1D580]/50">
-                                <div
-                                    class="flex flex-col items-center !pt-0 transition-opacity group-hover:absolute sm:p-6 lg:p-8">
-                                    <img src="assets/school-admissions.svg" class="size-20">
-                                    <h2 class="mt-4 text-[28px] text-green font-bold sm:text-2xl">School Admission</h2>
-                                    <p class="mt-4 text-[22px] text-green sm:text-base">
-                                        Submit an application form to complete your admission
-                                    </p>
-                                </div>
-                            </div>
-                        </a>
+                <a href="#" class="group block w-[360px]">
+                    <div
+                            class="flex flex-col px-12 py-12 justify-center items-center border-2 border-green bg-ivory group-hover:bg-[#F1D580]/50">
+                        <img src="assets/school-admissions.svg" class="size-16">
+                        <h2 class="mt-9 text-xl text-green font-bold">School Admission</h2>
+                        <p class="mt-2 text-base text-green">
+                            Submit an application form to complete your admission
+                        </p>
                     </div>
+                </a>
 
-                    <div class="w-full h-full">
-                        <a href="#" @click.prevent="goToRequestForm" class="group relative block h-[427px] w-[469px]">
-                            <span class="absolute inset-0 border-2 border-dashed border-black"></span>
-
-                            <div
-                                class="relative flex h-full transform items-center border-2 border-green bg-ivory group-hover:bg-[#F1D580]/50">
-                                <div
-                                    class="flex flex-col items-center !pt-0 transition-opacity group-hover:absolute sm:p-6 lg:p-8">
-                                    <img src="assets/document-requests.svg" class="size-20">
-                                    <h2 class="mt-4 text-[28px] text-green font-bold sm:text-2xl">Document Request</h2>
-                                    <p class="mt-4 text-[22px] text-green sm:text-base">
-                                        Request student documents from the school registrar
-                                    </p>
-                                </div>
-                            </div>
-                        </a>
+                <a href="#" class="group block w-[360px]">
+                    <div
+                            class="flex flex-col px-12 py-12 justify-center items-center border-2 border-green bg-ivory group-hover:bg-[#F1D580]/50">
+                        <img src="assets/document-requests.svg" class="size-16">
+                        <h2 class="mt-9 text-xl text-green font-bold">Document Requests</h2>
+                        <p class="mt-2 text-base text-green">
+                            Request student documents from the school registrar
+                        </p>
                     </div>
+                </a>
 
-                    <div class="w-full h-full">
-                        <a href="#" @click.prevent="trackRequest" class="group relative block h-[427px] w-[469px]">
-                            <span class="absolute inset-0 border-2 border-dashed border-black"></span>
-
-                            <div
-                                class="relative flex h-full transform items-center border-2 border-green bg-ivory group-hover:bg-[#F1D580]/50">
-                                <div
-                                    class="flex flex-col items-center !pt-0 transition-opacity group-hover:absolute sm:p-6 lg:p-8">
-                                    <img src="assets/request-tracking.svg" class="size-20">
-                                    <h2 class="mt-4 text-[28px] text-green font-bold sm:text-2xl">Request Tracking</h2>
-                                    <p class="mt-4 text-[22px] text-green sm:text-base">
-                                        View details and status of your request with a tracking code
-                                    </p>
-                                </div>
-                            </div>
-                        </a>
+                <a href="#" class="group block w-[360px]">
+                    <div
+                            class="flex flex-col px-12 py-12 justify-center items-center border-2 border-green bg-ivory group-hover:bg-[#F1D580]/50">
+                        <img src="assets/request-tracking.svg" class="size-16">
+                        <h2 class="mt-9 text-xl text-green font-bold">Request Tracking</h2>
+                        <p class="mt-2 text-base text-green">
+                            View details of your document request with a tracking code
+                        </p>
                     </div>
-                </div>
+                </a>
             </div>
+
+        </div>
         </section>
 
         <!-- ADMISSION FORM  -->
