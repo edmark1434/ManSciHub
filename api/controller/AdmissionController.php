@@ -26,11 +26,10 @@ class AdmissionController{
             echo json_encode(["message" => $e->getMessage()]);
         }
     }   
-    public function addAdmission($admission): ?array{
+    public function addAdmission($admission){
         try{
             $admission = $this->admissionService->addAdmission($admission);
-            echo json_encode(["message" => "Successfully added admission"]);
-            return $admission;
+            echo json_encode(["message" => "Successfully added admission","data" => $admission]);
         } catch (Exception $e) {
             http_response_code(400);
             echo json_encode(["message" => $e->getMessage()]);

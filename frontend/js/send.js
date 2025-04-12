@@ -1,19 +1,14 @@
 export async function DocumentRequest(data) {
-    let response_data = {};
     const response = await fetch("http://localhost:8000/api/Service/DocumentRequest", {
         method: 'POST',
-        headers: {
-            "Content-Type": "application/json"
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
-    })
-    if (response.ok) {
-        response_data = await response.json();
-        return response_data[0];
-    } else {
-        return response_data.message;
-    }
+    });
+
+    const response_data = await response.json();
+    return response_data;
 }
+
 export async function AdmissionRequest(data) {
     let response_data = {};
     const response = await fetch("http://localhost:8000/api/Service/AdmissionRequest", {
@@ -24,11 +19,20 @@ export async function AdmissionRequest(data) {
         body: JSON.stringify(data),
     })
     response_data = await response.json();
-    if (response.ok) {
-        return response_data.message;
-    } else {
-        return response_data.message;
-    }
+    return response_data;
+}
+
+export async function getStudentByFilter(data) {
+    let response_data = {};
+    const response = await fetch("http://localhost:8000/api/Student/Filter", {
+        method: 'POST',
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data),
+    })
+    response_data = await response.json();
+    return response_data;
 }
 export async function TransferRequest(data) {
     let response_data = {};
@@ -127,7 +131,7 @@ export async function UpdateLogin(data) {
     }
 }
 export async function DeleteLogin(data) {
-    const response = await fetch("http://localhost:8000/api/Admin/Delete/${data}", {
+    const response = await fetch(`http://localhost:8000/api/Admin/Delete/${data}`, {
         method: 'DELETE',
         headers: {
             "Content-Type": "application/json"

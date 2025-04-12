@@ -54,6 +54,15 @@ class StudentController{
             echo json_encode(["message" => $e->getMessage()]);
         }
     }
+    public function getStudentByFilter($data){
+        try{
+            $result = $this->studentService->getStudentByFilter($data);
+            echo json_encode($result);
+        } catch (Exception $e) {
+            echo json_encode(["message"=> $e->getMessage()]);
+        }
+    }
+    
 }
 
 ?>

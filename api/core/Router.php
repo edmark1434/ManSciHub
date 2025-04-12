@@ -82,6 +82,7 @@ class Router{
                 $this->postAndPutRequest("RequestHistory",$requestUri,$this->requestHistoryController,"addRequestHistory");
                 $this->postAndPutRequest("AdmissionHistory",$requestUri,$this->admissionHistorycontroller,"addAdmissionHistory");
                 $this->postAndPutRequest("AdminControls",$requestUri,$this->adminControlsController,"addAdminControls");
+                $this->postAndPutRequest("Student/Filter",$requestUri,$this->studentcontroller,"getStudentByFilter");
                 //Document Request
                 $this->BackendLogicRequest("DocumentRequest", $requestUri, $this->documentRequestController, 'DocumentRequest');
                 //Admission Request

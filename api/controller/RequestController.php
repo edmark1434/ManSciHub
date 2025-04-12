@@ -11,7 +11,7 @@ class RequestController{
         public function getAllRequest(){
         try{
             $request = $this->request_service->getAllRequest();
-            echo json_encode(["message" => "Successfully get student", "data" => $request]);
+            echo json_encode(["message" => "Successfully get request", "data" => $request]);
         } catch (Exception $e) {
             http_response_code(400);
             echo json_encode(["message" => $e->getMessage()]);
@@ -26,11 +26,11 @@ class RequestController{
             echo json_encode(value: ["message" => $e->getMessage()]);
         }
     }   
-    public function addRequest($request):?array{
+    public function addRequest($request){
         try{
             $request = $this->request_service->addRequest($request);
-            echo json_encode(["message" => "Successfully added Request"]);
-            return $request;
+            echo json_encode(["message" => "Successfully added Request","data" => $request]);
+            http_response_code(200);
         } catch (Exception $e) {
             http_response_code(400);
             echo json_encode(["message" => $e->getMessage()]);

@@ -21,6 +21,11 @@ class StudentService{
         $student = $this->serviceLogic->checkGetMethod($student, "Student with {$id} Does not Exist!");
         return $this->StudentObject($student);
     }
+    public function getStudentByFilter($data){
+        $student = $this->studentRepository->getStudentByFilter($data);
+        $student = $this->serviceLogic->checkGetMethod($student, "Student Does not Exist!");
+        return $this->StudentObject($student);
+    }
 
     public function addStudent($student)
     {

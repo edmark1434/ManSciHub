@@ -3,7 +3,6 @@ export async function getAllDocuments() {
     let data = {};
     if (response.ok) {
         data = await response.json();
-        console.log(data);
     } else {
         console.error('Request failed with status:', response.status);
     }
@@ -60,3 +59,14 @@ export async function AdmissionClose() {
         return data.message;
     }
 }
+export async function getRequestById(data) {
+    const response = await fetch(`http://localhost:8000/api/Request/${data}`);
+    if (response.ok) {
+        return {
+            status: response.status,
+            ok: response.ok,
+            data: await response.json()
+        };
+    }
+}
+

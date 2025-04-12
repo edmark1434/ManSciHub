@@ -9,7 +9,7 @@
     <script src="https://unpkg.com/vue@3"></script>
     <link rel="stylesheet" href="css/colors.css">
     <link rel="stylesheet" href="css/style.css">
-    <script src="js/App.js" async></script>
+    <script type="module" src="js/App.js" async></script>
 </head>
 
 <body class="w-screen h-[100svh] bg-warm-white text-green">
@@ -85,7 +85,7 @@
 
                 <div class="mt-4 flex flex-col sm:flex-row justify-center gap-6">
 
-                    <div class="w-full h-full" id="app">
+                    <div class="w-full h-full">
                         <a href="#" @click.prevent="goToAdmissionForm" class="group relative block h-[427px] w-[469px]">
                             <span class="absolute inset-0 border-2 border-dashed border-black"></span>
 
@@ -121,7 +121,7 @@
                         </a>
                     </div>
 
-                    <div class="w-full h-full" id="app">
+                    <div class="w-full h-full">
                         <a href="#" @click.prevent="trackRequest" class="group relative block h-[427px] w-[469px]">
                             <span class="absolute inset-0 border-2 border-dashed border-black"></span>
 
@@ -181,7 +181,7 @@
                     <label>
                         <span class="text-base font-medium text-green">First name*</span>
 
-                        <input type="text" id="Username" v-model="firstName" :class="[
+                        <input type="text" id="firstName" v-model="firstName" :class="[
                         'mt-0.5 w-full h-12 mb-2 px-3 outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none',
                         submitted && !firstNameField ? 'transition-colors duration-500 border-[3px] border-red-500' : 'border-2 border-green'
                       ]" />
@@ -191,7 +191,7 @@
                     <label>
                         <span class="text-base font-medium text-green">Middle name</span>
 
-                        <input type="text" id="Username"
+                        <input type="text" id="middlename"
                             class="mt-0.5 mb-4 w-full h-12 px-3 border-2 border-green outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none" />
                     </label>
 
@@ -200,7 +200,7 @@
                             <label>
                                 <span class="text-base font-medium text-green">Last name*</span>
 
-                                <input type="text" id="Username" v-model="lastName" :class="[
+                                <input type="text" id="lastname" v-model="lastName" :class="[
                     'mt-0.5 w-full h-12 mb-2 px-3 outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none',
                     submitted && !lastNameField ? 'transition-colors duration-500 border-[3px] border-red-500 font-bold' : 'border-2 border-green'
                   ]" />
@@ -227,7 +227,7 @@
                     <label>
                         <span class="text-base font-medium text-green">Date of birth*</span>
 
-                        <input type="date" id="Username" v-model="dateOfBirth" :max="currentDate" :class="[
+                        <input type="date" id="dateofbirth" v-model="dateOfBirth" :max="currentDate" :class="[
                         'mt-0.5 w-full h-12 mb-2 px-3 outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none',
                         submitted && !dateOfBirthField ? 'transition-colors duration-500 border-[3px] border-red-500 ' : 'border-2 border-green'
                       ]" />
@@ -238,7 +238,7 @@
                     <label>
                         <span class="text-base font-medium text-green">Learner reference number*</span>
 
-                        <input type="text" id="Username" v-model="lrn" @input="isNumeric" :class="[
+                        <input type="text" id="lrn" v-model="lrn" @input="isNumeric" :class="[
                         'mt-0.5 w-full h-12 mb-2 px-3 outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none',
                         submitted && !lrnField ? 'transition-colors duration-500 border-[3px] border-red-500 ' : 'border-2 border-green'
                       ]" />
@@ -248,7 +248,7 @@
                     <label>
                         <span class="text-base font-medium text-green">Home address*</span>
 
-                        <input type="text" id="Username" v-model="homeAddress" :class="[
+                        <input type="text" id="address" v-model="homeAddress" :class="[
                         'mt-0.5 w-full h-12 mb-2 px-3 outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none',
                         submitted && !homeAddressField ? 'transition-colors duration-500 border-[3px] border-red-500 ' : 'border-2 border-green'
                       ]" />
@@ -258,14 +258,12 @@
                     <label>
                         <span class="text-base font-medium text-green">Email address</span>
 
-                        <input type="text" id="Username" v-model="email" :class="[
+                        <input type="text" id="email" v-model="email" :class="[
                         'mt-0.5 w-full h-12 mb-2 px-3 outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none',
                         submitted && !emailField ? 'transition-colors duration-500 border-[3px] border-red-500 ' : 'border-2 border-green'
                       ]" />
                     </label>
-                    <p v-if="submitted && !emailField" class="text-sm text-error">Please enter a valid
-                        email address.</p>
-                    <label>
+                    <p v-if="submitted && !emailField" class="text-sm text-error">{{ emailMessage }}
                         <span class="text-base font-medium text-green">Grade level*</span>
 
                         <select name="Headline" id="Headline" v-model="admissionLevel" :class="[
@@ -330,7 +328,7 @@
                     <label>
                         <span class="text-base font-medium text-green">First name*</span>
 
-                        <input type="text" id="Username" v-model="firstNameReq" :class="[
+                        <input type="text" id="fnameReq" v-model="firstNameReq" :class="[
                         'mt-0.5 w-full h-12 mb-2 px-3 outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none',
                         submitted && !firstNameReqField ? 'transition-colors duration-500 border-[3px] border-red-500' : 'border-2 border-green'
                       ]" />
@@ -341,7 +339,7 @@
                     <label>
                         <span class="text-base font-medium text-green">Middle name</span>
 
-                        <input type="text" id="Username"
+                        <input type="text" id="mnameReq" v-model="middleNameReq"
                             class="mt-0.5 mb-4 w-full h-12 px-3 border-2 border-green outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none" />
                     </label>
 
@@ -350,7 +348,7 @@
                             <label>
                                 <span class="text-base font-medium text-green">Last name*</span>
 
-                                <input type="text" id="Username" v-model="lastNameReq" :class="[
+                                <input type="text" id="lnameReq" v-model="lastNameReq" :class="[
                                 'mt-0.5 w-full h-12 mb-2 px-3 outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none',
                                 submitted && !lastNameReqField ? 'transition-colors duration-500 border-[3px] border-red-500 ' : 'border-2 border-green'
                             ]" />
@@ -364,7 +362,7 @@
                             <label>
                                 <span class="text-base font-medium text-green">Extension</span>
 
-                                <select name="Headline" id="Headline"
+                                <select name="Headline" id="Headline" v-model="extensionReq"
                                     class="mt-0.5 w-full h-12 px-2 border-2 border-green outline-green bg-warm-white shadow-sm text-base focus:outline-none focus:ring-0 focus:rounded-none">
                                     <option value="">N/A</option>
                                     <option value="JM">Jr.</option>
@@ -380,7 +378,7 @@
                     <label>
                         <span class="text-base font-medium text-green">Learner reference number*</span>
 
-                        <input type="text" id="Username" v-model="lrnReq"  @input="isNumeric":class="[
+                        <input type="text" id="lrnReq" v-model="lrnReq"  @input="isNumeric":class="[
                         'mt-0.5 w-full h-12 mb-2 px-3 outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none',
                         submitted && !lrnReqField ? 'transition-colors duration-500 border-[3px] border-red-500 ' : 'border-2 border-green'
                     ]" />
@@ -390,13 +388,12 @@
                     <label>
                         <span class="text-base font-medium text-green">Email address</span>
 
-                        <input type="text" id="Username" v-model="emailReq" :class="[
+                        <input type="text" id="emailReq" v-model="emailReq" :class="[
                         'mt-0.5 w-full h-12 mb-2 px-3 outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none',
                         submitted && !emailReqField ? 'transition-colors duration-500 border-[3px] border-red-500 ' : 'border-2 border-green'
                     ]" />
                     </label>
-                    <p v-if="submitted && !emailReqField" class="text-sm text-error">Please enter a valid
-                        email address.</p>
+                    <p v-if="submitted && !emailReqField" class="text-sm text-error">{{ emailMessage }}</p>
                 </div>
 
                 <!-- Request Details -->
@@ -410,13 +407,8 @@
                         'mt-0.5 w-full h-12 mb-2 px-3 outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none',
                         submitted && !documentType ? 'transition-colors duration-500 border-[3px] border-red-500 ' : 'border-2 border-green'
                     ]">
-                            <option value="">Please Select</option>
-                            <option value="JM">GRADO NI EDMARK</option>
-                            <option value="SRV">MCDO NI JESSIE</option>
-                            <option value="JH">BOARDING HOUSE NI JM GRR</option>
-                            <option value="BBK">SYSTEM NGA GIATAY</option>
-                            <option value="AK">KAPOYA NA ANI UY</option>
-                            <option value="BG">ATAY MANI</option>
+                            <option v-for="document in docType" :value="document.docu_id">{{ document.docu_type }}</option>
+                            
                         </select>
                     </label>
                     <p v-if="submitted && !documentType" class="text-sm text-error">This field is required.</p>
@@ -424,7 +416,7 @@
                     <label>
                         <span class="text-base font-medium text-green">Purpose of request*</span>
 
-                        <input type="text" id="Username" v-model="purposeReq" :class="[
+                        <input type="text" id="purposeReq" v-model="purpose" :class="[
                         'mt-0.5 w-full h-12 mb-2 px-3 outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none',
                         submitted && !purposeReqField ? 'transition-colors duration-500 border-[3px] border-red-500 ' : 'border-2 border-green'
                     ]" />
@@ -463,13 +455,33 @@
 
 
 
-        <!-- SERVICE SUCCESS  SCREEN-->
-        <section v-if="ShowServiceSuccess" class="w-screen h-screen flex justify-center items-center bg-ivory">
+        <!-- SERVICE SUCCESS  REQUEST SCREEN-->
+        <section v-if="ShowServiceRequestSuccess" class="w-screen h-screen flex justify-center items-center bg-ivory">
             <div
                 class="w-[30rem] min-h-[320px] p-9 bg-warm-white border-2 border-green flex justify-center items-center shadow-md">
                 <div class="text-center">
                     <p class="text-green text-base">We have sent your document request!</p>
-                    <p class="text-green text-base">Your tracking code is: <span class="font-bold">1023943214</span></p>
+                    <p class="text-green text-base">Your tracking code is: <span class="font-bold">{{ requestDetail["req_track_id"]}}</span></p>
+
+                    <div class="flex justify-center mt-9">
+                        <a class="text-center inline-block bg-green px-6 py-3 text-base font-bold text-warm-white hover-bg-mid-green"
+                            href="#" @click.prevent="goToMenu">
+                            Back to menu
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>'
+        
+        
+
+        <!-- SERVICE SUCCESS  ADMISSION SCREEN-->
+        <section v-if="ShowServiceAdmissionSuccess" class="w-screen h-screen flex justify-center items-center bg-ivory">
+            <div
+                class="w-[30rem] min-h-[320px] p-9 bg-warm-white border-2 border-green flex justify-center items-center shadow-md">
+                <div class="text-center">
+                    <p class="text-green text-base">Admission request has been sent !</p>
+                    <p class="text-green text-base">Your Admission id is: <span class="font-bold">{{ admissionResponse["adms_id"]}}</span></p>
 
                     <div class="flex justify-center mt-9">
                         <a class="text-center inline-block bg-green px-6 py-3 text-base font-bold text-warm-white hover-bg-mid-green"
@@ -504,7 +516,7 @@
                 <p class="text-green text-base mb-4">Enter request ID to see details and status.</p>
 
                 <label>
-                    <input type="text" id="Username" v-model="trackID" :class="[
+                    <input type="text" id="trackID" v-model="trackID" @input="isNumeric" :class="[
                     'mt-0.5 w-full h-12 mb-6 px-3 outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none',
                     submitted && !trackID ? 'transition-colors duration-500 border-[3px] border-red-500 font-bold' : 'border-2 border-green'
                   ]" />
@@ -533,15 +545,17 @@
                 class="w-[30rem] min-h-[320px] p-9 bg-warm-white border-2 border-green flex justify-center items-center shadow-md">
                 <div class="text-center">
                     <h2 class="text-xl font-bold text-green-900 mb-9">Request Tracking</h2>
+                <p class="text-green" v-if="request == null">Fetching data .....</p>
+                <div v-if="request != null">
+                    <p class="mb-4 font-bold text-green text-base">Tracking Code: {{ request.req_track_id }}</p>
 
-                    <p class="mb-4 font-bold text-green text-base">Tracking Code: 1023943214</p>
-
-                    <p class="text-green text-base">Document: SF9</p>
-                    <p class="text-green text-base">Requested by: Jodeci A. Pacibe</p>
-                    <p class="text-green text-base">Email Address: jaysongabriellimonesro@gmail.com</p>
-                    <p class="text-green text-base">Purpose: College Admission</p>
-                    <p class="font-bold text-green text-base">Status: Pending</p>
-
+                    <p class="text-green text-base">Document: {{ request.docu_type }}</p>
+                    <p class="text-green text-base">Requested by: {{ request.stud_fname +" "+ request.stud_mname +" "+ request.stud_lname }}</p>
+                    <p class="text-green text-base">Email Address: {{ request.stud_email }}</p>
+                    <p class="text-green text-base">Purpose: {{ request.req_purpose }}</p>
+                    <p class="font-bold text-green text-base">Status: {{ request.req_status }}</p>
+                </div>
+                <p  class="text-green" v-if="request === null && errorStatus !== 200">No result found.</p>
                     <div class="flex justify-center mt-9">
                         <a class="text-center inline-block bg-green px-6 py-3 text-base font-bold text-warm-white hover-bg-mid-green"
                             href="#" @click.prevent="goToMenu">
