@@ -142,15 +142,15 @@
 
                     <input type="text" id="Username" v-model="firstName" :class="[
                         'mt-0.5 w-full h-12 mb-2 px-3 outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none',
-                        submitted && !firstName ? 'transition-colors duration-500 border-[3px] border-red-500' : 'border-2 border-green'
+                        submitted && !firstNameField ? 'transition-colors duration-500 border-[3px] border-red-500' : 'border-2 border-green'
                       ]" />
                 </div>
-                <p v-if="submitted && !firstName" class="text-sm text-error">This field is required.</p>
+                <p v-if="submitted && !firstNameField" class="text-sm text-error">This field is required.</p>
 
                 <div class="mt-4">
                     <span class="text-base font-medium text-green">Middle name</span>
 
-                    <input type="text" id="Username"
+                    <input type="text" id="Username" v-model="middleName"
                            class="mt-0.5 mb-2 w-full h-12 px-3 border-2 border-green outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none" />
                 </div>
 
@@ -161,10 +161,10 @@
 
                             <input type="text" id="Username" v-model="lastName" :class="[
                     'mt-0.5 w-full h-12 mb-2 px-3 outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none',
-                    submitted && !lastName ? 'transition-colors duration-500 border-[3px] border-red-500 font-bold' : 'border-2 border-green'
+                    submitted && !lastNameField ? 'transition-colors duration-500 border-[3px] border-red-500 font-bold' : 'border-2 border-green'
                   ]" />
                         </div>
-                        <p v-if="submitted && !lastName" class="text-sm text-error">This field is required.</p>
+                        <p v-if="submitted && !lastNameField" class="text-sm text-error">This field is required.</p>
                     </div>
                     <div class="w-36">
                         <div>
@@ -193,10 +193,10 @@
 
                     <input type="date" id="Username" :max="today" v-model="dateOfBirth" :class="[
                         'mt-0.5 w-full h-12 mb-2 px-3 outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none',
-                        submitted && !dateOfBirth ? 'transition-colors duration-500 border-[3px] border-red-500 ' : 'border-2 border-green'
+                        submitted && !dateOfBirthField ? 'transition-colors duration-500 border-[3px] border-red-500 ' : 'border-2 border-green'
                       ]" />
                 </div>
-                <p v-if="submitted && !dateOfBirth" class="text-sm text-error">Please enter a valid date of birth.
+                <p v-if="submitted && !dateOfBirthField" class="text-sm text-error">Please enter a valid date of birth.
                 </p>
 
                 <div class="mt-4">
@@ -204,31 +204,30 @@
 
                     <input type="text" id="Username" @input="isNumeric" v-model="lrn" :class="[
                         'mt-0.5 w-full h-12 mb-2 px-3 outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none',
-                        submitted && !lrn ? 'transition-colors duration-500 border-[3px] border-red-500 ' : 'border-2 border-green'
+                        submitted && !lrnField ? 'transition-colors duration-500 border-[3px] border-red-500 ' : 'border-2 border-green'
                       ]" />
                 </div>
-                <p v-if="submitted && !lrn" class="text-sm text-error">Please enter a valid LRN.</p>
+                <p v-if="submitted && !lrnField" class="text-sm text-error">{{lrnMessage}}</p>
 
                 <div class="mt-4">
                     <span class="text-base font-medium text-green">Home address*</span>
 
                     <input type="text" id="Username" v-model="homeAddress" :class="[
                         'mt-0.5 w-full h-12 mb-2 px-3 outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none',
-                        submitted && !homeAddress ? 'transition-colors duration-500 border-[3px] border-red-500 ' : 'border-2 border-green'
+                        submitted && !homeAddressField ? 'transition-colors duration-500 border-[3px] border-red-500 ' : 'border-2 border-green'
                       ]" />
                 </div>
-                <p v-if="submitted && !homeAddress" class="text-sm text-error">This field is required.</p>
+                <p v-if="submitted && !homeAddressField" class="text-sm text-error">This field is required.</p>
 
                 <div class="mt-4">
                     <span class="text-base font-medium text-green">Email address</span>
 
                     <input type="text" id="Username" v-model="email" :class="[
                         'mt-0.5 w-full h-12 mb-2 px-3 outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none',
-                        submitted && email && !isEmailValid() ? 'transition-colors duration-500 border-[3px] border-red-500 ' : 'border-2 border-green'
+                        submitted && !emailField && !isEmailValid() ? 'transition-colors duration-500 border-[3px] border-red-500 ' : 'border-2 border-green'
                       ]" />
                 </div>
-                <p v-if="submitted && email && !isEmailValid()" class="text-sm text-error">Please enter a valid
-                    email address.</p>
+                <p v-if="submitted && !emailField && !isEmailValid()" class="text-sm text-error">{{emailMessage}}</p>
                 <div class="mt-4">
                     <span class="text-base font-medium text-green">Grade level*</span>
 
@@ -240,8 +239,8 @@
                                 id="Headline"
                                 class="w-full h-full p-0 bg-transparent focus:outline-none focus:ring-0 focus:rounded-none" >
                             <option value="" selected disabled hidden>Please select</option>
-                            <option value="Grade 7">Grade 7</option>
-                            <option value="Grade 11">Grade 11</option>
+                            <option value="7">Grade 7</option>
+                            <option value="11">Grade 11</option>
                         </select>
                     </div>
                     <p v-if="submitted && !admissionLevel" class="text-sm text-error">This field is required.</p>
@@ -283,11 +282,11 @@
                 <div>
                     <span class="text-base font-medium text-green">First name*</span>
 
-                    <input type="text" id="Username" v-model="firstName" :class="[
+                    <input type="text" id="Username" v-model="firstNameReq" :class="[
                         'mt-0.5 w-full h-12 mb-2 px-3 outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none',
-                        submitted && !firstName ? 'transition-colors duration-500 border-[3px] border-red-500' : 'border-2 border-green']" />
+                        submitted && !firstNameReqField ? 'transition-colors duration-500 border-[3px] border-red-500' : 'border-2 border-green']" />
                 </div>
-                <p v-if="submitted && !firstName" class="text-sm text-error">This field is required.</p>
+                <p v-if="submitted && !firstNameReqField" class="text-sm text-error">This field is required.</p>
 
 
                 <div class="mt-4">
@@ -302,12 +301,12 @@
                         <div>
                             <span class="text-base font-medium text-green">Last name*</span>
 
-                            <input type="text" id="Username" v-model="lastName" :class="[
+                            <input type="text" id="Username" v-model="lastNameReq" :class="[
                                 'mt-0.5 w-full h-12 mb-2 px-3 outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none',
-                                submitted && !lastName ? 'transition-colors duration-500 border-[3px] border-red-500 ' : 'border-2 border-green'
+                                submitted && !lastNameReqField ? 'transition-colors duration-500 border-[3px] border-red-500 ' : 'border-2 border-green'
                               ]" />
                         </div>
-                        <p v-if="submitted && !lastName" class="text-sm text-error">This field is required.</p>
+                        <p v-if="submitted && !lastNameReqField" class="text-sm text-error">This field is required.</p>
 
                     </div>
 
@@ -339,23 +338,22 @@
                 <div class="mt-4">
                     <span class="text-base font-medium text-green">Learner reference number*</span>
 
-                    <input type="text" id="Username" @input="isNumeric" v-model="lrn" :class="[
+                    <input type="text" id="Username" @input="isNumeric" v-model="lrnReq" :class="[
                         'mt-0.5 w-full h-12 mb-2 px-3 outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none',
                         submitted && !lrn ? 'transition-colors duration-500 border-[3px] border-red-500 ' : 'border-2 border-green'
-                      ]" />
+                    ]" />
                 </div>
-                <p v-if="submitted && !lrn" class="text-sm text-error">Please enter a valid LRN.</p>
+                <p v-if="submitted && !lrnReqField" class="text-sm text-error">Please enter a valid LRN.</p>
 
                 <div class="mt-4">
                     <span class="text-base font-medium text-green">Email address</span>
 
-                    <input type="text" id="Username" v-model="email" :class="[
+                    <input type="text" id="Username" v-model="emailReq" :class="[
                         'mt-0.5 w-full h-12 mb-2 px-3 outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none',
-                        submitted && email && !isEmailValid() ? 'transition-colors duration-500 border-[3px] border-red-500 ' : 'border-2 border-green'
+                        submitted && !emailReqField && !isEmailValid() ? 'transition-colors duration-500 border-[3px] border-red-500 ' : 'border-2 border-green'
                       ]" />
                 </div>
-                <p v-if="submitted && email && !isEmailValid()" class="text-sm text-error">Please enter a valid
-                    email address.</p>
+                <p v-if="submitted && !emailReqField && !isEmailValid()" class="text-sm text-error">{{emailReqMessage}}</p>
             </div>
 
             <!-- Request Details -->
@@ -382,10 +380,10 @@
 
                     <input type="text" id="Username" v-model="purpose" :class="[
                         'mt-0.5 w-full h-12 mb-2 px-3 outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none',
-                        submitted && !purpose ? 'transition-colors duration-500 border-[3px] border-red-500 ' : 'border-2 border-green'
+                        submitted && !purposeReqField ? 'transition-colors duration-500 border-[3px] border-red-500 ' : 'border-2 border-green'
                       ]" />
                 </div>
-                <p v-if="submitted && !purpose" class="text-sm text-error">This field is required.</p>
+                <p v-if="submitted && !purposeReqField" class="text-sm text-error">This field is required.</p>
 
             </div>
 
@@ -411,7 +409,7 @@
                 class="w-[30rem] min-h-[320px] p-9 bg-warm-white border-2 border-green flex justify-center items-center shadow-md">
             <div class="text-center">
                 <p class="text-green text-base">We have sent your document request!</p>
-                <p class="text-green text-base">Your tracking code is: <span class="font-bold">1023943214</span></p>
+                <p class="text-green text-base">Your tracking code is: <span class="font-bold">{{ requestDetail.req_track_id }}</span></p>
 
                 <div class="flex justify-center mt-9">
                     <a class="text-center inline-block bg-green px-6 py-3 text-base font-bold text-warm-white hover-bg-mid-green"
@@ -428,8 +426,8 @@
         <div
                 class="w-[30rem] min-h-[320px] p-9 bg-warm-white border-2 border-green flex justify-center items-center shadow-md">
             <div class="text-center">
-                <p class="text-green text-base">We have sent your document request!</p>
-                <p class="text-green text-base">Your tracking code is: <span class="font-bold">1023943214</span></p>
+                <p class="text-green text-base">Successfully submitted your Admission application!</p>
+                <p class="text-green text-base">Your Admission id is: <span class="font-bold">{{admissionResponse.adms_id}}</span></p>
 
                 <div class="flex justify-center mt-9">
                     <a class="text-center inline-block bg-green px-6 py-3 text-base font-bold text-warm-white hover-bg-mid-green"
@@ -459,7 +457,7 @@
             <p class="text-green text-base mb-4">Enter request ID to see details and status.</p>
 
             <label>
-                <input type="text" id="Username" v-model="trackID" :class="[
+                <input type="text" id="Username" v-model="trackID" @input="isNumeric" :class="[
                     'mt-0.5 w-full h-12 mb-6 px-3 outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none',
                     submitted && !trackID ? 'transition-colors duration-500 border-[3px] border-red-500 font-bold' : 'border-2 border-green'
                   ]" />
@@ -481,17 +479,20 @@
     <section v-if="ShowRequestDetails" class="w-screen h-screen flex justify-center items-center bg-ivory">
         <div
                 class="w-[30rem] min-h-[320px] p-9 bg-warm-white border-2 border-green flex justify-center items-center shadow-md">
-            <div class="text-center">
+                <div class="text-center">
+                <p class="text-base" v-if="requestTrack == null">Fetching data ....</p>
+                <p v-if="errorStatus >=400 " class="text-center">{{requestTrackMessage}}</p>
+                <div v-if="requestTrack != null">
                 <h2 class="text-xl font-bold text-green-900 mb-9">Request Tracking</h2>
+                <p class="mb-4 font-bold text-green text-base">Tracking Code: {{requestTrack.req_track_id}}</p>
 
-                <p class="mb-4 font-bold text-green text-base">Tracking Code: 1023943214</p>
-
-                <p class="text-green text-base">Document: SF9</p>
-                <p class="text-green text-base">Requested by: Jodeci A. Pacibe</p>
-                <p class="text-green text-base">Email Address: jaysongabriellimonesro@gmail.com</p>
-                <p class="text-green text-base">Purpose: College Admission</p>
-                <p class="font-bold text-green text-base">Status: Pending</p>
-
+                <p class="text-green text-base">Document: {{requestTrack.docu_type}}</p>
+                <p class="text-green text-base">Requested by: {{requestTrack.stud_fname + " " +requestTrack.stud_mname+" "+ requestTrack.stud_lname}}</p>
+                <p class="text-green text-base">Email Address: {{requestTrack.stud_email}}</p>
+                <p class="text-green text-base">Purpose: {{requestTrack.req_purpose}}</p>
+                <p class="font-bold text-green text-base">Status: {{requestTrack.req_status}}</p>
+                </div>
+                <div v-else-if="requestTrack == null && errorStatus"><p class="text-green">No result found</p></div>
                 <div class="flex justify-center mt-9">
                     <a class="text-center inline-block bg-green px-6 py-3 text-base font-bold text-warm-white hover-bg-mid-green"
                        href="#" @click.prevent="goToMenu">

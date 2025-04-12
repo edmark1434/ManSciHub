@@ -67,6 +67,7 @@ createApp({
       requestDetail: {},
       admissionResponse: {},
       userDetails: {},
+      requestTrackMessage: '',
       lrnMessage: 'This field is required.',
       emailMessage: 'This field is required.',
       lrnReqMessage: 'This field is required.',
@@ -82,7 +83,7 @@ createApp({
       currentDate: new Date().toISOString().split('T')[0],
 
       // fields Validation Request
-      errorStatus: false,
+      errorStatus: '',
       firstNameReqField: false,
       lastNameReqField: false,
       emailReqField: false,
@@ -164,12 +165,15 @@ createApp({
       this.ShowAdminLogin = true;
     },
     submitTrackID() {
+      this.requestTrackMessage = '';
       this.submitted = true;
       if (this.trackID) {
         alert('Tracking request!');
         fetch.getRequestById(this.trackID).then((response) => {
           this.requestTrack = response.data.data;
-          this.errorStatus = response.status;
+          if (response.data.data == null) {
+            this.errorStatus = true;
+          }
         });
         this.resetScreens();
         this.ShowRequestDetails = true;
@@ -313,7 +317,6 @@ createApp({
       this.emailField = false;
 
       //fields Validation Request
-      this.errorStatus = false;
       this.firstNameReqField = false;
       this.lastNameReqField = false;
       this.emailReqField = false;
