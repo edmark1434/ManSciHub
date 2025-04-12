@@ -383,7 +383,7 @@
                         submitted && !lrnReqField ? 'transition-colors duration-500 border-[3px] border-red-500 ' : 'border-2 border-green'
                     ]" />
                     </label>
-                    <p v-if="submitted && !lrnReqField" class="text-sm text-error">{{ lrnMessage }}</p>
+                    <p v-if="submitted && !lrnReqField" class="text-sm text-error">{{ lrnReqMessage }}</p>
 
                     <label>
                         <span class="text-base font-medium text-green">Email address</span>
@@ -393,7 +393,7 @@
                         submitted && !emailReqField ? 'transition-colors duration-500 border-[3px] border-red-500 ' : 'border-2 border-green'
                     ]" />
                     </label>
-                    <p v-if="submitted && !emailReqField" class="text-sm text-error">{{ emailMessage }}</p>
+                    <p v-if="submitted && !emailReqField" class="text-sm text-error">{{ emailReqMessage }}</p>
                 </div>
 
                 <!-- Request Details -->
@@ -545,17 +545,17 @@
                 class="w-[30rem] min-h-[320px] p-9 bg-warm-white border-2 border-green flex justify-center items-center shadow-md">
                 <div class="text-center">
                     <h2 class="text-xl font-bold text-green-900 mb-9">Request Tracking</h2>
-                <p class="text-green" v-if="request == null">Fetching data .....</p>
-                <div v-if="request != null">
-                    <p class="mb-4 font-bold text-green text-base">Tracking Code: {{ request.req_track_id }}</p>
+                <p class="text-green" v-if="requestTrack == null">Fetching data .....</p>
+                <div v-if="requestTrack != null">
+                    <p class="mb-4 font-bold text-green text-base">Tracking Code: {{ requestTrack.req_track_id }}</p>
 
-                    <p class="text-green text-base">Document: {{ request.docu_type }}</p>
-                    <p class="text-green text-base">Requested by: {{ request.stud_fname +" "+ request.stud_mname +" "+ request.stud_lname }}</p>
-                    <p class="text-green text-base">Email Address: {{ request.stud_email }}</p>
-                    <p class="text-green text-base">Purpose: {{ request.req_purpose }}</p>
-                    <p class="font-bold text-green text-base">Status: {{ request.req_status }}</p>
+                    <p class="text-green text-base">Document: {{ requestTrack.docu_type }}</p>
+                    <p class="text-green text-base">Requested by: {{ requestTrack.stud_fname +" "+ requestTrack.stud_mname +" "+ requestTrack.stud_lname }}</p>
+                    <p class="text-green text-base">Email Address: {{ requestTrack.stud_email }}</p>
+                    <p class="text-green text-base">Purpose: {{ requestTrack.req_purpose }}</p>
+                    <p class="font-bold text-green text-base">Status: {{ requestTrack.req_status }}</p>
                 </div>
-                <p  class="text-green" v-if="request === null && errorStatus !== 200">No result found.</p>
+                <p  class="text-green" v-if="requestTrack === null && errorStatus !== 200">No result found.</p>
                     <div class="flex justify-center mt-9">
                         <a class="text-center inline-block bg-green px-6 py-3 text-base font-bold text-warm-white hover-bg-mid-green"
                             href="#" @click.prevent="goToMenu">
