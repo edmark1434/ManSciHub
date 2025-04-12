@@ -11,8 +11,25 @@ createApp({
       ShowTrackRequest: false,
       ShowRequestDetails: false,
       ShowAdmissionForm: false,
+      ShowAdminPanel: false,
 
-      // Form fields
+      // Admin Panel Screens
+      ShowDocumentRequests: true,
+      ShowSchoolAdmissions: false,
+      ShowAdministrators: false,
+      ShowStudents: false,
+      ShowAuditLogByAdmin: false,
+      ShowAuditLogAll: false,
+      ShowAdminControls: false,
+
+      ShowRequestPopup: false,
+      ShowAdmissionPopup: false,
+      ShowAdminPopup: false,
+      ShowAreYouSurePopup: false,
+
+      AdminID: 0,
+
+      // Form Fields
       firstName: '',
       middleName: '',
       lastName: '',
