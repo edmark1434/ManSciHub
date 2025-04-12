@@ -72,7 +72,7 @@ createApp({
       lrnReqMessage: 'This field is required.',
       emailReqMessage: 'This field is required.',
 
-      //fields Validation Admission
+      // fields Validation Admission
       firstNameField: false,
       lastNameField: false,
       dateOfBirthField: false,
@@ -81,7 +81,7 @@ createApp({
       emailField: false,
       currentDate: new Date().toISOString().split('T')[0],
 
-      //fields Validation Request
+      // fields Validation Request
       errorStatus: false,
       firstNameReqField: false,
       lastNameReqField: false,
@@ -92,12 +92,21 @@ createApp({
       // Validation
       submitted: false,
 
-      //admin login validation
+      // admin login validation
       login: false,
       loginMessage: '',
       verified : false,
 
-      today: new Date().toISOString().split('T')[0]
+      // today
+      today: new Date().toISOString().split('T')[0],
+
+      // lists for admin panel
+      requestslist: [],
+      admissionslist: [],
+      adminslist: [],
+      studentslist: [],
+      auditslist: [],
+      controls: {}
     };
   },
   mounted() {
@@ -182,6 +191,7 @@ createApp({
         this.loginMessage = data.message;
         this.userDetails = data.data;
         this.verified = true;
+        console.log(this.userDetails);
       } else {
         this.login = true;
         this.loginMessage = "Invalid Credentials. Access denied!";
