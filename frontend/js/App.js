@@ -96,6 +96,8 @@ createApp({
       login: false,
       loginMessage: '',
       verified : false,
+
+      today: new Date().toISOString().split('T')[0]
     };
   },
   mounted() {
@@ -148,6 +150,10 @@ createApp({
       this.resetScreens();
       this.ShowUserRequest = true;
     },
+    goToAdminLogin() {
+      this.resetScreens();
+      this.ShowAdminLogin = true;
+    },
     submitTrackID() {
       this.submitted = true;
       if (this.trackID) {
@@ -161,6 +167,11 @@ createApp({
       }
     },
     async checkLogin() {
+      this.submitted = true;
+      if (this.username == '' || this.password == '') {
+        this.login = true;
+        this.loginMessage = "Invalid Credentials. Access denied!";
+      }
       const loginObject = {
         username: this.username,
         password: this.password
@@ -273,19 +284,24 @@ createApp({
     },
     resetScreens() {
       this.ShowUserBoot = false;
+      this.ShowAdminBoot = false;
+      this.ShowAdminLogin = false;
       this.ShowUserMenu = false;
       this.ShowUserRequest = false;
-      this.ShowServiceRequestSuccess = false;
       this.ShowServiceAdmissionSuccess = false;
+      this.ShowServiceRequestSuccess = false;
       this.ShowTrackRequest = false;
       this.ShowRequestDetails = false;
       this.ShowAdmissionForm = false;
+      this.ShowAdminPanel = false;
+      
       this.firstNameField = false;
       this.lastNameField = false;
       this.dateOfBirthField = false;
       this.lrnField = false;
       this.homeAddressField = false;
       this.emailField = false;
+
       //fields Validation Request
       this.errorStatus = false;
       this.firstNameReqField = false;
@@ -370,7 +386,7 @@ createApp({
       this.lrnMessage = 'Please input field';
       this.emailReqMessage = 'Please input field';
       this.lrnReqMessage = 'Please input field';
-      this.loginMessage = "Invalid Credentials. Access denied!";
+      this.loginMessage = "Invalid credentials. Access denied!";
     }
 
 
