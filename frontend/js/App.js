@@ -6,9 +6,9 @@ createApp({
   data() {
     return {
       // Screen controls
-      ShowUserBoot: false,
+      ShowUserBoot: true,
       ShowAdminBoot: false,
-      ShowAdminLogin: true,
+      ShowAdminLogin: false,
       ShowUserMenu: false,
       ShowUserRequest: false,
       ShowServiceAdmissionSuccess: false,
@@ -16,6 +16,23 @@ createApp({
       ShowTrackRequest: false,
       ShowRequestDetails: false,
       ShowAdmissionForm: false,
+      ShowAdminPanel: false,
+
+       // Admin Panel Screens
+      ShowDocumentRequests: false,
+      ShowSchoolAdmissions: false,
+      ShowAdministrators: false,
+      ShowStudents: false,
+      ShowAuditLogByAdmin: false,
+      ShowAuditLogAll: false,
+      ShowAdminControls: false,
+
+      ShowRequestPopup: false,
+      ShowAdmissionPopup: false,
+      ShowAdminPopup: false,
+      ShowAreYouSurePopup: false,
+
+      AdminID: 0,
 
       // Form Fields
       // Form fields
@@ -156,7 +173,7 @@ createApp({
         this.verified = true;
       } else {
         this.login = true;
-        loginMessage = "Invalid Credentials.Access denied!";
+        loginMessage = "Invalid Credentials. Access denied!";
       }
     },
     async checkEmail(entity) {

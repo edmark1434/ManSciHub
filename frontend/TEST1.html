@@ -68,7 +68,6 @@
 
             <div class="mt-6 flex flex-col sm:flex-row justify-center gap-6">
 
-<<<<<<< HEAD
                     <div class="w-full h-full">
                         <a href="#" @click.prevent="goToAdmissionForm" class="group relative block h-[427px] w-[469px]">
                             <span class="absolute inset-0 border-2 border-dashed border-black"></span>
@@ -85,16 +84,6 @@
                                 </div>
                             </div>
                         </a>
-=======
-                <a href="#" class="group block w-[360px]">
-                    <div
-                            class="flex flex-col px-12 py-12 justify-center items-center border-2 border-green bg-ivory group-hover:bg-[#F1D580]/50">
-                        <img src="assets/school-admissions.svg" class="size-16">
-                        <h2 class="mt-9 text-xl text-green font-bold">School Admission</h2>
-                        <p class="mt-2 text-base text-green">
-                            Submit an application form to complete your admission
-                        </p>
->>>>>>> abe1b14cff02df40fff37d5c1f4b7d3746968e6d
                     </div>
                 </a>
 
@@ -109,7 +98,6 @@
                     </div>
                 </a>
 
-<<<<<<< HEAD
                     <div class="w-full h-full">
                         <a href="#" @click.prevent="trackRequest" class="group relative block h-[427px] w-[469px]">
                             <span class="absolute inset-0 border-2 border-dashed border-black"></span>
@@ -126,16 +114,6 @@
                                 </div>
                             </div>
                         </a>
-=======
-                <a href="#" class="group block w-[360px]">
-                    <div
-                            class="flex flex-col px-12 py-12 justify-center items-center border-2 border-green bg-ivory group-hover:bg-[#F1D580]/50">
-                        <img src="assets/request-tracking.svg" class="size-16">
-                        <h2 class="mt-9 text-xl text-green font-bold">Request Tracking</h2>
-                        <p class="mt-2 text-base text-green">
-                            View details of your document request with a tracking code
-                        </p>
->>>>>>> abe1b14cff02df40fff37d5c1f4b7d3746968e6d
                     </div>
                 </a>
             </div>
@@ -165,26 +143,15 @@
                         'mt-0.5 w-full h-12 mb-2 px-3 outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none',
                         submitted && !firstNameField ? 'transition-colors duration-500 border-[3px] border-red-500' : 'border-2 border-green'
                       ]" />
-<<<<<<< HEAD
                     </label>
                     <p v-if="submitted && !firstNameField" class="text-sm text-error">This field is required.</p>
-=======
-                    </div>
-                    <p v-if="submitted && !firstName" class="text-sm text-error">This field is required.</p>
->>>>>>> abe1b14cff02df40fff37d5c1f4b7d3746968e6d
 
                     <div class="mt-4">
                         <span class="text-base font-medium text-green">Middle name</span>
 
-<<<<<<< HEAD
                         <input type="text" id="middlename"
                             class="mt-0.5 mb-4 w-full h-12 px-3 border-2 border-green outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none" />
                     </label>
-=======
-                        <input type="text" id="Username"
-                               class="mt-0.5 mb-2 w-full h-12 px-3 border-2 border-green outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none" />
-                    </div>
->>>>>>> abe1b14cff02df40fff37d5c1f4b7d3746968e6d
 
                     <div class="flex gap-4 mt-4">
                         <div class="flex-1">
@@ -195,13 +162,8 @@
                     'mt-0.5 w-full h-12 mb-2 px-3 outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none',
                     submitted && !lastNameField ? 'transition-colors duration-500 border-[3px] border-red-500 font-bold' : 'border-2 border-green'
                   ]" />
-<<<<<<< HEAD
                             </label>
                             <p v-if="submitted && !lastNameField" class="text-sm text-error">This field is required.</p>
-=======
-                            </div>
-                            <p v-if="submitted && !lastName" class="text-sm text-error">This field is required.</p>
->>>>>>> abe1b14cff02df40fff37d5c1f4b7d3746968e6d
                         </div>
                         <div class="w-36">
                             <div>
@@ -232,13 +194,8 @@
                         'mt-0.5 w-full h-12 mb-2 px-3 outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none',
                         submitted && !dateOfBirthField ? 'transition-colors duration-500 border-[3px] border-red-500 ' : 'border-2 border-green'
                       ]" />
-<<<<<<< HEAD
                     </label>
                     <p v-if="submitted && !dateOfBirthField" class="text-sm text-error">Please enter a valid date of birth.
-=======
-                    </div>
-                    <p v-if="submitted && !dateOfBirth" class="text-sm text-error">Please enter a valid date of birth.
->>>>>>> abe1b14cff02df40fff37d5c1f4b7d3746968e6d
                     </p>
 
                     <div class="mt-4">
@@ -248,13 +205,8 @@
                         'mt-0.5 w-full h-12 mb-2 px-3 outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none',
                         submitted && !lrnField ? 'transition-colors duration-500 border-[3px] border-red-500 ' : 'border-2 border-green'
                       ]" />
-<<<<<<< HEAD
                     </label>
                     <p v-if="submitted && !lrnField" class="text-sm text-error">{{ lrnMessage }}</p>
-=======
-                    </div>
-                    <p v-if="submitted && !lrn" class="text-sm text-error">Please enter a valid LRN.</p>
->>>>>>> abe1b14cff02df40fff37d5c1f4b7d3746968e6d
 
                     <div class="mt-4">
                         <span class="text-base font-medium text-green">Home address*</span>
@@ -263,13 +215,8 @@
                         'mt-0.5 w-full h-12 mb-2 px-3 outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none',
                         submitted && !homeAddressField ? 'transition-colors duration-500 border-[3px] border-red-500 ' : 'border-2 border-green'
                       ]" />
-<<<<<<< HEAD
                     </label>
                     <p v-if="submitted && !homeAddressField" class="text-sm text-error">This field is required.</p>
-=======
-                    </div>
-                    <p v-if="submitted && !homeAddress" class="text-sm text-error">This field is required.</p>
->>>>>>> abe1b14cff02df40fff37d5c1f4b7d3746968e6d
 
                     <div class="mt-4">
                         <span class="text-base font-medium text-green">Email address</span>
@@ -278,7 +225,6 @@
                         'mt-0.5 w-full h-12 mb-2 px-3 outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none',
                         submitted && !emailField ? 'transition-colors duration-500 border-[3px] border-red-500 ' : 'border-2 border-green'
                       ]" />
-<<<<<<< HEAD
                     </label>
                     <p v-if="submitted && !emailField" class="text-sm text-error">{{ emailMessage }}
                         <span class="text-base font-medium text-green">Grade level*</span>
@@ -293,27 +239,6 @@
 
                         </select>
                     </label>
-=======
-                    </div>
-                    <p v-if="submitted && email && !isEmailValid()" class="text-sm text-error">Please enter a valid
-                        email address.</p>
-                    <div class="mt-4">
-                        <span class="text-base font-medium text-green">Grade level*</span>
-
-                        <div class="inline-block mt-0.5 mb-2 w-full h-12 px-2 border-2 border-green outline-green bg-warm-white shadow-sm text-base focus:outline-none focus:ring-0 focus:rounded-none"
-                             :class="submitted && !level ? 'transition-colors duration-500 border-[3px] border-red-500 ' : 'border-2 border-green'">
-                            <select
-                                    v-model="level"
-                                    name="Headline"
-                                    id="Headline"
-                                    class="w-full h-full p-0 bg-transparent focus:outline-none focus:ring-0 focus:rounded-none" >
-                                <option value="" selected disabled hidden>Please select</option>
-                                <option value="Grade 7">Grade 7</option>
-                                <option value="Grade 11">Grade 11</option>
-                            </select>
-                        </div>
-                    </div>
->>>>>>> abe1b14cff02df40fff37d5c1f4b7d3746968e6d
                 </div>
 
                 <!-- Buttons -->
@@ -353,30 +278,18 @@
 
                         <input type="text" id="fnameReq" v-model="firstNameReq" :class="[
                         'mt-0.5 w-full h-12 mb-2 px-3 outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none',
-<<<<<<< HEAD
                         submitted && !firstNameReqField ? 'transition-colors duration-500 border-[3px] border-red-500' : 'border-2 border-green'
                       ]" />
                     </label>
                     <p v-if="submitted && !firstNameReqField" class="text-sm text-error">This field is required.</p>
-=======
-                        submitted && !firstName ? 'transition-colors duration-500 border-[3px] border-red-500' : 'border-2 border-green']" />
-                    </div>
-                    <p v-if="submitted && !firstName" class="text-sm text-error">This field is required.</p>
->>>>>>> abe1b14cff02df40fff37d5c1f4b7d3746968e6d
 
 
                     <div class="mt-4">
                         <span class="text-base font-medium text-green">Middle name</span>
 
-<<<<<<< HEAD
                         <input type="text" id="mnameReq" v-model="middleNameReq"
                             class="mt-0.5 mb-4 w-full h-12 px-3 border-2 border-green outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none" />
                     </label>
-=======
-                        <input type="text" id="Username"
-                               class="mt-0.5 mb-2 w-full h-12 px-3 border-2 border-green outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none" />
-                    </div>
->>>>>>> abe1b14cff02df40fff37d5c1f4b7d3746968e6d
 
                     <div class="flex gap-4 mt-4">
                         <div class="flex-1">
@@ -385,17 +298,10 @@
 
                                 <input type="text" id="lnameReq" v-model="lastNameReq" :class="[
                                 'mt-0.5 w-full h-12 mb-2 px-3 outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none',
-<<<<<<< HEAD
                                 submitted && !lastNameReqField ? 'transition-colors duration-500 border-[3px] border-red-500 ' : 'border-2 border-green'
                             ]" />
                             </label>
                             <p v-if="submitted && !lastNameReqField" class="text-sm text-error">This field is required.</p>
-=======
-                                submitted && !lastName ? 'transition-colors duration-500 border-[3px] border-red-500 ' : 'border-2 border-green'
-                              ]" />
-                            </div>
-                            <p v-if="submitted && !lastName" class="text-sm text-error">This field is required.</p>
->>>>>>> abe1b14cff02df40fff37d5c1f4b7d3746968e6d
 
                         </div>
 
@@ -405,7 +311,6 @@
                                 <label>
                                     <span class="text-base font-medium text-green">Extension</span>
 
-<<<<<<< HEAD
                                 <select name="Headline" id="Headline" v-model="extensionReq"
                                     class="mt-0.5 w-full h-12 px-2 border-2 border-green outline-green bg-warm-white shadow-sm text-base focus:outline-none focus:ring-0 focus:rounded-none">
                                     <option value="">N/A</option>
@@ -417,25 +322,6 @@
                                     <option value="BG">IV</option>
                                 </select>
                             </label>
-=======
-                                    <div class="mt-0.5 w-full h-12 px-2 border-2 border-green outline-green bg-warm-white shadow-sm text-base focus:outline-none focus:ring-0 focus:rounded-none" >
-                                        <select
-                                                v-model="extension"
-                                                name="Headline"
-                                                id="Headline"
-                                                class="w-full h-full p-0 bg-transparent focus:outline-none focus:ring-0 focus:rounded-none" >
-                                            <option value="">N/A</option>
-                                            <option value="Jr.">Jr.</option>
-                                            <option value="Sr.">Sr.</option>
-                                            <option value="I">I</option>
-                                            <option value="II">II</option>
-                                            <option value="III">III</option>
-                                            <option value="IV">IV</option>
-                                        </select>
-                                    </div>
-                                </label>
-                            </div>
->>>>>>> abe1b14cff02df40fff37d5c1f4b7d3746968e6d
                         </div>
                     </div>
                     <div class="mt-4">
@@ -443,35 +329,20 @@
 
                         <input type="text" id="lrnReq" v-model="lrnReq"  @input="isNumeric":class="[
                         'mt-0.5 w-full h-12 mb-2 px-3 outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none',
-<<<<<<< HEAD
                         submitted && !lrnReqField ? 'transition-colors duration-500 border-[3px] border-red-500 ' : 'border-2 border-green'
                     ]" />
                     </label>
                     <p v-if="submitted && !lrnReqField" class="text-sm text-error">{{ lrnReqMessage }}</p>
-=======
-                        submitted && !lrn ? 'transition-colors duration-500 border-[3px] border-red-500 ' : 'border-2 border-green'
-                      ]" />
-                    </div>
-                    <p v-if="submitted && !lrn" class="text-sm text-error">Please enter a valid LRN.</p>
->>>>>>> abe1b14cff02df40fff37d5c1f4b7d3746968e6d
 
                     <div class="mt-4">
                         <span class="text-base font-medium text-green">Email address</span>
 
                         <input type="text" id="emailReq" v-model="emailReq" :class="[
                         'mt-0.5 w-full h-12 mb-2 px-3 outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none',
-<<<<<<< HEAD
                         submitted && !emailReqField ? 'transition-colors duration-500 border-[3px] border-red-500 ' : 'border-2 border-green'
                     ]" />
                     </label>
                     <p v-if="submitted && !emailReqField" class="text-sm text-error">{{ emailReqMessage }}</p>
-=======
-                        submitted && email && !isEmailValid() ? 'transition-colors duration-500 border-[3px] border-red-500 ' : 'border-2 border-green'
-                      ]" />
-                    </div>
-                    <p v-if="submitted && email && !isEmailValid()" class="text-sm text-error">Please enter a valid
-                        email address.</p>
->>>>>>> abe1b14cff02df40fff37d5c1f4b7d3746968e6d
                 </div>
 
                 <!-- Request Details -->
@@ -480,29 +351,12 @@
 
                     <span class="text-base font-medium text-green">Document type*</span>
 
-<<<<<<< HEAD
                         <select name="Headline" id="Headline" v-model="documentType" :class="[
                         'mt-0.5 w-full h-12 mb-2 px-3 outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none',
                         submitted && !documentType ? 'transition-colors duration-500 border-[3px] border-red-500 ' : 'border-2 border-green'
                     ]">
                             <option v-for="document in docType" :value="document.docu_id">{{ document.docu_type }}</option>
                             
-=======
-                    <div class="inline-block mt-0.5 mb-2 w-full h-12 px-2 border-2 border-green outline-green bg-warm-white shadow-sm text-base focus:outline-none focus:ring-0 focus:rounded-none"
-                         :class="submitted && !documentType ? 'transition-colors duration-500 border-[3px] border-red-500 ' : 'border-2 border-green'">
-                        <select
-                                v-model="documentType"
-                                name="Headline"
-                                id="Headline"
-                                class="w-full h-full p-0 bg-transparent focus:outline-none focus:ring-0 focus:rounded-none" >
-                            <option value="">N/A</option>
-                            <option value="JM">Jr.</option>
-                            <option value="SRV">Sr.</option>
-                            <option value="JH">I</option>
-                            <option value="BBK">II</option>
-                            <option value="AK">III</option>
-                            <option value="BG">IV</option>
->>>>>>> abe1b14cff02df40fff37d5c1f4b7d3746968e6d
                         </select>
                     </div>
                     <p v-if="submitted && !documentType" class="text-sm text-error">This field is required.</p>
@@ -512,17 +366,10 @@
 
                         <input type="text" id="purposeReq" v-model="purpose" :class="[
                         'mt-0.5 w-full h-12 mb-2 px-3 outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none',
-<<<<<<< HEAD
                         submitted && !purposeReqField ? 'transition-colors duration-500 border-[3px] border-red-500 ' : 'border-2 border-green'
                     ]" />
                     </label>
                     <p v-if="submitted && !purposeReqField" class="text-sm text-error">This field is required.</p>
-=======
-                        submitted && !purpose ? 'transition-colors duration-500 border-[3px] border-red-500 ' : 'border-2 border-green'
-                      ]" />
-                    </div>
-                    <p v-if="submitted && !purpose" class="text-sm text-error">This field is required.</p>
->>>>>>> abe1b14cff02df40fff37d5c1f4b7d3746968e6d
 
                 </div>
 
@@ -542,7 +389,6 @@
             </div>
         </section>
 
-<<<<<<< HEAD
 
 
 
@@ -559,10 +405,6 @@
 
         <!-- SERVICE SUCCESS  REQUEST SCREEN-->
         <section v-if="ShowServiceRequestSuccess" class="w-screen h-screen flex justify-center items-center bg-ivory">
-=======
-        <!-- SERVICE SUCCESS  SCREEN-->
-        <section v-if="ShowServiceSuccess" class="w-screen h-screen flex justify-center items-center bg-ivory">
->>>>>>> abe1b14cff02df40fff37d5c1f4b7d3746968e6d
             <div
                 class="w-[30rem] min-h-[320px] p-9 bg-warm-white border-2 border-green flex justify-center items-center shadow-md">
                 <div class="text-center">
