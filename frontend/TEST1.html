@@ -5,8 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Test</title>
-    <script src="js/tailwind-3.4.16.js"></script>
-    <script src="js/vue.global.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/vue@3"></script>
     <link rel="stylesheet" href="css/colors.css">
     <link rel="stylesheet" href="css/style.css">
     <script type="module" src="js/App.js" async></script>
@@ -24,7 +24,6 @@
             </div>
 
         </section>
-
         <!-- ADMIN Login Screen -->
         <section v-if="ShowAdminLogin" class="w-screen h-screen flex justify-center items-center">
             <div class="bg-warm-white p-6 shadow-md w-[624px] h-[712px] border-[2px] border-green">
@@ -52,6 +51,15 @@
             </div>
         </section>
 
+
+
+
+
+
+
+
+
+
         <!-- USER BOOT SCREEN  -->
         <section v-if="ShowUserBoot" class="w-screen h-screen">
             <div class="w-full h-full flex justify-center items-center">
@@ -59,14 +67,23 @@
             </div>
         </section>
 
-        <!-- USER MENU SCREEN -->
-        <section v-if="ShowUserMenu" class="w-screen h-screen flex justify-center items-center bg-warm-white">
-        <div class="text-center">
-            <img src="assets/logo.svg" alt="Logo" class="mx-auto mb-4 w-12">
-            <h1 class="text-xl font-bold text-green-900">Mandaue City Science National<br>High School Student Services System</h1>
-            <p class="mt-9 text-base text-green">Please select a service:</p>
 
-            <div class="mt-6 flex flex-col sm:flex-row justify-center gap-6">
+
+
+
+
+
+
+        <!-- USER MENU SCREEN -->
+        <section v-if="ShowUserMenu" class="w-screen h-screen flex justify-center items-center">
+            <div class="text-center">
+                <img src="assets/logo.svg" alt="Logo" class="mx-auto mb-4 w-10 h-10">
+                <h1 class="text-[28px] font-bold text-green-900">Mandaue City Science High School<br>Student Services
+                    System
+                </h1>
+                <p class="mt-16 text-[22px] text-green">Please select a service:</p>
+
+                <div class="mt-4 flex flex-col sm:flex-row justify-center gap-6">
 
                     <div class="w-full h-full">
                         <a href="#" @click.prevent="goToAdmissionForm" class="group relative block h-[427px] w-[469px]">
@@ -85,18 +102,24 @@
                             </div>
                         </a>
                     </div>
-                </a>
 
-                <a href="#" class="group block w-[360px]">
-                    <div
-                            class="flex flex-col px-12 py-12 justify-center items-center border-2 border-green bg-ivory group-hover:bg-[#F1D580]/50">
-                        <img src="assets/document-requests.svg" class="size-16">
-                        <h2 class="mt-9 text-xl text-green font-bold">Document Requests</h2>
-                        <p class="mt-2 text-base text-green">
-                            Request student documents from the school registrar
-                        </p>
+                    <div class="w-full h-full" id="app">
+                        <a href="#" @click.prevent="goToRequestForm" class="group relative block h-[427px] w-[469px]">
+                            <span class="absolute inset-0 border-2 border-dashed border-black"></span>
+
+                            <div
+                                class="relative flex h-full transform items-center border-2 border-green bg-ivory group-hover:bg-[#F1D580]/50">
+                                <div
+                                    class="flex flex-col items-center !pt-0 transition-opacity group-hover:absolute sm:p-6 lg:p-8">
+                                    <img src="assets/document-requests.svg" class="size-20">
+                                    <h2 class="mt-4 text-[28px] text-green font-bold sm:text-2xl">Document Request</h2>
+                                    <p class="mt-4 text-[22px] text-green sm:text-base">
+                                        Request student documents from the school registrar
+                                    </p>
+                                </div>
+                            </div>
+                        </a>
                     </div>
-                </a>
 
                     <div class="w-full h-full">
                         <a href="#" @click.prevent="trackRequest" class="group relative block h-[427px] w-[469px]">
@@ -115,11 +138,30 @@
                             </div>
                         </a>
                     </div>
-                </a>
+                </div>
             </div>
-
-        </div>
         </section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         <!-- ADMISSION FORM  -->
         <section v-if="ShowAdmissionForm" class="w-screen flex justify-center items-center p-8 bg-ivory">
@@ -136,7 +178,7 @@
                 <!-- Personal Information -->
                 <div class="mb-9">
 
-                    <div>
+                    <label>
                         <span class="text-base font-medium text-green">First name*</span>
 
                         <input type="text" id="firstName" v-model="firstName" :class="[
@@ -146,16 +188,16 @@
                     </label>
                     <p v-if="submitted && !firstNameField" class="text-sm text-error">This field is required.</p>
 
-                    <div class="mt-4">
+                    <label>
                         <span class="text-base font-medium text-green">Middle name</span>
 
                         <input type="text" id="middlename"
                             class="mt-0.5 mb-4 w-full h-12 px-3 border-2 border-green outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none" />
                     </label>
 
-                    <div class="flex gap-4 mt-4">
+                    <div class="flex gap-4 mt-2 mb-4">
                         <div class="flex-1">
-                            <div>
+                            <label>
                                 <span class="text-base font-medium text-green">Last name*</span>
 
                                 <input type="text" id="lastname" v-model="lastName" :class="[
@@ -166,28 +208,23 @@
                             <p v-if="submitted && !lastNameField" class="text-sm text-error">This field is required.</p>
                         </div>
                         <div class="w-36">
-                            <div>
+                            <label>
                                 <span class="text-base font-medium text-green">Extension</span>
-                                <div class="mt-0.5 w-full h-12 px-2 border-2 border-green outline-green bg-warm-white shadow-sm text-base focus:outline-none focus:ring-0 focus:rounded-none" >
-                                    <select
-                                            v-model="extension"
-                                            name="Headline"
-                                            id="Headline"
-                                            class="w-full h-full p-0 bg-transparent focus:outline-none focus:ring-0 focus:rounded-none" >
-                                        <option value="">N/A</option>
-                                        <option value="Jr.">Jr.</option>
-                                        <option value="Sr.">Sr.</option>
-                                        <option value="I">I</option>
-                                        <option value="II">II</option>
-                                        <option value="III">III</option>
-                                        <option value="IV">IV</option>
-                                    </select>
-                                </div>
-                            </div>
+                                <select name="Headline" id="Headline"
+                                    class="mt-0.5 w-full h-12 px-2 border-2 border-green outline-green bg-warm-white shadow-sm text-base focus:outline-none focus:ring-0 focus:rounded-none">
+                                    <option value="">N/A</option>
+                                    <option value="JM">Jr.</option>
+                                    <option value="SRV">Sr.</option>
+                                    <option value="JH">I</option>
+                                    <option value="BBK">II</option>
+                                    <option value="AK">III</option>
+                                    <option value="BG">IV</option>
+                                </select>
+                            </label>
                         </div>
                     </div>
 
-                    <div class="mt-4">
+                    <label>
                         <span class="text-base font-medium text-green">Date of birth*</span>
 
                         <input type="date" id="dateofbirth" v-model="dateOfBirth" :max="currentDate" :class="[
@@ -198,7 +235,7 @@
                     <p v-if="submitted && !dateOfBirthField" class="text-sm text-error">Please enter a valid date of birth.
                     </p>
 
-                    <div class="mt-4">
+                    <label>
                         <span class="text-base font-medium text-green">Learner reference number*</span>
 
                         <input type="text" id="lrn" v-model="lrn" @input="isNumeric" :class="[
@@ -208,7 +245,7 @@
                     </label>
                     <p v-if="submitted && !lrnField" class="text-sm text-error">{{ lrnMessage }}</p>
 
-                    <div class="mt-4">
+                    <label>
                         <span class="text-base font-medium text-green">Home address*</span>
 
                         <input type="text" id="address" v-model="homeAddress" :class="[
@@ -218,7 +255,7 @@
                     </label>
                     <p v-if="submitted && !homeAddressField" class="text-sm text-error">This field is required.</p>
 
-                    <div class="mt-4">
+                    <label>
                         <span class="text-base font-medium text-green">Email address</span>
 
                         <input type="text" id="email" v-model="email" :class="[
@@ -244,21 +281,36 @@
                 <!-- Buttons -->
                 <div class="flex justify-between">
                     <a class="text-center inline-block border-2 border-warm-white bg-ivory px-6 py-3 text-base font-bold text-green hover:bg-[#F1D580]/50"
-                       href="#" @click.prevent="goToMenu">
+                        href="#" @click.prevent="goToMenu">
                         Cancel
                     </a>
 
                     <a class="text-center inline-block bg-green px-6 py-3 text-base font-bold text-warm-white hover-bg-mid-green"
-                       href="#" @click.prevent="validateAdmissionForm">
-                        Submit form
+                        href="#" @click.prevent="validateAdmissionForm">
+                        Submit request
                     </a>
                 </div>
 
             </div>
         </section>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         <!-- DOCUMENT REQUEST SCREEN -->
-        <section class="w-screen flex justify-center items-center p-8 bg-ivory">
+        <section v-if="ShowUserRequest" class="w-screen flex justify-center items-center p-8 bg-ivory">
             <div class="bg-warm-white border-2 border-green p-9 w-[720px] shadow-lg text-green">
                 <img src="assets/document-requests.svg" alt="Logo" class="w-12 mb-9">
                 <div class="flex items-center mb-3">
@@ -273,7 +325,7 @@
                 <div class="mb-9">
                     <h2 class="text-green text-xl font-bold mb-4">Personal Information</h2>
 
-                    <div>
+                    <label>
                         <span class="text-base font-medium text-green">First name*</span>
 
                         <input type="text" id="fnameReq" v-model="firstNameReq" :class="[
@@ -284,16 +336,16 @@
                     <p v-if="submitted && !firstNameReqField" class="text-sm text-error">This field is required.</p>
 
 
-                    <div class="mt-4">
+                    <label>
                         <span class="text-base font-medium text-green">Middle name</span>
 
                         <input type="text" id="mnameReq" v-model="middleNameReq"
                             class="mt-0.5 mb-4 w-full h-12 px-3 border-2 border-green outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none" />
                     </label>
 
-                    <div class="flex gap-4 mt-4">
+                    <div class="flex gap-4 mt-2 mb-4">
                         <div class="flex-1">
-                            <div>
+                            <label>
                                 <span class="text-base font-medium text-green">Last name*</span>
 
                                 <input type="text" id="lnameReq" v-model="lastNameReq" :class="[
@@ -307,9 +359,8 @@
 
                         <div class="w-36 flex flex-col">
 
-                            <div class="w-36">
-                                <label>
-                                    <span class="text-base font-medium text-green">Extension</span>
+                            <label>
+                                <span class="text-base font-medium text-green">Extension</span>
 
                                 <select name="Headline" id="Headline" v-model="extensionReq"
                                     class="mt-0.5 w-full h-12 px-2 border-2 border-green outline-green bg-warm-white shadow-sm text-base focus:outline-none focus:ring-0 focus:rounded-none">
@@ -324,7 +375,7 @@
                             </label>
                         </div>
                     </div>
-                    <div class="mt-4">
+                    <label>
                         <span class="text-base font-medium text-green">Learner reference number*</span>
 
                         <input type="text" id="lrnReq" v-model="lrnReq"  @input="isNumeric":class="[
@@ -334,7 +385,7 @@
                     </label>
                     <p v-if="submitted && !lrnReqField" class="text-sm text-error">{{ lrnReqMessage }}</p>
 
-                    <div class="mt-4">
+                    <label>
                         <span class="text-base font-medium text-green">Email address</span>
 
                         <input type="text" id="emailReq" v-model="emailReq" :class="[
@@ -349,7 +400,8 @@
                 <div class="mb-9">
                     <h2 class="text-green text-xl font-bold mb-4">Request Details</h2>
 
-                    <span class="text-base font-medium text-green">Document type*</span>
+                    <label>
+                        <span class="text-base font-medium text-green">Document type*</span>
 
                         <select name="Headline" id="Headline" v-model="documentType" :class="[
                         'mt-0.5 w-full h-12 mb-2 px-3 outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none',
@@ -358,10 +410,10 @@
                             <option v-for="document in docType" :value="document.docu_id">{{ document.docu_type }}</option>
                             
                         </select>
-                    </div>
+                    </label>
                     <p v-if="submitted && !documentType" class="text-sm text-error">This field is required.</p>
 
-                    <div class="mt-4">
+                    <label>
                         <span class="text-base font-medium text-green">Purpose of request*</span>
 
                         <input type="text" id="purposeReq" v-model="purpose" :class="[
@@ -376,12 +428,12 @@
                 <!-- Buttons -->
                 <div class="flex justify-between">
                     <a class="text-center inline-block border-2 border-warm-white bg-ivory px-6 py-3 text-base font-bold text-green hover:bg-[#F1D580]/50"
-                       href="#" @click.prevent="goToMenu">
+                        href="#" @click.prevent="goToMenu">
                         Cancel
                     </a>
 
                     <a class="text-center inline-block bg-green px-6 py-3 text-base font-bold text-warm-white hover-bg-mid-green"
-                       href="#" @click.prevent="submitRequest">
+                        href="#" @click.prevent="submitRequest">
                         Submit request
                     </a>
                 </div>
@@ -441,6 +493,11 @@
             </div>
         </section>
 
+
+
+
+
+
         <!-- REQUEST TRACKING SCREEN-->
         <section v-if="ShowTrackRequest" class="w-screen h-screen flex justify-center items-center bg-ivory">
             <div class="bg-warm-white p-9 shadow-md w-[540px] border-2 border-green ">
@@ -477,6 +534,11 @@
             </div>
         </section>
 
+
+
+
+
+
         <!-- REQUEST DETAILS -->
         <section v-if="ShowRequestDetails" class="w-screen h-screen flex justify-center items-center bg-ivory">
             <div
@@ -501,990 +563,6 @@
                         </a>
                     </div>
                 </div>
-            </div>
-        </section>
-
-        <!-- ADMIN PANEL -->
-        <section v-if="ShowAdminPanel" class="w-screen h-screen flex">
-            <!-- Sidebar -->
-            <div class="w-1/4 flex h-screen flex-col justify-between border-e-2 border-green bg-ivory">
-                <div class="py-9">
-                    <img src="assets/logo.svg" alt="Logo" class="mx-auto w-12">
-                    <h1 class="mt-3 w-full text-center text-xl font-bold text-green-900 mb-9">ManSciHub<br>Admin Panel</h1>
-
-                    <ul class="mt-6 space-y-1">
-                        <li>
-                            <a class="inline-block px-9 py-2 w-full text-base" :class="ShowDocumentRequests ? 'font-bold text-ivory bg-green' : 'text-green hover:bg-[#F1D580]/50'"
-                               href="#"
-                               @click="ShowDocumentRequests = true;
-                                    ShowSchoolAdmissions = ShowAdministrators = ShowStudents = ShowAdminControls = ShowAuditLogByAdmin = ShowAuditLogAll = false;">
-                                Document Requests
-                            </a>
-                        </li>
-
-                        <li>
-                            <a class="inline-block px-9 py-2 w-full text-base" :class="ShowSchoolAdmissions ? 'font-bold text-ivory bg-green' : 'text-green hover:bg-[#F1D580]/50'"
-                               href="#"
-                               @click="ShowSchoolAdmissions = true;
-                                    ShowDocumentRequests = ShowAdministrators = ShowStudents = ShowAdminControls = ShowAuditLogByAdmin = ShowAuditLogAll = false;">
-                                School Admissions
-                            </a>
-                        </li>
-
-                        <li>
-                            <a class="inline-block px-9 py-2 w-full text-base" :class="(ShowAdministrators || ShowAuditLogByAdmin) ? 'font-bold text-ivory bg-green' : 'text-green hover:bg-[#F1D580]/50'"
-                               href="#"
-                               @click="ShowAdministrators = true;
-                                    ShowDocumentRequests = ShowSchoolAdmissions = ShowStudents = ShowAdminControls = ShowAuditLogByAdmin = ShowAuditLogAll = false;">
-                                Administrators
-                            </a>
-                        </li>
-
-                        <li>
-                            <a class="inline-block px-9 py-2 w-full text-base" :class="ShowStudents ? 'font-bold text-ivory bg-green' : 'text-green hover:bg-[#F1D580]/50'"
-                               href="#"
-                               @click="ShowStudents = true;
-                                    ShowDocumentRequests = ShowSchoolAdmissions = ShowAdministrators = ShowAdminControls = ShowAuditLogByAdmin = ShowAuditLogAll = false;">
-                                Student Users
-                            </a>
-                        </li>
-
-                        <li>
-                            <a class="inline-block px-9 py-2 w-full text-base" :class="(ShowAdminControls || ShowAuditLogAll) ? 'font-bold text-ivory bg-green' : 'text-green hover:bg-[#F1D580]/50'"
-                               href="#"
-                               @click="ShowAdminControls = true;
-                                    ShowDocumentRequests = ShowSchoolAdmissions = ShowAdministrators = ShowStudents = ShowAuditLogByAdmin = ShowAuditLogAll = false;">
-                                Admin Controls
-                            </a>
-                        </li>
-
-                        <li>
-                            <a class="inline-block px-9 py-2 w-full text-base text-green hover:bg-[#F1D580]/50"
-                               href="#">
-                                Logout
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-
-                <div class="sticky inset-x-0 bottom-0 border-t-2 border-green">
-                    <div class="flex items-center gap-4 bg-ivory px-9 py-4">
-                        <img src="assets/admin.svg" alt="Logo" class="w-10">
-
-                        <div>
-                            <p class="text-sm">
-                                <strong class="block font-bold">ADM001</strong>
-
-                                <span> Jodeci Pacibe </span>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Requests -->
-            <div v-if="ShowDocumentRequests" class="w-full h-full p-9">
-                <div class="flex gap-4 items-center mb-9">
-                    <img src="assets/document-requests.svg" alt="Logo" class="w-12">
-                    <h1 class="text-green-900 font-bold text-3xl mr-auto">Document Requests</h1>
-                    <div class="flex gap-4">
-                        <details class="group relative">
-                            <summary
-                                    class="flex items-center gap-2 border-green text-green [&::-webkit-details-marker]:hidden border-2 border-green px-3 h-12">
-                                <span class="text-base font-bold"> Sort By </span>
-                                <span class="transition-transform group-open:-rotate-180">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
-                                         stroke="currentColor" class="size-4">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
-                                    </svg>
-                                </span>
-                            </summary>
-                            <div
-                                    class="z-auto divide-y border-2 border-green bg-ivory shadow-sm group-open:absolute group-open:start-0 group-open:top-14">
-                                <div class="flex items-center justify-between px-3 py-2">
-                                    <button type="button" class="text-sm text-green underline ">
-                                        Reset
-                                    </button>
-                                </div>
-                                <fieldset class="p-3 border-green">
-                                    <legend class="sr-only">Sort</legend>
-                                    <div class="flex flex-col items-start gap-3">
-                                        <label for="Option1" class="inline-flex items-center gap-3">
-                                            <input type="radio" name="admissions-sort" class="size-5 border-green shadow-sm bg-warm-white" id="Option1" />
-                                            <span class="text-sm font-medium text-green"> Last Name </span>
-                                        </label>
-                                        <label for="Option2" class="inline-flex items-center gap-3">
-                                            <input type="radio" name="admissions-sort" class="size-5 border-green shadow-sm bg-warm-white" id="Option2" />
-                                            <span class="text-sm font-medium text-green whitespace-nowrap"> Request Date </span>
-                                        </label>
-                                    </div>
-                                </fieldset>
-                                <fieldset class="p-3 border-t-2 border-green">
-                                    <legend class="sr-only">Order</legend>
-                                    <div class="flex flex-col items-start gap-3">
-                                        <label for="Option1" class="inline-flex items-center gap-3">
-                                            <input type="radio" name="admissions-sort-order" class="size-5 border-green shadow-sm bg-warm-white" id="Option1" />
-                                            <span class="text-sm font-medium text-green"> Ascending </span>
-                                        </label>
-                                        <label for="Option2" class="inline-flex items-center gap-3">
-                                            <input type="radio" name="admissions-sort-order" class="size-5 border-green shadow-sm bg-warm-white" id="Option2" />
-                                            <span class="text-sm font-medium text-green"> Descending </span>
-                                        </label>
-                                    </div>
-                                </fieldset>
-                            </div>
-                        </details>
-                    </div>
-                    <div class="flex gap-4">
-                        <details class="group relative">
-                            <summary
-                                    class="flex items-center gap-2 border-green text-green [&::-webkit-details-marker]:hidden border-2 border-green px-3 h-12">
-                                <span class="text-base font-bold"> Filter By </span>
-                                <span class="transition-transform group-open:-rotate-180">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
-                                         stroke="currentColor" class="size-4">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
-                                    </svg>
-                                </span>
-                            </summary>
-                            <div
-                                    class="z-auto divide-y border-2 border-green bg-ivory shadow-sm group-open:absolute group-open:start-0 group-open:top-14">
-                                <div class="flex items-center justify-between px-3 py-2">
-                                    <button type="button" class="text-sm text-green underline ">
-                                        Reset
-                                    </button>
-                                </div>
-                                <fieldset class="p-3 border-t-2 border-green">
-                                    <legend class="sr-only">Period</legend>
-                                    <div class="flex flex-col items-start gap-3">
-                                        <label for="Option1" class="inline-flex items-center gap-3">
-                                            <input type="radio" name="admissions-filter" class="size-5 border-green shadow-sm bg-warm-white" id="Option1" />
-                                            <span class="text-sm font-medium text-green"> Active </span>
-                                        </label>
-                                    </div>
-                                </fieldset>
-                                <fieldset class="p-3 pl-6 border-t-2 border-green">
-                                    <legend class="sr-only">Status</legend>
-                                    <div class="flex flex-col items-start gap-3">
-                                        <label for="Option1" class="inline-flex items-center gap-3">
-                                            <input type="checkbox" class="size-5 border-green shadow-sm bg-warm-white" id="Option1" />
-                                            <span class="text-sm font-medium text-green"> Pending </span>
-                                        </label>
-                                        <label for="Option3" class="inline-flex items-center gap-3">
-                                            <input type="checkbox" class="size-5 border-green shadow-sm bg-warm-white" id="Option3" />
-                                            <span class="text-sm font-medium text-green"> Ready </span>
-                                        </label>
-                                    </div>
-                                </fieldset>
-                                <fieldset class="p-3 border-t-2 border-green">
-                                    <legend class="sr-only">Period</legend>
-                                    <div class="flex flex-col items-start gap-3">
-                                        <label for="Option2" class="inline-flex items-center gap-3">
-                                            <input type="radio" name="admissions-filter" class="size-5 border-green shadow-sm bg-warm-white" id="Option2" />
-                                            <span class="text-sm font-medium text-green"> Archived </span>
-                                        </label>
-                                    </div>
-                                </fieldset>
-                                <fieldset class="p-3 pl-6 border-t-2 border-green">
-                                    <legend class="sr-only">Status</legend>
-                                    <div class="flex flex-col items-start gap-3">
-                                        <label for="Option2" class="inline-flex items-center gap-3">
-                                            <input type="checkbox" class="size-5 border-green shadow-sm bg-warm-white" id="Option2" />
-                                            <span class="text-sm font-medium text-green"> Rejected </span>
-                                        </label>
-                                        <label for="Option3" class="inline-flex items-center gap-3">
-                                            <input type="checkbox" class="size-5 border-green shadow-sm bg-warm-white" id="Option3" />
-                                            <span class="text-sm font-medium text-green"> Retrieved </span>
-                                        </label>
-                                    </div>
-                                </fieldset>
-                            </div>
-                        </details>
-                    </div>
-                    <div class="relative">
-                        <input type="text" id="Search" placeholder="Search"
-                               class="w-full h-12 pl-3 pr-11 border-2 border-green outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none" />
-                        <span class="absolute inset-y-0 right-2 grid w-8 place-content-center">
-                            <button type="button" aria-label="Submit" class="rounded-full p-1.5 text-green ">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
-                                     stroke="currentColor" class="size-4">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                          d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
-                                </svg>
-                            </button>
-                        </span>
-                    </div>
-                </div>
-                <!-- thead -->
-                <div class="border-2 border-green shadow-sm mt-4 max-h-12 overflow-hidden bg-ivory">
-                    <table class="min-w-full">
-                        <thead class="text-left bg-ivory h-12">
-                        <tr class="font-bold">
-                            <th class="px-3 py-2 ">Name</th>
-                            <th class="px-3 py-2 ">LRN</th>
-                            <th class="px-3 py-2 ">Document Type</th>
-                            <th class="px-3 py-2 ">Purpose</th>
-                            <th class="px-3 py-2 ">Request Date</th>
-                            <th class="px-3 py-2 ">Status</th>
-                        </tr>
-                        </thead>
-                        <tbody class="divide-y border-green w-full">
-                        <tr class="border-green">
-                            <td class="px-3 py-2 ">Jodeci A. Pacibe</td>
-                            <td class="px-3 py-2 ">136710100181</td>
-                            <td class="px-3 py-2 ">School Form 9</td>
-                            <td class="px-3 py-2 ">College Application</td>
-                            <td class="px-3 py-2 ">2025-03-23</td>
-                            <td class="px-3 py-2 ">Accepted</td>
-                        </tr>
-                        <tr class="border-green">
-                            <td class="px-3 py-2 ">Jayson Gabriel Limosnero</td>
-                            <td class="px-3 py-2 ">136710100181</td>
-                            <td class="px-3 py-2 ">SF9</td>
-                            <td class="px-3 py-2 ">College Application</td>
-                            <td class="px-3 py-2 ">2025-03-23</td>
-                            <td class="px-3 py-2 ">Pending</td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <!-- tbody -->
-                <div class="border-2 border-t-0 border-green shadow-sm max-h-[calc(100vh-13.875rem)] overflow-auto">
-                    <table class="min-w-full -mt-12">
-                        <thead class="text-left bg-ivory h-12 invisible">
-                        <tr class="font-bold">
-                            <th class="px-3 py-2 ">Name</th>
-                            <th class="px-3 py-2 ">LRN</th>
-                            <th class="px-3 py-2 ">Document Type</th>
-                            <th class="px-3 py-2 ">Purpose</th>
-                            <th class="px-3 py-2 ">Request Date</th>
-                            <th class="px-3 py-2 ">Status</th>
-                        </tr>
-                        </thead>
-                        <tbody class="divide-y border-green w-full">
-                        <tr class="border-green" @click="ShowRequestPopup = true">
-                            <td class="px-3 py-2 ">Jodeci A. Pacibe</td>
-                            <td class="px-3 py-2 ">136710100181</td>
-                            <td class="px-3 py-2 ">School Form 9</td>
-                            <td class="px-3 py-2 ">College Application</td>
-                            <td class="px-3 py-2 ">2025-03-23</td>
-                            <td class="px-3 py-2 ">Accepted</td>
-                        </tr>
-                        <tr class="border-green" @click="ShowRequestPopup = true">
-                            <td class="px-3 py-2 ">Jayson Gabriel Limosnero</td>
-                            <td class="px-3 py-2 ">136710100181</td>
-                            <td class="px-3 py-2 ">Form 138</td>
-                            <td class="px-3 py-2 ">College Application</td>
-                            <td class="px-3 py-2 ">2025-03-23</td>
-                            <td class="px-3 py-2 ">Pending</td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <p class="text-base font-bold text-green w-full text-right mt-3">120 records found</p>
-                <!-- popup -->
-                <div v-if="ShowRequestPopup" class="w-screen h-screen bg-[#325930]/20 flex justify-center items-center fixed top-0 left-0 z-999">
-
-                    <div class="w-[30rem] min-h-[320px] p-9 bg-warm-white border-2 border-green flex justify-center items-center shadow-md">
-                        <div class="text-center w-full">
-                            <p class="font-bold text-green text-base">Jayson Gabriel Limosnero</p>
-                            <p class="font-bold text-green text-base mb-4">Document: Form 137</p>
-
-                            <p class="text-green text-base">LRN: 123123123123</p>
-                            <p class="text-green text-base">Purpose: College Admission</p>
-                            <p class="text-green text-base">Email Address: jaysongabriellimosnero@gmail.com</p>
-                            <p class="text-green text-base">Request Date: 2025-12-12</p>
-
-                            <div class="flex flex-col justify-center items-center mt-9 gap-2">
-                                <label class="w-full">
-                                    <div class="mt-0.5 w-full h-12 px-2 border-2 border-green outline-green bg-warm-white shadow-sm text-base focus:outline-none focus:ring-0 focus:rounded-none" >
-                                        <select
-                                                name="Headline"
-                                                id="Headline"
-                                                class="w-full h-full p-0 bg-transparent focus:outline-none focus:ring-0 focus:rounded-none" >
-                                            <option value="Pending">Pending</option>
-                                            <option value="Rejected">Rejected</option>
-                                            <option value="Waitlisted">Ready</option>
-                                            <option value="Accepted">Retrieved</option>
-                                        </select>
-                                    </div>
-                                </label>
-                                <a class="w-full text-center block bg-green px-6 py-3 text-base font-bold text-warm-white hover-bg-mid-green"
-                                   href="#" @click="ShowRequestPopup = false">
-                                    Save changes
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-
-            <!-- Admissions -->
-            <div v-if="ShowSchoolAdmissions" class="w-full h-full p-9">
-                <div class="flex gap-4 items-center mb-9">
-                    <img src="assets/school-admissions.svg" alt="Logo" class="w-12">
-                    <h1 class="text-green-900 font-bold text-3xl mr-auto">School Admissions</h1>
-                    <div class="flex gap-4">
-                        <details class="group relative">
-                            <summary
-                                    class="flex items-center gap-2 border-green text-green [&::-webkit-details-marker]:hidden border-2 border-green px-3 h-12">
-                                <span class="text-base font-bold"> Sort By </span>
-                                <span class="transition-transform group-open:-rotate-180">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
-                                         stroke="currentColor" class="size-4">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
-                                    </svg>
-                                </span>
-                            </summary>
-                            <div
-                                    class="z-auto divide-y border-2 border-green bg-ivory shadow-sm group-open:absolute group-open:start-0 group-open:top-14">
-                                <div class="flex items-center justify-between px-3 py-2">
-                                    <button type="button" class="text-sm text-green underline ">
-                                        Reset
-                                    </button>
-                                </div>
-                                <fieldset class="p-3 border-green">
-                                    <legend class="sr-only">Sort</legend>
-                                    <div class="flex flex-col items-start gap-3">
-                                        <label for="Option1" class="inline-flex items-center gap-3">
-                                            <input type="radio" name="admissions-sort" class="size-5 border-green shadow-sm bg-warm-white" id="Option1" />
-                                            <span class="text-sm font-medium text-green"> Last Name </span>
-                                        </label>
-                                        <label for="Option2" class="inline-flex items-center gap-3">
-                                            <input type="radio" name="admissions-sort" class="size-5 border-green shadow-sm bg-warm-white" id="Option2" />
-                                            <span class="text-sm font-medium text-green whitespace-nowrap"> Admission Date </span>
-                                        </label>
-                                    </div>
-                                </fieldset>
-                                <fieldset class="p-3 border-t-2 border-green">
-                                    <legend class="sr-only">Order</legend>
-                                    <div class="flex flex-col items-start gap-3">
-                                        <label for="Option1" class="inline-flex items-center gap-3">
-                                            <input type="radio" name="admissions-sort-order" class="size-5 border-green shadow-sm bg-warm-white" id="Option1" />
-                                            <span class="text-sm font-medium text-green"> Ascending </span>
-                                        </label>
-                                        <label for="Option2" class="inline-flex items-center gap-3">
-                                            <input type="radio" name="admissions-sort-order" class="size-5 border-green shadow-sm bg-warm-white" id="Option2" />
-                                            <span class="text-sm font-medium text-green"> Descending </span>
-                                        </label>
-                                    </div>
-                                </fieldset>
-                            </div>
-                        </details>
-                    </div>
-                    <div class="flex gap-4">
-                        <details class="group relative">
-                            <summary
-                                    class="flex items-center gap-2 border-green text-green [&::-webkit-details-marker]:hidden border-2 border-green px-3 h-12">
-                                <span class="text-base font-bold"> Filter By </span>
-                                <span class="transition-transform group-open:-rotate-180">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
-                                         stroke="currentColor" class="size-4">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
-                                    </svg>
-                                </span>
-                            </summary>
-                            <div
-                                    class="z-auto divide-y border-2 border-green bg-ivory shadow-sm group-open:absolute group-open:start-0 group-open:top-14">
-                                <div class="flex items-center justify-between px-3 py-2">
-                                    <button type="button" class="text-sm text-green underline ">
-                                        Reset
-                                    </button>
-                                </div>
-                                <fieldset class="p-3 border-t-2 border-green">
-                                    <legend class="sr-only">Status</legend>
-                                    <div class="flex flex-col items-start gap-3">
-                                        <label for="Option1" class="inline-flex items-center gap-3">
-                                            <input type="checkbox" class="size-5 border-green shadow-sm bg-warm-white" id="Option1" />
-                                            <span class="text-sm font-medium text-green"> Pending </span>
-                                        </label>
-                                        <label for="Option2" class="inline-flex items-center gap-3">
-                                            <input type="checkbox" class="size-5 border-green shadow-sm bg-warm-white" id="Option2" />
-                                            <span class="text-sm font-medium text-green"> Rejected </span>
-                                        </label>
-                                        <label for="Option3" class="inline-flex items-center gap-3">
-                                            <input type="checkbox" class="size-5 border-green shadow-sm bg-warm-white" id="Option3" />
-                                            <span class="text-sm font-medium text-green"> Waitlisted </span>
-                                        </label>
-                                        <label for="Option3" class="inline-flex items-center gap-3">
-                                            <input type="checkbox" class="size-5 border-green shadow-sm bg-warm-white" id="Option3" />
-                                            <span class="text-sm font-medium text-green"> Accepted </span>
-                                        </label>
-                                    </div>
-                                </fieldset>
-                                <fieldset class="p-3 border-t-2 border-green">
-                                    <legend class="sr-only">Period</legend>
-                                    <div class="flex flex-col items-start gap-3">
-                                        <label for="Option1" class="inline-flex items-center gap-3">
-                                            <input type="radio" name="admissions-filter" class="size-5 border-green shadow-sm bg-warm-white" id="Option1" />
-                                            <span class="text-sm font-medium text-green"> Current </span>
-                                        </label>
-                                        <label for="Option2" class="inline-flex items-center gap-3">
-                                            <input type="radio" name="admissions-filter" class="size-5 border-green shadow-sm bg-warm-white" id="Option2" />
-                                            <span class="text-sm font-medium text-green"> 2024 </span>
-                                        </label>
-                                        <label for="Option3" class="inline-flex items-center gap-3">
-                                            <input type="radio" name="admissions-filter" class="size-5 border-green shadow-sm bg-warm-white" id="Option2" />
-                                            <span class="text-sm font-medium text-green"> 2023 </span>
-                                        </label>
-                                    </div>
-                                </fieldset>
-                            </div>
-                        </details>
-                    </div>
-                    <div class="relative">
-                        <input type="text" id="Search" placeholder="Search"
-                               class="w-full h-12 pl-3 pr-11 border-2 border-green outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none" />
-                        <span class="absolute inset-y-0 right-2 grid w-8 place-content-center">
-                            <button type="button" aria-label="Submit" class="rounded-full p-1.5 text-green ">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
-                                     stroke="currentColor" class="size-4">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                          d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
-                                </svg>
-                            </button>
-                        </span>
-                    </div>
-                </div>
-                <!-- thead -->
-                <div class="border-2 border-green shadow-sm mt-4 max-h-12 overflow-hidden bg-ivory">
-                    <table class="min-w-full">
-                        <thead class="text-left bg-ivory h-12">
-                        <tr class="font-bold">
-                            <th class="px-3 py-2 ">Name</th>
-                            <th class="px-3 py-2 ">LRN</th>
-                            <th class="px-3 py-2 ">Email Address</th>
-                            <th class="px-3 py-2 ">Level</th>
-                            <th class="px-3 py-2 ">Admission Date</th>
-                            <th class="px-3 py-2 ">Status</th>
-                        </tr>
-                        </thead>
-                        <tbody class="divide-y border-green w-full">
-                        <tr class="border-green">
-                            <td class="px-3 py-2 ">Jodeci A. Pacibe</td>
-                            <td class="px-3 py-2 ">136710100181</td>
-                            <td class="px-3 py-2 ">jaysongabriellimosnero@gmail.com</td>
-                            <td class="px-3 py-2 ">Junior High School</td>
-                            <td class="px-3 py-2 ">2004-07-25</td>
-                            <td class="px-3 py-2 ">Accepted</td>
-                        </tr>
-                        <tr class="border-green">
-                            <td class="px-3 py-2 ">Jayson Gabriel Limosnero</td>
-                            <td class="px-3 py-2 ">136710100181</td>
-                            <td class="px-3 py-2 ">jaysongabriellimosnero@gmail.com</td>
-                            <td class="px-3 py-2 ">Senior High School</td>
-                            <td class="px-3 py-2 ">2004-07-25</td>
-                            <td class="px-3 py-2 ">Pending</td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <!-- tbody -->
-                <div class="border-2 border-t-0 border-green shadow-sm max-h-[calc(100vh-13.875rem)] overflow-auto">
-                    <table class="min-w-full -mt-12">
-                        <thead class="text-left bg-ivory h-12 invisible">
-                        <tr class="font-bold">
-                            <th class="px-3 py-2 ">Name</th>
-                            <th class="px-3 py-2 ">LRN</th>
-                            <th class="px-3 py-2 ">Email Address</th>
-                            <th class="px-3 py-2 ">Level</th>
-                            <th class="px-3 py-2 ">Admission Date</th>
-                            <th class="px-3 py-2 ">Status</th>
-                        </tr>
-                        </thead>
-                        <tbody class="divide-y border-green w-full">
-                        <tr v-for="index in 30" class="border-green" @click="ShowAdmissionPopup = true">
-                            <td class="px-3 py-2 ">Jodeci A. Pacibe</td>
-                            <td class="px-3 py-2 ">136710100181</td>
-                            <td class="px-3 py-2 ">jaysongabriellimosnero@gmail.com</td>
-                            <td class="px-3 py-2 ">Junior High School</td>
-                            <td class="px-3 py-2 ">2004-07-25</td>
-                            <td class="px-3 py-2 ">Accepted</td>
-                        </tr>
-                        <tr class="border-green" @click="ShowAdmissionPopup = true">
-                            <td class="px-3 py-2 ">Jayson Gabriel Limosnero</td>
-                            <td class="px-3 py-2 ">136710100181</td>
-                            <td class="px-3 py-2 ">jaysongabriellimosnero@gmail.com</td>
-                            <td class="px-3 py-2 ">Senior High School</td>
-                            <td class="px-3 py-2 ">2004-07-25</td>
-                            <td class="px-3 py-2 ">Pending</td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <p class="text-base font-bold text-green w-full text-right mt-3">120 records found</p>
-                <!-- popup -->
-                <div v-if="ShowAdmissionPopup" class="w-screen h-screen bg-[#325930]/20 flex justify-center items-center fixed top-0 left-0 z-999">
-
-                    <div class="w-[30rem] min-h-[320px] p-9 bg-warm-white border-2 border-green flex justify-center items-center shadow-md">
-                        <div class="text-center w-full">
-                            <p class="font-bold text-green text-base">Jayson Gabriel Limosnero</p>
-                            <p class="font-bold text-green text-base mb-4">Level: Grade 7</p>
-
-                            <p class="text-green text-base">LRN: 123123123123</p>
-                            <p class="text-green text-base">Date of Birth: 2004-12-12</p>
-                            <p class="text-green text-base">Email Address: jaysongabriellimosnero@gmail.com</p>
-                            <p class="text-green text-base">Home Address: Bohol-Bohol II, Looc, Mandaue City</p>
-                            <p class="text-green text-base">Application Date: 2025-12-12</p>
-
-                            <div class="flex flex-col justify-center items-center mt-9 gap-2">
-                                <label class="w-full">
-                                    <div class="mt-0.5 w-full h-12 px-2 border-2 border-green outline-green bg-warm-white shadow-sm text-base focus:outline-none focus:ring-0 focus:rounded-none" >
-                                        <select
-                                                name="Headline"
-                                                id="Headline"
-                                                class="w-full h-full p-0 bg-transparent focus:outline-none focus:ring-0 focus:rounded-none" >
-                                            <option value="Pending">Pending</option>
-                                            <option value="Rejected">Rejected</option>
-                                            <option value="Waitlisted">Waitlisted</option>
-                                            <option value="Accepted">Accepted</option>
-                                        </select>
-                                    </div>
-                                </label>
-                                <a class="w-full text-center block bg-green px-6 py-3 text-base font-bold text-warm-white hover-bg-mid-green"
-                                   href="#" @click="ShowAdmissionPopup = false">
-                                    Save changes
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-
-            <!-- Administrators -->
-            <div v-if="ShowAdministrators" class="w-full h-full p-9">
-                <div class="flex gap-4 items-center mb-9">
-                    <img src="assets/admin.svg" alt="Logo" class="w-12">
-                    <h1 class="text-green-900 font-bold text-3xl mr-auto">Administrators</h1>
-                    <a class="text-center inline-block bg-green px-6 py-3 text-base font-bold text-warm-white hover-bg-mid-green"
-                       href="#">
-                        &plus; Add administrator
-                    </a>
-                </div>
-                <!-- list -->
-                <div class="w-full max-h-[calc(100vh-9.75rem)] overflow-auto grid grid-cols-4 gap-4 cardlist px-4">
-                    <div v-for="index in 16"
-                         class="h-48 border-2 border-green p-6 col-span-1 bg-ivory hover:bg-[#F1D580]/50"
-                         @click="ShowAdminPopup = true">
-                        <p class="mt-auto text-xl text-green font-bold">ADM001</p>
-                        <p class="text-base text-green">Jayson Gabriel Limosnero</p>
-                    </div>
-                </div>
-                <!-- popup -->
-                <div v-if="ShowAdminPopup" class="w-screen h-screen bg-[#325930]/20 flex justify-center items-center fixed top-0 left-0 z-999">
-
-                    <div class="w-[30rem] min-h-[320px] p-9 bg-warm-white border-2 border-green flex justify-center items-center shadow-md">
-                        <div class="text-center w-full">
-                            <p class="font-bold text-green text-base">Username: ADM001</p>
-                            <p class="text-green text-base">Name: Jayson Gabriel Limosnero</p>
-
-                            <div class="flex flex-col justify-center items-center mt-9 gap-2">
-                                <a class="w-full text-center block bg-green px-6 py-3 text-base font-bold text-warm-white hover-bg-mid-green"
-                                   href="#" @click="ShowAuditLogByAdmin = true; ShowAdministrators = ShowAdminPopup = false;">
-                                    View audit log
-                                </a>
-                                <a class="w-full text-center block bg-green px-6 py-3 text-base font-bold text-warm-white hover-bg-mid-green"
-                                   href="#">
-                                    Change username
-                                </a>
-                                <a class="w-full text-center block bg-green px-6 py-3 text-base font-bold text-warm-white hover-bg-mid-green"
-                                   href="#">
-                                    Change password
-                                </a>
-                                <a class="w-full text-center block bg-ivory px-6 py-3 text-base font-bold text-green hover:bg-[#F1D580]/50"
-                                   href="#" @click="ShowAdminPopup = false">
-                                    Close
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-
-            <!-- Audit Log - By Admin -->
-            <div v-if="ShowAuditLogByAdmin" class="w-full h-full p-9">
-                <div class="flex gap-4 items-center mb-9">
-                    <img src="assets/audit-logs.svg" alt="Logo" class="w-12">
-                    <h1 class="text-green-900 font-bold text-3xl mr-auto">ADM001's Audit Log</h1>
-                    <a class="text-center inline-block border-2 border-warm-white bg-ivory px-6 py-3 text-base font-bold text-green hover:bg-[#F1D580]/50"
-                       href="#">
-                        Go back
-                    </a>
-                    <div class="flex gap-4">
-                        <details class="group relative">
-                            <summary
-                                    class="flex items-center gap-2 border-green text-green [&::-webkit-details-marker]:hidden border-2 border-green px-3 h-12">
-                                <span class="text-base font-bold"> Filter By </span>
-                                <span class="transition-transform group-open:-rotate-180">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
-                                         stroke="currentColor" class="size-4">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
-                                    </svg>
-                                </span>
-                            </summary>
-                            <div
-                                    class="z-auto divide-y border-2 border-green bg-ivory shadow-sm group-open:absolute group-open:end-0 group-open:top-14">
-                                <div class="flex items-center justify-between px-3 py-2">
-                                    <button type="button" class="text-sm text-green underline ">
-                                        Reset
-                                    </button>
-                                </div>
-                                <fieldset class="p-3 border-t-2 border-green">
-                                    <legend class="sr-only">Table</legend>
-                                    <div class="flex flex-col items-start gap-3">
-                                        <label for="Option1" class="inline-flex items-center gap-3">
-                                            <input type="checkbox" class="size-5 border-green shadow-sm bg-warm-white" id="Option1" />
-                                            <span class="text-sm font-medium text-green whitespace-nowrap"> Document Requests </span>
-                                        </label>
-                                        <label for="Option2" class="inline-flex items-center gap-3">
-                                            <input type="checkbox" class="size-5 border-green shadow-sm bg-warm-white" id="Option2" />
-                                            <span class="text-sm font-medium text-green whitespace-nowrap"> School Admissions </span>
-                                        </label>
-                                    </div>
-                                </fieldset>
-                                <div class="p-3 border-t-2 border-green">
-                                    <legend class="sr-only">Date</legend>
-                                    <div class="flex flex-col items-start gap-3">
-                                        <label for="MinPrice">
-                                            <span class="text-sm text-green"> From </span>
-                                            <input type="date" id="MinPrice"
-                                                   class="mt-0.5 w-full h-10 px-3 border-2 border-green outline-green bg-white shadow-sm sm:text-sm focus:outline-none focus:ring-0 focus:rounded-none" />
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                        </details>
-                    </div>
-                </div>
-                <!-- thead -->
-                <div class="border-2 border-green shadow-sm mt-4 max-h-12 overflow-hidden bg-ivory">
-                    <table class="min-w-full">
-                        <thead class="text-left bg-ivory h-12">
-                        <tr class="font-bold">
-                            <th class="px-3 py-2 ">Record Type</th>
-                            <th class="px-3 py-2 ">Student Name</th>
-                            <th class="px-3 py-2 ">Record Date</th>
-                            <th class="px-3 py-2 ">Audit Description</th>
-                            <th class="px-3 py-2 ">Audit Date</th>
-                            <th class="px-3 py-2 ">Admin</th>
-                        </tr>
-                        </thead>
-                        <tbody class="divide-y border-green w-full">
-                        <tr class="border-green">
-                            <td class="px-3 py-2 ">Document Request</td>
-                            <td class="px-3 py-2 ">Jodeci A. Pacibe</td>
-                            <td class="px-3 py-2 ">2004-07-25</td>
-                            <td class="px-3 py-2 ">Pending >> Ready</td>
-                            <td class="px-3 py-2 ">2025-04-21</td>
-                            <td class="px-3 py-2 ">ADM001</td>
-                        </tr>
-                        <tr class="border-green">
-                            <td class="px-3 py-2 ">School Admission</td>
-                            <td class="px-3 py-2 ">Jayson Gabriel Limosnero</td>
-                            <td class="px-3 py-2 ">2004-07-25</td>
-                            <td class="px-3 py-2 ">Pending >> Waitlisted</td>
-                            <td class="px-3 py-2 ">2025-04-21</td>
-                            <td class="px-3 py-2 ">ADM001</td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <!-- tbody -->
-                <div class="border-2 border-t-0 border-green shadow-sm max-h-[calc(100vh-13.875rem)] overflow-auto">
-                    <table class="min-w-full -mt-12">
-                        <thead class="text-left bg-ivory h-12 invisible">
-                        <tr class="font-bold">
-                            <th class="px-3 py-2 ">Record Type</th>
-                            <th class="px-3 py-2 ">Student Name</th>
-                            <th class="px-3 py-2 ">Record Date</th>
-                            <th class="px-3 py-2 ">Audit Description</th>
-                            <th class="px-3 py-2 ">Audit Date</th>
-                            <th class="px-3 py-2 ">Admin</th>
-                        </tr>
-                        </thead>
-                        <tbody class="divide-y border-green w-full">
-                        <tr class="border-green">
-                            <td class="px-3 py-2 ">Document Request</td>
-                            <td class="px-3 py-2 ">Jodeci A. Pacibe</td>
-                            <td class="px-3 py-2 ">2004-07-25</td>
-                            <td class="px-3 py-2 ">Pending >> Ready</td>
-                            <td class="px-3 py-2 ">2025-04-21</td>
-                            <td class="px-3 py-2 ">ADM001</td>
-                        </tr>
-                        <tr class="border-green">
-                            <td class="px-3 py-2 ">School Admission</td>
-                            <td class="px-3 py-2 ">Jayson Gabriel Limosnero</td>
-                            <td class="px-3 py-2 ">2004-07-25</td>
-                            <td class="px-3 py-2 ">Pending >> Waitlisted</td>
-                            <td class="px-3 py-2 ">2025-04-21</td>
-                            <td class="px-3 py-2 ">ADM001</td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <p class="text-base font-bold text-green w-full text-right mt-3">120 records found</p>
-            </div>
-
-            <!-- Student Users -->
-            <div v-if="ShowStudents" class="w-full h-full p-9">
-                <div class="flex gap-4 items-center mb-9">
-                    <img src="assets/students.svg" alt="Logo" class="w-12">
-                    <h1 class="text-green-900 font-bold text-3xl mr-auto">Student Users</h1>
-                    <div class="flex gap-4">
-                        <details class="group relative">
-                            <summary
-                                    class="flex items-center gap-2 border-green text-green [&::-webkit-details-marker]:hidden border-2 border-green px-3 h-12">
-                                <span class="text-base font-bold"> Sort By </span>
-                                <span class="transition-transform group-open:-rotate-180">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
-                                         stroke="currentColor" class="size-4">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
-                                    </svg>
-                                </span>
-                            </summary>
-                            <div
-                                    class="z-auto divide-y border-2 border-green bg-ivory shadow-sm group-open:absolute group-open:start-0 group-open:top-14">
-                                <div class="flex items-center justify-between px-3 py-2">
-                                    <button type="button" class="text-sm text-green underline ">
-                                        Reset
-                                    </button>
-                                </div>
-                                <fieldset class="p-3 border-green">
-                                    <legend class="sr-only">Sort</legend>
-                                    <div class="flex flex-col items-start gap-3">
-                                        <label for="Option1" class="inline-flex items-center gap-3">
-                                            <input type="radio" name="admissions-sort" class="size-5 border-green shadow-sm bg-warm-white" id="Option1" />
-                                            <span class="text-sm font-medium text-green"> Last Name </span>
-                                        </label>
-                                        <label for="Option2" class="inline-flex items-center gap-3">
-                                            <input type="radio" name="admissions-sort" class="size-5 border-green shadow-sm bg-warm-white" id="Option2" />
-                                            <span class="text-sm font-medium text-green whitespace-nowrap"> Date Added </span>
-                                        </label>
-                                    </div>
-                                </fieldset>
-                                <fieldset class="p-3 border-t-2 border-green">
-                                    <legend class="sr-only">Order</legend>
-                                    <div class="flex flex-col items-start gap-3">
-                                        <label for="Option1" class="inline-flex items-center gap-3">
-                                            <input type="radio" name="admissions-sort-order" class="size-5 border-green shadow-sm bg-warm-white" id="Option1" />
-                                            <span class="text-sm font-medium text-green"> Ascending </span>
-                                        </label>
-                                        <label for="Option2" class="inline-flex items-center gap-3">
-                                            <input type="radio" name="admissions-sort-order" class="size-5 border-green shadow-sm bg-warm-white" id="Option2" />
-                                            <span class="text-sm font-medium text-green"> Descending </span>
-                                        </label>
-                                    </div>
-                                </fieldset>
-                            </div>
-                        </details>
-                    </div>
-                    <div class="relative">
-                        <input type="text" id="Search" placeholder="Search"
-                               class="w-full h-12 pl-3 pr-11 border-2 border-green outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none" />
-                        <span class="absolute inset-y-0 right-2 grid w-8 place-content-center">
-                            <button type="button" aria-label="Submit" class="rounded-full p-1.5 text-green ">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
-                                     stroke="currentColor" class="size-4">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                          d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
-                                </svg>
-                            </button>
-                        </span>
-                    </div>
-                </div>
-                <!-- thead -->
-                <div class="border-2 border-green shadow-sm mt-4 max-h-12 overflow-hidden bg-ivory">
-                    <table class="min-w-full">
-                        <thead class="text-left bg-ivory h-12">
-                        <tr class="font-bold">
-                            <th class="px-3 py-2 ">Name</th>
-                            <th class="px-3 py-2 ">LRN</th>
-                            <th class="px-3 py-2 ">Date of Birth</th>
-                            <th class="px-3 py-2 ">Email Address</th>
-                            <th class="px-3 py-2 ">Home Address</th>
-                        </tr>
-                        </thead>
-                        <tbody class="divide-y border-green w-full">
-                        <tr class="border-green">
-                            <td class="px-3 py-2 ">Jodeci A. Pacibe</td>
-                            <td class="px-3 py-2 ">136710100181</td>
-                            <td class="px-3 py-2 ">2004-07-25</td>
-                            <td class="px-3 py-2 ">jaysongabriellimosnero@gmail.com</td>
-                            <td class="px-3 py-2 ">Ouano Compound, Looc, Mandaue City</td>
-                        </tr>
-                        <tr class="border-green">
-                            <td class="px-3 py-2 ">Jayson Gabriel Limosnero</td>
-                            <td class="px-3 py-2 ">136710100181</td>
-                            <td class="px-3 py-2 ">2004-07-25</td>
-                            <td class="px-3 py-2 ">jaysongabriellimosnero@gmail.com</td>
-                            <td class="px-3 py-2 ">03122 Plaza Tralala, Minglanilla, Cebu</td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <!-- tbody -->
-                <div class="border-2 border-t-0 border-green shadow-sm max-h-[calc(100vh-13.875rem)] overflow-auto">
-                    <table class="min-w-full -mt-12">
-                        <thead class="text-left bg-ivory h-12 invisible">
-                        <tr class="font-bold">
-                            <th class="px-3 py-2 ">Name</th>
-                            <th class="px-3 py-2 ">LRN</th>
-                            <th class="px-3 py-2 ">Date of Birth</th>
-                            <th class="px-3 py-2 ">Email Address</th>
-                            <th class="px-3 py-2 ">Home Address</th>
-                        </tr>
-                        </thead>
-                        <tbody class="divide-y border-green w-full">
-                        <tr class="border-green">
-                            <td class="px-3 py-2 ">Jodeci A. Pacibe</td>
-                            <td class="px-3 py-2 ">136710100181</td>
-                            <td class="px-3 py-2 ">2004-07-25</td>
-                            <td class="px-3 py-2 ">jaysongabriellimosnero@gmail.com</td>
-                            <td class="px-3 py-2 ">Ouano Compound, Looc, Mandaue City</td>
-                        </tr>
-                        <tr class="border-green">
-                            <td class="px-3 py-2 ">Jayson Gabriel Limosnero</td>
-                            <td class="px-3 py-2 ">136710100181</td>
-                            <td class="px-3 py-2 ">2004-07-25</td>
-                            <td class="px-3 py-2 ">jaysongabriellimosnero@gmail.com</td>
-                            <td class="px-3 py-2 ">03122 Plaza Tralala, Minglanilla, Cebu</td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <p class="text-base font-bold text-green w-full text-right mt-3">120 records found</p>
-            </div>
-
-            <!-- Audit Log - All -->
-            <div v-if="ShowAuditLogAll" class="w-full h-full p-9">
-                <div class="flex gap-4 items-center mb-9">
-                    <img src="assets/audit-logs.svg" alt="Logo" class="w-12">
-                    <h1 class="text-green-900 font-bold text-3xl mr-auto">Audit Log</h1>
-                    <div class="flex gap-4">
-                        <details class="group relative">
-                            <summary
-                                    class="flex items-center gap-2 border-green text-green [&::-webkit-details-marker]:hidden border-2 border-green px-3 h-12">
-                                <span class="text-base font-bold"> Filter By </span>
-                                <span class="transition-transform group-open:-rotate-180">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
-                                         stroke="currentColor" class="size-4">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
-                                    </svg>
-                                </span>
-                            </summary>
-                            <div
-                                    class="z-auto divide-y border-2 border-green bg-ivory shadow-sm group-open:absolute group-open:end-0 group-open:top-14">
-                                <div class="flex items-center justify-between px-3 py-2">
-                                    <button type="button" class="text-sm text-green underline ">
-                                        Reset
-                                    </button>
-                                </div>
-                                <fieldset class="p-3 border-t-2 border-green">
-                                    <legend class="sr-only">Table</legend>
-                                    <div class="flex flex-col items-start gap-3">
-                                        <label for="Option1" class="inline-flex items-center gap-3">
-                                            <input type="checkbox" class="size-5 border-green shadow-sm bg-warm-white" id="Option1" />
-                                            <span class="text-sm font-medium text-green whitespace-nowrap"> Document Requests </span>
-                                        </label>
-                                        <label for="Option2" class="inline-flex items-center gap-3">
-                                            <input type="checkbox" class="size-5 border-green shadow-sm bg-warm-white" id="Option2" />
-                                            <span class="text-sm font-medium text-green whitespace-nowrap"> School Admissions </span>
-                                        </label>
-                                    </div>
-                                </fieldset>
-                                <div class="p-3 border-t-2 border-green">
-                                    <legend class="sr-only">Date</legend>
-                                    <div class="flex flex-col items-start gap-3">
-                                        <label for="MinPrice">
-                                            <span class="text-sm text-green"> From </span>
-                                            <input type="date" id="MinPrice"
-                                                   class="mt-0.5 w-full h-10 px-3 border-2 border-green outline-green bg-white shadow-sm sm:text-sm focus:outline-none focus:ring-0 focus:rounded-none" />
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                        </details>
-                    </div>
-                </div>
-                <!-- thead -->
-                <div class="border-2 border-green shadow-sm mt-4 max-h-12 overflow-hidden bg-ivory">
-                    <table class="min-w-full">
-                        <thead class="text-left bg-ivory h-12">
-                        <tr class="font-bold">
-                            <th class="px-3 py-2 ">Record Type</th>
-                            <th class="px-3 py-2 ">Student Name</th>
-                            <th class="px-3 py-2 ">Record Date</th>
-                            <th class="px-3 py-2 ">Audit Description</th>
-                            <th class="px-3 py-2 ">Audit Date</th>
-                            <th class="px-3 py-2 ">Admin</th>
-                        </tr>
-                        </thead>
-                        <tbody class="divide-y border-green w-full">
-                        <tr class="border-green">
-                            <td class="px-3 py-2 ">Document Request</td>
-                            <td class="px-3 py-2 ">Jodeci A. Pacibe</td>
-                            <td class="px-3 py-2 ">2004-07-25</td>
-                            <td class="px-3 py-2 ">Pending >> Ready</td>
-                            <td class="px-3 py-2 ">2025-04-21</td>
-                            <td class="px-3 py-2 ">ADM001</td>
-                        </tr>
-                        <tr class="border-green">
-                            <td class="px-3 py-2 ">School Admission</td>
-                            <td class="px-3 py-2 ">Jayson Gabriel Limosnero</td>
-                            <td class="px-3 py-2 ">2004-07-25</td>
-                            <td class="px-3 py-2 ">Pending >> Waitlisted</td>
-                            <td class="px-3 py-2 ">2025-04-21</td>
-                            <td class="px-3 py-2 ">ADM001</td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <!-- tbody -->
-                <div class="border-2 border-t-0 border-green shadow-sm max-h-[calc(100vh-13.875rem)] overflow-auto">
-                    <table class="min-w-full -mt-12">
-                        <thead class="text-left bg-ivory h-12 invisible">
-                        <tr class="font-bold">
-                            <th class="px-3 py-2 ">Record Type</th>
-                            <th class="px-3 py-2 ">Student Name</th>
-                            <th class="px-3 py-2 ">Record Date</th>
-                            <th class="px-3 py-2 ">Audit Description</th>
-                            <th class="px-3 py-2 ">Audit Date</th>
-                            <th class="px-3 py-2 ">Admin</th>
-                        </tr>
-                        </thead>
-                        <tbody class="divide-y border-green w-full">
-                        <tr class="border-green">
-                            <td class="px-3 py-2 ">Document Request</td>
-                            <td class="px-3 py-2 ">Jodeci A. Pacibe</td>
-                            <td class="px-3 py-2 ">2004-07-25</td>
-                            <td class="px-3 py-2 ">Pending >> Ready</td>
-                            <td class="px-3 py-2 ">2025-04-21</td>
-                            <td class="px-3 py-2 ">ADM001</td>
-                        </tr>
-                        <tr class="border-green">
-                            <td class="px-3 py-2 ">School Admission</td>
-                            <td class="px-3 py-2 ">Jayson Gabriel Limosnero</td>
-                            <td class="px-3 py-2 ">2004-07-25</td>
-                            <td class="px-3 py-2 ">Pending >> Waitlisted</td>
-                            <td class="px-3 py-2 ">2025-04-21</td>
-                            <td class="px-3 py-2 ">ADM001</td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <p class="text-base font-bold text-green w-full text-right mt-3">120 records found</p>
-            </div>
-
-            <!-- Admin Controls -->
-            <div v-if="ShowAdminControls" class="w-full h-full p-9">
-                <div class="flex gap-4 items-center mb-9">
-                    <img src="assets/admin-controls.svg" alt="Logo" class="w-12">
-                    <h1 class="text-green-900 font-bold text-3xl mr-auto">Admin Controls</h1>
-                </div>
-                <!-- list -->
             </div>
         </section>
 
