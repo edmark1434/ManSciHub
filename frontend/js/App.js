@@ -40,6 +40,7 @@ createApp({
       email: '',
       documentType: '',
       purpose: '',
+      level: '',
       trackID: '',
 
       // Validation
