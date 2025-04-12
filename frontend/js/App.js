@@ -18,7 +18,7 @@ createApp({
       ShowAdmissionForm: false,
       ShowAdminPanel: false,
 
-       // Admin Panel Screens
+      // Admin Panel Screens
       ShowDocumentRequests: false,
       ShowSchoolAdmissions: false,
       ShowAdministrators: false,
@@ -71,7 +71,7 @@ createApp({
       emailMessage: 'This field is required.',
       lrnReqMessage: 'This field is required.',
       emailReqMessage: 'This field is required.',
-      
+
       //fields Validation Admission
       firstNameField: false,
       lastNameField: false,
@@ -80,7 +80,7 @@ createApp({
       homeAddressField: false,
       emailField: false,
       currentDate: new Date().toISOString().split('T')[0],
-      
+
       //fields Validation Request
       errorStatus: false,
       firstNameReqField: false,
@@ -96,6 +96,8 @@ createApp({
       login: false,
       loginMessage: '',
       verified : false,
+
+      today: new Date().toISOString().split('T')[0]
     };
   },
   mounted() {
@@ -117,7 +119,7 @@ createApp({
       this.request["req_purpose"] = this.purpose;
       this.request["docu_id"] = this.documentType;
       return this.request;
-    },  
+    },
     admissionObject() {
       this.admission["stud_fname"] = this.firstName;
       this.admission["stud_lname"] = this.lastName;
@@ -129,7 +131,7 @@ createApp({
       this.admission["stud_dob"] = this.dateOfBirth;
       this.admission["adms_lvl"] = this.admissionLevel;
       return this.admission;
-    }, 
+    },
     goToMenu() {
       this.resetScreens();
       this.ShowUserMenu = true;
@@ -148,23 +150,32 @@ createApp({
       this.resetScreens();
       this.ShowUserRequest = true;
     },
+    goToAdminLogin() {
+      this.resetScreens();
+      this.ShowAdminLogin = true;
+    },
     submitTrackID() {
       this.submitted = true;
       if (this.trackID) {
         alert('Tracking request!');
-          fetch.getRequestById(this.trackID).then((response) => {
-            this.requestTrack = response.data.data;
-            this.errorStatus = response.status;
-          });
+        fetch.getRequestById(this.trackID).then((response) => {
+          this.requestTrack = response.data.data;
+          this.errorStatus = response.status;
+        });
         this.resetScreens();
         this.ShowRequestDetails = true;
       }
     },
     async checkLogin() {
+      this.submitted = true;
+      if (this.username == '' || this.password == '') {
+        this.login = true;
+        this.loginMessage = "Invalid Credentials. Access denied!";
+      }
       const loginObject = {
         username: this.username,
         password: this.password
-      }; 
+      };
       let data = await send.AdminLogin(loginObject);
       if (data.data) {
         this.login = true;
@@ -173,7 +184,7 @@ createApp({
         this.verified = true;
       } else {
         this.login = true;
-        loginMessage = "Invalid Credentials. Access denied!";
+        this.loginMessage = "Invalid Credentials. Access denied!";
       }
     },
     async checkEmail(entity) {
@@ -243,15 +254,15 @@ createApp({
       this.emailResult = await this.checkReqEmail(this.emailReq);
       this.lrnResult = await this.checkReqLrn(this.lrnReq);
       if (
-        this.firstNameReqField &&
-        this.lastNameReqField &&
-        this.documentType &&
-        this.purposeReqField &&
-        this.emailReqField &&
-        this.lrnReqField &&
-        this.lrnResult &&
-        this.emailResult &&
-        this.isEmailValid(this.emailReq)
+          this.firstNameReqField &&
+          this.lastNameReqField &&
+          this.documentType &&
+          this.purposeReqField &&
+          this.emailReqField &&
+          this.lrnReqField &&
+          this.lrnResult &&
+          this.emailResult &&
+          this.isEmailValid(this.emailReq)
       ) {
         alert('Request submitted successfully!');
         this.requestDetail = await send.DocumentRequest(this.requestObject());
@@ -263,8 +274,8 @@ createApp({
     },
     trackRequest() {
       this.resetScreens();
-      this.submitted = false; 
-      this.trackID = '';     
+      this.submitted = false;
+      this.trackID = '';
       this.ShowTrackRequest = true;
     },
     showRequestDetails() {
@@ -273,25 +284,30 @@ createApp({
     },
     resetScreens() {
       this.ShowUserBoot = false;
+      this.ShowAdminBoot = false;
+      this.ShowAdminLogin = false;
       this.ShowUserMenu = false;
       this.ShowUserRequest = false;
-      this.ShowServiceRequestSuccess = false;
       this.ShowServiceAdmissionSuccess = false;
+      this.ShowServiceRequestSuccess = false;
       this.ShowTrackRequest = false;
       this.ShowRequestDetails = false;
       this.ShowAdmissionForm = false;
+      this.ShowAdminPanel = false;
+      
       this.firstNameField = false;
       this.lastNameField = false;
       this.dateOfBirthField = false;
-        this.lrnField = false;
+      this.lrnField = false;
       this.homeAddressField = false;
-          this.emailField = false;      
-          //fields Validation Request
-          this.errorStatus = false;
-          this.firstNameReqField = false;
-          this.lastNameReqField = false;
-          this.emailReqField = false;
-          this.lrnReqField = false;
+      this.emailField = false;
+
+      //fields Validation Request
+      this.errorStatus = false;
+      this.firstNameReqField = false;
+      this.lastNameReqField = false;
+      this.emailReqField = false;
+      this.lrnReqField = false;
       this.purposeReqField = false;
       this.verified = false;
       this.login = false;
@@ -327,15 +343,15 @@ createApp({
       this.lrnResult = await this.checkLrn(this.lrn);
       this.isLrnValid()
       if (
-        this.firstNameField &&
-        this.lastNameField &&
-        this.dateOfBirthField &&
-        this.lrnField &&
-        this.homeAddressField &&
-        this.admissionLevel &&
-        this.emailField &&
-        this.lrnResult &&
-        this.emailResult
+          this.firstNameField &&
+          this.lastNameField &&
+          this.dateOfBirthField &&
+          this.lrnField &&
+          this.homeAddressField &&
+          this.admissionLevel &&
+          this.emailField &&
+          this.lrnResult &&
+          this.emailResult
       ) {
         alert("success");
         this.admissionResponse = await send.AdmissionRequest(this.admissionObject());
@@ -370,7 +386,7 @@ createApp({
       this.lrnMessage = 'Please input field';
       this.emailReqMessage = 'Please input field';
       this.lrnReqMessage = 'Please input field';
-      this.loginMessage = "Invalid Credentials. Access denied!";
+      this.loginMessage = "Invalid credentials. Access denied!";
     }
 
 
