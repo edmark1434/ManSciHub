@@ -239,7 +239,7 @@
         </section>
 
         <!-- DOCUMENT REQUEST SCREEN -->
-        <section v-if="ShowUserRequest" class="w-screen flex justify-center items-center p-8 bg-ivory">
+        <section class="w-screen flex justify-center items-center p-8 bg-ivory">
             <div class="bg-warm-white border-2 border-green p-9 w-[720px] shadow-lg text-green">
                 <img src="assets/document-requests.svg" alt="Logo" class="w-12 mb-9">
                 <div class="flex items-center mb-3">
@@ -254,74 +254,80 @@
                 <div class="mb-9">
                     <h2 class="text-green text-xl font-bold mb-4">Personal Information</h2>
 
-                    <label>
+                    <div>
                         <span class="text-base font-medium text-green">First name*</span>
 
                         <input type="text" id="Username" v-model="firstName" :class="[
                         'mt-0.5 w-full h-12 mb-2 px-3 outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none',
-                        submitted && !firstName ? 'transition-colors duration-500 border-[3px] border-red-500' : 'border-2 border-green'
-                      ]" />
-                    </label>
+                        submitted && !firstName ? 'transition-colors duration-500 border-[3px] border-red-500' : 'border-2 border-green']" />
+                    </div>
                     <p v-if="submitted && !firstName" class="text-sm text-error">This field is required.</p>
 
 
-                    <label>
+                    <div class="mt-4">
                         <span class="text-base font-medium text-green">Middle name</span>
 
                         <input type="text" id="Username"
-                            class="mt-0.5 mb-4 w-full h-12 px-3 border-2 border-green outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none" />
-                    </label>
+                               class="mt-0.5 w-full h-12 px-3 border-2 border-green outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none" />
+                    </div>
 
-                    <div class="flex gap-4 mt-2 mb-4">
+                    <div class="flex gap-4 mt-4">
                         <div class="flex-1">
-                            <label>
+                            <div>
                                 <span class="text-base font-medium text-green">Last name*</span>
 
                                 <input type="text" id="Username" v-model="lastName" :class="[
                                 'mt-0.5 w-full h-12 mb-2 px-3 outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none',
                                 submitted && !lastName ? 'transition-colors duration-500 border-[3px] border-red-500 ' : 'border-2 border-green'
                               ]" />
-                            </label>
+                            </div>
                             <p v-if="submitted && !lastName" class="text-sm text-error">This field is required.</p>
 
                         </div>
 
                         <div class="w-36 flex flex-col">
 
-                            <label>
-                                <span class="text-base font-medium text-green">Extension</span>
+                            <div class="w-36">
+                                <label>
+                                    <span class="text-base font-medium text-green">Extension</span>
 
-                                <select name="Headline" id="Headline"
-                                    class="mt-0.5 w-full h-12 px-2 border-2 border-green outline-green bg-warm-white shadow-sm text-base focus:outline-none focus:ring-0 focus:rounded-none">
-                                    <option value="">N/A</option>
-                                    <option value="JM">Jr.</option>
-                                    <option value="SRV">Sr.</option>
-                                    <option value="JH">I</option>
-                                    <option value="BBK">II</option>
-                                    <option value="AK">III</option>
-                                    <option value="BG">IV</option>
-                                </select>
-                            </label>
+                                    <div class="mt-0.5 w-full h-12 px-2 border-2 border-green outline-green bg-warm-white shadow-sm text-base focus:outline-none focus:ring-0 focus:rounded-none" >
+                                        <select
+                                                v-model="extension"
+                                                name="Headline"
+                                                id="Headline"
+                                                class="w-full h-full p-0 bg-transparent focus:outline-none focus:ring-0 focus:rounded-none" >
+                                            <option value="">N/A</option>
+                                            <option value="JM">Jr.</option>
+                                            <option value="SRV">Sr.</option>
+                                            <option value="JH">I</option>
+                                            <option value="BBK">II</option>
+                                            <option value="AK">III</option>
+                                            <option value="BG">IV</option>
+                                        </select>
+                                    </div>
+                                </label>
+                            </div>
                         </div>
                     </div>
-                    <label>
+                    <div class="mt-4">
                         <span class="text-base font-medium text-green">Learner reference number*</span>
 
                         <input type="text" id="Username" v-model="lrn" :class="[
                         'mt-0.5 w-full h-12 mb-2 px-3 outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none',
                         submitted && !lrn ? 'transition-colors duration-500 border-[3px] border-red-500 ' : 'border-2 border-green'
                       ]" />
-                    </label>
+                    </div>
                     <p v-if="submitted && !lrn" class="text-sm text-error">Please enter a valid LRN.</p>
 
-                    <label>
+                    <div class="mt-4">
                         <span class="text-base font-medium text-green">Email address</span>
 
                         <input type="text" id="Username" v-model="email" :class="[
                         'mt-0.5 w-full h-12 mb-2 px-3 outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none',
                         submitted && email && !isEmailValid() ? 'transition-colors duration-500 border-[3px] border-red-500 ' : 'border-2 border-green'
                       ]" />
-                    </label>
+                    </div>
                     <p v-if="submitted && email && !isEmailValid()" class="text-sm text-error">Please enter a valid
                         email address.</p>
                 </div>
@@ -330,32 +336,34 @@
                 <div class="mb-9">
                     <h2 class="text-green text-xl font-bold mb-4">Request Details</h2>
 
-                    <label>
-                        <span class="text-base font-medium text-green">Document type*</span>
+                    <span class="text-base font-medium text-green">Document type*</span>
 
-                        <select name="Headline" id="Headline" v-model="documentType" :class="[
-                        'mt-0.5 w-full h-12 mb-2 px-3 outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none',
-                        submitted && !documentType ? 'transition-colors duration-500 border-[3px] border-red-500 ' : 'border-2 border-green'
-                      ]">
-                            <option value="">Please Select</option>
-                            <option value="JM">GRADO NI EDMARK</option>
-                            <option value="SRV">MCDO NI JESSIE</option>
-                            <option value="JH">BOARDING HOUSE NI JM GRR</option>
-                            <option value="BBK">SYSTEM NGA GIATAY</option>
-                            <option value="AK">KAPOYA NA ANI UY</option>
-                            <option value="BG">ATAY MANI</option>
+                    <div class="mt-0.5 mb-2 w-full h-12 px-2 border-2 border-green outline-green bg-warm-white shadow-sm text-base focus:outline-none focus:ring-0 focus:rounded-none"
+                         :class="submitted && !documentType ? 'transition-colors duration-500 border-[3px] border-red-500 ' : 'border-2 border-green'">
+                        <select
+                                v-model="documentType"
+                                name="Headline"
+                                id="Headline"
+                                class="w-full h-full p-0 bg-transparent focus:outline-none focus:ring-0 focus:rounded-none" >
+                            <option value="">N/A</option>
+                            <option value="JM">Jr.</option>
+                            <option value="SRV">Sr.</option>
+                            <option value="JH">I</option>
+                            <option value="BBK">II</option>
+                            <option value="AK">III</option>
+                            <option value="BG">IV</option>
                         </select>
-                    </label>
+                    </div>
                     <p v-if="submitted && !documentType" class="text-sm text-error">This field is required.</p>
 
-                    <label>
+                    <div class="mt-4">
                         <span class="text-base font-medium text-green">Purpose of request*</span>
 
                         <input type="text" id="Username" v-model="purpose" :class="[
                         'mt-0.5 w-full h-12 mb-2 px-3 outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none',
                         submitted && !purpose ? 'transition-colors duration-500 border-[3px] border-red-500 ' : 'border-2 border-green'
                       ]" />
-                    </label>
+                    </div>
                     <p v-if="submitted && !purpose" class="text-sm text-error">This field is required.</p>
 
                 </div>
@@ -363,12 +371,12 @@
                 <!-- Buttons -->
                 <div class="flex justify-between">
                     <a class="text-center inline-block border-2 border-warm-white bg-ivory px-6 py-3 text-base font-bold text-green hover:bg-[#F1D580]/50"
-                        href="#" @click.prevent="goToMenu">
+                       href="#" @click.prevent="goToMenu">
                         Cancel
                     </a>
 
                     <a class="text-center inline-block bg-green px-6 py-3 text-base font-bold text-warm-white hover-bg-mid-green"
-                        href="#" @click.prevent="submitRequest">
+                       href="#" @click.prevent="submitRequest">
                         Submit request
                     </a>
                 </div>
