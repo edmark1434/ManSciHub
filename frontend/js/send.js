@@ -99,6 +99,30 @@ export async function CreateAdmin(data) {
         return response_data.message;
     }
 }
+//create change history
+export async function CreateChangeHistory(data) {
+    let response_data = {};
+    const response = await fetch("http://localhost:8000/api/Change/History", {
+        method: 'POST',
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data),
+    })
+    //create admin
+    //sample data to pass
+    // "admin_username" : "joanna143467", - should be unique
+    // "admin_password" : "Admin",
+    // "admin_fname" : "jjy",
+    // "admin_lname" : "dawdaw"
+    response_data = await response.json();
+    if (response.ok) {
+        return response_data.message;
+    } else {
+        return response_data.message;
+    }
+}
+//update admission
 export async function UpdateAdmission(data) {
     let response_data = {};
     const response = await fetch("http://localhost:8000/api/Admission/Update", {
@@ -108,6 +132,12 @@ export async function UpdateAdmission(data) {
         },
         body: JSON.stringify(data),
     })
+    //sample data to send
+    //    "adms_id": "1012",
+    // "adms_status" : "ACCEPTED",
+    // "adms_date" : "2005-10-27",
+    // "adms_lvl" : 11,
+    // "stud_id" : "12330"
     response_data = await response.json();
     if (response.ok) {
         return response_data.message;
@@ -115,6 +145,8 @@ export async function UpdateAdmission(data) {
         return response_data.message;
     }
 }
+
+//update request
 export async function UpdateRequest(data) {
     let response_data = {};
     const response = await fetch("http://localhost:8000/api/Request/Update", {
@@ -124,6 +156,36 @@ export async function UpdateRequest(data) {
         },
         body: JSON.stringify(data),
     })
+    //whats the difference between sa kani na method and sa transfer request?
+    // -and difference nila is , i condition na if ang status is gi change into retrive or reject , i call ang transferRequest na function
+    // if dili rejected or retrieve just call this method
+
+    //sample data to send
+    //"req_purpose" : "college admission",
+    // "docu_id" : 2,
+    // "stud_id" : 12322,
+    // "req_status" : "complete",
+    // "req_track_id" : 12345601,
+    // "req_date" : "2025-04-04"
+    response_data = await response.json();
+    if (response.ok) {
+        return response_data.message;
+    } else {
+        return response_data.message;
+    }
+}
+export async function UpdateAdminControls(data) {
+    let response_data = {};
+    const response = await fetch("http://localhost:8000/api/AdminControls/Update", {
+        method: 'PUT',
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data),
+    })
+    //sample code to send
+    // "ctrl_key" : "test",
+    // "ctrl_value" : "i love you" , minumulto ako ng damdamin ko :( di makalayaa :(
     response_data = await response.json();
     if (response.ok) {
         return response_data.message;
@@ -171,3 +233,4 @@ export async function DeleteAdmin(data) {
         return response_data.message;
     }
 }
+
