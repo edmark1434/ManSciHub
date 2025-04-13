@@ -58,8 +58,6 @@ createApp({
       trackID: '',
       status: '',
       loginFailed: '',
-      emailResult: false,
-      lrnResult: false,
       docType: {},
       request: {},
       requestTrack: null,
@@ -72,6 +70,7 @@ createApp({
       emailMessage: 'This field is required.',
       lrnReqMessage: 'This field is required.',
       emailReqMessage: 'This field is required.',
+      firstNameMessage: 'This field is required.',
 
       // fields Validation Admission
       firstNameField: false,
@@ -206,26 +205,30 @@ createApp({
     
     async submitRequest() {
       this.submitted = true;
+      this.emailReqMessage = !this.emailReq ? 'This field is required.' : !this.isEmailValid(this.emailReq) ? 'Please enter valid email' :'';
+      this.lrnReqMessage = !this.lrnReq ? 'This field is required.' : '';
       this.firstNameReqField = this.firstNameReq ? true : false;
       this.lastNameReqField = this.lastNameReq ? true : false;
       this.emailReqField = (this.emailReq && this.isEmailValid(this.emailReq)) ? true : false;
       this.purposeReqField = this.purpose ? true : false;
       this.lrnReqField = this.lrnReq ? true : false;
       this.isLrnValid();
-      const response = await send.DocumentRequest(this.requestObject());
-      const responseMessage = response.message.toLowerCase();
-      this.requestDetail = response.data;
-      if (!this.requestDetail) {
-        if (responseMessage.includes('email')) {
-          this.emailReqField = false;
-          this.emailReqMessage = responseMessage;
-        }
-        if (responseMessage.includes('lrn')) {
-          this.lrnReqField = false;
-          this.lrnReqMessage = responseMessage;
+      if (this.lrnReqField && this.emailReqField) {
+        const response = await send.DocumentRequest(this.requestObject());
+        const responseMessage = response.message.toLowerCase();
+        this.requestDetail = response.data;
+        if (!this.requestDetail) {
+          if (responseMessage.includes('email')) {
+            this.emailReqField = false;
+            this.emailReqMessage = responseMessage;
+          }
+          if (responseMessage.includes('lrn')) {
+            this.lrnReqField = false;
+            this.lrnReqMessage = responseMessage;
+          }
         }
       }
-      if (
+        if (
           this.firstNameReqField &&
           this.lastNameReqField &&
           this.documentType &&
@@ -233,13 +236,13 @@ createApp({
           this.emailReqField &&
           this.lrnReqField &&
           this.isEmailValid(this.emailReq)
-      ) {
-        alert('Request submitted successfully!');
-        this.requestDetail = this.requestDetail[0];
-        this.resetScreens();
-        this.ShowServiceRequestSuccess = true;
-        this.resetFormValidation();
-      }
+        ) {
+          alert('Request submitted successfully!');
+          this.requestDetail = this.requestDetail[0];
+          this.resetScreens();
+          this.ShowServiceRequestSuccess = true;
+          this.resetFormValidation();
+        }
     },
     trackRequest() {
       this.resetScreens();
@@ -282,7 +285,6 @@ createApp({
       this.resetFormValidation();
     },
     isEmailValid(email) {
-      this.emailMessage = "Please enter valid email";
       return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
     },
     async isNumeric(event) {
@@ -293,18 +295,24 @@ createApp({
       this.lrnReq = limit;
     },
     isLrnValid() {
-      if ((this.lrn || this.lrnReq ) && (this.lrn.length !== 12 || this.lrnReq.length !== 12)) {
+      if(this.lrn || this.lrnReq){
+        if ((this.lrn.length !== 12) || ( this.lrnReq.length !== 12)) {
         this.lrnField = false;
         this.lrnReqField = false;
         this.lrnMessage = "Please enter a valid lrn";
         this.lrnReqMessage = "Please enter a valid lrn";
-      } else {
+        } else {
         this.lrnField = true;
         this.lrnReqField = true;
+        }
       }
     },
     async validateAdmissionForm() {
+      let response = {};
       this.submitted = true;
+      this.firstNameMessage = 'This field is required.';
+      this.emailMessage = !this.email ? 'This field is required.' : !this.isEmailValid(this.email) ? 'Please enter valid email' :'';
+      this.lrnMessage = !this.lrn ? 'This field is required.' : '';
       this.firstNameField = this.firstName ? true : false;
       this.lastNameField = this.lastName ? true : false;
       this.dateOfBirthField = this.dateOfBirth ? true : false;
@@ -312,17 +320,23 @@ createApp({
       this.homeAddressField = this.homeAddress ? true : false;
       this.emailField = (this.email && this.isEmailValid(this.email)) ? true : false;
       this.isLrnValid();
-      this.admissionResponse = await send.AdmissionRequest(this.admissionObject());
-      const response = this.admissionResponse.data;
-      const responseMessage = this.admissionResponse.message.toLowerCase();
-      if (!response) {
-        if (responseMessage.includes('email')) {
-          this.emailField = false;
-          this.emailReqMessage = responseMessage;
-        }
-        if (responseMessage.includes('lrn')) {
-          this.lrnField = false;
-          this.lrnMessage = responseMessage;
+      if (this.emailField && this.lrnField) {
+        this.admissionResponse = await send.AdmissionRequest(this.admissionObject());
+        response = this.admissionResponse.data;
+        const responseMessage = this.admissionResponse.message.toLowerCase();
+        if (!response) {
+          if (responseMessage.includes('email')) {
+            this.emailField = false;
+            this.emailMessage = responseMessage;
+          }
+          if (responseMessage.includes('lrn')) {
+            this.lrnField = false;
+            this.lrnMessage = responseMessage;
+          }
+          if (responseMessage.includes('student')) {
+            this.firstNameField = false;
+            this.firstNameMessage = responseMessage;
+          }
         }
       }
       if (
@@ -332,8 +346,7 @@ createApp({
           this.lrnField &&
           this.homeAddressField &&
           this.admissionLevel &&
-          this.emailField &&
-          this.isEmailValid(this.email)
+          this.emailField
       ) {
         alert("success");
         this.admissionResponse = response[0];
@@ -353,7 +366,7 @@ createApp({
       this.extension= '';
       this.dateOfBirth= '';
       this.lrn= '';
-      this.lrnReq= '';
+      this.lrnReq = '';
       this.homeAddress= '';
       this.email= '';
       this.emailReq= '';
@@ -362,13 +375,14 @@ createApp({
       this.admissionLevel = '';
       this.username = '';
       this.password = '';
-      this.emailResult = false;
-      this.lrnResult = false;
-      this.emailMessage = 'Please input field';
-      this.lrnMessage = 'Please input field';
-      this.emailReqMessage = 'Please input field';
-      this.lrnReqMessage = 'Please input field';
+      this.lrnField = false;
+      this.lrnReqField = false;
+      this.emailMessage = 'this field is required.';
+      this.lrnMessage = 'This field is required.';
+      this.emailReqMessage = 'This field is required.';
+      this.lrnReqMessage = 'This field is required.';
       this.loginMessage = "Invalid credentials. Access denied!";
+      this.firstNameMessage = 'This field is required.';
     }
 
 
