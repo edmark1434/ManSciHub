@@ -13,6 +13,9 @@ class Login{
         $admin_username = isset($admin['admin_username']) ? $admin['admin_username'] : null;
         if (!empty($username || $password)) {
             if($admin_username === $username && password_verify($password,$admin_password)){
+                if($admin['admin_is_active'] === false){
+                    throw new Exception("Couldn't find admin account");
+                }
                 return $admin;
             }else{
                 throw new Exception("Incorrect Credentials");

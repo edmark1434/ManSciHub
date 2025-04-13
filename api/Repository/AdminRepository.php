@@ -57,7 +57,8 @@ class AdminRepository {
                 SET ADMIN_USERNAME = :ADMIN_USERNAME, 
                     ADMIN_PASSWORD = :ADMIN_PASSWORD,
                     ADMIN_FNAME = :ADMIN_FNAME, 
-                    ADMIN_LNAME = :ADMIN_LNAME 
+                    ADMIN_LNAME = :ADMIN_LNAME,
+                    ADMIN_IS_ACTIVE = :ADMIN_IS_ACTIVE 
                 WHERE ADMIN_ID = :ADMIN_ID";
         $params = $this->AdminParameter($admin);
         $this->repositoryLogic->executeQuery($query, $params);
@@ -78,6 +79,9 @@ class AdminRepository {
         ];
         if (!empty($admin->admin_id)) {
             $params[":ADMIN_ID"] = $admin->admin_id;
+        }
+        if($admin->admin_is_active !== null){
+            $params[":ADMIN_IS_ACTIVE"] = $admin->admin_is_active;
         }
         return $params;
     }

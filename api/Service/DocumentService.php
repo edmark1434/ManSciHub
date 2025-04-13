@@ -44,6 +44,7 @@ class DocumentService{
         $DocumentObject = new Document();
         $DocumentObject->docu_id = $Document['docu_id'] ?? NULL;
         $DocumentObject->docu_type = $Document['docu_type'] ?? NULL;
+        $DocumentObject->docu_is_active = $Document['docu_is_active'] ?? NULL;
         return $DocumentObject;
     }
     public function DocumentListObject($Document): array

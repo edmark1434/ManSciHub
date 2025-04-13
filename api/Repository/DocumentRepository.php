@@ -27,7 +27,7 @@
     }
 
     public function updateDocument($document): void{
-        $query = "UPDATE DOCUMENT SET DOCU_TYPE = :DOCU_TYPE WHERE DOCU_ID = :DOCU_ID";
+        $query = "UPDATE DOCUMENT SET DOCU_TYPE = :DOCU_TYPE, DOCU_IS_ACTIVE = :DOCU_IS_ACTIVE WHERE DOCU_ID = :DOCU_ID";
         $params = $this->DocumentParameter($document);
         $this->repository->executeQuery($query, $params);
     }
@@ -44,12 +44,15 @@
         $result = $this->repository->executeQuery($query, $params);
         return $this->repository->BuildResultQuery($result);
     }
-    private function DocumentParameter($document){
+    private function DocumentParameter($document){  
         $params = [
             ":DOCU_TYPE" => $document->docu_type,
         ];
         if(!empty($document->docu_id)){
             $params[":DOCU_ID"] = $document->docu_id;
+        }
+        if($document->docu_is_active !== null){
+            $params[":DOCU_IS_ACTIVE"] = $document->docu_is_active;
         }
         return $params;
     }

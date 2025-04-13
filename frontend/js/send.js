@@ -34,6 +34,7 @@ export async function getStudentByFilter(data) {
     response_data = await response.json();
     return response_data;
 }
+//function for updating and removing request automatically when the status is rejected or retrieve
 export async function TransferRequest(data) {
     let response_data = {};
     const response = await fetch("http://localhost:8000/api/Service/TransferRequest", {
@@ -42,6 +43,14 @@ export async function TransferRequest(data) {
             "Content-Type": "application/json"
         },
         body: JSON.stringify(data),
+        //just change the req status to rejected or retrieve and pass the whole request details as object
+        //sample data to pass
+            // "req_track_id": 12345603, 
+            // "req_date": "2025-04-06",
+            // "req_purpose": "college admission",
+            // "req_status": "REJECTED", 
+            // "docu_id": 2,
+            // "stud_id": 12303
     })
     response_data = await response.json();
     if (response.ok) {
@@ -68,7 +77,7 @@ export async function AdminLogin(data) {
     }
     return response_data;
     }
-export async function CreateLogin(data) {
+export async function CreateAdmin(data) {
     let response_data = {};
     const response = await fetch("http://localhost:8000/api/Admin", {
         method: 'POST',
@@ -77,6 +86,12 @@ export async function CreateLogin(data) {
         },
         body: JSON.stringify(data),
     })
+    //create admin
+    //sample data to pass
+    // "admin_username" : "joanna143467", - should be unique
+    // "admin_password" : "Admin",
+    // "admin_fname" : "jjy",
+    // "admin_lname" : "dawdaw"
     response_data = await response.json();
     if (response.ok) {
         return response_data.message;
@@ -116,7 +131,7 @@ export async function UpdateRequest(data) {
         return response_data.message;
     }
 }
-export async function UpdateLogin(data) {
+export async function UpdateAdmin(data) {
     let response_data = {};
     const response = await fetch("http://localhost:8000/api/Admin/Update", {
         method: 'PUT',
@@ -125,6 +140,14 @@ export async function UpdateLogin(data) {
         },
         body: JSON.stringify(data),
     })
+    //this method can be used for update whole info, password , or delete acc of admin 
+    //sample data to pass
+    // "admin_id":"12017",
+	// "admin_fname":"joanna",
+    // "admin_lname": "dawdawda",
+    // "admin_username": "joanna14346789",
+    // "admin_password": "Admin", 
+    // "admin_is_active": "false" -- if you want to delete just set this to false
     response_data = await response.json();
     if (response.ok) {
         return response_data.message;
@@ -132,12 +155,14 @@ export async function UpdateLogin(data) {
         return response_data.message;
     }
 }
-export async function DeleteLogin(data) {
+export async function DeleteAdmin(data) {
     const response = await fetch(`http://localhost:8000/api/Admin/Delete/${data}`, {
         method: 'DELETE',
         headers: {
             "Content-Type": "application/json"
-        }});
+        }
+    });
+    //if u want to delete it completely which is not recommended , just disregard this method
     let response_data = {};
     response_data = await response.json();
         if (response.ok) {

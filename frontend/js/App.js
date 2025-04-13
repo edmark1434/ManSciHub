@@ -195,7 +195,7 @@ createApp({
         this.loginMessage = data.message;
         this.userDetails = data.data;
         this.verified = true;
-        console.log(this.userDetails);
+        this.AdminID = data.data.admin_id;
       } else {
         this.login = true;
         this.loginMessage = "Invalid Credentials. Access denied!";

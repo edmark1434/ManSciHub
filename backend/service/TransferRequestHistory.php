@@ -11,7 +11,7 @@ class TransferRequestHistory{
         $this->requestService = new RequestService();
     }
     public function transferRequest($request){
-        if($request["req_status"] === "RETRIEVE" || $request["req_status"] === "REJECTED"){
+        if(strcasecmp($request["req_status"],"RETRIEVE") == 0 || strcasecmp($request["req_status"],"REJECTED") == 0) {
             $request_history = $this->RequestHistoryObject($request);
             $this->requestHistoryController->addRequestHistory($request_history);
             $this->requestService->deleteRequest($request["req_track_id"]);

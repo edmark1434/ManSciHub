@@ -47,6 +47,7 @@ class AdminService{
         $adminObject->admin_lname = $admin['admin_lname'] ?? NULL;
         $adminObject->admin_username = $admin['admin_username'] ?? NULL;
         $adminObject->admin_password = $admin['admin_password'] ?? NULL;
+        $adminObject->admin_is_active = $admin['admin_is_active'] ?? NULL;
         return $adminObject;
     }
     public function adminListObject($adminList): array
