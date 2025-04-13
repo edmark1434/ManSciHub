@@ -10,7 +10,6 @@ export async function DocumentRequest(data) {
 }
 
 export async function AdmissionRequest(data) {
-    let response_data = {};
     const response = await fetch("http://localhost:8000/api/Service/AdmissionRequest", {
         method: 'POST',
         headers: {
@@ -18,7 +17,7 @@ export async function AdmissionRequest(data) {
         },
         body: JSON.stringify(data),
     });
-    response_data = await response.json();
+    const response_data = await response.json();
     return response_data;
 }
 

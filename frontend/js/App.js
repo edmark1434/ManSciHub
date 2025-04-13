@@ -83,7 +83,7 @@ createApp({
       currentDate: new Date().toISOString().split('T')[0],
 
       // fields Validation Request
-      errorStatus: '',
+      errorStatus: false,
       firstNameReqField: false,
       lastNameReqField: false,
       emailReqField: false,
@@ -164,19 +164,18 @@ createApp({
       this.resetScreens();
       this.ShowAdminLogin = true;
     },
-    submitTrackID() {
+    async submitTrackID() {
       this.requestTrackMessage = '';
       this.submitted = true;
       if (this.trackID) {
         alert('Tracking request!');
-        fetch.getRequestById(this.trackID).then((response) => {
-          this.requestTrack = response.data.data;
-          if (response.data.data == null) {
-            this.errorStatus = true;
-          }
-        });
         this.resetScreens();
         this.ShowRequestDetails = true;
+        const response = await fetch.getRequestById(this.trackID); 
+        this.requestTrack = response.data;
+        if (!this.requestTrack) {
+          this.errorStatus = true;
+        }
       }
     },
     async checkLogin() {
@@ -204,62 +203,7 @@ createApp({
         this.loginMessage = "Please enter username or password!";
       }
     },
-    async checkEmail(entity) {
-      let response = {};
-      const object = {
-        stud_email: entity
-      };
-      response = await send.getStudentByFilter(object);
-      if (response.stud_id) {
-        console.log(response);
-        this.emailField = false;
-        this.emailMessage = "Email already exists";
-        return false;
-      }
-      return true;
-    },
-    async checkReqEmail(entity) {
-      let response = {};
-      const object = {
-        stud_email: entity
-      };
-      response = await send.getStudentByFilter(object);
-      if (response.stud_id) {
-        console.log(response);
-        this.emailReqField = false;
-        this.emailReqMessage = "Email already exists";
-        return false;
-      }
-      return true;
-    },
-    async checkLrn(entity) {
-      let response = {};
-      const object = {
-        stud_lrn: entity
-      };
-      response = await send.getStudentByFilter(object);
-      if (response.stud_id) {
-        console.log(response);
-        this.lrnField = false;
-        this.lrnMessage = "LRN already exists";
-        return false;
-      }
-      return true;
-    },
-    async checkReqLrn(entity) {
-      let response = {};
-      const object = {
-        stud_lrn: entity
-      };
-      response = await send.getStudentByFilter(object);
-      if (response.stud_id) {
-        console.log(response);
-        this.lrnReqField = false;
-        this.lrnReqMessage = "LRN already exists";
-        return false;
-      }
-      return true;
-    },
+    
     async submitRequest() {
       this.submitted = true;
       this.firstNameReqField = this.firstNameReq ? true : false;
@@ -268,8 +212,19 @@ createApp({
       this.purposeReqField = this.purpose ? true : false;
       this.lrnReqField = this.lrnReq ? true : false;
       this.isLrnValid();
-      this.emailResult = await this.checkReqEmail(this.emailReq);
-      this.lrnResult = await this.checkReqLrn(this.lrnReq);
+      const response = await send.DocumentRequest(this.requestObject());
+      const responseMessage = response.message.toLowerCase();
+      this.requestDetail = response.data;
+      if (!this.requestDetail) {
+        if (responseMessage.includes('email')) {
+          this.emailReqField = false;
+          this.emailReqMessage = responseMessage;
+        }
+        if (responseMessage.includes('lrn')) {
+          this.lrnReqField = false;
+          this.lrnReqMessage = responseMessage;
+        }
+      }
       if (
           this.firstNameReqField &&
           this.lastNameReqField &&
@@ -277,14 +232,11 @@ createApp({
           this.purposeReqField &&
           this.emailReqField &&
           this.lrnReqField &&
-          this.lrnResult &&
-          this.emailResult &&
           this.isEmailValid(this.emailReq)
       ) {
         alert('Request submitted successfully!');
-        this.requestDetail = await send.DocumentRequest(this.requestObject());
+        this.requestDetail = this.requestDetail[0];
         this.resetScreens();
-        this.requestDetail = this.requestDetail.data[0];
         this.ShowServiceRequestSuccess = true;
         this.resetFormValidation();
       }
@@ -341,23 +293,38 @@ createApp({
       this.lrnReq = limit;
     },
     isLrnValid() {
-      if (this.lrn && this.lrn.length !== 12) {
+      if ((this.lrn || this.lrnReq ) && (this.lrn.length !== 12 || this.lrnReq.length !== 12)) {
         this.lrnField = false;
+        this.lrnReqField = false;
         this.lrnMessage = "Please enter a valid lrn";
+        this.lrnReqMessage = "Please enter a valid lrn";
+      } else {
+        this.lrnField = true;
+        this.lrnReqField = true;
       }
     },
     async validateAdmissionForm() {
       this.submitted = true;
-
       this.firstNameField = this.firstName ? true : false;
       this.lastNameField = this.lastName ? true : false;
       this.dateOfBirthField = this.dateOfBirth ? true : false;
       this.lrnField = this.lrn ? true : false;
       this.homeAddressField = this.homeAddress ? true : false;
       this.emailField = (this.email && this.isEmailValid(this.email)) ? true : false;
-      this.emailResult = await this.checkEmail(this.email);
-      this.lrnResult = await this.checkLrn(this.lrn);
-      this.isLrnValid()
+      this.isLrnValid();
+      this.admissionResponse = await send.AdmissionRequest(this.admissionObject());
+      const response = this.admissionResponse.data;
+      const responseMessage = this.admissionResponse.message.toLowerCase();
+      if (!response) {
+        if (responseMessage.includes('email')) {
+          this.emailField = false;
+          this.emailReqMessage = responseMessage;
+        }
+        if (responseMessage.includes('lrn')) {
+          this.lrnField = false;
+          this.lrnMessage = responseMessage;
+        }
+      }
       if (
           this.firstNameField &&
           this.lastNameField &&
@@ -366,15 +333,12 @@ createApp({
           this.homeAddressField &&
           this.admissionLevel &&
           this.emailField &&
-          this.lrnResult &&
-          this.emailResult
+          this.isEmailValid(this.email)
       ) {
         alert("success");
-        this.admissionResponse = await send.AdmissionRequest(this.admissionObject());
-        this.admissionResponse = this.admissionResponse.data[0];
+        this.admissionResponse = response[0];
         this.resetScreens();
         this.ShowServiceAdmissionSuccess = true;
-        this.ShowAdmissionForm = false;
         this.resetFormValidation();
       }
     },

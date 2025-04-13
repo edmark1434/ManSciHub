@@ -64,13 +64,7 @@ export async function AdmissionClose() {
 }
 export async function getRequestById(data) {
     const response = await fetch(`http://localhost:8000/api/Request/${data}`);
-    if (response.ok) {
-        return {
-            status: response.status,
-            ok: response.ok,
-            data: await response.json()
-        };
-    }
+    return await response.json();
 }
 
 

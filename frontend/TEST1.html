@@ -343,7 +343,7 @@
                         submitted && !lrn ? 'transition-colors duration-500 border-[3px] border-red-500 ' : 'border-2 border-green'
                     ]" />
                 </div>
-                <p v-if="submitted && !lrnReqField" class="text-sm text-error">Please enter a valid LRN.</p>
+                <p v-if="submitted && !lrnReqField" class="text-sm text-error">{{lrnReqMessage}}</p>
 
                 <div class="mt-4">
                     <span class="text-base font-medium text-green">Email address</span>
@@ -370,7 +370,7 @@
                             id="Headline"
                             class="w-full h-full p-0 bg-transparent focus:outline-none focus:ring-0 focus:rounded-none" >
                         <option value="" selected disabled hidden>Please select</option>
-                        <option v-for="type in docType" :value="type.docu_id">{{ type.docu_type }}</option>
+                        <option v-for="type in docType.filter(t => t.docu_is_active)" :value="type.docu_id">{{ type.docu_type }}</option>
                     </select>
                 </div>
                 <p v-if="submitted && !documentType" class="text-sm text-error">This field is required.</p>
@@ -492,7 +492,7 @@
                 <p class="text-green text-base">Purpose: {{requestTrack.req_purpose}}</p>
                 <p class="font-bold text-green text-base">Status: {{requestTrack.req_status}}</p>
                 </div>
-                <div v-else-if="requestTrack == null && errorStatus"><p class="text-green">No result found</p></div>
+                <div v-if="errorStatus"><p class="text-green">No result found</p></div>
                 <div class="flex justify-center mt-9">
                     <a class="text-center inline-block bg-green px-6 py-3 text-base font-bold text-warm-white hover-bg-mid-green"
                        href="#" @click.prevent="goToMenu">
