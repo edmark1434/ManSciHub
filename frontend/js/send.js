@@ -111,10 +111,11 @@ export async function CreateChangeHistory(data) {
     })
     //create admin
     //sample data to pass
-    // "admin_username" : "joanna143467", - should be unique
-    // "admin_password" : "Admin",
-    // "admin_fname" : "jjy",
-    // "admin_lname" : "dawdaw"
+    // "chg_column" : "admission",
+    // "chg_old_val" : "pending",
+    // "chg_new_val" : "complete",
+    // "admin_id": 12017
+    
     response_data = await response.json();
     if (response.ok) {
         return response_data.message;

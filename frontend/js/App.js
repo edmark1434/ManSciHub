@@ -181,24 +181,27 @@ createApp({
     },
     async checkLogin() {
       this.submitted = true;
-      if (this.username == '' || this.password == '') {
-        this.login = true;
-        this.loginMessage = "Invalid Credentials. Access denied!";
-      }
-      const loginObject = {
-        username: this.username,
-        password: this.password
-      };
-      let data = await send.AdminLogin(loginObject);
-      if (data.data) {
-        this.login = true;
-        this.loginMessage = data.message;
-        this.userDetails = data.data;
-        this.verified = true;
-        this.AdminID = data.data.admin_id;
+      this.login = true;
+      if (this.username && this.password) {
+        if (this.username == '' || this.password == '') {
+          this.loginMessage = "Invalid Credentials. Access denied!";
+        }
+        const loginObject = {
+          username: this.username,
+          password: this.password
+        };
+        let data = await send.AdminLogin(loginObject);
+        if (data.data) {
+          this.loginMessage = data.message;
+          this.userDetails = data.data;
+          this.verified = true;
+          this.AdminID = data.data.admin_id;
+        } else {
+          this.login = true;
+          this.loginMessage = "Invalid Credentials. Access denied!";
+        }
       } else {
-        this.login = true;
-        this.loginMessage = "Invalid Credentials. Access denied!";
+        this.loginMessage = "Please enter username or password!";
       }
     },
     async checkEmail(entity) {
@@ -393,6 +396,8 @@ createApp({
       this.documentType= '';
       this.purpose= '';
       this.admissionLevel = '';
+      this.username = '';
+      this.password = '';
       this.emailResult = false;
       this.lrnResult = false;
       this.emailMessage = 'Please input field';
