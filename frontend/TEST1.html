@@ -516,8 +516,7 @@
                         <a class="inline-block px-9 py-2 w-full text-base" :class="ShowDocumentRequests ? 'font-bold text-ivory bg-green' : 'text-green hover:bg-[#F1D580]/50'"
                            href="#"
                            @click="ShowDocumentRequests = true;
-                                    ShowSchoolAdmissions = ShowAdministrators = ShowStudents = ShowAdminControls = ShowAuditLogByAdmin = ShowAuditLogAll = false;
-                                    fetch.getAllRequest()">
+                                    ShowSchoolAdmissions = ShowAdministrators = ShowStudents = ShowAdminControls = ShowAuditLogByAdmin = ShowAuditLogAll = ShowDocumentTypes = false;">
                             Document Requests
                         </a>
                     </li>
@@ -526,17 +525,8 @@
                         <a class="inline-block px-9 py-2 w-full text-base" :class="ShowSchoolAdmissions ? 'font-bold text-ivory bg-green' : 'text-green hover:bg-[#F1D580]/50'"
                            href="#"
                            @click="ShowSchoolAdmissions = true;
-                                    ShowDocumentRequests = ShowAdministrators = ShowStudents = ShowAdminControls = ShowAuditLogByAdmin = ShowAuditLogAll = false;">
+                                    ShowDocumentRequests = ShowAdministrators = ShowStudents = ShowAdminControls = ShowAuditLogByAdmin = ShowAuditLogAll = ShowDocumentTypes = false;">
                             School Admissions
-                        </a>
-                    </li>
-
-                    <li>
-                        <a class="inline-block px-9 py-2 w-full text-base" :class="(ShowAdministrators || ShowAuditLogByAdmin) ? 'font-bold text-ivory bg-green' : 'text-green hover:bg-[#F1D580]/50'"
-                           href="#"
-                           @click="ShowAdministrators = true;
-                                    ShowDocumentRequests = ShowSchoolAdmissions = ShowStudents = ShowAdminControls = ShowAuditLogByAdmin = ShowAuditLogAll = false;">
-                            Administrators
                         </a>
                     </li>
 
@@ -544,16 +534,16 @@
                         <a class="inline-block px-9 py-2 w-full text-base" :class="ShowStudents ? 'font-bold text-ivory bg-green' : 'text-green hover:bg-[#F1D580]/50'"
                            href="#"
                            @click="ShowStudents = true;
-                                    ShowDocumentRequests = ShowSchoolAdmissions = ShowAdministrators = ShowAdminControls = ShowAuditLogByAdmin = ShowAuditLogAll = false;">
+                                    ShowDocumentRequests = ShowSchoolAdmissions = ShowAdministrators = ShowAdminControls = ShowAuditLogByAdmin = ShowAuditLogAll = ShowDocumentTypes = false;">
                             Student Users
                         </a>
                     </li>
 
                     <li>
-                        <a class="inline-block px-9 py-2 w-full text-base" :class="(ShowAdminControls || ShowAuditLogAll) ? 'font-bold text-ivory bg-green' : 'text-green hover:bg-[#F1D580]/50'"
+                        <a class="inline-block px-9 py-2 w-full text-base" :class="(ShowAdminControls || ShowAuditLogAll || ShowAuditLogByAdmin || ShowDocumentTypes || ShowAdministrators) ? 'font-bold text-ivory bg-green' : 'text-green hover:bg-[#F1D580]/50'"
                            href="#"
                            @click="ShowAdminControls = true;
-                                    ShowDocumentRequests = ShowSchoolAdmissions = ShowAdministrators = ShowStudents = ShowAuditLogByAdmin = ShowAuditLogAll = false;">
+                                    ShowDocumentRequests = ShowSchoolAdmissions = ShowAdministrators = ShowStudents = ShowAuditLogByAdmin = ShowAuditLogAll = ShowDocumentTypes = false;">
                             Admin Controls
                         </a>
                     </li>
@@ -762,9 +752,9 @@
                     </tr>
                     </thead>
                     <tbody class="divide-y border-green w-full">
-                    <tr v-for="request in requestslist" class="border-green" @click="ShowRequestPopup = true">
-                        <td class="px-3 py-2 ">{{ request.stud_fname }}</td>
-                        <td class="px-3 py-2 ">{{ request.stud_id }}</td>
+                    <tr class="border-green" @click="ShowRequestPopup = true">
+                        <td class="px-3 py-2 ">Jodeci A. Pacibe</td>
+                        <td class="px-3 py-2 ">136710100181</td>
                         <td class="px-3 py-2 ">School Form 9</td>
                         <td class="px-3 py-2 ">College Application</td>
                         <td class="px-3 py-2 ">2025-03-23</td>
@@ -1058,8 +1048,12 @@
             <div class="flex gap-4 items-center mb-9">
                 <img src="assets/admin.svg" alt="Logo" class="w-12">
                 <h1 class="text-green-900 font-bold text-3xl mr-auto">Administrators</h1>
+                <a class="text-center inline-flex border-2 border-warm-white bg-ivory px-6 h-12 items-center text-base font-bold text-green hover:bg-[#F1D580]/50"
+                   href="#" @click="ShowAdministrators = false; ShowAdminControls = true">
+                    Go back
+                </a>
                 <a class="text-center inline-block bg-green px-6 py-3 text-base font-bold text-warm-white hover-bg-mid-green"
-                   href="#">
+                   href="#" @click="ShowAdminCreatePopup = true">
                     &plus; Add administrator
                 </a>
             </div>
@@ -1086,12 +1080,16 @@
                                 View audit log
                             </a>
                             <a class="w-full text-center block bg-green px-6 py-3 text-base font-bold text-warm-white hover-bg-mid-green"
-                               href="#">
+                               href="#" @click="ShowUsernameChange = true; ShowAdminPopup = false">
                                 Change username
                             </a>
                             <a class="w-full text-center block bg-green px-6 py-3 text-base font-bold text-warm-white hover-bg-mid-green"
-                               href="#">
+                               href="#" @click="ShowPasswordChange = true; ShowAdminPopup = false">
                                 Change password
+                            </a>
+                            <a class="w-full text-center block bg-green px-6 py-3 text-base font-bold text-warm-white hover-bg-mid-green"
+                               href="#" @click="ShowAreYouSurePopup = true; ShowAdminPopup = false">
+                                Remove
                             </a>
                             <a class="w-full text-center block bg-ivory px-6 py-3 text-base font-bold text-green hover:bg-[#F1D580]/50"
                                href="#" @click="ShowAdminPopup = false">
@@ -1102,15 +1100,103 @@
                 </div>
 
             </div>
+            <!-- change username -->
+            <div v-if="ShowUsernameChange" class="w-screen h-screen bg-[#325930]/20 flex justify-center items-center fixed top-0 left-0 z-999">
+
+                <div class="w-[30rem] p-9 bg-warm-white border-2 border-green flex justify-center items-center shadow-md">
+                    <div class="text-center w-full">
+                        <h2 class="text-xl font-bold text-green-900 mb-9">Change Username</h2>
+
+                        <div class="flex flex-col justify-center items-center mt-9 gap-2">
+                            <div class="flex flex-col w-full items-start">
+                                <span class="text-base font-medium text-green">Username</span>
+
+                                <input type="text" id="firstName" v-model="username"
+                                       class="mt-0.5 mb-2 w-full h-12 px-3 border-2 border-green outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none" />
+
+                            </div>
+                            <a class="w-full text-center block bg-green px-6 py-3 text-base font-bold text-warm-white hover-bg-mid-green"
+                               href="#" @click="ShowPasswordConfirm = true; ShowUsernameChange = false">
+                                Save changes
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <!-- change password -->
+            <div v-if="ShowPasswordChange" class="w-screen h-screen bg-[#325930]/20 flex justify-center items-center fixed top-0 left-0 z-999">
+
+                <div class="w-[30rem] p-9 bg-warm-white border-2 border-green flex justify-center items-center shadow-md">
+                    <div class="text-center w-full">
+                        <h2 class="text-xl font-bold text-green-900 mb-9">Change Password</h2>
+
+                        <div class="flex flex-col justify-center items-center mt-9 gap-2">
+                            <div class="flex flex-col w-full items-start">
+                                <span class="text-base font-medium text-green">New password</span>
+
+                                <input type="text" id="firstName" v-model="username"
+                                       class="mt-0.5 mb-2 w-full h-12 px-3 border-2 border-green outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none" />
+
+                            </div>
+                            <a class="w-full text-center block bg-green px-6 py-3 text-base font-bold text-warm-white hover-bg-mid-green"
+                               href="#" @click="ShowPasswordConfirm = true; ShowPasswordChange = false">
+                                Save changes
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- create -->
+            <div v-if="ShowAdminCreatePopup" class="w-screen h-screen bg-[#325930]/20 flex justify-center items-center fixed top-0 left-0 z-999">
+                <div class="bg-warm-white p-9 shadow-md w-[540px] border-2 border-green ">
+
+                    <h2 class="text-xl font-bold text-green-900 mb-4 text-center">Add Administrator</h2>
+
+                    <div>
+                        <span class="text-base font-medium text-green">Username</span>
+
+                        <input type="text" id="firstName" v-model="username" :class="[
+                                    'mt-0.5 w-full h-12 px-3 outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none',
+                                    hmm ? 'transition-colors duration-500 border-[3px] border-red-500' : 'border-2 border-green'
+                                ]" />
+                    </div>
+
+                    <div class="mt-4">
+                        <span class="text-base font-medium text-green">Password</span>
+
+                        <input type="text" id="firstName" v-model="password" :class="[
+                                    'mt-0.5 w-full h-12 mb-2 px-3 outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none',
+                                    hmm ? 'transition-colors duration-500 border-[3px] border-red-500' : 'border-2 border-green'
+                                ]" />
+                    </div>
+
+                    <!-- Show this only when login fails -->
+                    <p v-if="hmm" class="text-sm" :class="hmm ? 'text-error' : 'text-green'">An admin with the given username already exists.</p>
+
+                    <div class="flex flex-col justify-center gap-2">
+                        <a class="w-full text-center inline-block mt-9 bg-green px-6 py-3 text-base font-bold text-warm-white hover-bg-mid-green"
+                           href="#" @click="ShowAdminCreatePopup = false; ShowPasswordConfirm = true">
+                            Register
+                        </a>
+                        <a class="w-full text-center block bg-ivory px-6 py-3 text-base font-bold text-green hover:bg-[#F1D580]/50"
+                           href="#" @click="ShowAdminCreatePopup = false">
+                            Close
+                        </a>
+                    </div>
+                </div>
+            </div>
         </div>
 
-        <!-- Audit Log - By Admin -->
+        <!-- Audit Logs - By Admin -->
         <div v-if="ShowAuditLogByAdmin" class="w-full h-full p-9">
             <div class="flex gap-4 items-center mb-9">
                 <img src="assets/audit-logs.svg" alt="Logo" class="w-12">
-                <h1 class="text-green-900 font-bold text-3xl mr-auto">ADM001's Audit Log</h1>
-                <a class="text-center inline-block border-2 border-warm-white bg-ivory px-6 py-3 text-base font-bold text-green hover:bg-[#F1D580]/50"
-                   href="#">
+                <h1 class="text-green-900 font-bold text-3xl mr-auto">ADM001's Audit Logs</h1>
+                <a class="text-center inline-flex border-2 border-warm-white bg-ivory px-6 h-12 items-center text-base font-bold text-green hover:bg-[#F1D580]/50"
+                   href="#" @click="ShowAuditLogByAdmin = false; ShowAdministrators = true">
                     Go back
                 </a>
                 <div class="flex gap-4">
@@ -1150,7 +1236,7 @@
                                 <div class="flex flex-col items-start gap-3">
                                     <label for="MinPrice">
                                         <span class="text-sm text-green"> From </span>
-                                        <input type="date" id="MinPrice" :max="today"
+                                        <input type="date" id="MinPrice"
                                                class="mt-0.5 w-full h-10 px-3 border-2 border-green outline-green bg-white shadow-sm sm:text-sm focus:outline-none focus:ring-0 focus:rounded-none" />
                                     </label>
                                 </div>
@@ -1355,14 +1441,21 @@
                     </tbody>
                 </table>
             </div>
-            <p class="text-base font-bold text-green w-full text-right mt-3">120 records found</p>
+            <div class="w-full mt-3 flex justify-between">
+                <p class="text-base text-green"><span class="font-bold">Note: </span>This list consists only of students that interacted with the system.</p>
+                <p class="text-base font-bold text-green">120 records found</p>
+            </div>
         </div>
 
-        <!-- Audit Log - All -->
+        <!-- Audit Logs - All -->
         <div v-if="ShowAuditLogAll" class="w-full h-full p-9">
             <div class="flex gap-4 items-center mb-9">
-                <img src="assets/audit-logs.svg" alt="Logo" class="w-12">
-                <h1 class="text-green-900 font-bold text-3xl mr-auto">Audit Log</h1>
+                <img src="assets/audit-logs.svg" alt="Logo" class="w-12 h-12">
+                <h1 class="text-green-900 font-bold text-3xl mr-auto">Audit Logs</h1>
+                <a class="text-center inline-flex border-2 border-warm-white bg-ivory px-6 h-12 items-center text-base font-bold text-green hover:bg-[#F1D580]/50"
+                   href="#" @click="ShowAuditLogAll = false; ShowAdminControls = true">
+                    Go back
+                </a>
                 <div class="flex gap-4">
                     <details class="group relative">
                         <summary
@@ -1400,7 +1493,7 @@
                                 <div class="flex flex-col items-start gap-3">
                                     <label for="MinPrice">
                                         <span class="text-sm text-green"> From </span>
-                                        <input type="date" id="MinPrice" :max="today"
+                                        <input type="date" id="MinPrice"
                                                class="mt-0.5 w-full h-10 px-3 border-2 border-green outline-green bg-white shadow-sm sm:text-sm focus:outline-none focus:ring-0 focus:rounded-none" />
                                     </label>
                                 </div>
@@ -1485,6 +1578,207 @@
                 <h1 class="text-green-900 font-bold text-3xl mr-auto">Admin Controls</h1>
             </div>
             <!-- list -->
+            <div class="w-full h-[calc(100vh-9.75rem)] overflow-auto flex flex-col gap-6">
+                <div class="flex justify-between items-start bg-ivory p-6 ">
+                        <span>
+                            <h2 class="text-xl text-green font-bold mb-3">Audit Logs</h2>
+                            <p>View a detailed record of all changes made by administrators to system data — track who did what and when.</p>
+                        </span>
+                    <a class="w-32 text-center inline-block bg-green px-6 py-3 text-base font-bold text-warm-white hover-bg-mid-green"
+                       href="#" @click="ShowAuditLogAll = true; ShowAdminControls = false;">
+                        View
+                    </a>
+                </div>
+                <div class="flex justify-between items-start bg-ivory p-6 ">
+                        <span>
+                            <h2 class="text-xl text-green font-bold mb-3">Administrators</h2>
+                            <p>Manage admin accounts — add, remove, or update usernames and passwords, and view their audit logs.</p>
+                        </span>
+                    <a class="w-32 text-center inline-block bg-green px-6 py-3 text-base font-bold text-warm-white hover-bg-mid-green"
+                       href="#" @click="ShowAdministrators = true; ShowAdminControls = false;">
+                        View
+                    </a>
+                </div>
+                <div class="flex justify-between items-start bg-ivory p-6 ">
+                        <span>
+                            <h2 class="text-xl text-green font-bold mb-3">Document Types</h2>
+                                <p>Manage the list of documents that can be requested from the registrar. Add, edit, or remove as needed.</p>
+                        </span>
+                    <a class="w-32 text-center inline-block bg-green px-6 py-3 text-base font-bold text-warm-white hover-bg-mid-green"
+                       href="#" @click="ShowDocumentTypes = true; ShowAdminControls = false;">
+                        View
+                    </a>
+                </div>
+                <div class="flex justify-between items-start bg-ivory p-6 ">
+                        <span>
+                            <h2 class="text-xl text-green font-bold mb-3">Toggle Admissions</h2>
+                            <p>Control the admission period by opening or closing submissions. <br> When open, students can submit their applications. When closed, submissions are disabled.</p>
+                        </span>
+                    <a class="w-32 text-center inline-block bg-green px-6 py-3 text-base font-bold text-warm-white hover-bg-mid-green"
+                       href="#" @click="ShowPasswordConfirm = true;">
+                        Close
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Document Types -->
+        <div v-if="ShowDocumentTypes" class="w-full h-full p-9">
+            <div class="flex gap-4 items-center mb-9">
+                <img src="assets/document-requests.svg" alt="Logo" class="w-12">
+                <h1 class="text-green-900 font-bold text-3xl mr-auto">Document Types</h1>
+                <a class="text-center inline-flex border-2 border-warm-white bg-ivory px-6 h-12 items-center text-base font-bold text-green hover:bg-[#F1D580]/50"
+                   href="#" @click="ShowDocumentTypes = false; ShowAdminControls = true">
+                    Go back
+                </a>
+                <a class="text-center inline-block bg-green px-6 py-3 text-base font-bold text-warm-white hover-bg-mid-green"
+                   href="#" @click="ShowDocTypeCreatePopup = true">
+                    &plus; Add document type
+                </a>
+            </div>
+            <!-- list -->
+            <div class="bg-ivory w-full h-[calc(100vh-9.75rem)] max-h-[calc(100vh-9.75rem)] overflow-auto flex justify-center items-center cardlist p-4 border-2 border-green">
+                <div class="flex flex-wrap gap-4 justify-center items-center w-full">
+                    <a v-for="i in 32"class="text-center inline-block px-6 py-3 w-[16vw] h-12 border-2 border-green text-base text-green bg-warm-white hover:bg-[#F1D580]/50"
+                       href="#" @click="ShowDocTypePopup = true">
+                        School Form 9
+                    </a>
+                </div>
+            </div>
+            <!-- popup -->
+            <div v-if="ShowDocTypePopup" class="w-screen h-screen bg-[#325930]/20 flex justify-center items-center fixed top-0 left-0 z-999">
+
+                <div class="w-[30rem] min-h-[320px] p-9 bg-warm-white border-2 border-green flex justify-center items-center shadow-md">
+                    <div class="text-center w-full">
+                        <p class="font-bold text-green text-base">Document Type: School Form 9</p>
+
+                        <div class="flex flex-col justify-center items-center mt-9 gap-2">
+                            <a class="w-full text-center block bg-green px-6 py-3 text-base font-bold text-warm-white hover-bg-mid-green"
+                               href="#" @click="ShowDocTypeRenamePopup = true; ShowDocTypePopup = false;">
+                                Rename
+                            </a>
+                            <a class="w-full text-center block bg-green px-6 py-3 text-base font-bold text-warm-white hover-bg-mid-green"
+                               href="#" @click="ShowAreYouSurePopup = true; ShowDocTypePopup = false;">
+                                Remove
+                            </a>
+                            <a class="w-full text-center block bg-ivory px-6 py-3 text-base font-bold text-green hover:bg-[#F1D580]/50"
+                               href="#" @click="ShowDocTypePopup = false">
+                                Close
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <!-- rename -->
+            <div v-if="ShowDocTypeRenamePopup" class="w-screen h-screen bg-[#325930]/20 flex justify-center items-center fixed top-0 left-0 z-999">
+
+                <div class="w-[30rem] p-9 bg-warm-white border-2 border-green flex justify-center items-center shadow-md">
+                    <div class="text-center w-full">
+                        <h2 class="text-xl font-bold text-green-900 mb-9">Rename Document Type</h2>
+
+                        <div class="flex flex-col justify-center items-center mt-9 gap-2">
+                            <div class="flex flex-col w-full items-start">
+
+                                <input type="text" id="firstName" v-model="username"
+                                       class="mt-0.5 mb-2 w-full h-12 px-3 border-2 border-green outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none" />
+
+                            </div>
+                            <a class="w-full text-center block bg-green px-6 py-3 text-base font-bold text-warm-white hover-bg-mid-green"
+                               href="#" @click="ShowDocTypeRenamePopup = false; ShowLoading = true">
+                                Save changes
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- create -->
+            <div v-if="ShowDocTypeCreatePopup" class="w-screen h-screen bg-[#325930]/20 flex justify-center items-center fixed top-0 left-0 z-999">
+                <div class="bg-warm-white p-9 shadow-md w-[540px] border-2 border-green ">
+
+                    <h2 class="text-xl font-bold text-green-900 mb-4 text-center">Add Document Type</h2>
+
+                    <div>
+
+                        <input type="text" id="firstName" v-model="username" :class="[
+                                    'mt-0.5 mb-2 w-full h-12 px-3 outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none',
+                                    hmm ? 'transition-colors duration-500 border-[3px] border-red-500' : 'border-2 border-green'
+                                ]" />
+                    </div>
+
+                    <!-- Show this only when login fails -->
+                    <p v-if="hmm" class="text-sm" :class="hmm ? 'text-error' : 'text-green'">That document type already exists.</p>
+
+                    <div class="flex flex-col justify-center gap-2">
+                        <a class="w-full text-center inline-block mt-9 bg-green px-6 py-3 text-base font-bold text-warm-white hover-bg-mid-green"
+                           href="#" @click="ShowDocTypeCreatePopup = false; ShowLoading = true">
+                            Add
+                        </a>
+                        <a class="w-full text-center block bg-ivory px-6 py-3 text-base font-bold text-green hover:bg-[#F1D580]/50"
+                           href="#" @click="ShowDocTypeCreatePopup = false">
+                            Close
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- are you sure popup -->
+        <div v-if="ShowAreYouSurePopup" class="w-screen h-screen bg-[#325930]/20 flex justify-center items-center fixed top-0 left-0 z-999">
+
+            <div class="w-[30rem] p-9 bg-warm-white border-2 border-green flex justify-center items-center shadow-md">
+                <div class="text-center w-full">
+                    <p class="text-green text-base">This action is permanent and cannot be undone.</p>
+
+
+                    <div class="flex flex-col justify-center items-center mt-9 gap-2">
+                        <a class="w-full text-center block bg-green px-6 py-3 text-base font-bold text-warm-white hover-bg-mid-green"
+                           href="#" @click="ShowAreYouSurePopup = false; ShowPasswordConfirm = true;">
+                            Continue
+                        </a>
+                        <a class="w-full text-center block bg-ivory px-6 py-3 text-base font-bold text-green hover:bg-[#F1D580]/50"
+                           href="#" @click="ShowAreYouSurePopup = false">
+                            Cancel
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- password confirmation -->
+        <div v-if="ShowPasswordConfirm" class="w-screen h-screen bg-[#325930]/20 flex justify-center items-center fixed top-0 left-0 z-999">
+
+            <div class="w-[30rem] p-9 bg-warm-white border-2 border-green flex justify-center items-center shadow-md">
+                <div class="text-center w-full">
+                    <h2 class="text-xl font-bold text-green-900 mb-9">Password Confirmation</h2>
+
+                    <div class="flex flex-col justify-center items-center mt-9 gap-2">
+                        <div class="flex flex-col w-full items-start">
+
+                            <input type="text" id="firstName" v-model="username"
+                                   :class="[
+                                'mt-0.5 w-full h-12 mb-2 px-3 outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none',
+                                hmm ? 'transition-colors duration-500 border-[3px] border-red-500' : 'border-2 border-green']" />
+                        </div>
+
+                        <a class="w-full text-center block bg-green px-6 py-3 text-base font-bold text-warm-white hover-bg-mid-green"
+                           href="#" @click="ShowPasswordConfirm = false; ShowLoading = true">
+                            Verify
+                        </a>
+
+                        <p v-if="hmm" class="text-sm text-error">Password is incorrect.</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- loading changes -->
+        <div v-if="ShowLoading" class="w-screen h-screen transition-colors bg-[#325930]/60 flex justify-center items-center fixed top-0 left-0 z-999">
+            <p class="text-warm-white text-xl font-bold">Loading changes...</p>
         </div>
     </section>
 
