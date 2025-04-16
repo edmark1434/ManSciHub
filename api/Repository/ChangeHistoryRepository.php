@@ -24,15 +24,16 @@ class ChangeHistoryRepository {
     }
 
     public function addChangeHistory($change): void {
-        $query = "INSERT INTO CHANGE_HISTORY (CHG_COLUMN, CHG_OLD_VAL, CHG_NEW_VAL, ADMIN_ID) 
-        VALUES (:CHG_COLUMN, :CHG_OLD_VAL, :CHG_NEW_VAL, :ADMIN_ID)";
+        $query = "INSERT INTO CHANGE_HISTORY (CHG_TABLE,CHG_TABLE_ID, CHG_OLD_VAL, CHG_NEW_VAL, ADMIN_ID) 
+        VALUES (:CHG_TABLE,:CHG_TABLE_ID, :CHG_OLD_VAL, :CHG_NEW_VAL, :ADMIN_ID)";
         $params = $this->ChangeHistoryParameter($change);
         $this->repository->executeQuery($query, $params);
     }
 
     public function updateChangeHistory($change): void {
     $query = "UPDATE CHANGE_HISTORY SET 
-            CHG_COLUMN = :CHG_COLUMN,
+            CHG_TABLE = :CHG_TABLE,
+            CHG_TABLE_ID = :CHG_TABLE_ID,
             CHG_OLD_VAL = :CHG_OLD_VAL,
             CHG_NEW_VAL = :CHG_NEW_VAL,
             CHG_DATETIME = :CHG_DATETIME,
@@ -50,7 +51,8 @@ class ChangeHistoryRepository {
 
     private function ChangeHistoryParameter($changeHistory){
         $params =[
-            ":CHG_COLUMN" => $changeHistory->chg_column,
+            ":CHG_TABLE" => $changeHistory->chg_table,
+            ":CHG_TABLE_ID" => $changeHistory->chg_table_id,
             ":CHG_OLD_VAL" => $changeHistory->chg_old_val,
             ":CHG_NEW_VAL" => $changeHistory->chg_new_val,
             ":ADMIN_ID" => $changeHistory->admin_id

@@ -35,9 +35,9 @@ class RequestHistoryRepository {
     }
 
     public function addRequest($request): void {
-        $query = "INSERT INTO REQUEST_HISTORY (REQHS_DATE, REQHS_PURPOSE, 
+        $query = "INSERT INTO REQUEST_HISTORY (REQHS_ID,REQHS_DATE, REQHS_PURPOSE, 
                 REQHS_STATUS, DOCU_ID, STUD_ID) VALUES 
-                ( :REQHS_DATE, :REQHS_PURPOSE, :REQHS_STATUS, 
+                ( :REQHS_ID, :REQHS_DATE, :REQHS_PURPOSE, :REQHS_STATUS, 
                 :DOCU_ID, :STUD_ID)
         ";
         $params = $this->RequestHistoryParameter($request);
@@ -65,15 +65,14 @@ class RequestHistoryRepository {
     }
         private function RequestHistoryParameter($request){
         $params = [
+            ":REQHS_ID" => $request->reqhs_id,
             ":REQHS_DATE" => $request->reqhs_date,
             ":REQHS_PURPOSE" => $request->reqhs_purpose, 
             ":REQHS_STATUS" => $request->reqhs_status,
             ":DOCU_ID" => $request->docu_id,
             ":STUD_ID" => $request->stud_id,
         ];
-        if(!empty($request->reqhs_id)){
-            $params[":REQHS_ID"] = $request->reqhs_id;
-        }
+
         if(!empty($request->reqhs_proc_date)){
             $params[":REQHS_PROC_DATE"] = $request->reqhs_proc_date;
         }

@@ -20,6 +20,7 @@ class TransferRequestHistory{
 
     public function RequestHistoryObject($request){
         $requestObject = [
+            "reqhs_id" => $request["req_track_id"],
             "reqhs_status" => $request["req_status"],
             "reqhs_date" => $request["req_date"],
             "docu_id" => $request["docu_id"],
