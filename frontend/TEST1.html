@@ -722,7 +722,7 @@
                     <tbody class="divide-y border-green w-full">
                     <tr v-for="req in requestslist" class="border-green" @click="ShowRequestPopup = true; focusrequest = req">
                         <td class="px-3 py-2 ">{{req.req_track_id}}</td>
-                        <td class="px-3 py-2 ">{{req.stud_fname+" "+req.stud_mname+" "+req.stud_lname}}</td>
+                        <td class="px-3 py-2 ">{{[req.stud_fname,req.stud_mname,req.stud_lname].filter(Boolean).join(' ')}}</td>
                         <td class="px-3 py-2 ">{{req.stud_lrn}}</td>
                         <td class="px-3 py-2 ">{{req.docu_type}}</td>
                         <td class="px-3 py-2 ">{{req.req_purpose}}</td>
@@ -749,7 +749,7 @@
                     <tbody class="divide-y border-green w-full">
                     <tr v-for="req in requestslist" class="border-green" @click="ShowRequestPopup = true; focusrequest = req">
                         <td class="px-3 py-2 ">{{req.req_track_id}}</td>
-                        <td class="px-3 py-2 ">{{req.stud_fname+" "+req.stud_mname+" "+req.stud_lname}}</td>
+                        <td class="px-3 py-2 ">{{[req.stud_fname,req.stud_mname,req.stud_lname].filter(Boolean).join(' ')}}</td>
                         <td class="px-3 py-2 ">{{req.stud_lrn}}</td>
                         <td class="px-3 py-2 ">{{req.docu_type}}</td>
                         <td class="px-3 py-2 ">{{req.req_purpose}}</td>
@@ -765,13 +765,12 @@
 
                 <div class="w-[30rem] min-h-[320px] p-9 bg-warm-white border-2 border-green flex justify-center items-center shadow-md">
                     <div class="text-center w-full">
-                        <p class="font-bold text-green text-base">{{focusrequest.stud_fname+" "+focusrequest.stud_mname+" "+focusrequest.stud_lname}}</p>
-                        <p class="font-bold text-green text-base mb-4">Document: {{focusrequest.docu_type}}</p>
-
-                        <p class="text-green text-base">LRN: {{focusrequest.stud_lrn}}</p>
-                        <p class="text-green text-base">Purpose: {{focusrequest.req_purpose}}</p>
-                        <p class="text-green text-base">Email Address: {{focusrequest.stud_email}}</p>
-                        <p class="text-green text-base">Request Date: {{focusrequest.req_date}}</p>
+                        <p class="font-bold text-green text-base">{{ [focusrequest.stud_fname, focusrequest.stud_mname, focusrequest.stud_lname, focusrequest.stud_suffix].filter(Boolean).join(' ') }}</p>
+                        <p class="font-bold text-green text-base mb-4">Document: {{ focusrequest.docu_type }}</p>
+                        <p class="text-green text-base">LRN: {{ focusrequest.stud_lrn }}</p>
+                        <p class="text-green text-base">Purpose: {{ focusrequest.req_purpose }}</p>
+                        <p class="text-green text-base">Email Address: {{ focusrequest.stud_email }}</p>
+                        <p class="text-green text-base">Request Date: {{ focusrequest.req_date }}</p>
 
                         <div class="flex flex-col justify-center items-center mt-9 gap-2">
                             <label class="w-full">
@@ -940,7 +939,7 @@
                     </thead>
                     <tbody class="divide-y border-green w-full">
                     <tr v-for="adm in admissionslist" class="border-green" @click="ShowAdmissionPopup = true; focusadmission = adm">
-                        <td class="px-3 py-2 ">{{adm.stud_fname+" "+adm.stud_mname+" "+adm.stud_lname}}</td>
+                        <td class="px-3 py-2 ">{{[adm.stud_fname,adm.stud_mname,adm.stud_lname].filter(Boolean).join(' ')}}</td>
                         <td class="px-3 py-2 ">{{adm.stud_lrn}}</td>
                         <td class="px-3 py-2 ">{{adm.stud_email}}</td>
                         <td class="px-3 py-2 ">Grade {{adm.adms_lvl}}</td>
@@ -965,7 +964,7 @@
                     </thead>
                     <tbody class="divide-y border-green w-full">
                     <tr v-for="adm in admissionslist" class="border-green" @click="ShowAdmissionPopup = true; focusadmission = adm">
-                        <td class="px-3 py-2 ">{{adm.stud_fname+" "+adm.stud_mname+" "+adm.stud_lname}}</td>
+                        <td class="px-3 py-2 ">{{[adm.stud_fname,adm.stud_mname,adm.stud_lname].filter(Boolean).join(' ')}}</td>
                         <td class="px-3 py-2 ">{{adm.stud_lrn}}</td>
                         <td class="px-3 py-2 ">{{adm.stud_email}}</td>
                         <td class="px-3 py-2 ">Grade {{adm.adms_lvl}}</td>
@@ -981,14 +980,13 @@
 
                 <div class="w-[30rem] min-h-[320px] p-9 bg-warm-white border-2 border-green flex justify-center items-center shadow-md">
                     <div class="text-center w-full">
-                        <p class="font-bold text-green text-base">Name: {{focusadmission.stud_fname+" "+focusadmission.stud_mname+" "+focusadmission.stud_lname}}</p>
-                        <p class="font-bold text-green text-base mb-4">Level: Grade {{focusadmission.adms_lvl}}</p>
-
-                        <p class="text-green text-base">LRN: {{focusadmission.stud_lrn}}</p>
-                        <p class="text-green text-base">Date of Birth: {{focusadmission.stud_dob}}</p>
-                        <p class="text-green text-base">Email Address: {{focusadmission.stud_email}}</p>
-                        <p class="text-green text-base">Home Address: {{focusadmission.stud_add}}</p>
-                        <p class="text-green text-base">Application Date: {{focusadmission.adms_date}}</p>
+                        <p class="font-bold text-green text-base">{{ [focusadmission.stud_fname, focusadmission.stud_mname, focusadmission.stud_lname, focusadmission.stud_suffix].filter(Boolean).join(' ') }}</p>
+                        <p class="font-bold text-green text-base mb-4">Level: Grade {{ focusadmission.adms_lvl }}</p>
+                        <p class="text-green text-base">LRN: {{ focusadmission.stud_lrn }}</p>
+                        <p class="text-green text-base">Date of Birth: {{ focusadmission.adms_date }}</p>
+                        <p class="text-green text-base">Email Address: {{ focusadmission.stud_email }}</p>
+                        <p class="text-green text-base">Home Address: {{ focusadmission.stud_add }}</p>
+                        <p class="text-green text-base">Application Date: {{ focusadmission.adms_date }}</p>
 
                         <div class="flex flex-col justify-center items-center mt-9 gap-2">
                             <label class="w-full">
@@ -1035,7 +1033,7 @@
                      class="h-48 border-2 border-green p-6 col-span-1 bg-ivory hover:bg-[#F1D580]/50"
                      @click="ShowAdminPopup = true">
                     <p class="mt-auto text-xl text-green font-bold">{{admin.admin_username}}</p>
-                    <p class="text-base text-green">{{admin.admin_fname+" "+admin.admin_lname}}</p>
+                    <p class="text-base text-green">{{[admin.fname, admin.lname].filter(Boolean).join(' ')}}</p>
                 </div>
             </div>
             <!-- popup -->
@@ -1043,8 +1041,8 @@
 
                 <div class="w-[30rem] min-h-[320px] p-9 bg-warm-white border-2 border-green flex justify-center items-center shadow-md">
                     <div class="text-center w-full">
-                        <p class="font-bold text-green text-base">Username: ADM001</p>
-                        <p class="text-green text-base">Name: Jayson Gabriel Limosnero</p>
+                        <p class="font-bold text-green text-base">Username: {{ focusadmin_admin_username }}</p>
+                        <p class="text-green text-base">Name: {{ [focusadmin.fname, focusadmin.lname].filter(Boolean).join(' ') }}</p>
 
                         <div class="flex flex-col justify-center items-center mt-9 gap-2">
                             <a class="w-full text-center block bg-green px-6 py-3 text-base font-bold text-warm-white hover-bg-mid-green"
@@ -1593,7 +1591,7 @@
 
                 <div class="w-[30rem] min-h-[320px] p-9 bg-warm-white border-2 border-green flex justify-center items-center shadow-md">
                     <div class="text-center w-full">
-                        <p class="font-bold text-green text-base">Document Type: School Form 9</p>
+                        <p class="font-bold text-green text-base">Document Type: {{ focusdoctype.docu_type }}</p>
 
                         <div class="flex flex-col justify-center items-center mt-9 gap-2">
                             <a class="w-full text-center block bg-green px-6 py-3 text-base font-bold text-warm-white hover-bg-mid-green"
