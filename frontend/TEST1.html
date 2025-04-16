@@ -710,8 +710,8 @@
                 <table class="min-w-full">
                     <thead class="text-left bg-ivory h-12">
                     <tr class="font-bold">
-                        <th class="px-3 py-2 ">Code</th>
-                        <th class="px-3 py-2 ">Name</th>
+                        <th class="px-3 py-2 ">Tracking Code</th>
+                        <th class="px-3 py-2 ">Student Name</th>
                         <th class="px-3 py-2 ">LRN</th>
                         <th class="px-3 py-2 ">Document Type</th>
                         <th class="px-3 py-2 ">Purpose</th>
@@ -747,7 +747,7 @@
                     <thead class="text-left bg-ivory h-12 invisible">
                     <tr class="font-bold">
                         <th class="px-3 py-2 ">Tracking Code</th>
-                        <th class="px-3 py-2 ">Name</th>
+                        <th class="px-3 py-2 ">Student Name</th>
                         <th class="px-3 py-2 ">LRN</th>
                         <th class="px-3 py-2 ">Document Type</th>
                         <th class="px-3 py-2 ">Purpose</th>
@@ -957,7 +957,7 @@
                     </tr>
                     </thead>
                     <tbody class="divide-y border-green w-full">
-                    <tr v-for="(adm,index) in admissionslist" class="border-green" @click="ShowAdmissionPopup = true">
+                    <tr v-for="adm in admissionslist" class="border-green" @click="ShowAdmissionPopup = true; focusadmission = adm">
                         <td class="px-3 py-2 ">{{adm.stud_fname+" "+adm.stud_mname+" "+adm.stud_lname}}</td>
                         <td class="px-3 py-2 ">{{adm.stud_lrn}}</td>
                         <td class="px-3 py-2 ">{{adm.stud_email}}</td>
@@ -982,7 +982,7 @@
                     </tr>
                     </thead>
                     <tbody class="divide-y border-green w-full">
-                    <tr v-for="(adm,index) in admissionslist" class="border-green" @click="ShowAdmissionPopup = true; ">
+                    <tr v-for="adm in admissionslist" class="border-green" @click="ShowAdmissionPopup = true; focusadmission = adm">
                         <td class="px-3 py-2 ">{{adm.stud_fname+" "+adm.stud_mname+" "+adm.stud_lname}}</td>
                         <td class="px-3 py-2 ">{{adm.stud_lrn}}</td>
                         <td class="px-3 py-2 ">{{adm.stud_email}}</td>
@@ -999,14 +999,14 @@
 
                 <div class="w-[30rem] min-h-[320px] p-9 bg-warm-white border-2 border-green flex justify-center items-center shadow-md">
                     <div class="text-center w-full">
-                        <p class="font-bold text-green text-base">Jayson Gabriel Limosnero</p>
-                        <p class="font-bold text-green text-base mb-4">Level: Grade 7</p>
+                        <p class="font-bold text-green text-base">Name: {{focusadmission.stud_fname+" "+focusadmission.stud_mname+" "+focusadmission.stud_lname}}</p>
+                        <p class="font-bold text-green text-base mb-4">Level: Grade {{focusadmission.adms_lvl}}</p>
 
-                        <p class="text-green text-base">LRN: 123123123123</p>
-                        <p class="text-green text-base">Date of Birth: 2004-12-12</p>
-                        <p class="text-green text-base">Email Address: jaysongabriellimosnero@gmail.com</p>
-                        <p class="text-green text-base">Home Address: Bohol-Bohol II, Looc, Mandaue City</p>
-                        <p class="text-green text-base">Application Date: 2025-12-12</p>
+                        <p class="text-green text-base">LRN: {{focusadmission.stud_lrn}}</p>
+                        <p class="text-green text-base">Date of Birth: {{focusadmission.stud_dob}}</p>
+                        <p class="text-green text-base">Email Address: {{focusadmission.stud_email}}</p>
+                        <p class="text-green text-base">Home Address: {{focusadmission.stud_add}}</p>
+                        <p class="text-green text-base">Application Date: {{focusadmission.adms_date}}</p>
 
                         <div class="flex flex-col justify-center items-center mt-9 gap-2">
                             <label class="w-full">

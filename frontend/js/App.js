@@ -192,10 +192,10 @@ createApp({
     async getAllAdmission(){
       const data = await fetch.getAllAdmission();
       this.admissionslist = data.data;
-      console.log(this.admissionslist);
-      console.log(this.admissionslist.adms_lvl);
-      console.log(this.admissionslist.adms_date);
-      console.log(this.admissionslist.adms_status);
+    },
+    async getAllRequest(){
+      const data = await fetch.getAllRequest();
+      this.requestslist = data.data;
     },
     async checkLogin() {
       this.submitted = true;
