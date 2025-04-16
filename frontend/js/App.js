@@ -190,21 +190,21 @@ createApp({
       this.submitted = true;
       this.login = true;
       if (this.username && this.password) {
-        if (this.username == '' || this.password == '') {
-          this.loginMessage = "Invalid Credentials. Access denied!";
-        }
         const loginObject = {
           username: this.username,
           password: this.password
         };
         let data = await send.AdminLogin(loginObject);
         if (data.data) {
+          this.login = true;
           this.loginMessage = data.message;
           this.userDetails = data.data;
           this.verified = true;
           this.AdminID = data.data.admin_id;
+          this.resetScreens();
+          this.ShowAdminPanel = true;
         } else {
-          this.login = true;
+          this.login = false;
           this.loginMessage = "Invalid Credentials. Access denied!";
         }
       } else {
@@ -290,7 +290,6 @@ createApp({
       this.lrnReqField = false;
       this.purposeReqField = false;
       this.verified = false;
-      this.login = false;
       this.resetFormValidation();
     },
     isEmailValid(email) {
@@ -390,7 +389,7 @@ createApp({
       this.lrnMessage = 'This field is required.';
       this.emailReqMessage = 'This field is required.';
       this.lrnReqMessage = 'This field is required.';
-      this.loginMessage = "Invalid credentials. Access denied!";
+      this.loginMessage = "";
       this.firstNameMessage = 'This field is required.';
     }
 

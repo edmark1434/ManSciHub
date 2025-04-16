@@ -44,7 +44,7 @@
 
                 <input type="text" id="firstName" v-model="username" :class="[
                         'mt-0.5 w-full h-12 px-3 outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none',
-                        submitted && login ? 'transition-colors duration-500 border-[3px] border-red-500' : 'border-2 border-green'
+                        submitted && !login && !verified ? 'transition-colors duration-500 border-[3px] border-red-500' : 'border-2 border-green'
                       ]" />
             </div>
 
@@ -53,12 +53,12 @@
 
                 <input type="text" id="firstName" v-model="password" :class="[
                         'mt-0.5 w-full h-12 mb-2 px-3 outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none',
-                        submitted && login ? 'transition-colors duration-500 border-[3px] border-red-500' : 'border-2 border-green'
+                        submitted && !login && !verified ? 'transition-colors duration-500 border-[3px] border-red-500' : 'border-2 border-green'
                       ]" />
             </div>
 
             <!-- Show this only when login fails -->
-            <p v-if="login" class="text-sm" :class="(login && !verified) ? 'text-error' : 'text-green'">{{ loginMessage }}</p>
+            <p v-if="login || !login" class="text-sm" :class="(submitted && !login && !verified) ? 'text-error' : 'text-green'">{{ loginMessage }}</p>
 
             <div class="flex justify-center">
                 <a class="w-full text-center inline-block mt-9 bg-green px-6 py-3 text-base font-bold text-warm-white hover-bg-mid-green"
