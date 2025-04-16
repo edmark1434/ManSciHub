@@ -115,9 +115,15 @@ createApp({
       adminslist: [],
       studentslist: [],
       auditslist: [],
+      doctypeslist: [],
       controls: [],
 
-      focusadmission: 0,
+      focusrequest: {},
+      focusadmission: {},
+      focusadmin: {},
+      focusstudent: {},
+      focusaudit: {},
+      focusdoctype: {},
 
     };
   },
