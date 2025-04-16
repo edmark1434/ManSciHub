@@ -115,6 +115,7 @@ createApp({
       adminslist: [],
       studentslist: [],
       auditslist: [],
+      doctypeslist: [],
       controls: [],
 
       focusrequest: {},

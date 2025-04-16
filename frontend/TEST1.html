@@ -565,7 +565,7 @@
                         <p class="text-sm">
                             <strong class="block font-bold">ADM{{AdminID}}</strong>
 
-                            <span> {{adminDetails.admin_fname+" "+adminDetails.admin_lname}} </span>
+                            <span> Jodeci Pacibe </span>
                         </p>
                     </div>
                 </div>
@@ -710,8 +710,8 @@
                 <table class="min-w-full">
                     <thead class="text-left bg-ivory h-12">
                     <tr class="font-bold">
-                        <th class="px-3 py-2 ">Tracking Code</th>
-                        <th class="px-3 py-2 ">Student Name</th>
+                        <th class="px-3 py-2 ">Code</th>
+                        <th class="px-3 py-2 ">Name</th>
                         <th class="px-3 py-2 ">LRN</th>
                         <th class="px-3 py-2 ">Document Type</th>
                         <th class="px-3 py-2 ">Purpose</th>
@@ -720,14 +720,23 @@
                     </tr>
                     </thead>
                     <tbody class="divide-y border-green w-full">
-                    <tr v-for="req in requestslist" class="border-green" @click="ShowRequestPopup = true; focusrequest = req">
-                        <td class="px-3 py-2 ">{{req.req_track_id}}</td>
-                        <td class="px-3 py-2 ">{{req.stud_fname+" "+req.stud_mname+" "+req.stud_lname}}</td>
-                        <td class="px-3 py-2 ">{{req.stud_lrn}}</td>
-                        <td class="px-3 py-2 ">{{req.docu_type}}</td>
-                        <td class="px-3 py-2 ">{{req.req_purpose}}</td>
-                        <td class="px-3 py-2 ">{{req.req_date}}</td>
-                        <td class="px-3 py-2 ">{{req.req_status}}</td>
+                    <tr class="border-green">
+                        <td class="px-3 py-2 ">12345678</td>
+                        <td class="px-3 py-2 ">Jodeci A. Pacibe</td>
+                        <td class="px-3 py-2 ">136710100181</td>
+                        <td class="px-3 py-2 ">School Form 9</td>
+                        <td class="px-3 py-2 ">College Application</td>
+                        <td class="px-3 py-2 ">2025-03-23</td>
+                        <td class="px-3 py-2 ">Accepted</td>
+                    </tr>
+                    <tr class="border-green">
+                        <td class="px-3 py-2 ">12345678</td>
+                        <td class="px-3 py-2 ">Jayson Gabriel Limosnero</td>
+                        <td class="px-3 py-2 ">136710100181</td>
+                        <td class="px-3 py-2 ">SF9</td>
+                        <td class="px-3 py-2 ">College Application</td>
+                        <td class="px-3 py-2 ">2025-03-23</td>
+                        <td class="px-3 py-2 ">Pending</td>
                     </tr>
                     </tbody>
                 </table>
@@ -738,7 +747,7 @@
                     <thead class="text-left bg-ivory h-12 invisible">
                     <tr class="font-bold">
                         <th class="px-3 py-2 ">Tracking Code</th>
-                        <th class="px-3 py-2 ">Student Name</th>
+                        <th class="px-3 py-2 ">Name</th>
                         <th class="px-3 py-2 ">LRN</th>
                         <th class="px-3 py-2 ">Document Type</th>
                         <th class="px-3 py-2 ">Purpose</th>
@@ -747,31 +756,40 @@
                     </tr>
                     </thead>
                     <tbody class="divide-y border-green w-full">
-                    <tr v-for="req in requestslist" class="border-green" @click="ShowRequestPopup = true; focusrequest = req">
-                        <td class="px-3 py-2 ">{{req.req_track_id}}</td>
-                        <td class="px-3 py-2 ">{{req.stud_fname+" "+req.stud_mname+" "+req.stud_lname}}</td>
-                        <td class="px-3 py-2 ">{{req.stud_lrn}}</td>
-                        <td class="px-3 py-2 ">{{req.docu_type}}</td>
-                        <td class="px-3 py-2 ">{{req.req_purpose}}</td>
-                        <td class="px-3 py-2 ">{{req.req_date}}</td>
-                        <td class="px-3 py-2 ">{{req.req_status}}</td>
+                    <tr class="border-green" @click="ShowRequestPopup = true">
+                        <td class="px-3 py-2 ">12345678</td>
+                        <td class="px-3 py-2 ">Jodeci A. Pacibe</td>
+                        <td class="px-3 py-2 ">136710100181</td>
+                        <td class="px-3 py-2 ">School Form 9</td>
+                        <td class="px-3 py-2 ">College Application</td>
+                        <td class="px-3 py-2 ">2025-03-23</td>
+                        <td class="px-3 py-2 ">Accepted</td>
+                    </tr>
+                    <tr class="border-green" @click="ShowRequestPopup = true">
+                        <td class="px-3 py-2 ">12345678</td>
+                        <td class="px-3 py-2 ">Jayson Gabriel Limosnero</td>
+                        <td class="px-3 py-2 ">136710100181</td>
+                        <td class="px-3 py-2 ">Form 138</td>
+                        <td class="px-3 py-2 ">College Application</td>
+                        <td class="px-3 py-2 ">2025-03-23</td>
+                        <td class="px-3 py-2 ">Pending</td>
                     </tr>
                     </tbody>
                 </table>
             </div>
-            <p class="text-base font-bold text-green w-full text-right mt-3">{{requestslist.length}} records found</p>
+            <p class="text-base font-bold text-green w-full text-right mt-3">120 records found</p>
             <!-- popup -->
             <div v-if="ShowRequestPopup" class="w-screen h-screen bg-[#325930]/20 flex justify-center items-center fixed top-0 left-0 z-999">
 
                 <div class="w-[30rem] min-h-[320px] p-9 bg-warm-white border-2 border-green flex justify-center items-center shadow-md">
                     <div class="text-center w-full">
-                        <p class="font-bold text-green text-base">{{focusrequest.stud_fname+" "+focusrequest.stud_mname+" "+focusrequest.stud_lname}}</p>
-                        <p class="font-bold text-green text-base mb-4">Document: {{focusrequest.docu_type}}</p>
+                        <p class="font-bold text-green text-base">Jayson Gabriel Limosnero</p>
+                        <p class="font-bold text-green text-base mb-4">Document: Form 137</p>
 
-                        <p class="text-green text-base">LRN: {{focusrequest.stud_lrn}}</p>
-                        <p class="text-green text-base">Purpose: {{focusrequest.req_purpose}}</p>
-                        <p class="text-green text-base">Email Address: {{focusrequest.stud_email}}</p>
-                        <p class="text-green text-base">Request Date: {{focusrequest.req_date}}</p>
+                        <p class="text-green text-base">LRN: 123123123123</p>
+                        <p class="text-green text-base">Purpose: College Admission</p>
+                        <p class="text-green text-base">Email Address: jaysongabriellimosnero@gmail.com</p>
+                        <p class="text-green text-base">Request Date: 2025-12-12</p>
 
                         <div class="flex flex-col justify-center items-center mt-9 gap-2">
                             <label class="w-full">
@@ -939,7 +957,7 @@
                     </tr>
                     </thead>
                     <tbody class="divide-y border-green w-full">
-                    <tr v-for="adm in admissionslist" class="border-green" @click="ShowAdmissionPopup = true; focusadmission = adm">
+                    <tr v-for="(adm,index) in admissionslist" class="border-green" @click="ShowAdmissionPopup = true">
                         <td class="px-3 py-2 ">{{adm.stud_fname+" "+adm.stud_mname+" "+adm.stud_lname}}</td>
                         <td class="px-3 py-2 ">{{adm.stud_lrn}}</td>
                         <td class="px-3 py-2 ">{{adm.stud_email}}</td>
@@ -964,7 +982,7 @@
                     </tr>
                     </thead>
                     <tbody class="divide-y border-green w-full">
-                    <tr v-for="adm in admissionslist" class="border-green" @click="ShowAdmissionPopup = true; focusadmission = adm">
+                    <tr v-for="(adm,index) in admissionslist" class="border-green" @click="ShowAdmissionPopup = true; ">
                         <td class="px-3 py-2 ">{{adm.stud_fname+" "+adm.stud_mname+" "+adm.stud_lname}}</td>
                         <td class="px-3 py-2 ">{{adm.stud_lrn}}</td>
                         <td class="px-3 py-2 ">{{adm.stud_email}}</td>
@@ -975,20 +993,20 @@
                     </tbody>
                 </table>
             </div>
-            <p class="text-base font-bold text-green w-full text-right mt-3">{{admissionslist.length}} records found!</p>
+            <p class="text-base font-bold text-green w-full text-right mt-3">{{admissionslist.length}} found!</p>
             <!-- popup -->
             <div v-if="ShowAdmissionPopup" class="w-screen h-screen bg-[#325930]/20 flex justify-center items-center fixed top-0 left-0 z-999">
 
                 <div class="w-[30rem] min-h-[320px] p-9 bg-warm-white border-2 border-green flex justify-center items-center shadow-md">
                     <div class="text-center w-full">
-                        <p class="font-bold text-green text-base">Name: {{focusadmission.stud_fname+" "+focusadmission.stud_mname+" "+focusadmission.stud_lname}}</p>
-                        <p class="font-bold text-green text-base mb-4">Level: Grade {{focusadmission.adms_lvl}}</p>
+                        <p class="font-bold text-green text-base">Jayson Gabriel Limosnero</p>
+                        <p class="font-bold text-green text-base mb-4">Level: Grade 7</p>
 
-                        <p class="text-green text-base">LRN: {{focusadmission.stud_lrn}}</p>
-                        <p class="text-green text-base">Date of Birth: {{focusadmission.stud_dob}}</p>
-                        <p class="text-green text-base">Email Address: {{focusadmission.stud_email}}</p>
-                        <p class="text-green text-base">Home Address: {{focusadmission.stud_add}}</p>
-                        <p class="text-green text-base">Application Date: {{focusadmission.adms_date}}</p>
+                        <p class="text-green text-base">LRN: 123123123123</p>
+                        <p class="text-green text-base">Date of Birth: 2004-12-12</p>
+                        <p class="text-green text-base">Email Address: jaysongabriellimosnero@gmail.com</p>
+                        <p class="text-green text-base">Home Address: Bohol-Bohol II, Looc, Mandaue City</p>
+                        <p class="text-green text-base">Application Date: 2025-12-12</p>
 
                         <div class="flex flex-col justify-center items-center mt-9 gap-2">
                             <label class="w-full">
@@ -1031,7 +1049,7 @@
             </div>
             <!-- list -->
             <div class="w-full max-h-[calc(100vh-9.75rem)] overflow-auto grid grid-cols-4 gap-4 cardlist px-4">
-                <div v-for="admin in adminslist"
+                <div v-for="index in 16"
                      class="h-48 border-2 border-green p-6 col-span-1 bg-ivory hover:bg-[#F1D580]/50"
                      @click="ShowAdminPopup = true">
                     <p class="mt-auto text-xl text-green font-bold">ADM{{admin.admin_id}}</p>
@@ -1231,15 +1249,22 @@
                     </tr>
                     </thead>
                     <tbody class="divide-y border-green w-full">
-                    <tr v-for="aud in auditslist" class="border-green">
-                        <td class="px-3 py-2 ">{{aud.chg_table}}</td>
+                    <tr class="border-green">
+                        <td class="px-3 py-2 ">Document Request</td>
                         <td class="px-3 py-2 ">Jodeci A. Pacibe</td>
-                        <td class="px-3 py-2 ">{{aud.chg_datetime}}</td>
-                        <td class="px-3 py-2 ">{{aud.chg_old_val}} >> {{aud.chg_new_val}}</td>
+                        <td class="px-3 py-2 ">2004-07-25</td>
+                        <td class="px-3 py-2 ">Pending >> Ready</td>
                         <td class="px-3 py-2 ">2025-04-21</td>
-                        <td class="px-3 py-2 ">{{aud.admin_id}}</td>
+                        <td class="px-3 py-2 ">ADM001</td>
                     </tr>
-
+                    <tr class="border-green">
+                        <td class="px-3 py-2 ">School Admission</td>
+                        <td class="px-3 py-2 ">Jayson Gabriel Limosnero</td>
+                        <td class="px-3 py-2 ">2004-07-25</td>
+                        <td class="px-3 py-2 ">Pending >> Waitlisted</td>
+                        <td class="px-3 py-2 ">2025-04-21</td>
+                        <td class="px-3 py-2 ">ADM001</td>
+                    </tr>
                     </tbody>
                 </table>
             </div>
@@ -1257,13 +1282,21 @@
                     </tr>
                     </thead>
                     <tbody class="divide-y border-green w-full">
-                    <tr v-for="aud in auditslist" class="border-green">
-                        <td class="px-3 py-2 ">{{aud.chg_table}}</td>
+                    <tr class="border-green">
+                        <td class="px-3 py-2 ">Document Request</td>
                         <td class="px-3 py-2 ">Jodeci A. Pacibe</td>
-                        <td class="px-3 py-2 ">{{aud.chg_datetime}}</td>
-                        <td class="px-3 py-2 ">{{aud.chg_old_val}} >> {{aud.chg_new_val}}</td>
+                        <td class="px-3 py-2 ">2004-07-25</td>
+                        <td class="px-3 py-2 ">Pending >> Ready</td>
                         <td class="px-3 py-2 ">2025-04-21</td>
-                        <td class="px-3 py-2 ">{{aud.admin_id}}</td>
+                        <td class="px-3 py-2 ">ADM001</td>
+                    </tr>
+                    <tr class="border-green">
+                        <td class="px-3 py-2 ">School Admission</td>
+                        <td class="px-3 py-2 ">Jayson Gabriel Limosnero</td>
+                        <td class="px-3 py-2 ">2004-07-25</td>
+                        <td class="px-3 py-2 ">Pending >> Waitlisted</td>
+                        <td class="px-3 py-2 ">2025-04-21</td>
+                        <td class="px-3 py-2 ">ADM001</td>
                     </tr>
                     </tbody>
                 </table>
@@ -1351,12 +1384,19 @@
                     </tr>
                     </thead>
                     <tbody class="divide-y border-green w-full">
-                    <tr v-for="stud in studentslist" class="border-green" @click="focusstudent = stud">
-                        <td class="px-3 py-2 ">{{stud.stud_fname+" "+stud.stud_mname+" "+stud.stud_lname}}</td>
-                        <td class="px-3 py-2 ">{{stud.stud_lrn}}</td>
-                        <td class="px-3 py-2 ">{{stud.stud_dob}}</td>
-                        <td class="px-3 py-2 ">{{stud.stud_email}}</td>
-                        <td class="px-3 py-2 ">{{stud.stud_add}}</td>
+                    <tr class="border-green">
+                        <td class="px-3 py-2 ">Jodeci A. Pacibe</td>
+                        <td class="px-3 py-2 ">136710100181</td>
+                        <td class="px-3 py-2 ">2004-07-25</td>
+                        <td class="px-3 py-2 ">jaysongabriellimosnero@gmail.com</td>
+                        <td class="px-3 py-2 ">Ouano Compound, Looc, Mandaue City</td>
+                    </tr>
+                    <tr class="border-green">
+                        <td class="px-3 py-2 ">Jayson Gabriel Limosnero</td>
+                        <td class="px-3 py-2 ">136710100181</td>
+                        <td class="px-3 py-2 ">2004-07-25</td>
+                        <td class="px-3 py-2 ">jaysongabriellimosnero@gmail.com</td>
+                        <td class="px-3 py-2 ">03122 Plaza Tralala, Minglanilla, Cebu</td>
                     </tr>
                     </tbody>
                 </table>
@@ -1374,12 +1414,19 @@
                     </tr>
                     </thead>
                     <tbody class="divide-y border-green w-full">
-                    <tr v-for="stud in studentslist" class="border-green" @click="focusstudent = stud">
-                        <td class="px-3 py-2 ">{{stud.stud_fname+" "+stud.stud_mname+" "+stud.stud_lname}}</td>
-                        <td class="px-3 py-2 ">{{stud.stud_lrn}}</td>
-                        <td class="px-3 py-2 ">{{stud.stud_dob}}</td>
-                        <td class="px-3 py-2 ">{{stud.stud_email}}</td>
-                        <td class="px-3 py-2 ">{{stud.stud_add}}</td>
+                    <tr class="border-green">
+                        <td class="px-3 py-2 ">Jodeci A. Pacibe</td>
+                        <td class="px-3 py-2 ">136710100181</td>
+                        <td class="px-3 py-2 ">2004-07-25</td>
+                        <td class="px-3 py-2 ">jaysongabriellimosnero@gmail.com</td>
+                        <td class="px-3 py-2 ">Ouano Compound, Looc, Mandaue City</td>
+                    </tr>
+                    <tr class="border-green">
+                        <td class="px-3 py-2 ">Jayson Gabriel Limosnero</td>
+                        <td class="px-3 py-2 ">136710100181</td>
+                        <td class="px-3 py-2 ">2004-07-25</td>
+                        <td class="px-3 py-2 ">jaysongabriellimosnero@gmail.com</td>
+                        <td class="px-3 py-2 ">03122 Plaza Tralala, Minglanilla, Cebu</td>
                     </tr>
                     </tbody>
                 </table>
@@ -1582,9 +1629,9 @@
             <!-- list -->
             <div class="bg-ivory w-full h-[calc(100vh-9.75rem)] max-h-[calc(100vh-9.75rem)] overflow-auto flex justify-center items-center cardlist p-4 border-2 border-green">
                 <div class="flex flex-wrap gap-4 justify-center items-center w-full">
-                    <a v-for="docu in docType"class="text-center inline-block px-6 py-3 w-[16vw] h-12 border-2 border-green text-base text-green bg-warm-white hover:bg-[#F1D580]/50"
+                    <a v-for="i in 32"class="text-center inline-block px-6 py-3 w-[16vw] h-12 border-2 border-green text-base text-green bg-warm-white hover:bg-[#F1D580]/50"
                        href="#" @click="ShowDocTypePopup = true">
-                        {{docu.docu_type}}
+                        School Form 9
                     </a>
                 </div>
             </div>
