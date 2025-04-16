@@ -34,7 +34,7 @@
         return $this->repository->BuildResultQuery($result);       
     }
     public function addAdmissionHistory($AdmissionHistory): void{
-        $query = "INSERT INTO Admission_History (ADMHS_DATE,ADMHS_STATUS,STUD_ID,ADMHS_LVL) VALUES (:ADMHS_DATE,:ADMHS_STATUS,:STUD_ID,:ADMHS_LVL)";
+        $query = "INSERT INTO Admission_History (ADMHS_ID,ADMHS_DATE,ADMHS_STATUS,STUD_ID,ADMHS_LVL) VALUES (:ADMHS_ID,:ADMHS_DATE,:ADMHS_STATUS,:STUD_ID,:ADMHS_LVL)";
         $params = $this->AdmissionHistoryParameter($AdmissionHistory);
         $this->repository->executeQuery($query, $params);
     }
@@ -46,14 +46,15 @@ public function addAllAdmissionHistory($AdmissionHistoryList) {
     $params = [];
 
     foreach ($AdmissionHistoryList as $index => $adms) {
-        $placeholders[] = "(:ADMHS_DATE$index, :ADMHS_STATUS$index, :STUD_ID$index, :ADMHS_LVL$index)";
+        $placeholders[] = "(:ADMHS_ID$index, :ADMHS_DATE$index, :ADMHS_STATUS$index, :STUD_ID$index, :ADMHS_LVL$index)";
+        $params["ADMHS_ID$index"] = $adms["adms_id"];
         $params["ADMHS_DATE$index"] = $adms["adms_date"];
         $params["ADMHS_STATUS$index"] = $adms["adms_status"];
         $params["STUD_ID$index"] = $adms["stud_id"];
         $params["ADMHS_LVL$index"] = $adms["adms_lvl"];
     }
 
-    $query = "INSERT INTO Admission_History (ADMHS_DATE, ADMHS_STATUS, STUD_ID, ADMHS_LVL) VALUES " . implode(",", $placeholders);
+    $query = "INSERT INTO Admission_History (ADMHS_ID, ADMHS_DATE, ADMHS_STATUS, STUD_ID, ADMHS_LVL) VALUES " . implode(",", $placeholders);
     $this->repository->executeQuery($query, $params);
 }
 
@@ -73,14 +74,13 @@ public function addAllAdmissionHistory($AdmissionHistoryList) {
     }
     private function AdmissionHistoryParameter($AdmissionHistory){
         $params = [
+            ":ADMHS_ID" =>$AdmissionHistory->admhs_id,
             ":ADMHS_DATE" =>$AdmissionHistory->admhs_date,
             ":ADMHS_STATUS" =>$AdmissionHistory->admhs_status,
             ":ADMHS_LVL" =>$AdmissionHistory->admhs_lvl,
             ":STUD_ID" =>$AdmissionHistory->stud_id
         ];
-        if (!empty($AdmissionHistory->admhs_id)) {
-            $params[":ADMHS_ID"] = $AdmissionHistory->admhs_id;
-        }
+
         if(!empty($AdmissionHistory->admhs_proc_date)){
             $params[":ADMHS_PROC_DATE"] = $AdmissionHistory->admhs_proc_date;
         }

@@ -46,7 +46,8 @@ class ChangeHistoryService{
     private function ChangeHistoryObject($entity){
         $changeHistoryObject = new ChangeHistory();
         $changeHistoryObject->chg_id = $entity["chg_id"] ?? NULL;
-        $changeHistoryObject->chg_column = $entity["chg_column"] ?? NULL;
+        $changeHistoryObject->chg_table = $entity["chg_table"] ?? NULL;
+        $changeHistoryObject->chg_table_id = $entity["chg_table_id"] ?? NULL;
         $changeHistoryObject->chg_old_val = $entity["chg_old_val"] ?? NULL;
         $changeHistoryObject->chg_new_val = $entity["chg_new_val"] ?? NULL;
         $changeHistoryObject->chg_datetime = $entity["chg_datetime"] ?? NULL;

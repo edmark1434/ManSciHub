@@ -73,7 +73,7 @@ createApp({
       admission: {},
       requestDetail: {},
       admissionResponse: {},
-      userDetails: {},
+      adminDetails: {},
       requestTrackMessage: '',
       lrnMessage: 'This field is required.',
       emailMessage: 'This field is required.',
@@ -198,10 +198,22 @@ createApp({
     async getAllAdmission(){
       const data = await fetch.getAllAdmission();
       this.admissionslist = data.data;
-      console.log(this.admissionslist);
-      console.log(this.admissionslist.adms_lvl);
-      console.log(this.admissionslist.adms_date);
-      console.log(this.admissionslist.adms_status);
+    },
+    async getAllRequest(){
+      const data = await fetch.getAllRequest();
+      this.requestslist = data.data;
+    },
+    async getAllStudent() {
+      const data = await fetch.getAllStudent();
+      this.studentslist = data.data;
+    },
+    async getAllAdmin() {
+      const data = await fetch.getAllAdmin();
+      this.adminslist = data.data;
+    },
+    async getAllChangeHistory() {
+      const data = await fetch.getAllChangeHistory();
+      this.auditslist = data.data;
     },
     async checkLogin() {
       this.submitted = true;
@@ -215,12 +227,16 @@ createApp({
         if (data.data) {
           this.login = true;
           this.loginMessage = data.message;
-          this.userDetails = data.data;
+          this.adminDetails = data.data;
           this.verified = true;
           this.AdminID = data.data.admin_id;
           this.resetScreens();
           this.ShowAdminPanel = true;
           this.getAllAdmission();
+          this.getAllRequest();
+          this.getAllStudent();
+          this.getAllAdmin();
+          this.getAllChangeHistory();
         } else {
           this.login = false;
           this.loginMessage = "Invalid Credentials. Access denied!";
