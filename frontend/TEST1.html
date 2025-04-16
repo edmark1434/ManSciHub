@@ -370,7 +370,7 @@
                             id="Headline"
                             class="w-full h-full p-0 bg-transparent focus:outline-none focus:ring-0 focus:rounded-none" >
                         <option value="" selected disabled hidden>Please select</option>
-                        <option v-for="type in docType.filter(t => t.docu_is_active)" :value="type.docu_id">{{ type.docu_type }}</option>
+                        <option  :value="">{{  }}</option>
                     </select>
                 </div>
                 <p v-if="submitted && !documentType" class="text-sm text-error">This field is required.</p>
@@ -710,6 +710,7 @@
                 <table class="min-w-full">
                     <thead class="text-left bg-ivory h-12">
                     <tr class="font-bold">
+                        <th class="px-3 py-2 ">Tracking Code</th>
                         <th class="px-3 py-2 ">Name</th>
                         <th class="px-3 py-2 ">LRN</th>
                         <th class="px-3 py-2 ">Document Type</th>
@@ -720,6 +721,7 @@
                     </thead>
                     <tbody class="divide-y border-green w-full">
                     <tr class="border-green">
+                        <td class="px-3 py-2 ">12345678</td>
                         <td class="px-3 py-2 ">Jodeci A. Pacibe</td>
                         <td class="px-3 py-2 ">136710100181</td>
                         <td class="px-3 py-2 ">School Form 9</td>
@@ -728,6 +730,7 @@
                         <td class="px-3 py-2 ">Accepted</td>
                     </tr>
                     <tr class="border-green">
+                        <td class="px-3 py-2 ">12345678</td>
                         <td class="px-3 py-2 ">Jayson Gabriel Limosnero</td>
                         <td class="px-3 py-2 ">136710100181</td>
                         <td class="px-3 py-2 ">SF9</td>
@@ -743,6 +746,7 @@
                 <table class="min-w-full -mt-12">
                     <thead class="text-left bg-ivory h-12 invisible">
                     <tr class="font-bold">
+                        <th class="px-3 py-2 ">Tracking Code</th>
                         <th class="px-3 py-2 ">Name</th>
                         <th class="px-3 py-2 ">LRN</th>
                         <th class="px-3 py-2 ">Document Type</th>
@@ -753,6 +757,7 @@
                     </thead>
                     <tbody class="divide-y border-green w-full">
                     <tr class="border-green" @click="ShowRequestPopup = true">
+                        <td class="px-3 py-2 ">12345678</td>
                         <td class="px-3 py-2 ">Jodeci A. Pacibe</td>
                         <td class="px-3 py-2 ">136710100181</td>
                         <td class="px-3 py-2 ">School Form 9</td>
@@ -761,6 +766,7 @@
                         <td class="px-3 py-2 ">Accepted</td>
                     </tr>
                     <tr class="border-green" @click="ShowRequestPopup = true">
+                        <td class="px-3 py-2 ">12345678</td>
                         <td class="px-3 py-2 ">Jayson Gabriel Limosnero</td>
                         <td class="px-3 py-2 ">136710100181</td>
                         <td class="px-3 py-2 ">Form 138</td>
