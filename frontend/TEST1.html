@@ -951,7 +951,7 @@
                     </tr>
                     </thead>
                     <tbody class="divide-y border-green w-full">
-                    <tr v-for="adm in admissionslist" class="border-green" @click="ShowAdmissionPopup = true">
+                    <tr v-for="(adm,index) in admissionslist" class="border-green" @click="ShowAdmissionPopup = true">
                         <td class="px-3 py-2 ">{{adm.stud_fname+" "+adm.stud_mname+" "+adm.stud_lname}}</td>
                         <td class="px-3 py-2 ">{{adm.stud_lrn}}</td>
                         <td class="px-3 py-2 ">{{adm.stud_email}}</td>
@@ -976,11 +976,11 @@
                     </tr>
                     </thead>
                     <tbody class="divide-y border-green w-full">
-                    <tr v-for="adm in admissionslist" class="border-green" @click="ShowAdmissionPopup = true; ">
+                    <tr v-for="(adm,index) in admissionslist" class="border-green" @click="ShowAdmissionPopup = true; ">
                         <td class="px-3 py-2 ">{{adm.stud_fname+" "+adm.stud_mname+" "+adm.stud_lname}}</td>
                         <td class="px-3 py-2 ">{{adm.stud_lrn}}</td>
                         <td class="px-3 py-2 ">{{adm.stud_email}}</td>
-                        <td class="px-3 py-2 ">{{adm.adms_lvl}}</td>
+                        <td class="px-3 py-2 ">Grade {{adm.adms_lvl}}</td>
                         <td class="px-3 py-2 ">{{adm.adms_date}}</td>
                         <td class="px-3 py-2 ">{{adm.adms_status}}</td>
                     </tr>
