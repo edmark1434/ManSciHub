@@ -115,7 +115,10 @@ createApp({
       adminslist: [],
       studentslist: [],
       auditslist: [],
-      controls: {}
+      controls: [],
+
+      focusadmission: 0,
+
     };
   },
   mounted() {
@@ -186,6 +189,14 @@ createApp({
         }
       }
     },
+    async getAllAdmission(){
+      const data = await fetch.getAllAdmission();
+      this.admissionslist = data.data;
+      console.log(this.admissionslist);
+      console.log(this.admissionslist.adms_lvl);
+      console.log(this.admissionslist.adms_date);
+      console.log(this.admissionslist.adms_status);
+    },
     async checkLogin() {
       this.submitted = true;
       this.login = true;
@@ -203,6 +214,7 @@ createApp({
           this.AdminID = data.data.admin_id;
           this.resetScreens();
           this.ShowAdminPanel = true;
+          this.getAllAdmission();
         } else {
           this.login = false;
           this.loginMessage = "Invalid Credentials. Access denied!";

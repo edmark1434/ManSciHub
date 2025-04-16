@@ -951,21 +951,13 @@
                     </tr>
                     </thead>
                     <tbody class="divide-y border-green w-full">
-                    <tr class="border-green">
-                        <td class="px-3 py-2 ">Jodeci A. Pacibe</td>
-                        <td class="px-3 py-2 ">136710100181</td>
-                        <td class="px-3 py-2 ">jaysongabriellimosnero@gmail.com</td>
-                        <td class="px-3 py-2 ">Junior High School</td>
-                        <td class="px-3 py-2 ">2004-07-25</td>
-                        <td class="px-3 py-2 ">Accepted</td>
-                    </tr>
-                    <tr class="border-green">
-                        <td class="px-3 py-2 ">Jayson Gabriel Limosnero</td>
-                        <td class="px-3 py-2 ">136710100181</td>
-                        <td class="px-3 py-2 ">jaysongabriellimosnero@gmail.com</td>
-                        <td class="px-3 py-2 ">Senior High School</td>
-                        <td class="px-3 py-2 ">2004-07-25</td>
-                        <td class="px-3 py-2 ">Pending</td>
+                    <tr v-for="adm in admissionslist" class="border-green" @click="ShowAdmissionPopup = true">
+                        <td class="px-3 py-2 ">{{adm.stud_fname+" "+adm.stud_mname+" "+adm.stud_lname}}</td>
+                        <td class="px-3 py-2 ">{{adm.stud_lrn}}</td>
+                        <td class="px-3 py-2 ">{{adm.stud_email}}</td>
+                        <td class="px-3 py-2 ">{{adm.adms_lvl}}</td>
+                        <td class="px-3 py-2 ">{{adm.adms_date}}</td>
+                        <td class="px-3 py-2 ">{{adm.adms_status}}</td>
                     </tr>
                     </tbody>
                 </table>
@@ -984,26 +976,18 @@
                     </tr>
                     </thead>
                     <tbody class="divide-y border-green w-full">
-                    <tr v-for="index in 30" class="border-green" @click="ShowAdmissionPopup = true">
-                        <td class="px-3 py-2 ">Jodeci A. Pacibe</td>
-                        <td class="px-3 py-2 ">136710100181</td>
-                        <td class="px-3 py-2 ">jaysongabriellimosnero@gmail.com</td>
-                        <td class="px-3 py-2 ">Junior High School</td>
-                        <td class="px-3 py-2 ">2004-07-25</td>
-                        <td class="px-3 py-2 ">Accepted</td>
-                    </tr>
-                    <tr class="border-green" @click="ShowAdmissionPopup = true">
-                        <td class="px-3 py-2 ">Jayson Gabriel Limosnero</td>
-                        <td class="px-3 py-2 ">136710100181</td>
-                        <td class="px-3 py-2 ">jaysongabriellimosnero@gmail.com</td>
-                        <td class="px-3 py-2 ">Senior High School</td>
-                        <td class="px-3 py-2 ">2004-07-25</td>
-                        <td class="px-3 py-2 ">Pending</td>
+                    <tr v-for="adm in admissionslist" class="border-green" @click="ShowAdmissionPopup = true; ">
+                        <td class="px-3 py-2 ">{{adm.stud_fname+" "+adm.stud_mname+" "+adm.stud_lname}}</td>
+                        <td class="px-3 py-2 ">{{adm.stud_lrn}}</td>
+                        <td class="px-3 py-2 ">{{adm.stud_email}}</td>
+                        <td class="px-3 py-2 ">{{adm.adms_lvl}}</td>
+                        <td class="px-3 py-2 ">{{adm.adms_date}}</td>
+                        <td class="px-3 py-2 ">{{adm.adms_status}}</td>
                     </tr>
                     </tbody>
                 </table>
             </div>
-            <p class="text-base font-bold text-green w-full text-right mt-3">120 records found</p>
+            <p class="text-base font-bold text-green w-full text-right mt-3">{{admissionslist.length}} found!</p>
             <!-- popup -->
             <div v-if="ShowAdmissionPopup" class="w-screen h-screen bg-[#325930]/20 flex justify-center items-center fixed top-0 left-0 z-999">
 
