@@ -1031,9 +1031,9 @@
             <div class="w-full max-h-[calc(100vh-9.75rem)] overflow-auto grid grid-cols-4 gap-4 cardlist px-4">
                 <div v-for="admin in adminslist"
                      class="h-48 border-2 border-green p-6 col-span-1 bg-ivory hover:bg-[#F1D580]/50"
-                     @click="ShowAdminPopup = true">
+                     @click="ShowAdminPopup = true; focusadmin = admin">
                     <p class="mt-auto text-xl text-green font-bold">{{admin.admin_username}}</p>
-                    <p class="text-base text-green">{{[admin.fname, admin.lname].filter(Boolean).join(' ')}}</p>
+                    <p class="text-base text-green">{{[admin.admin_fname, admin.admin_lname].filter(Boolean).join(' ')}}</p>
                 </div>
             </div>
             <!-- popup -->
@@ -1041,8 +1041,8 @@
 
                 <div class="w-[30rem] min-h-[320px] p-9 bg-warm-white border-2 border-green flex justify-center items-center shadow-md">
                     <div class="text-center w-full">
-                        <p class="font-bold text-green text-base">Username: {{ focusadmin_admin_username }}</p>
-                        <p class="text-green text-base">Name: {{ [focusadmin.fname, focusadmin.lname].filter(Boolean).join(' ') }}</p>
+                        <p class="font-bold text-green text-base">Username: {{ focusadmin.admin_username }}</p>
+                        <p class="text-green text-base">Name: {{ [focusadmin.admin_fname, focusadmin.admin_lname].filter(Boolean).join(' ') }}</p>
 
                         <div class="flex flex-col justify-center items-center mt-9 gap-2">
                             <a class="w-full text-center block bg-green px-6 py-3 text-base font-bold text-warm-white hover-bg-mid-green"
@@ -1581,7 +1581,7 @@
             <div class="bg-ivory w-full h-[calc(100vh-9.75rem)] max-h-[calc(100vh-9.75rem)] overflow-auto flex justify-center items-center cardlist p-4 border-2 border-green">
                 <div class="flex flex-wrap gap-4 justify-center items-center w-full">
                     <a v-for="docu in docType"class="text-center inline-block px-6 py-3 w-[16vw] h-12 border-2 border-green text-base text-green bg-warm-white hover:bg-[#F1D580]/50"
-                       href="#" @click="ShowDocTypePopup = true">
+                       href="#" @click="ShowDocTypePopup = true; focusdoctype = docu">
                         {{docu.docu_type}}
                     </a>
                 </div>
