@@ -563,7 +563,7 @@
 
                     <div>
                         <p class="text-sm">
-                            <strong class="block font-bold">{{AdminID}}</strong>
+                            <strong class="block font-bold">{{adminDetails.admin_username}}</strong>
 
                             <span> {{adminDetails.admin_fname+" "+adminDetails.admin_lname}} </span>
                         </p>
@@ -1128,7 +1128,7 @@
                     <div>
                         <span class="text-base font-medium text-green">Username</span>
 
-                        <input type="text" id="firstName" v-model="username" :class="[
+                        <input type="text" id="firstName" v-model="adminUsername" :class="[
                                     'mt-0.5 w-full h-12 px-3 outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none',
                                     hmm ? 'transition-colors duration-500 border-[3px] border-red-500' : 'border-2 border-green'
                                 ]" />
@@ -1137,18 +1137,18 @@
                     <div class="mt-4">
                         <span class="text-base font-medium text-green">Password</span>
 
-                        <input type="text" id="firstName" v-model="password" :class="[
+                        <input type="text" id="firstName" v-model="adminPassword" :class="[
                                     'mt-0.5 w-full h-12 mb-2 px-3 outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none',
                                     hmm ? 'transition-colors duration-500 border-[3px] border-red-500' : 'border-2 border-green'
                                 ]" />
                     </div>
 
                     <!-- Show this only when login fails -->
-                    <p v-if="hmm" class="text-sm" :class="hmm ? 'text-error' : 'text-green'">An admin with the given username already exists.</p>
+                    <p v-if="checkUsername" class="text-sm" :class="checkUsername ? 'text-error' : 'text-green'">An admin with the given username already exists.</p>
 
                     <div class="flex flex-col justify-center gap-2">
                         <a class="w-full text-center inline-block mt-9 bg-green px-6 py-3 text-base font-bold text-warm-white hover-bg-mid-green"
-                           href="#" @click="ShowAdminCreatePopup = false; ShowPasswordConfirm = true">
+                           href="#" @click="showConfirmPassword()">
                             Register
                         </a>
                         <a class="w-full text-center block bg-ivory px-6 py-3 text-base font-bold text-green hover:bg-[#F1D580]/50"
@@ -1699,18 +1699,18 @@
                     <div class="flex flex-col justify-center items-center mt-9 gap-2">
                         <div class="flex flex-col w-full items-start">
 
-                            <input type="text" id="firstName" v-model="username"
+                            <input type="text" id="firstName" v-model="confirmPassword"
                                    :class="[
                                 'mt-0.5 w-full h-12 mb-2 px-3 outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none',
-                                hmm ? 'transition-colors duration-500 border-[3px] border-red-500' : 'border-2 border-green']" />
+                                confirmPasswordIncorrect ? 'transition-colors duration-500 border-[3px] border-red-500' : 'border-2 border-green']" />
                         </div>
 
                         <a class="w-full text-center block bg-green px-6 py-3 text-base font-bold text-warm-white hover-bg-mid-green"
-                           href="#" @click="ShowPasswordConfirm = false; ShowLoading = true">
+                           href="#" @click="createAdmin()">
                             Verify
                         </a>
 
-                        <p v-if="hmm" class="text-sm text-error">Password is incorrect.</p>
+                        <p v-if="confirmPasswordIncorrect" class="text-sm text-error">Password is incorrect.</p>
                     </div>
                 </div>
             </div>
@@ -1719,7 +1719,7 @@
 
         <!-- loading changes -->
         <div v-if="ShowLoading" class="w-screen h-screen transition-colors bg-[#325930]/60 flex justify-center items-center fixed top-0 left-0 z-999">
-            <p class="text-warm-white text-xl font-bold">Loading changes...</p>
+            <p class="text-warm-white text-xl font-bold">{{loadingMessage}}</p>
         </div>
     </section>
 

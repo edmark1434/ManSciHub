@@ -57,6 +57,11 @@ createApp({
       extensionReq: '',
       dateOfBirth: '',
       lrn: '',
+      adminUsername: '',
+      adminPassword: '',
+      confirmPassword: '',
+      confirmPasswordIncorrect: false,
+      checkUsername: false,
       lrnReq: '',
       homeAddress: '',
       email: '',
@@ -80,6 +85,7 @@ createApp({
       lrnReqMessage: 'This field is required.',
       emailReqMessage: 'This field is required.',
       firstNameMessage: 'This field is required.',
+      loadingMessage: 'Loading Changes....',
 
       // fields Validation Admission
       firstNameField: false,
@@ -136,6 +142,30 @@ createApp({
     });
   },
   methods: {
+    resetAdminScreens() {
+            // Admin Panel Screens
+      this.ShowDocumentRequests = false;
+      this.ShowSchoolAdmissions= false;
+      this.ShowAdministrators= false;
+      this.ShowStudents= false;
+      this.ShowAuditLogByAdmin= false;
+      this.ShowAuditLogAll= false;
+      this.ShowAdminControls= false;
+      this.ShowDocumentTypes= false;
+
+      this.ShowRequestPopup= false;
+      this.ShowAdmissionPopup= false;
+      this.ShowAdminPopup= false;
+      this.ShowDocTypePopup= false;
+      this.ShowAreYouSurePopup= false;
+      this.ShowUsernameChange= false;
+      this.ShowPasswordChange= false;
+      this.ShowPasswordConfirm= false;
+      this.ShowAdminCreatePopup= false;
+      this.ShowDocTypeRenamePopup= false;
+      this.ShowDocTypeCreatePopup= false;
+      this.ShowLoading= false;
+    },
     requestObject() {
       this.request["stud_fname"] = this.firstNameReq;
       this.request["stud_lname"] = this.lastNameReq;
@@ -180,6 +210,42 @@ createApp({
     goToAdminLogin() {
       this.resetScreens();
       this.ShowAdminLogin = true;
+    },
+    showConfirmPassword() {
+      this.checkUsername = false;
+      const exists = Object.values(this.adminslist).some(
+      admin => admin.admin_username === this.adminUsername);
+      if (exists) {
+        this.checkUsername = true;
+      } else {
+        this.ShowAdminCreatePopup = false;
+        this.ShowPasswordConfirm = true;
+      }
+    },
+    loadingScreenTimeout() {
+      setTimeout(() => {
+        this.resetAdminScreens();
+        this.ShowAdministrators = true;
+      },3000);
+    },
+    async createAdmin() {
+      this.confirmPasswordIncorrect = false;
+      if (this.confirmPassword === this.adminPassword) {
+        const adminObject = {
+          "admin_fname": "Jodeci",
+          "admin_lname": "Pacibe",
+          "admin_username": this.adminUsername,
+          "admin_password": this.adminPassword
+        };
+        const data = await send.CreateAdmin(adminObject);
+        this.getAllAdmin();
+        this.resetAdminScreens();
+        this.ShowLoading = true;
+        this.loadingMessage = data + this.adminUsername;
+        this.loadingScreenTimeout();
+      } else {
+        this.confirmPasswordIncorrect = true;
+      }
     },
     async submitTrackID() {
       this.requestTrackMessage = '';
@@ -417,6 +483,9 @@ createApp({
       this.admissionLevel = '';
       this.username = '';
       this.password = '';
+      this.adminUsername = '';
+      this.adminPassword = '';
+      this.confirmPassword = '';
       this.lrnField = false;
       this.lrnReqField = false;
       this.emailMessage = 'this field is required.';
