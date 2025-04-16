@@ -563,7 +563,7 @@
 
                     <div>
                         <p class="text-sm">
-                            <strong class="block font-bold">{{AdminID}}</strong>
+                            <strong class="block font-bold">ADM{{AdminID}}</strong>
 
                             <span> {{adminDetails.admin_fname+" "+adminDetails.admin_lname}} </span>
                         </p>
@@ -1034,7 +1034,7 @@
                 <div v-for="admin in adminslist"
                      class="h-48 border-2 border-green p-6 col-span-1 bg-ivory hover:bg-[#F1D580]/50"
                      @click="ShowAdminPopup = true">
-                    <p class="mt-auto text-xl text-green font-bold">{{admin.admin_id}}</p>
+                    <p class="mt-auto text-xl text-green font-bold">ADM{{admin.admin_id}}</p>
                     <p class="text-base text-green">{{admin.admin_fname+" "+admin.admin_lname}}</p>
                 </div>
             </div>
@@ -1166,7 +1166,7 @@
         <div v-if="ShowAuditLogByAdmin" class="w-full h-full p-9">
             <div class="flex gap-4 items-center mb-9">
                 <img src="assets/audit-logs.svg" alt="Logo" class="w-12">
-                <h1 class="text-green-900 font-bold text-3xl mr-auto">ADM001's Audit Logs</h1>
+                <h1 class="text-green-900 font-bold text-3xl mr-auto">ADM{{AdminID}}'s Audit Logs</h1>
                 <a class="text-center inline-flex border-2 border-warm-white bg-ivory px-6 h-12 items-center text-base font-bold text-green hover:bg-[#F1D580]/50"
                    href="#" @click="ShowAuditLogByAdmin = false; ShowAdministrators = true">
                     Go back
