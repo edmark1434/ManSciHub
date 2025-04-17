@@ -1128,7 +1128,7 @@
                     <div>
                         <span class="text-base font-medium text-green">Username</span>
 
-                        <input type="text" id="firstName" v-model="adminUsername" :class="[
+                        <input type="text" id="firstName" v-model="createAdminUsername" :class="[
                                     'mt-0.5 w-full h-12 px-3 outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none',
                                     hmm ? 'transition-colors duration-500 border-[3px] border-red-500' : 'border-2 border-green'
                                 ]" />
@@ -1137,7 +1137,7 @@
                     <div class="mt-4">
                         <span class="text-base font-medium text-green">Password</span>
 
-                        <input type="text" id="firstName" v-model="adminPassword" :class="[
+                        <input type="text" id="firstName" v-model="createAdminPassword" :class="[
                                     'mt-0.5 w-full h-12 mb-2 px-3 outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none',
                                     hmm ? 'transition-colors duration-500 border-[3px] border-red-500' : 'border-2 border-green'
                                 ]" />
@@ -1643,18 +1643,18 @@
 
                     <div>
 
-                        <input type="text" id="firstName" v-model="username" :class="[
+                        <input type="text" id="firstName" v-model="documentType" :class="[
                                     'mt-0.5 mb-2 w-full h-12 px-3 outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none',
                                     hmm ? 'transition-colors duration-500 border-[3px] border-red-500' : 'border-2 border-green'
                                 ]" />
                     </div>
 
                     <!-- Show this only when login fails -->
-                    <p v-if="hmm" class="text-sm" :class="hmm ? 'text-error' : 'text-green'">That document type already exists.</p>
+                    <p v-if="documentExist" class="text-sm" :class="documentExist ? 'text-error' : 'text-green'">That document type already exists.</p>
 
                     <div class="flex flex-col justify-center gap-2">
                         <a class="w-full text-center inline-block mt-9 bg-green px-6 py-3 text-base font-bold text-warm-white hover-bg-mid-green"
-                           href="#" @click="ShowDocTypeCreatePopup = false; ShowLoading = true">
+                           href="#" @click="documentCreate()">
                             Add
                         </a>
                         <a class="w-full text-center block bg-ivory px-6 py-3 text-base font-bold text-green hover:bg-[#F1D580]/50"

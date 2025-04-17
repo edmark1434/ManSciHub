@@ -57,8 +57,8 @@ createApp({
       extensionReq: '',
       dateOfBirth: '',
       lrn: '',
-      adminUsername: '',
-      adminPassword: '',
+      createAdminUsername: '',
+      createAdminPassword: '',
       confirmPassword: '',
       confirmPasswordIncorrect: false,
       checkUsername: false,
@@ -72,6 +72,7 @@ createApp({
       trackID: '',
       status: '',
       loginFailed: '',
+      documentType: '',
       docType: {},
       request: {},
       requestTrack: null,
@@ -110,7 +111,8 @@ createApp({
       // admin login validation
       login: false,
       loginMessage: '',
-      verified : false,
+      verified: false,
+      documentExist: false,
 
       // today
       today: new Date().toISOString().split('T')[0],
@@ -224,9 +226,32 @@ createApp({
     },
     loadingScreenTimeout() {
       setTimeout(() => {
-        this.resetAdminScreens();
-        this.ShowAdministrators = true;
+        this.ShowLoading = false;
+        this.adminUsername = '';
+        this.adminPassword = '';
+        this.documentType = '';
       },3000);
+    },
+    async documentCreate() {
+      const documentObject = {
+        "docu_type" : this.documentType
+      }
+      this.documentExist = false;
+      const exists = Object.values(this.docType).some(
+        document => document.docu_type === this.documentType);
+      if (exists) {
+        this.documentExist = true;
+      } else {
+        const data = await send.documentCreate(documentObject);
+        fetch.getAllDocuments().then((docu_data) => {
+          this.docType = docu_data;
+        });
+        this.resetAdminScreens();
+        this.ShowLoading = true;
+        this.loadingMessage = data +" "+this.documentType;
+        this.loadingScreenTimeout();
+        this.ShowDocumentTypes = true;
+      }
     },
     async createAdmin() {
       this.confirmPasswordIncorrect = false;
@@ -234,15 +259,16 @@ createApp({
         const adminObject = {
           "admin_fname": "Jodeci",
           "admin_lname": "Pacibe",
-          "admin_username": this.adminUsername,
-          "admin_password": this.adminPassword
+          "admin_username": this.createAdminUsername,
+          "admin_password": this.createAdminPassword
         };
         const data = await send.CreateAdmin(adminObject);
         this.getAllAdmin();
         this.resetAdminScreens();
         this.ShowLoading = true;
-        this.loadingMessage = data + this.adminUsername;
+        this.loadingMessage = data + this.createAdminUsername;
         this.loadingScreenTimeout();
+        this.ShowAdministrators = true;
       } else {
         this.confirmPasswordIncorrect = true;
       }
@@ -296,13 +322,13 @@ createApp({
           this.adminDetails = data.data;
           this.verified = true;
           this.AdminID = data.data.admin_id;
-          this.resetScreens();
-          this.ShowAdminPanel = true;
           this.getAllAdmission();
           this.getAllRequest();
           this.getAllStudent();
           this.getAllAdmin();
           this.getAllChangeHistory();
+          this.resetScreens();
+          this.ShowAdminPanel = true;
         } else {
           this.login = false;
           this.loginMessage = "Invalid Credentials. Access denied!";

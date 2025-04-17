@@ -84,7 +84,7 @@ export async function CreateAdmin(data) {
             "Content-Type": "application/json"
         },
         body: JSON.stringify(data),
-    })
+    });
     //create admin
     //sample data to pass
     // "admin_username" : "joanna143467", - should be unique
@@ -107,7 +107,7 @@ export async function CreateChangeHistory(data) {
             "Content-Type": "application/json"
         },
         body: JSON.stringify(data),
-    })
+    });
     //create admin
     //sample data to pass
     // "chg_column" : "admission",
@@ -233,4 +233,14 @@ export async function DeleteAdmin(data) {
         return response_data.message;
     }
 }
-
+export async function documentCreate(data) {
+    const response = await fetch("http://localhost:8000/api/Document", {
+        method: 'POST',
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data),
+    });
+    const response_data = await response.json();
+    return response_data.message;
+}
