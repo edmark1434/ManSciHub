@@ -83,6 +83,15 @@ export async function getAllAdmin() {
         return data.message;
     }
 }
+export async function getAdminById(id) {
+    const response = await fetch(`http://localhost:8000/api/Admin/${id}`);
+    const data = await response.json();
+    if (response.ok) {
+        return data;
+    } else {
+        return data.message;
+    }
+}
 
 //this function is for admission close
 // this will automatically transfer the all record admissions in admission_history

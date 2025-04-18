@@ -51,7 +51,7 @@
             <div class="mt-4">
                 <span class="text-base font-medium text-green">Password</span>
 
-                <input type="text" id="firstName" v-model="password" :class="[
+                <input type="password" id="firstName" v-model="password" :class="[
                         'mt-0.5 w-full h-12 mb-2 px-3 outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none',
                         submitted && !login && !verified ? 'transition-colors duration-500 border-[3px] border-red-500' : 'border-2 border-green'
                       ]" />
@@ -777,7 +777,7 @@
                                             class="w-full h-full p-0 bg-transparent focus:outline-none focus:ring-0 focus:rounded-none" v-model="documentRequestStatus" >
                                         <option value="Pending">Pending</option>
                                         <option value="Rejected">Rejected</option>
-                                        <option value="Waitedlist">Ready</option>
+                                        <option value="Ready">Ready</option>
                                         <option value="Accepted">Retrieved</option>
                                     </select>
                                 </div>
@@ -955,7 +955,7 @@
                     </tr>
                     </thead>
                     <tbody class="divide-y border-green w-full">
-                    <tr v-for="adm in admissionslist" class="border-green" @click="ShowAdmissionPopup = true; focusadmission = adm">
+                    <tr v-for="adm in admissionslist" class="border-green" @click="ShowAdmissionPopup = true; focusadmission = adm; admissionRequestStatus = focusadmission.adms_status">
                         <td class="px-3 py-2 ">{{[adm.stud_fname,adm.stud_mname,adm.stud_lname].filter(Boolean).join(' ')}}</td>
                         <td class="px-3 py-2 ">{{adm.stud_lrn}}</td>
                         <td class="px-3 py-2 ">{{adm.stud_email}}</td>
@@ -986,7 +986,7 @@
                                     <select
                                             name="Headline"
                                             id="Headline"
-                                            class="w-full h-full p-0 bg-transparent focus:outline-none focus:ring-0 focus:rounded-none" v-model="AdmissionRequestStatus" >
+                                            class="w-full h-full p-0 bg-transparent focus:outline-none focus:ring-0 focus:rounded-none" v-model="admissionRequestStatus" >
                                         <option value="Pending">Pending</option>
                                         <option value="Rejected">Rejected</option>
                                         <option value="Waitlisted">Waitlisted</option>
@@ -995,7 +995,7 @@
                                 </div>
                             </label>
                             <a class="w-full text-center block bg-green px-6 py-3 text-base font-bold text-warm-white hover-bg-mid-green"
-                               href="#" @click="ShowAdmissionPopup = false">
+                               href="#" @click="UpdateAdmissionRequest()">
                                 Save changes
                             </a>
                         </div>
@@ -1115,7 +1115,7 @@
                             <div class="flex flex-col w-full items-start">
                                 <span class="text-base font-medium text-green">New password</span>
 
-                                <input type="text" id="firstName" v-model="newAdminPassword"
+                                <input type="password" id="firstName" v-model="newAdminPassword"
                                        class="mt-0.5 mb-2 w-full h-12 px-3 border-2 border-green outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none" />
 
                             </div>
@@ -1148,7 +1148,7 @@
                     <div class="mt-4">
                         <span class="text-base font-medium text-green">First name</span>
 
-                        <input type="text" id="firstName" v-model="" :class="[
+                        <input type="text" id="firstName" v-model="createAdminFirstname" :class="[
                                     'mt-0.5 w-full h-12 mb-2 px-3 outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none',
                                     hmm ? 'transition-colors duration-500 border-[3px] border-red-500' : 'border-2 border-green'
                                 ]" />
@@ -1157,7 +1157,7 @@
                     <div class="mt-4">
                         <span class="text-base font-medium text-green">Last name</span>
 
-                        <input type="text" id="firstName" v-model="" :class="[
+                        <input type="text" id="firstName" v-model="createAdminLastname" :class="[
                                     'mt-0.5 w-full h-12 mb-2 px-3 outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none',
                                     hmm ? 'transition-colors duration-500 border-[3px] border-red-500' : 'border-2 border-green'
                                 ]" />
@@ -1166,7 +1166,7 @@
                     <div class="mt-4">
                         <span class="text-base font-medium text-green">Password</span>
 
-                        <input type="text" id="firstName" v-model="createAdminPassword" :class="[
+                        <input type="password" id="firstName" v-model="createAdminPassword" :class="[
                                     'mt-0.5 w-full h-12 mb-2 px-3 outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none',
                                     hmm ? 'transition-colors duration-500 border-[3px] border-red-500' : 'border-2 border-green'
                                 ]" />
@@ -1712,7 +1712,7 @@
                     <div class="flex flex-col justify-center items-center mt-9 gap-2">
                         <div class="flex flex-col w-full items-start">
 
-                            <input type="text" id="firstName" v-model="confirmPassword"
+                            <input type="password" id="firstName" v-model="confirmPassword"
                                    :class="[
                                 'mt-0.5 w-full h-12 mb-2 px-3 outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none',
                                 confirmPasswordIncorrect ? 'transition-colors duration-500 border-[3px] border-red-500' : 'border-2 border-green']" />

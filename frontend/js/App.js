@@ -60,6 +60,8 @@ createApp({
       lrn: '',
       createAdminUsername: '',
       createAdminPassword: '',
+      createAdminFirstname: '',
+      createAdminLastname: '',
       newAdminPassword: '',
       newAdminUsername: '',
       Process: '',
@@ -79,6 +81,7 @@ createApp({
       loginFailed: '',
       documentType: '',
       documentRequestStatus: '',
+      admissionRequestStatus: '',
       docType: {},
       request: {},
       requestTrack: null,
@@ -211,6 +214,10 @@ createApp({
       this.ShowDocTypeCreatePopup= false;
       this.ShowLoading= false;
     },
+    async getAdminById() {
+      const data = await fetch.getAdminById(this.focusadmin.admin_id);
+      this.adminDetails = data.data;
+    },
     requestObject() {
       this.request["stud_fname"] = this.firstNameReq;
       this.request["stud_lname"] = this.lastNameReq;
@@ -227,31 +234,62 @@ createApp({
             "req_track_id": this.focusrequest.req_track_id,
             "req_date": this.focusrequest.req_date,
             "req_purpose": this.focusrequest.req_purpose,
-            "req_status": this.focusrequest.req_status,
+            "req_status": this.documentRequestStatus,
             "docu_id": this.focusrequest.docu_id,
             "stud_id": this.focusrequest.stud_id
       };
-      console.log(documentRequestObject);
       if (this.documentRequestStatus.toUpperCase() !== "REJECTED" && this.documentRequestStatus.toUpperCase() !== "ACCEPTED") {
         if (this.documentRequestStatus !== this.focusrequest.req_status) {
-          documentRequestObject.req_status = this.documentRequestStatus;
           const data = await send.UpdateRequest(documentRequestObject);
-          console.log(data);
           if (data.includes("Successfully")) {
-            this.resetAdminScreens();
-            this.ShowDocumentRequests = true;
+          this.getAllRequest();
+          this.getAllRequestHistory();
+          this.resetAdminScreens();
+          this.ShowLoading = true;
+          this.loadingMessage = "Successfully Updated Document Request "+this.focusrequest.req_track_id;
+          this.loadingScreenTimeout();
+          this.ShowDocumentRequests = true;
           }
         }
         this.ShowRequestPopup = false;
         this.ShowDocumentRequests = true;
       } else {
         const data = await send.TransferRequest(documentRequestObject);
-        console.log(data + "successfull?");
         if (data.includes("Successfully")) {
-            this.resetAdminScreens();
-            this.ShowDocumentRequests = true;
+          this.getAllRequest();
+          this.getAllRequestHistory();
+          this.resetAdminScreens();
+          this.ShowLoading = true;
+          this.loadingMessage = "Successfully Updated "+this.focusrequest.req_track_id;
+          this.loadingScreenTimeout();
+          this.ShowDocumentRequests = true;
         }
       }
+    },
+    async UpdateAdmissionRequest() {
+      const admissionRequestObject = {
+            "adms_id": this.focusadmission.adms_id,
+            "adms_status" : this.admissionRequestStatus,
+            "adms_date" : this.focusadmission.adms_date,
+            "adms_lvl" : this.focusadmission.adms_lvl,
+            "stud_id" : this.focusadmission.stud_id
+      };
+      if (this.focusadmission.adms_status !== this.admissionRequestStatus) {
+        const data = await send.UpdateAdmission(admissionRequestObject);
+        if (data.includes('Successfully')) {
+          this.getAllAdmission();
+          this.getAllAdmissionHistory();
+          this.resetAdminScreens();
+          this.ShowLoading = true;
+          this.loadingMessage = "Successfully Updated Admission"+this.focusadmission.adms_id;
+          this.loadingScreenTimeout();
+          this.ShowSchoolAdmissions= true;
+        }
+      } else {
+        this.ShowAdmissionPopup = false;
+        this.ShowSchoolAdmissions = true;
+      }
+      
     },
     async checkDocumentExist() {
       const documentObject = {
@@ -332,7 +370,7 @@ createApp({
     showConfirmPassword() {
       this.checkUsername = false;
       const exists = Object.values(this.adminslist).some(
-      admin => admin.admin_username === this.adminUsername);
+      admin => admin.admin_username === this.createAdminUsername);
       if (exists) {
         this.checkUsername = true;
       } else {
@@ -352,11 +390,14 @@ createApp({
     loadingScreenTimeout() {
       setTimeout(() => {
         this.ShowLoading = false;
-        this.adminUsername = '';
-        this.adminPassword = '';
+        this.createAdminUsername = '';
+        this.createAdminPassword = '';
+        this.createAdminFirstname = '';
+        this.createAdminLastname = '';
         this.documentType = '';
         this.documentTypeRename = '';
         this.confirmPassword = '';
+        this.Process = '';
       },3000);
     },
     async documentCreate() {
@@ -397,7 +438,6 @@ createApp({
             "confirm_password": this.confirmPassword
           };
           const data = await send.UpdateAdminDetails(adminObject);
-          console.log(data);
           if (data.includes('Successfully')) {
             this.getAllAdmin();
             this.resetAdminScreens();
@@ -422,8 +462,9 @@ createApp({
             "confirm_password": this.confirmPassword
             };
             const data_password = await send.UpdateAdminDetails(adminObjectPassword);
-            if (data.includes('Successfully')) {
+            if (data_password.includes('Successfully')) {
             this.getAllAdmin();
+            this.getAdminById(); 
             this.resetAdminScreens();
             this.ShowLoading = true;
             this.loadingMessage = data_password + this.newAdminUsername;
@@ -442,12 +483,11 @@ createApp({
               "admin_username": this.focusadmin.admin_username,
               "admin_is_active": "false",
               "admin_password": this.focusadmin.admin_password,
-              "admin_old_password": this.focusadmin.admin_password,
+              "admin_old_password": this.adminDetails.admin_password,
               "confirm_password": this.confirmPassword
             };
             const data_remove = await send.UpdateAdminDetails(adminObjectRemove);
-            console.log(data);
-            if (data.includes('Successfully')) {
+            if (data_remove.includes('Successfully')) {
               this.getAllAdmin();
               this.resetAdminScreens();
               this.ShowLoading = true;
@@ -464,18 +504,25 @@ createApp({
             break;
           default:
             const adminObjectCreate = {
-              "admin_fname": "Jodeci",
-              "admin_lname": "Pacibe",
+              "admin_fname": this.createAdminFirstname,
+              "admin_lname": this.createAdminLastname,
               "admin_username": this.createAdminUsername,
-              "admin_password": this.createAdminPassword
+              "admin_password": this.createAdminPassword,
+              "admin_old_password": this.adminDetails.admin_password,
+              "confirm_password": this.confirmPassword,
             };
             const data_create = await send.CreateAdmin(adminObjectCreate);
-            this.getAllAdmin();
-            this.resetAdminScreens();
-            this.ShowLoading = true;
-            this.loadingMessage = data_create + this.createAdminUsername;
-            this.loadingScreenTimeout();
-            this.ShowAdministrators = true;
+            if (data_create.includes('Successfully')) {
+              this.getAllAdmin();
+              this.resetAdminScreens();
+              this.ShowLoading = true;
+              this.loadingMessage = data_create + this.createAdminUsername;
+              this.loadingScreenTimeout();
+              this.ShowAdministrators = true;              
+            } else {
+              this.confirmPasswordIncorrect = true;
+              this.confirmPasswordMessage = data_create;
+            }
             break;
         }
       } else {

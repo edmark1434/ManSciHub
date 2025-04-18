@@ -79,7 +79,7 @@ export async function AdminLogin(data) {
     }
 export async function CreateAdmin(data) {
     let response_data = {};
-    const response = await fetch("http://localhost:8000/api/Admin", {
+    const response = await fetch("http://localhost:8000/api/Service/Admin", {
         method: 'POST',
         headers: {
             "Content-Type": "application/json"

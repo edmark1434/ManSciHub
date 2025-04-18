@@ -17,6 +17,7 @@ require_once "backend/controller/TransferRequestHistoryController.php";
 require_once "backend/controller/EmailController.php";
 require_once "backend/controller/UpdateAdminPasswordController.php";
 require_once "backend/controller/UpdateDocumentController.php";
+require_once "backend/controller/CreateAdminController.php";
 class Router{
     private AdminController $admincontroller;
     private StudentController $studentcontroller;
@@ -35,6 +36,7 @@ class Router{
     private UpdateAdminPasswordController $updateAdminPasswordController;
     private EmailController $emailController;
     private UpdateDocumentController $updateDocumentController;
+    private CreateAdminController $createAdminController;
     public function __construct()
     {
         $this->admincontroller = new AdminController();
@@ -54,6 +56,7 @@ class Router{
         $this->emailController = new EmailController();
         $this->updateAdminPasswordController = new UpdateAdminPasswordController();
         $this->updateDocumentController = new UpdateDocumentController();
+        $this->createAdminController = new CreateAdminController();
     }
 
     public function route()
@@ -97,6 +100,7 @@ class Router{
                 //Transfer Request
                 $this->BackendLogicRequest("TransferRequest", $requestUri, $this->transferRequestHistoryController, "transferRequestHistory");
                 $this->BackendLogicRequest("EmailNotification", $requestUri, $this->emailController, "EmailNotification");
+                $this->BackendLogicRequest("Admin", $requestUri, $this->createAdminController, "addAdmin");
                 //login
                 if($requestUri === "/api/Admin/login"){
                     $data = json_decode(file_get_contents("php://input"), true);
