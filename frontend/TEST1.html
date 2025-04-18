@@ -592,7 +592,7 @@
                         <div
                                 class="z-auto divide-y border-2 border-green bg-ivory shadow-sm group-open:absolute group-open:start-0 group-open:top-14">
                             <div class="flex items-center justify-between px-3 py-2">
-                                <button type="button" class="text-sm text-green underline ">
+                                <button type="button" @click="requestsort = 'req_date'; requestorder = 'desc';" class="text-sm text-green underline ">
                                     Reset
                                 </button>
                             </div>
@@ -640,7 +640,7 @@
                         <div
                                 class="z-auto divide-y border-2 border-green bg-ivory shadow-sm group-open:absolute group-open:start-0 group-open:top-14">
                             <div class="flex items-center justify-between px-3 py-2">
-                                <button type="button" class="text-sm text-green underline ">
+                                <button type="button" @click="requestview = 'active'; requestshowpending = requestshowready = requestshowrejected = requestshowretrieved = true;" class="text-sm text-green underline ">
                                     Reset
                                 </button>
                             </div>
@@ -651,9 +651,14 @@
                                         <input type="radio" v-model="requestview" value="active" name="requests-filter" class="size-5 border-green shadow-sm bg-warm-white" id="Option1" />
                                         <span class="text-sm font-medium text-green"> Active </span>
                                     </label>
+                                    <label for="Option2" class="inline-flex items-center gap-3">
+                                        <input type="radio" v-model="requestview" value="archived" name="requests-filter" class="size-5 border-green shadow-sm bg-warm-white" id="Option2" />
+                                        <span class="text-sm font-medium text-green"> Archived </span>
+                                    </label>
+
                                 </div>
                             </fieldset>
-                            <fieldset class="p-3 pl-6 border-t-2 border-green">
+                            <fieldset v-if="requestview === 'active'" class="p-3 pl-6 border-t-2 border-green">
                                 <legend class="sr-only">Status</legend>
                                 <div class="flex flex-col items-start gap-3">
                                     <label for="Option1" class="inline-flex items-center gap-3">
@@ -666,16 +671,7 @@
                                     </label>
                                 </div>
                             </fieldset>
-                            <fieldset class="p-3 border-t-2 border-green">
-                                <legend class="sr-only">Period</legend>
-                                <div class="flex flex-col items-start gap-3">
-                                    <label for="Option2" class="inline-flex items-center gap-3">
-                                        <input type="radio" v-model="requestview" value="archived" name="requests-filter" class="size-5 border-green shadow-sm bg-warm-white" id="Option2" />
-                                        <span class="text-sm font-medium text-green"> Archived </span>
-                                    </label>
-                                </div>
-                            </fieldset>
-                            <fieldset class="p-3 pl-6 border-t-2 border-green">
+                            <fieldset v-else class="p-3 pl-6 border-t-2 border-green">
                                 <legend class="sr-only">Status</legend>
                                 <div class="flex flex-col items-start gap-3">
                                     <label for="Option2" class="inline-flex items-center gap-3">
@@ -692,10 +688,10 @@
                     </details>
                 </div>
                 <div class="relative">
-                    <input type="text" id="Search" placeholder="Search"
+                    <input type="text" v-model="requestsearchlive" id="Search" placeholder="Search"
                            class="w-full h-12 pl-3 pr-11 border-2 border-green outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none" />
                     <span class="absolute inset-y-0 right-2 grid w-8 place-content-center">
-                            <button type="button" aria-label="Submit" class="rounded-full p-1.5 text-green ">
+                            <button type="button" @click="snapRequestSearch()" aria-label="Submit" class="rounded-full p-1.5 text-green ">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
                                      stroke="currentColor" class="size-4">
                                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -817,7 +813,7 @@
                         <div
                                 class="z-auto divide-y border-2 border-green bg-ivory shadow-sm group-open:absolute group-open:start-0 group-open:top-14">
                             <div class="flex items-center justify-between px-3 py-2">
-                                <button type="button" class="text-sm text-green underline ">
+                                <button type="button" @click="admissionsort = 'adms_date'; admissionorder = 'desc';" class="text-sm text-green underline ">
                                     Reset
                                 </button>
                             </div>
@@ -865,7 +861,7 @@
                         <div
                                 class="z-auto divide-y border-2 border-green bg-ivory shadow-sm group-open:absolute group-open:start-0 group-open:top-14">
                             <div class="flex items-center justify-between px-3 py-2">
-                                <button type="button" class="text-sm text-green underline ">
+                                <button type="button" @click="admissionview = 'current'; admissionshowpending = admissionshowrejected = admissionshowwaitlisted = admissionshowaccepted = true;" class="text-sm text-green underline ">
                                     Reset
                                 </button>
                             </div>
@@ -907,10 +903,10 @@
                     </details>
                 </div>
                 <div class="relative">
-                    <input type="text" id="Search" placeholder="Search"
+                    <input type="text" v-model="admissionsearchlive" id="Search" placeholder="Search"
                            class="w-full h-12 pl-3 pr-11 border-2 border-green outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none" />
                     <span class="absolute inset-y-0 right-2 grid w-8 place-content-center">
-                            <button type="button" aria-label="Submit" class="rounded-full p-1.5 text-green ">
+                            <button type="button" @click="snapAdmissionSearch()" aria-label="Submit" class="rounded-full p-1.5 text-green ">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
                                      stroke="currentColor" class="size-4">
                                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -970,7 +966,7 @@
                     </tbody>
                 </table>
             </div>
-            <p class="text-base font-bold text-green w-full text-right mt-3">{{admissionslist.length}} records found!</p>
+            <p class="text-base font-bold text-green w-full text-right mt-3">{{admissionslist.length}} records found</p>
             <!-- popup -->
             <div v-if="ShowAdmissionPopup" class="w-screen h-screen bg-[#325930]/20 flex justify-center items-center fixed top-0 left-0 z-999">
 
@@ -1042,7 +1038,7 @@
 
                         <div class="flex flex-col justify-center items-center mt-9 gap-2">
                             <a class="w-full text-center block bg-green px-6 py-3 text-base font-bold text-warm-white hover-bg-mid-green"
-                               href="#" @click="ShowAuditLogByAdmin = true; ShowAdministrators = ShowAdminPopup = false;">
+                               href="#" @click="auditshowrequest = auditshowadmission = true; auditfilterdate = null; ShowAuditLogByAdmin = true; ShowAdministrators = ShowAdminPopup = false;">
                                 View audit log
                             </a>
                             <a class="w-full text-center block bg-green px-6 py-3 text-base font-bold text-warm-white hover-bg-mid-green"
@@ -1150,6 +1146,24 @@
                     </div>
 
                     <div class="mt-4">
+                        <span class="text-base font-medium text-green">First name</span>
+
+                        <input type="text" id="firstName" v-model="" :class="[
+                                    'mt-0.5 w-full h-12 mb-2 px-3 outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none',
+                                    hmm ? 'transition-colors duration-500 border-[3px] border-red-500' : 'border-2 border-green'
+                                ]" />
+                    </div>
+
+                    <div class="mt-4">
+                        <span class="text-base font-medium text-green">Last name</span>
+
+                        <input type="text" id="firstName" v-model="" :class="[
+                                    'mt-0.5 w-full h-12 mb-2 px-3 outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none',
+                                    hmm ? 'transition-colors duration-500 border-[3px] border-red-500' : 'border-2 border-green'
+                                ]" />
+                    </div>
+
+                    <div class="mt-4">
                         <span class="text-base font-medium text-green">Password</span>
 
                         <input type="text" id="firstName" v-model="createAdminPassword" :class="[
@@ -1199,7 +1213,7 @@
                         <div
                                 class="z-auto divide-y border-2 border-green bg-ivory shadow-sm group-open:absolute group-open:end-0 group-open:top-14">
                             <div class="flex items-center justify-between px-3 py-2">
-                                <button type="button" class="text-sm text-green underline ">
+                                <button type="button" @click="auditshowrequest = auditshowadmission = true; auditfilterdate = null;" class="text-sm text-green underline ">
                                     Reset
                                 </button>
                             </div>
@@ -1207,11 +1221,11 @@
                                 <legend class="sr-only">Table</legend>
                                 <div class="flex flex-col items-start gap-3">
                                     <label for="Option1" class="inline-flex items-center gap-3">
-                                        <input type="checkbox" class="size-5 border-green shadow-sm bg-warm-white" id="Option1" />
+                                        <input type="checkbox" v-model="auditshowrequest" class="size-5 border-green shadow-sm bg-warm-white" id="Option1" />
                                         <span class="text-sm font-medium text-green whitespace-nowrap"> Document Requests </span>
                                     </label>
                                     <label for="Option2" class="inline-flex items-center gap-3">
-                                        <input type="checkbox" class="size-5 border-green shadow-sm bg-warm-white" id="Option2" />
+                                        <input type="checkbox" v-model="auditshowadmission" class="size-5 border-green shadow-sm bg-warm-white" id="Option2" />
                                         <span class="text-sm font-medium text-green whitespace-nowrap"> School Admissions </span>
                                     </label>
                                 </div>
@@ -1221,7 +1235,7 @@
                                 <div class="flex flex-col items-start gap-3">
                                     <label for="MinPrice">
                                         <span class="text-sm text-green"> From </span>
-                                        <input type="date" id="MinPrice"
+                                        <input type="date" id="MinPrice" v-model="auditfilterdate"
                                                class="mt-0.5 w-full h-10 px-3 border-2 border-green outline-green bg-white shadow-sm sm:text-sm focus:outline-none focus:ring-0 focus:rounded-none" />
                                     </label>
                                 </div>
@@ -1245,14 +1259,13 @@
                     </thead>
                     <tbody class="divide-y border-green w-full">
                     <tr v-for="aud in auditslist" class="border-green">
-                        <td class="px-3 py-2 ">{{aud.chg_table}}</td>
-                        <td class="px-3 py-2 ">Jodeci A. Pacibe</td>
-                        <td class="px-3 py-2 ">{{aud.chg_datetime}}</td>
-                        <td class="px-3 py-2 ">{{aud.chg_old_val}} >> {{aud.chg_new_val}}</td>
-                        <td class="px-3 py-2 ">2025-04-21</td>
-                        <td class="px-3 py-2 ">{{aud.admin_id}}</td>
+                        <td class="px-3 py-2 ">{{ aud.chg_table }}</td>
+                        <td class="px-3 py-2 ">{{ [aud.stud_fname, aud.stud_mname, aud.stud_lname, aud.stud_suffix].filter(Boolean).join(' ') }}</td>
+                        <td class="px-3 py-2 ">{{ aud.chg_table === 'Document Request' ? aud.req_date : aud.adms_date }}</td>
+                        <td class="px-3 py-2 ">{{ aud.chg_old_val }} >> {{ aud.chg_new_val }}</td>
+                        <td class="px-3 py-2 ">{{ aud.chg_datetime }}</td>
+                        <td class="px-3 py-2 ">{{ aud.admin_username }}</td>
                     </tr>
-
                     </tbody>
                 </table>
             </div>
@@ -1271,17 +1284,17 @@
                     </thead>
                     <tbody class="divide-y border-green w-full">
                     <tr v-for="aud in auditslist" class="border-green">
-                        <td class="px-3 py-2 ">{{aud.chg_table}}</td>
-                        <td class="px-3 py-2 ">Jodeci A. Pacibe</td>
-                        <td class="px-3 py-2 ">{{aud.chg_datetime}}</td>
-                        <td class="px-3 py-2 ">{{aud.chg_old_val}} >> {{aud.chg_new_val}}</td>
-                        <td class="px-3 py-2 ">2025-04-21</td>
-                        <td class="px-3 py-2 ">{{aud.admin_id}}</td>
+                        <td class="px-3 py-2 ">{{ aud.chg_table }}</td>
+                        <td class="px-3 py-2 ">{{ [aud.stud_fname, aud.stud_mname, aud.stud_lname, aud.stud_suffix].filter(Boolean).join(' ') }}</td>
+                        <td class="px-3 py-2 ">{{ aud.chg_table === 'Document Request' ? aud.req_date : aud.adms_date }}</td>
+                        <td class="px-3 py-2 ">{{ aud.chg_old_val }} >> {{ aud.chg_new_val }}</td>
+                        <td class="px-3 py-2 ">{{ aud.chg_datetime }}</td>
+                        <td class="px-3 py-2 ">{{ aud.admin_username }}</td>
                     </tr>
                     </tbody>
                 </table>
             </div>
-            <p class="text-base font-bold text-green w-full text-right mt-3">120 records found</p>
+            <p class="text-base font-bold text-green w-full text-right mt-3">{{auditslist.length}} records found</p>
         </div>
 
         <!-- Student Users -->
@@ -1304,7 +1317,7 @@
                         <div
                                 class="z-auto divide-y border-2 border-green bg-ivory shadow-sm group-open:absolute group-open:start-0 group-open:top-14">
                             <div class="flex items-center justify-between px-3 py-2">
-                                <button type="button" class="text-sm text-green underline ">
+                                <button type="button" @click="studentsort = 'stud_lname'; studentorder = 'asc';" class="text-sm text-green underline ">
                                     Reset
                                 </button>
                             </div>
@@ -1338,10 +1351,10 @@
                     </details>
                 </div>
                 <div class="relative">
-                    <input type="text" id="Search" placeholder="Search"
+                    <input type="text" v-model="studentsearchlive" id="Search" placeholder="Search"
                            class="w-full h-12 pl-3 pr-11 border-2 border-green outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none" />
                     <span class="absolute inset-y-0 right-2 grid w-8 place-content-center">
-                            <button type="button" aria-label="Submit" class="rounded-full p-1.5 text-green ">
+                            <button type="button" @click="snapStudentSearch()" aria-label="Submit" class="rounded-full p-1.5 text-green ">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
                                      stroke="currentColor" class="size-4">
                                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -1399,7 +1412,7 @@
             </div>
             <div class="w-full mt-3 flex justify-between">
                 <p class="text-base text-green"><span class="font-bold">Note: </span>This list consists only of students that interacted with the system.</p>
-                <p class="text-base font-bold text-green">120 records found</p>
+                <p class="text-base font-bold text-green">{{studentslist.length}} records found</p>
             </div>
         </div>
 
@@ -1427,7 +1440,7 @@
                         <div
                                 class="z-auto divide-y border-2 border-green bg-ivory shadow-sm group-open:absolute group-open:end-0 group-open:top-14">
                             <div class="flex items-center justify-between px-3 py-2">
-                                <button type="button" class="text-sm text-green underline ">
+                                <button type="button" @click="auditshowrequest = auditshowadmission = true; auditfilterdate = null;" class="text-sm text-green underline ">
                                     Reset
                                 </button>
                             </div>
@@ -1435,11 +1448,11 @@
                                 <legend class="sr-only">Table</legend>
                                 <div class="flex flex-col items-start gap-3">
                                     <label for="Option1" class="inline-flex items-center gap-3">
-                                        <input type="checkbox" class="size-5 border-green shadow-sm bg-warm-white" id="Option1" />
+                                        <input type="checkbox" v-model="auditshowrequest" class="size-5 border-green shadow-sm bg-warm-white" id="Option1" />
                                         <span class="text-sm font-medium text-green whitespace-nowrap"> Document Requests </span>
                                     </label>
                                     <label for="Option2" class="inline-flex items-center gap-3">
-                                        <input type="checkbox" class="size-5 border-green shadow-sm bg-warm-white" id="Option2" />
+                                        <input type="checkbox" v-model="auditshowadmission" class="size-5 border-green shadow-sm bg-warm-white" id="Option2" />
                                         <span class="text-sm font-medium text-green whitespace-nowrap"> School Admissions </span>
                                     </label>
                                 </div>
@@ -1449,7 +1462,7 @@
                                 <div class="flex flex-col items-start gap-3">
                                     <label for="MinPrice">
                                         <span class="text-sm text-green"> From </span>
-                                        <input type="date" id="MinPrice"
+                                        <input type="date" id="MinPrice" v-model="auditfilterdate"
                                                class="mt-0.5 w-full h-10 px-3 border-2 border-green outline-green bg-white shadow-sm sm:text-sm focus:outline-none focus:ring-0 focus:rounded-none" />
                                     </label>
                                 </div>
@@ -1472,21 +1485,13 @@
                     </tr>
                     </thead>
                     <tbody class="divide-y border-green w-full">
-                    <tr class="border-green">
-                        <td class="px-3 py-2 ">Document Request</td>
-                        <td class="px-3 py-2 ">Jodeci A. Pacibe</td>
-                        <td class="px-3 py-2 ">2004-07-25</td>
-                        <td class="px-3 py-2 ">Pending >> Ready</td>
-                        <td class="px-3 py-2 ">2025-04-21</td>
-                        <td class="px-3 py-2 ">ADM001</td>
-                    </tr>
-                    <tr class="border-green">
-                        <td class="px-3 py-2 ">School Admission</td>
-                        <td class="px-3 py-2 ">Jayson Gabriel Limosnero</td>
-                        <td class="px-3 py-2 ">2004-07-25</td>
-                        <td class="px-3 py-2 ">Pending >> Waitlisted</td>
-                        <td class="px-3 py-2 ">2025-04-21</td>
-                        <td class="px-3 py-2 ">ADM001</td>
+                    <tr v-for="aud in auditslist" class="border-green">
+                        <td class="px-3 py-2 ">{{ aud.chg_table }}</td>
+                        <td class="px-3 py-2 ">{{ [aud.stud_fname, aud.stud_mname, aud.stud_lname, aud.stud_suffix].filter(Boolean).join(' ') }}</td>
+                        <td class="px-3 py-2 ">{{ aud.chg_table === 'Document Request' ? aud.req_date : aud.adms_date }}</td>
+                        <td class="px-3 py-2 ">{{ aud.chg_old_val }} >> {{ aud.chg_new_val }}</td>
+                        <td class="px-3 py-2 ">{{ aud.chg_datetime }}</td>
+                        <td class="px-3 py-2 ">{{ aud.admin_username }}</td>
                     </tr>
                     </tbody>
                 </table>
@@ -1505,26 +1510,18 @@
                     </tr>
                     </thead>
                     <tbody class="divide-y border-green w-full">
-                    <tr class="border-green">
-                        <td class="px-3 py-2 ">Document Request</td>
-                        <td class="px-3 py-2 ">Jodeci A. Pacibe</td>
-                        <td class="px-3 py-2 ">2004-07-25</td>
-                        <td class="px-3 py-2 ">Pending >> Ready</td>
-                        <td class="px-3 py-2 ">2025-04-21</td>
-                        <td class="px-3 py-2 ">ADM001</td>
-                    </tr>
-                    <tr class="border-green">
-                        <td class="px-3 py-2 ">School Admission</td>
-                        <td class="px-3 py-2 ">Jayson Gabriel Limosnero</td>
-                        <td class="px-3 py-2 ">2004-07-25</td>
-                        <td class="px-3 py-2 ">Pending >> Waitlisted</td>
-                        <td class="px-3 py-2 ">2025-04-21</td>
-                        <td class="px-3 py-2 ">ADM001</td>
+                    <tr v-for="aud in auditslist" class="border-green">
+                        <td class="px-3 py-2 ">{{ aud.chg_table }}</td>
+                        <td class="px-3 py-2 ">{{ [aud.stud_fname, aud.stud_mname, aud.stud_lname, aud.stud_suffix].filter(Boolean).join(' ') }}</td>
+                        <td class="px-3 py-2 ">{{ aud.chg_table === 'Document Request' ? aud.req_date : aud.adms_date }}</td>
+                        <td class="px-3 py-2 ">{{ aud.chg_old_val }} >> {{ aud.chg_new_val }}</td>
+                        <td class="px-3 py-2 ">{{ aud.chg_datetime }}</td>
+                        <td class="px-3 py-2 ">{{ aud.admin_username }}</td>
                     </tr>
                     </tbody>
                 </table>
             </div>
-            <p class="text-base font-bold text-green w-full text-right mt-3">120 records found</p>
+            <p class="text-base font-bold text-green w-full text-right mt-3">{{auditslist.length}} records found</p>
         </div>
 
         <!-- Admin Controls -->
@@ -1541,7 +1538,7 @@
                             <p>View a detailed record of all changes made by administrators to system data — track who did what and when.</p>
                         </span>
                     <a class="w-32 text-center inline-block bg-green px-6 py-3 text-base font-bold text-warm-white hover-bg-mid-green"
-                       href="#" @click="ShowAuditLogAll = true; ShowAdminControls = false;">
+                       href="#" @click="auditshowrequest = auditshowadmission = true; auditfilterdate = null; ShowAuditLogAll = true; ShowAdminControls = false;">
                         View
                     </a>
                 </div>

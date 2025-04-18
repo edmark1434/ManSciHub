@@ -126,15 +126,11 @@ createApp({
       // lists for admin panel
       activerequestslist: [],
       archivedrequestslist: [],
-
       activeadmissionslist: [],
       archivedadmissionslist: {},
-
-      // requestslist: [],
-      // admissionslist: [],
       adminslist: [],
-      studentslist: [],
-      auditslist: [],
+      fullstudentslist: [],
+      fullauditslist: [],
       doctypeslist: [],
       controls: [],
 
@@ -149,7 +145,7 @@ createApp({
       // sorting and filtering
       requestsort: 'req_date',
       requestorder: 'desc',
-      requestview: 'current',
+      requestview: 'active',
       requestshowpending: true,
       requestshowready: true,
       requestshowrejected: false,
@@ -165,6 +161,10 @@ createApp({
 
       studentsort: 'stud_lname',
       studentorder: 'asc',
+
+      auditshowrequest: true,
+      auditshowadmission: true,
+      auditfilterdate: '',
 
       // searching
       requestsearchlive: '',
@@ -487,7 +487,7 @@ createApp({
     },
     async getAllStudent() {
       const data = await fetch.getAllStudent();
-      this.studentslist = data.data;
+      this.fullstudentslist = data.data;
     },
     async getAllAdmin() {
       const data = await fetch.getAllAdmin();
@@ -495,7 +495,7 @@ createApp({
     },
     async getAllChangeHistory() {
       const data = await fetch.getAllChangeHistory();
-      this.auditslist = data.data;
+      this.fullauditslist = data.data;
     },
     async checkLogin() {
       this.submitted = true;
@@ -724,7 +724,7 @@ createApp({
   computed: {
     requestslist() {
       let final = [];
-      if (this.requestview === 'current') {
+      if (this.requestview === 'active') {
         final = [...this.activerequestslist];
       } else if (this.requestview === 'archived') {
         final = [...this.archivedrequestslist];
@@ -747,10 +747,10 @@ createApp({
       });
 
       const filters = [];
-      if (this.requestshowpending) filters.push(req => req.req_status.toUpperCase() === 'PENDING');
-      if (this.requestshowready) filters.push(req => req.req_status.toUpperCase() === 'READY');
-      if (this.requestshowrejected) filters.push(req => req.req_status.toUpperCase() === 'REJECTED');
-      if (this.requestshowretrieved) filters.push(req => req.req_status.toUpperCase() === 'RETRIEVED');
+      if (this.requestview === 'active' && this.requestshowpending) filters.push(req => req.req_status.toUpperCase() === 'PENDING');
+      if (this.requestview === 'active' && this.requestshowready) filters.push(req => req.req_status.toUpperCase() === 'READY');
+      if (this.requestview === 'archived' && this.requestshowrejected) filters.push(req => req.req_status.toUpperCase() === 'REJECTED');
+      if (this.requestview === 'archived' && this.requestshowretrieved) filters.push(req => req.req_status.toUpperCase() === 'RETRIEVED');
 
       return final.filter(item =>
           filters.some(fn => fn(item)) // item passes if it matches ANY active filter
@@ -792,7 +792,7 @@ createApp({
       );
     },
     studentslist() {
-      let final = [...this.studentslist];
+      let final = [...this.fullstudentslist];
 
       if (this.studentsearch) {
         const q = this.studentsearch.toString().toLowerCase();
@@ -812,7 +812,27 @@ createApp({
       });
     },
     auditslist() {
-      // oten
+      let final = [...this.fullauditslist];
+
+      if (this.ShowAuditLogByAdmin) {
+        final = final.filter(aud => aud.admin_id === focusadmin.admin_id);
+      }
+
+      if (this.auditfilterdate) {
+        const start = new Date(this.auditfilterdate);
+        final = final.filter(aud => {
+          const changed = new Date(aud.chg_date);
+          return changed >= start;
+        });
+      }
+
+      const filters = [];
+      if (this.auditshowrequest) filters.push(aud => aud.chg_table.toUpperCase() === 'DOCUMENT REQUEST');
+      if (this.auditshowadmission) filters.push(aud => aud.adms_status.toUpperCase() === 'SCHOOL ADMISSION');
+
+      return final.filter(item =>
+          filters.some(fn => fn(item)) // item passes if it matches ANY active filter
+      );
     },
   }
 }).mount('#app');
