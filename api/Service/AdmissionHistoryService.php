@@ -19,6 +19,11 @@ class AdmissionHistoryService{
         $AdmissionHistory = $this->AdmissionHistoryRepository->getAllAdmissionHistory();
         return $this->serviceLogic->checkGetMethod($AdmissionHistory,"No Admission History Found");
     }
+    public function getAllAdmissionHistoryWithYear(){
+        $AdmissionHistory = $this->AdmissionHistoryRepository->getAllAdmissionHistory();
+        
+        return $this->serviceLogic->checkGetMethod($AdmissionHistory,"No Admission History Found");
+    }
 
     public function getAdmissionHistoryById($id)
     {
@@ -59,6 +64,5 @@ class AdmissionHistoryService{
         $AdmissionHistory->stud_id = $entity["stud_id"] ?? NULL;
         return $AdmissionHistory;
     }
-
 }
 ?>

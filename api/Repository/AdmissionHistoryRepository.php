@@ -13,6 +13,14 @@
         $result = $this->repository->executeQuery($query,[]);
         return $result;
     }
+
+    public function getAllAdmissionHistoryWithYear(): array
+    {
+        $query = "SELECT YEAR(ADMHS_DATE) as year Admission_History.*, STUDENT.* FROM Admission_History JOIN STUDENT ON
+        STUDENT.STUD_ID = Admission_History.STUD_ID";
+        $result = $this->repository->executeQuery($query,[]);
+        return $result;
+    }
     public function getAdmissionHistoryById($id):? array{
         $query = "SELECT Admission_History.*, STUDENT.* FROM Admission_History JOIN STUDENT ON
         STUDENT.STUD_ID = Admission_History.STUD_ID
