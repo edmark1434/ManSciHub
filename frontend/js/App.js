@@ -59,9 +59,13 @@ createApp({
       lrn: '',
       createAdminUsername: '',
       createAdminPassword: '',
+      newAdminPassword: '',
+      newAdminUsername: '',
+      Process: '',
       confirmPassword: '',
       confirmPasswordIncorrect: false,
       checkUsername: false,
+      checkPassword: false,
       lrnReq: '',
       homeAddress: '',
       email: '',
@@ -86,6 +90,7 @@ createApp({
       emailReqMessage: 'This field is required.',
       firstNameMessage: 'This field is required.',
       loadingMessage: 'Loading Changes....',
+      confirmPasswordMessage: '',
 
       // fields Validation Admission
       firstNameField: false,
@@ -249,6 +254,15 @@ createApp({
         this.ShowPasswordConfirm = true;
       }
     },
+    checkUsernameAvailability() {
+      const exists = Object.values(this.adminslist).some(
+      admin => admin.admin_username === this.newAdminUsername);
+      if (exists) {
+        return true;
+      } else {
+        return false;
+      }
+    },
     loadingScreenTimeout() {
       setTimeout(() => {
         this.ShowLoading = false;
@@ -278,24 +292,106 @@ createApp({
         this.ShowDocumentTypes = true;
       }
     },
-    async createAdmin() {
+    async PasswordConfirmation() {
+      console.log(this.Process);
+      console.log(this.confirmPassword);
       this.confirmPasswordIncorrect = false;
-      if (this.confirmPassword === this.adminPassword) {
-        const adminObject = {
-          "admin_fname": "Jodeci",
-          "admin_lname": "Pacibe",
-          "admin_username": this.createAdminUsername,
-          "admin_password": this.createAdminPassword
-        };
-        const data = await send.CreateAdmin(adminObject);
-        this.getAllAdmin();
-        this.resetAdminScreens();
-        this.ShowLoading = true;
-        this.loadingMessage = data + this.createAdminUsername;
-        this.loadingScreenTimeout();
-        this.ShowAdministrators = true;
+      this.confirmPasswordMessage = '';
+      if (this.confirmPassword) {
+        switch (this.Process) {
+          case 'Change Username':
+            const adminObject = {
+            "admin_id": this.focusadmin.admin_id,
+            "admin_fname": this.focusadmin.admin_fname,
+            "admin_lname": this.focusadmin.admin_lname,
+            "admin_username": this.newAdminUsername,
+            "admin_password": this.focusadmin.admin_password,
+            "admin_is_active": this.focusadmin.admin_is_active,
+            "admin_old_password": this.focusadmin.admin_password,
+            "confirm_password": this.confirmPassword
+          };
+          const data = await send.UpdateAdminDetails(adminObject);
+          console.log(data);
+          if (data.includes('Successfully')) {
+            this.getAllAdmin();
+            this.resetAdminScreens();
+            this.ShowLoading = true;
+            this.loadingMessage = data + this.newAdminUsername;
+            this.loadingScreenTimeout();
+            this.ShowAdministrators = true;
+          } else {
+            this.confirmPasswordIncorrect = true;
+            this.confirmPasswordMessage = "Password is incorrect.";
+          }
+            break;
+          case 'Change Password':
+            const adminObjectPassword = {
+            "admin_id": this.focusadmin.admin_id,
+            "admin_fname": this.focusadmin.admin_fname,
+            "admin_lname": this.focusadmin.admin_lname,
+            "admin_username": this.focusadmin.admin_username,
+            "admin_is_active": this.focusadmin.admin_is_active,
+            "admin_password": this.newAdminPassword,
+            "admin_old_password": this.focusadmin.admin_password,
+            "confirm_password": this.confirmPassword
+            };
+            const data_password = await send.UpdateAdminDetails(adminObjectPassword);
+            if (data.includes('Successfully')) {
+            this.getAllAdmin();
+            this.resetAdminScreens();
+            this.ShowLoading = true;
+            this.loadingMessage = data_password + this.newAdminUsername;
+            this.loadingScreenTimeout();
+            this.ShowAdministrators = true;
+            }else {
+              this.confirmPasswordIncorrect = true;
+              this.confirmPasswordMessage = "Password is incorrect.";
+            }
+            break;
+          case 'Remove':
+            const adminObjectRemove = {
+              "admin_id": this.focusadmin.admin_id,
+              "admin_fname": this.focusadmin.admin_fname,
+              "admin_lname": this.focusadmin.admin_lname,
+              "admin_username": this.focusadmin.admin_username,
+              "admin_is_active": "false",
+              "admin_password": this.focusadmin.admin_password,
+              "admin_old_password": this.focusadmin.admin_password,
+              "confirm_password": this.confirmPassword
+            };
+            const data_remove = await send.UpdateAdminDetails(adminObjectRemove);
+            console.log(data);
+            if (data.includes('Successfully')) {
+              this.getAllAdmin();
+              this.resetAdminScreens();
+              this.ShowLoading = true;
+              this.loadingMessage = "Successfully deleted Admin " + this.focusadmin.admin_username;
+              this.loadingScreenTimeout();
+              this.ShowAdministrators = true;
+            } else {
+              this.confirmPasswordIncorrect = true;
+              this.confirmPasswordMessage = "Password is incorrect.";
+          }
+            break;
+          default:
+             const adminObjectCreate = {
+              "admin_fname": "Jodeci",
+              "admin_lname": "Pacibe",
+              "admin_username": this.createAdminUsername,
+              "admin_password": this.createAdminPassword
+            };
+            const data_create = await send.CreateAdmin(adminObjectCreate);
+            this.getAllAdmin();
+            this.resetAdminScreens();
+            this.ShowLoading = true;
+            this.loadingMessage = data_create + this.createAdminUsername;
+            this.loadingScreenTimeout();
+            this.ShowAdministrators = true;
+            break;
+        }
       } else {
         this.confirmPasswordIncorrect = true;
+        this.confirmPasswordMessage = "Field is empty!";
       }
     },
     async submitTrackID() {

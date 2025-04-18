@@ -48,6 +48,7 @@ class AdminRepository {
         $query = "INSERT INTO ADMIN (ADMIN_USERNAME, ADMIN_PASSWORD, ADMIN_FNAME, ADMIN_LNAME)
                 VALUES (:ADMIN_USERNAME, :ADMIN_PASSWORD, :ADMIN_FNAME, :ADMIN_LNAME)";
         $params = $this->AdminParameter($admin);
+        $params[":ADMIN_PASSWORD"] =  password_hash( $admin->admin_password, PASSWORD_DEFAULT );
         $this->repositoryLogic->executeQuery($query, $params);
         
     }
@@ -73,7 +74,7 @@ class AdminRepository {
         public function AdminParameter($admin):array{
         $params = [
             ":ADMIN_USERNAME" => $admin->admin_username,
-            ":ADMIN_PASSWORD" => password_hash($admin->admin_password,PASSWORD_DEFAULT),
+            ":ADMIN_PASSWORD" => $admin->admin_password,
             ":ADMIN_FNAME" => $admin->admin_fname,
             ":ADMIN_LNAME" => $admin->admin_lname
         ];

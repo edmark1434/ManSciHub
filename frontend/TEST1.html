@@ -1027,7 +1027,7 @@
             <div class="w-full max-h-[calc(100vh-9.75rem)] overflow-auto grid grid-cols-4 gap-4 cardlist px-4">
                 <div v-for="admin in adminslist"
                      class="h-48 border-2 border-green p-6 col-span-1 bg-ivory hover:bg-[#F1D580]/50"
-                     @click="ShowAdminPopup = true; focusadmin = admin">
+                     @click="ShowAdminPopup = true; focusadmin = admin; (AdminID === admin.admin_id) ? verified = true : verified = false;">
                     <p class="mt-auto text-xl text-green font-bold">{{admin.admin_username}}</p>
                     <p class="text-base text-green">{{[admin.admin_fname, admin.admin_lname].filter(Boolean).join(' ')}}</p>
                 </div>
@@ -1046,11 +1046,11 @@
                                 View audit log
                             </a>
                             <a class="w-full text-center block bg-green px-6 py-3 text-base font-bold text-warm-white hover-bg-mid-green"
-                               href="#" @click="ShowUsernameChange = true; ShowAdminPopup = false">
+                               href="#" v-if="verified" @click="ShowUsernameChange = true; ShowAdminPopup = false; newAdminUsername = focusadmin.admin_username">
                                 Change username
                             </a>
                             <a class="w-full text-center block bg-green px-6 py-3 text-base font-bold text-warm-white hover-bg-mid-green"
-                               href="#" @click="ShowPasswordChange = true; ShowAdminPopup = false">
+                               href="#" v-if="verified" @click="ShowPasswordChange = true; ShowAdminPopup = false">
                                 Change password
                             </a>
                             <a class="w-full text-center block bg-green px-6 py-3 text-base font-bold text-warm-white hover-bg-mid-green"
@@ -1077,12 +1077,30 @@
                             <div class="flex flex-col w-full items-start">
                                 <span class="text-base font-medium text-green">Username</span>
 
-                                <input type="text" id="firstName" v-model="username"
-                                       class="mt-0.5 mb-2 w-full h-12 px-3 border-2 border-green outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none" />
+                                <input type="text" id="firstName" v-model="newAdminUsername"
+                                    class="mt-0.5 mb-2 w-full h-12 px-3 border-2 border-green outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none" />
 
                             </div>
+                            <p v-if="checkUsername" class="text-sm" :class="checkUsername ? 'text-error' : 'text-green'">An admin with the given username already exists.</p>
                             <a class="w-full text-center block bg-green px-6 py-3 text-base font-bold text-warm-white hover-bg-mid-green"
-                               href="#" @click="ShowPasswordConfirm = true; ShowUsernameChange = false">
+                                href="#" @click="() => {
+                                const isTaken = checkUsernameAvailability(); 
+
+                                if (newAdminUsername !== focusadmin.admin_username && !isTaken) {
+                                    ShowUsernameChange = false;
+                                    ShowPasswordConfirm = true;
+                                    checkUsername = false;
+                                    confirmPassword = '';
+                                } else if (newAdminUsername !== focusadmin.admin_username && isTaken) {
+                                    ShowUsernameChange = true;
+                                    checkUsername = true;
+                                } else {
+                                    showAdministrators = true;
+                                    ShowUsernameChange = false;
+                                    checkUsername = false;
+                                }
+                                Process = 'Change Username';
+                                }">
                                 Save changes
                             </a>
                         </div>
@@ -1101,12 +1119,13 @@
                             <div class="flex flex-col w-full items-start">
                                 <span class="text-base font-medium text-green">New password</span>
 
-                                <input type="text" id="firstName" v-model="username"
+                                <input type="text" id="firstName" v-model="newAdminPassword"
                                        class="mt-0.5 mb-2 w-full h-12 px-3 border-2 border-green outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none" />
 
                             </div>
+                            <p v-if="checkPassword" class="text-sm" :class="checkPassword ? 'text-error' : 'text-green'">Field is empty</p>
                             <a class="w-full text-center block bg-green px-6 py-3 text-base font-bold text-warm-white hover-bg-mid-green"
-                               href="#" @click="ShowPasswordConfirm = true; ShowPasswordChange = false">
+                            href="#" @click=" newAdminPassword ? (ShowPasswordConfirm = true, ShowPasswordChange = false,checkPassword = false, confirmPassword = '') : (ShowPasswordConfirm = false, ShowPasswordChange = true,checkPassword = true); Process = 'Change Password'">
                                 Save changes
                             </a>
                         </div>
@@ -1672,7 +1691,7 @@
 
                     <div class="flex flex-col justify-center items-center mt-9 gap-2">
                         <a class="w-full text-center block bg-green px-6 py-3 text-base font-bold text-warm-white hover-bg-mid-green"
-                           href="#" @click="ShowAreYouSurePopup = false; ShowPasswordConfirm = true;">
+                           href="#" @click="ShowAreYouSurePopup = false; ShowPasswordConfirm = true; confirmPassword = ''; Process = 'Remove'">
                             Continue
                         </a>
                         <a class="w-full text-center block bg-ivory px-6 py-3 text-base font-bold text-green hover:bg-[#F1D580]/50"
@@ -1702,11 +1721,11 @@
                         </div>
 
                         <a class="w-full text-center block bg-green px-6 py-3 text-base font-bold text-warm-white hover-bg-mid-green"
-                           href="#" @click="createAdmin()">
+                           href="#" @click="PasswordConfirmation()">
                             Verify
                         </a>
 
-                        <p v-if="confirmPasswordIncorrect" class="text-sm text-error">Password is incorrect.</p>
+                        <p v-if="confirmPasswordIncorrect" class="text-sm text-error">{{confirmPasswordMessage}}</p>
                     </div>
                 </div>
             </div>
