@@ -78,6 +78,7 @@ createApp({
       status: '',
       loginFailed: '',
       documentType: '',
+      documentRequestStatus: '',
       docType: {},
       request: {},
       requestTrack: null,
@@ -220,6 +221,28 @@ createApp({
       this.request["req_purpose"] = this.purpose;
       this.request["docu_id"] = this.documentType;
       return this.request;
+    },
+    async UpdateDocumentRequest() {
+      if (this.documentRequestStatus !== "REJECTED" || this.documentRequestStatus !== "ACCEPTED") {
+        console.log(this.documentRequestStatus);
+        if (this.documentRequestStatus !== this.focusrequest.req_status) {
+          this.focusrequest.req_status = this.documentRequestStatus;
+          const data = await send.UpdateRequest(this.focusrequest);
+          console.log(data);
+          if (data.includes("Successfully")) {
+            this.resetAdminScreens();
+            this.ShowDocumentRequests = true;
+          }
+        }
+        this.ShowRequestPopup = false;
+        this.ShowDocumentRequests = true;
+      } else {
+        const data = await send.TransferRequest(this.focusrequest);
+        if (data.includes("Successfully")) {
+            this.resetAdminScreens();
+            this.ShowDocumentRequests = true;
+        }
+      }
     },
     async checkDocumentExist() {
       const documentObject = {
