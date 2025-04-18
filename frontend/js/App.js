@@ -273,8 +273,9 @@ createApp({
       this.confirmPasswordIncorrect = false;
       this.confirmPasswordMessage = '';
       if (this.confirmPassword) {
-        if (this.Process === 'Change Username') {
-          const adminObject = {
+        switch (this.Process) {
+          case 'Change Username':
+            const adminObject = {
             "admin_id": this.focusadmin.admin_id,
             "admin_fname": this.focusadmin.admin_fname,
             "admin_lname": this.focusadmin.admin_lname,
@@ -297,10 +298,9 @@ createApp({
             this.confirmPasswordIncorrect = true;
             this.confirmPasswordMessage = "Password is incorrect.";
           }
-        } else if (this.Process === 'Change Password') {
-          console.log('change pass');
-          console.log(this.focusadmin.admin_password);
-          const adminObject = {
+            break;
+          case 'Change Password':
+            const adminObjectPassword = {
             "admin_id": this.focusadmin.admin_id,
             "admin_fname": this.focusadmin.admin_fname,
             "admin_lname": this.focusadmin.admin_lname,
@@ -309,22 +309,22 @@ createApp({
             "admin_password": this.newAdminPassword,
             "admin_old_password": this.focusadmin.admin_password,
             "confirm_password": this.confirmPassword
-          };
-          const data = await send.UpdateAdminDetails(adminObject);
-          console.log(data);
-          if (data.includes('Successfully')) {
+            };
+            const data_password = await send.UpdateAdminDetails(adminObjectPassword);
+            if (data.includes('Successfully')) {
             this.getAllAdmin();
             this.resetAdminScreens();
             this.ShowLoading = true;
-            this.loadingMessage = data + this.newAdminUsername;
+            this.loadingMessage = data_password + this.newAdminUsername;
             this.loadingScreenTimeout();
             this.ShowAdministrators = true;
-          }else {
+            }else {
               this.confirmPasswordIncorrect = true;
               this.confirmPasswordMessage = "Password is incorrect.";
             }
-        }  else if (this.Process === "Remove") {
-            const adminObject = {
+            break;
+          case 'Remove':
+            const adminObjectRemove = {
               "admin_id": this.focusadmin.admin_id,
               "admin_fname": this.focusadmin.admin_fname,
               "admin_lname": this.focusadmin.admin_lname,
@@ -334,37 +334,35 @@ createApp({
               "admin_old_password": this.focusadmin.admin_password,
               "confirm_password": this.confirmPassword
             };
-            const data = await send.UpdateAdminDetails(adminObject);
+            const data_remove = await send.UpdateAdminDetails(adminObjectRemove);
             console.log(data);
             if (data.includes('Successfully')) {
               this.getAllAdmin();
               this.resetAdminScreens();
               this.ShowLoading = true;
-              this.loadingMessage = "Successfully deleted Admin " + this.newAdminUsername;
+              this.loadingMessage = "Successfully deleted Admin " + this.focusadmin.admin_username;
               this.loadingScreenTimeout();
               this.ShowAdministrators = true;
             } else {
               this.confirmPasswordIncorrect = true;
               this.confirmPasswordMessage = "Password is incorrect.";
-            }
-          }else {
-          if (this.confirmPassword === this.adminPassword) {
-            const adminObject = {
+          }
+            break;
+          default:
+             const adminObjectCreate = {
               "admin_fname": "Jodeci",
               "admin_lname": "Pacibe",
               "admin_username": this.createAdminUsername,
               "admin_password": this.createAdminPassword
             };
-            const data = await send.CreateAdmin(adminObject);
+            const data_create = await send.CreateAdmin(adminObjectCreate);
             this.getAllAdmin();
             this.resetAdminScreens();
             this.ShowLoading = true;
-            this.loadingMessage = data + this.createAdminUsername;
+            this.loadingMessage = data_create + this.createAdminUsername;
             this.loadingScreenTimeout();
             this.ShowAdministrators = true;
-          } else {
-            this.confirmPasswordIncorrect = true;
-          }
+            break;
         }
       } else {
         this.confirmPasswordIncorrect = true;
