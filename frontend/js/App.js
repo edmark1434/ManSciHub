@@ -223,11 +223,19 @@ createApp({
       return this.request;
     },
     async UpdateDocumentRequest() {
-      if (this.documentRequestStatus !== "REJECTED" || this.documentRequestStatus !== "ACCEPTED") {
-        console.log(this.documentRequestStatus);
+      const documentRequestObject = {
+            "req_track_id": this.focusrequest.req_track_id,
+            "req_date": this.focusrequest.req_date,
+            "req_purpose": this.focusrequest.req_purpose,
+            "req_status": this.focusrequest.req_status,
+            "docu_id": this.focusrequest.docu_id,
+            "stud_id": this.focusrequest.stud_id
+      };
+      console.log(documentRequestObject);
+      if (this.documentRequestStatus.toUpperCase() !== "REJECTED" && this.documentRequestStatus.toUpperCase() !== "ACCEPTED") {
         if (this.documentRequestStatus !== this.focusrequest.req_status) {
-          this.focusrequest.req_status = this.documentRequestStatus;
-          const data = await send.UpdateRequest(this.focusrequest);
+          documentRequestObject.req_status = this.documentRequestStatus;
+          const data = await send.UpdateRequest(documentRequestObject);
           console.log(data);
           if (data.includes("Successfully")) {
             this.resetAdminScreens();
@@ -237,7 +245,8 @@ createApp({
         this.ShowRequestPopup = false;
         this.ShowDocumentRequests = true;
       } else {
-        const data = await send.TransferRequest(this.focusrequest);
+        const data = await send.TransferRequest(documentRequestObject);
+        console.log(data + "successfull?");
         if (data.includes("Successfully")) {
             this.resetAdminScreens();
             this.ShowDocumentRequests = true;

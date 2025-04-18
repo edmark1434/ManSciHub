@@ -52,6 +52,7 @@ export async function TransferRequest(data) {
             // "stud_id": 12303
     })
     response_data = await response.json();
+    console.log(response_data);
     if (response.ok) {
         return response_data.message;
     } else {
