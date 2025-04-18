@@ -707,9 +707,9 @@ createApp({
   computed: {
     requestslist() {
       let final = [];
-      if (requestview === 'current') {
+      if (this.requestview === 'current') {
         final = [...this.activerequestslist];
-      } else if (requestview === 'archived') {
+      } else if (this.requestview === 'archived') {
         final = [...this.archivedrequestslist];
       }
 
@@ -734,10 +734,10 @@ createApp({
     },
     admissionslist() {
       let final = [];
-      if (requestview === 'current') {
+      if (this.admissionview === 'current') {
         final = [...this.activeadmissionslist];
       } else {
-        final = [...(this.archivedadmissionslist[this.requestview])];
+        final = [...(this.archivedadmissionslist[this.admissionview])];
       }
 
       final = final.sort((a, b) => {
@@ -750,10 +750,10 @@ createApp({
       });
 
       const filters = [];
-      if (this.admissionshowpending) filters.push(adm => adm.adm_status.toUpperCase() === 'PENDING');
-      if (this.admissionshowrejected) filters.push(adm => adm.adm_status.toUpperCase() === 'REJECTED');
-      if (this.admissionshowwaitlisted) filters.push(adm => adm.adm_status.toUpperCase() === 'WAITLISTED');
-      if (this.admissionshowaccepted) filters.push(adm => adm.adm_status.toUpperCase() === 'ACCEPTED');
+      if (this.admissionshowpending) filters.push(adm => adm.adms_status.toUpperCase() === 'PENDING');
+      if (this.admissionshowrejected) filters.push(adm => adm.adms_status.toUpperCase() === 'REJECTED');
+      if (this.admissionshowwaitlisted) filters.push(adm => adm.adms_status.toUpperCase() === 'WAITLISTED');
+      if (this.admissionshowaccepted) filters.push(adm => adm.adms_status.toUpperCase() === 'ACCEPTED');
 
       return final.filter(item =>
           filters.some(fn => fn(item)) // item passes if it matches ANY active filter
