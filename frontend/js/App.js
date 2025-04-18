@@ -72,7 +72,6 @@ createApp({
       homeAddress: '',
       email: '',
       emailReq: '',
-      documentType: '',
       purpose: '',
       admissionLevel: '',
       trackID: '',
@@ -125,14 +124,21 @@ createApp({
       today: new Date().toISOString().split('T')[0],
 
       // lists for admin panel
-      requestslist: [],
-      admissionslist: [],
+      activerequestslist: [],
+      archivedrequestslist: [],
+
+      activeadmissionslist: [],
+      archivedadmissionslist: {},
+
+      // requestslist: [],
+      // admissionslist: [],
       adminslist: [],
       studentslist: [],
       auditslist: [],
       doctypeslist: [],
       controls: [],
 
+      // focus objects
       focusrequest: {},
       focusadmission: {},
       focusadmin: {},
@@ -140,6 +146,25 @@ createApp({
       focusaudit: {},
       focusdoctype: {},
 
+      // sorting and filtering
+      requestsort: 'req_date',
+      requestorder: 'desc',
+      requestview: 'current',
+      requestshowpending: true,
+      requestshowready: true,
+      requestshowrejected: false,
+      requestshowretrieved: false,
+
+      admissionsort: 'adms_date',
+      admissionorder: 'desc',
+      admissionview: 'current',
+      admissionshowpending: true,
+      admissionshowrejected: true,
+      admissionshowwaitlisted: true,
+      admissionshowaccepted: true,
+
+      studentsort: 'stud_lname',
+      studentorder: 'asc',
     };
   },
   mounted() {
@@ -147,6 +172,9 @@ createApp({
       this.goToMenu();
     }, 2000);
     this.getAllDocuments();
+    fetch.getAllDocuments().then((data) => {
+      this.docType = data.filter(doc => doc.docu_is_active);
+    });
   },
   methods: {
     resetAdminScreens() {
@@ -430,11 +458,19 @@ createApp({
     },
     async getAllAdmission(){
       const data = await fetch.getAllAdmission();
-      this.admissionslist = data.data;
+      this.activeadmissionslist = data.data;
+    },
+    async getAllAdmissionHistory(){
+      const data = await fetch.getAllAdmissionHistory();
+      this.archivedadmissionslist = data.data;
     },
     async getAllRequest(){
       const data = await fetch.getAllRequest();
-      this.requestslist = data.data;
+      this.activerequestslist = data.data;
+    },
+    async getAllRequestHistory(){
+      const data = await fetch.getAllRequestHistory();
+      this.archivedrequestslist = data.data;
     },
     async getAllDocuments() {
       const data = await fetch.getAllDocuments();
@@ -446,7 +482,7 @@ createApp({
     },
     async getAllAdmin() {
       const data = await fetch.getAllAdmin();
-      this.adminslist = data.data.filter(admin => admin.admin_is_active === true);
+      this.adminslist = data.data.filter(admin => admin.admin_is_active);
     },
     async getAllChangeHistory() {
       const data = await fetch.getAllChangeHistory();
@@ -665,8 +701,78 @@ createApp({
       this.lrnReqMessage = 'This field is required.';
       this.loginMessage = "";
       this.firstNameMessage = 'This field is required.';
-    }
+    },
 
+  },
+  computed: {
+    requestslist() {
+      let final = [];
+      if (requestview === 'current') {
+        final = [...this.activerequestslist];
+      } else if (requestview === 'archived') {
+        final = [...this.archivedrequestslist];
+      }
 
+      final = final.sort((a, b) => {
+        const valA = a[this.requestsort].toUpperCase();
+        const valB = b[this.requestsort].toUpperCase();
+
+        if (valA < valB) return this.requestorder === 'asc' ? -1 : 1;
+        if (valA > valB) return this.requestorder === 'asc' ? 1 : -1;
+        return 0;
+      });
+
+      const filters = [];
+      if (this.requestshowpending) filters.push(req => req.req_status.toUpperCase() === 'PENDING');
+      if (this.requestshowready) filters.push(req => req.req_status.toUpperCase() === 'READY');
+      if (this.requestshowrejected) filters.push(req => req.req_status.toUpperCase() === 'REJECTED');
+      if (this.requestshowretrieved) filters.push(req => req.req_status.toUpperCase() === 'RETRIEVED');
+
+      return final.filter(item =>
+          filters.some(fn => fn(item)) // item passes if it matches ANY active filter
+      );
+    },
+    admissionslist() {
+      let final = [];
+      if (requestview === 'current') {
+        final = [...this.activeadmissionslist];
+      } else {
+        final = [...(this.archivedadmissionslist[this.requestview])];
+      }
+
+      final = final.sort((a, b) => {
+        const valA = a[this.admissionsort].toUpperCase();
+        const valB = b[this.admissionsort].toUpperCase();
+
+        if (valA < valB) return this.admissionorder === 'asc' ? -1 : 1;
+        if (valA > valB) return this.admissionorder === 'asc' ? 1 : -1;
+        return 0;
+      });
+
+      const filters = [];
+      if (this.admissionshowpending) filters.push(adm => adm.adm_status.toUpperCase() === 'PENDING');
+      if (this.admissionshowrejected) filters.push(adm => adm.adm_status.toUpperCase() === 'REJECTED');
+      if (this.admissionshowwaitlisted) filters.push(adm => adm.adm_status.toUpperCase() === 'WAITLISTED');
+      if (this.admissionshowaccepted) filters.push(adm => adm.adm_status.toUpperCase() === 'ACCEPTED');
+
+      return final.filter(item =>
+          filters.some(fn => fn(item)) // item passes if it matches ANY active filter
+      );
+    },
+    studentslist() {
+      const final = [...this.studentslist];
+
+      return final.sort((a, b) => {
+        const valA = a[this.studentsort];
+        const valB = b[this.studentsort];
+
+        if (valA < valB) return this.studentorder === 'asc' ? -1 : 1;
+        if (valA > valB) return this.studentorder === 'asc' ? 1 : -1;
+        return 0;
+      });
+    },
+    auditslist() {
+      // oten
+    },
   }
 }).mount('#app');

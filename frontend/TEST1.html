@@ -600,11 +600,11 @@
                                 <legend class="sr-only">Sort</legend>
                                 <div class="flex flex-col items-start gap-3">
                                     <label for="Option1" class="inline-flex items-center gap-3">
-                                        <input type="radio" name="admissions-sort" class="size-5 border-green shadow-sm bg-warm-white" id="Option1" />
+                                        <input type="radio" v-model="requestsort" value="stud_lname" name="requests-sort" class="size-5 border-green shadow-sm bg-warm-white" id="Option1" />
                                         <span class="text-sm font-medium text-green"> Last Name </span>
                                     </label>
                                     <label for="Option2" class="inline-flex items-center gap-3">
-                                        <input type="radio" name="admissions-sort" class="size-5 border-green shadow-sm bg-warm-white" id="Option2" />
+                                        <input type="radio" v-model="requestsort" value="req_date" name="requests-sort" class="size-5 border-green shadow-sm bg-warm-white" id="Option2" />
                                         <span class="text-sm font-medium text-green whitespace-nowrap"> Request Date </span>
                                     </label>
                                 </div>
@@ -613,11 +613,11 @@
                                 <legend class="sr-only">Order</legend>
                                 <div class="flex flex-col items-start gap-3">
                                     <label for="Option1" class="inline-flex items-center gap-3">
-                                        <input type="radio" name="admissions-sort-order" class="size-5 border-green shadow-sm bg-warm-white" id="Option1" />
+                                        <input type="radio" v-model="requestorder" value="asc" name="requests-sort-order" class="size-5 border-green shadow-sm bg-warm-white" id="Option1" />
                                         <span class="text-sm font-medium text-green"> Ascending </span>
                                     </label>
                                     <label for="Option2" class="inline-flex items-center gap-3">
-                                        <input type="radio" name="admissions-sort-order" class="size-5 border-green shadow-sm bg-warm-white" id="Option2" />
+                                        <input type="radio" v-model="requestorder" value="desc" name="requests-sort-order" class="size-5 border-green shadow-sm bg-warm-white" id="Option2" />
                                         <span class="text-sm font-medium text-green"> Descending </span>
                                     </label>
                                 </div>
@@ -648,7 +648,7 @@
                                 <legend class="sr-only">Period</legend>
                                 <div class="flex flex-col items-start gap-3">
                                     <label for="Option1" class="inline-flex items-center gap-3">
-                                        <input type="radio" name="admissions-filter" class="size-5 border-green shadow-sm bg-warm-white" id="Option1" />
+                                        <input type="radio" v-model="requestview" value="active" name="requests-filter" class="size-5 border-green shadow-sm bg-warm-white" id="Option1" />
                                         <span class="text-sm font-medium text-green"> Active </span>
                                     </label>
                                 </div>
@@ -657,11 +657,11 @@
                                 <legend class="sr-only">Status</legend>
                                 <div class="flex flex-col items-start gap-3">
                                     <label for="Option1" class="inline-flex items-center gap-3">
-                                        <input type="checkbox" class="size-5 border-green shadow-sm bg-warm-white" id="Option1" />
+                                        <input type="checkbox" v-model="requestshowpending" class="size-5 border-green shadow-sm bg-warm-white" id="Option1" />
                                         <span class="text-sm font-medium text-green"> Pending </span>
                                     </label>
                                     <label for="Option3" class="inline-flex items-center gap-3">
-                                        <input type="checkbox" class="size-5 border-green shadow-sm bg-warm-white" id="Option3" />
+                                        <input type="checkbox" v-model="requestshowready" class="size-5 border-green shadow-sm bg-warm-white" id="Option3" />
                                         <span class="text-sm font-medium text-green"> Ready </span>
                                     </label>
                                 </div>
@@ -670,7 +670,7 @@
                                 <legend class="sr-only">Period</legend>
                                 <div class="flex flex-col items-start gap-3">
                                     <label for="Option2" class="inline-flex items-center gap-3">
-                                        <input type="radio" name="admissions-filter" class="size-5 border-green shadow-sm bg-warm-white" id="Option2" />
+                                        <input type="radio" v-model="requestview" value="archived" name="requests-filter" class="size-5 border-green shadow-sm bg-warm-white" id="Option2" />
                                         <span class="text-sm font-medium text-green"> Archived </span>
                                     </label>
                                 </div>
@@ -679,11 +679,11 @@
                                 <legend class="sr-only">Status</legend>
                                 <div class="flex flex-col items-start gap-3">
                                     <label for="Option2" class="inline-flex items-center gap-3">
-                                        <input type="checkbox" class="size-5 border-green shadow-sm bg-warm-white" id="Option2" />
+                                        <input type="checkbox" v-model="requestshowrejected" class="size-5 border-green shadow-sm bg-warm-white" id="Option2" />
                                         <span class="text-sm font-medium text-green"> Rejected </span>
                                     </label>
                                     <label for="Option3" class="inline-flex items-center gap-3">
-                                        <input type="checkbox" class="size-5 border-green shadow-sm bg-warm-white" id="Option3" />
+                                        <input type="checkbox" v-model="requestshowretrieved" class="size-5 border-green shadow-sm bg-warm-white" id="Option3" />
                                         <span class="text-sm font-medium text-green"> Retrieved </span>
                                     </label>
                                 </div>
@@ -825,11 +825,11 @@
                                 <legend class="sr-only">Sort</legend>
                                 <div class="flex flex-col items-start gap-3">
                                     <label for="Option1" class="inline-flex items-center gap-3">
-                                        <input type="radio" name="admissions-sort" class="size-5 border-green shadow-sm bg-warm-white" id="Option1" />
+                                        <input type="radio" v-model="admissionsort" value="stud_lname" name="admissions-sort" class="size-5 border-green shadow-sm bg-warm-white" id="Option1" />
                                         <span class="text-sm font-medium text-green"> Last Name </span>
                                     </label>
                                     <label for="Option2" class="inline-flex items-center gap-3">
-                                        <input type="radio" name="admissions-sort" class="size-5 border-green shadow-sm bg-warm-white" id="Option2" />
+                                        <input type="radio" v-model="admissionsort" value="adms_date" name="admissions-sort" class="size-5 border-green shadow-sm bg-warm-white" id="Option2" />
                                         <span class="text-sm font-medium text-green whitespace-nowrap"> Admission Date </span>
                                     </label>
                                 </div>
@@ -838,11 +838,11 @@
                                 <legend class="sr-only">Order</legend>
                                 <div class="flex flex-col items-start gap-3">
                                     <label for="Option1" class="inline-flex items-center gap-3">
-                                        <input type="radio" name="admissions-sort-order" class="size-5 border-green shadow-sm bg-warm-white" id="Option1" />
+                                        <input type="radio" v-model="admissionorder" value="asc" name="admissions-sort-order" class="size-5 border-green shadow-sm bg-warm-white" id="Option1" />
                                         <span class="text-sm font-medium text-green"> Ascending </span>
                                     </label>
                                     <label for="Option2" class="inline-flex items-center gap-3">
-                                        <input type="radio" name="admissions-sort-order" class="size-5 border-green shadow-sm bg-warm-white" id="Option2" />
+                                        <input type="radio" v-model="admissionorder" value="desc" name="admissions-sort-order" class="size-5 border-green shadow-sm bg-warm-white" id="Option2" />
                                         <span class="text-sm font-medium text-green"> Descending </span>
                                     </label>
                                 </div>
@@ -873,19 +873,19 @@
                                 <legend class="sr-only">Status</legend>
                                 <div class="flex flex-col items-start gap-3">
                                     <label for="Option1" class="inline-flex items-center gap-3">
-                                        <input type="checkbox" class="size-5 border-green shadow-sm bg-warm-white" id="Option1" />
+                                        <input type="checkbox" v-model="admissionshowpending" class="size-5 border-green shadow-sm bg-warm-white" id="Option1" />
                                         <span class="text-sm font-medium text-green"> Pending </span>
                                     </label>
                                     <label for="Option2" class="inline-flex items-center gap-3">
-                                        <input type="checkbox" class="size-5 border-green shadow-sm bg-warm-white" id="Option2" />
+                                        <input type="checkbox" v-model="admissionshowrejected" class="size-5 border-green shadow-sm bg-warm-white" id="Option2" />
                                         <span class="text-sm font-medium text-green"> Rejected </span>
                                     </label>
                                     <label for="Option3" class="inline-flex items-center gap-3">
-                                        <input type="checkbox" class="size-5 border-green shadow-sm bg-warm-white" id="Option3" />
+                                        <input type="checkbox" v-model="admissionshowwaitlisted" class="size-5 border-green shadow-sm bg-warm-white" id="Option3" />
                                         <span class="text-sm font-medium text-green"> Waitlisted </span>
                                     </label>
                                     <label for="Option3" class="inline-flex items-center gap-3">
-                                        <input type="checkbox" class="size-5 border-green shadow-sm bg-warm-white" id="Option3" />
+                                        <input type="checkbox" v-model="admissionshowaccepted" class="size-5 border-green shadow-sm bg-warm-white" id="Option3" />
                                         <span class="text-sm font-medium text-green"> Accepted </span>
                                     </label>
                                 </div>
@@ -894,16 +894,12 @@
                                 <legend class="sr-only">Period</legend>
                                 <div class="flex flex-col items-start gap-3">
                                     <label for="Option1" class="inline-flex items-center gap-3">
-                                        <input type="radio" name="admissions-filter" class="size-5 border-green shadow-sm bg-warm-white" id="Option1" />
+                                        <input type="radio" v-model="admissionview" value="current" name="admissions-filter" class="size-5 border-green shadow-sm bg-warm-white" id="Option1" />
                                         <span class="text-sm font-medium text-green"> Current </span>
                                     </label>
                                     <label for="Option2" class="inline-flex items-center gap-3">
-                                        <input type="radio" name="admissions-filter" class="size-5 border-green shadow-sm bg-warm-white" id="Option2" />
+                                        <input type="radio" v-model="admissionview" value="2024" name="admissions-filter" class="size-5 border-green shadow-sm bg-warm-white" id="Option2" />
                                         <span class="text-sm font-medium text-green"> 2024 </span>
-                                    </label>
-                                    <label for="Option3" class="inline-flex items-center gap-3">
-                                        <input type="radio" name="admissions-filter" class="size-5 border-green shadow-sm bg-warm-white" id="Option2" />
-                                        <span class="text-sm font-medium text-green"> 2023 </span>
                                     </label>
                                 </div>
                             </fieldset>
@@ -1316,11 +1312,11 @@
                                 <legend class="sr-only">Sort</legend>
                                 <div class="flex flex-col items-start gap-3">
                                     <label for="Option1" class="inline-flex items-center gap-3">
-                                        <input type="radio" name="admissions-sort" class="size-5 border-green shadow-sm bg-warm-white" id="Option1" />
+                                        <input type="radio" v-model="studentsort" value="stud_lname" name="students-sort" class="size-5 border-green shadow-sm bg-warm-white" id="Option1" />
                                         <span class="text-sm font-medium text-green"> Last Name </span>
                                     </label>
                                     <label for="Option2" class="inline-flex items-center gap-3">
-                                        <input type="radio" name="admissions-sort" class="size-5 border-green shadow-sm bg-warm-white" id="Option2" />
+                                        <input type="radio" v-model="studentsort" value="stud_id" name="students-sort" class="size-5 border-green shadow-sm bg-warm-white" id="Option2" />
                                         <span class="text-sm font-medium text-green whitespace-nowrap"> Date Added </span>
                                     </label>
                                 </div>
@@ -1329,11 +1325,11 @@
                                 <legend class="sr-only">Order</legend>
                                 <div class="flex flex-col items-start gap-3">
                                     <label for="Option1" class="inline-flex items-center gap-3">
-                                        <input type="radio" name="admissions-sort-order" class="size-5 border-green shadow-sm bg-warm-white" id="Option1" />
+                                        <input type="radio" v-model="studentorder" value="asc" name="students-sort-order" class="size-5 border-green shadow-sm bg-warm-white" id="Option1" />
                                         <span class="text-sm font-medium text-green"> Ascending </span>
                                     </label>
                                     <label for="Option2" class="inline-flex items-center gap-3">
-                                        <input type="radio" name="admissions-sort-order" class="size-5 border-green shadow-sm bg-warm-white" id="Option2" />
+                                        <input type="radio" v-model="studentorder" value="desc" name="students-sort-order" class="size-5 border-green shadow-sm bg-warm-white" id="Option2" />
                                         <span class="text-sm font-medium text-green"> Descending </span>
                                     </label>
                                 </div>
