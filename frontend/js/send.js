@@ -217,6 +217,26 @@ export async function UpdateAdmin(data) {
         return response_data.message;
     }
 }
+export async function UpdateAdminDetails(data) {
+    const response = await fetch("http://localhost:8000/api/Service/Update/Admin", {
+        method: 'PUT',
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data),
+    })
+    //this method can be used for update whole info, password , or delete acc of admin 
+    //sample data to pass
+    // "admin_id":"12017",
+	// "admin_fname":"joanna",
+    // "admin_lname": "dawdawda",
+    // "admin_username": "joanna14346789",
+    // "admin_password": "Admin", 
+    // "admin_is_active": "false" -- if you want to delete just set this to false
+    const response_data = await response.json();
+    console.log(response);
+    return response_data.message;
+}
 export async function DeleteAdmin(data) {
     const response = await fetch(`http://localhost:8000/api/Admin/Delete/${data}`, {
         method: 'DELETE',

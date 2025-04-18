@@ -15,6 +15,7 @@ require_once "backend/controller/AdmissionRequestController.php";
 require_once "backend/controller/TransferAdmissionHistoryController.php";
 require_once "backend/controller/TransferRequestHistoryController.php";
 require_once "backend/controller/EmailController.php";
+require_once "backend/controller/UpdateAdminPasswordController.php";
 class Router{
     private AdminController $admincontroller;
     private StudentController $studentcontroller;
@@ -30,6 +31,7 @@ class Router{
     private AdmissionRequestController $admissionRequestController;
     private TransferAdmissionHistoryController $transferAdmissionHistoryController;
     private TransferRequestHistoryController $transferRequestHistoryController;
+    private UpdateAdminPasswordController $updateAdminPasswordController;
     private EmailController $emailController;
     public function __construct()
     {
@@ -48,6 +50,7 @@ class Router{
         $this->transferAdmissionHistoryController = new TransferAdmissionHistoryController();
         $this->transferRequestHistoryController = new TransferRequestHistoryController();
         $this->emailController = new EmailController();
+        $this->updateAdminPasswordController = new UpdateAdminPasswordController();
     }
 
     public function route()
@@ -110,6 +113,7 @@ class Router{
                 $this->postAndPutRequest("RequestHistory",$requestUri,$this->requestHistoryController,"updateRequestHistory");
                 $this->postAndPutRequest("AdmissionHistory",$requestUri,$this->admissionHistorycontroller,"updateAdmissionHistory");
                 $this->postAndPutRequest("AdminControls",$requestUri,$this->adminControlsController,"updateAdminControls");
+                $this->BackendLogicRequest("Update/Admin", $requestUri, $this->updateAdminPasswordController, "UpdateAdminPass");
                 break;
             case 'DELETE':
                 $this->deleteRequest('Admin', $requestUri,$this->admincontroller,'deleteAdmin');

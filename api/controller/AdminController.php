@@ -34,7 +34,7 @@ require_once "api/Service/StudentService.php";
     public function addAdmin($admin){
         try {
             $this->adminService->addAdmin($admin);
-            echo json_encode(["message" => "Successfully Added Admin ".$admin['admin_fname']]);
+            echo json_encode(["message" => "Successfully Added Admin "]);
         } catch(Exception $e) {
             http_response_code(400);
             echo json_encode(["message" => $e->getMessage()]);

@@ -73,7 +73,7 @@ class AdminRepository {
         public function AdminParameter($admin):array{
         $params = [
             ":ADMIN_USERNAME" => $admin->admin_username,
-            ":ADMIN_PASSWORD" => password_hash($admin->admin_password,PASSWORD_DEFAULT),
+            ":ADMIN_PASSWORD" => $admin->admin_password,
             ":ADMIN_FNAME" => $admin->admin_fname,
             ":ADMIN_LNAME" => $admin->admin_lname
         ];
