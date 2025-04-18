@@ -72,6 +72,7 @@ class Router{
                 $this->getRequest("ChangeHistory",$requestUri,$this->changeHistoryController,'getChangeHistoryById','getAllChangeHistory');
                 $this->getRequest("RequestHistory",$requestUri,$this->requestHistoryController,'getRequestHistoryById','getAllRequestHistory');
                 $this->getRequest("AdmissionHistory",$requestUri,$this->admissionHistorycontroller,'getAdmissionHistoryById','getAllAdmissionHistory');
+                $this->getRequest("AdmissionHistoryWithYear",$requestUri,$this->admissionHistorycontroller,'','getAllAdmissionHistoryWithYear');
                 $this->getRequest("AdminControls",$requestUri,$this->adminControlsController,'getAdminControlsByKey','getAllAdminControls');
                 //Transfer Admission
                 if($requestUri === "/api/Service/TransferAdmission"){

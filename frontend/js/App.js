@@ -78,6 +78,7 @@ createApp({
       status: '',
       loginFailed: '',
       documentType: '',
+      documentRequestStatus: '',
       docType: {},
       request: {},
       requestTrack: null,
@@ -220,6 +221,37 @@ createApp({
       this.request["req_purpose"] = this.purpose;
       this.request["docu_id"] = this.documentType;
       return this.request;
+    },
+    async UpdateDocumentRequest() {
+      const documentRequestObject = {
+            "req_track_id": this.focusrequest.req_track_id,
+            "req_date": this.focusrequest.req_date,
+            "req_purpose": this.focusrequest.req_purpose,
+            "req_status": this.focusrequest.req_status,
+            "docu_id": this.focusrequest.docu_id,
+            "stud_id": this.focusrequest.stud_id
+      };
+      console.log(documentRequestObject);
+      if (this.documentRequestStatus.toUpperCase() !== "REJECTED" && this.documentRequestStatus.toUpperCase() !== "ACCEPTED") {
+        if (this.documentRequestStatus !== this.focusrequest.req_status) {
+          documentRequestObject.req_status = this.documentRequestStatus;
+          const data = await send.UpdateRequest(documentRequestObject);
+          console.log(data);
+          if (data.includes("Successfully")) {
+            this.resetAdminScreens();
+            this.ShowDocumentRequests = true;
+          }
+        }
+        this.ShowRequestPopup = false;
+        this.ShowDocumentRequests = true;
+      } else {
+        const data = await send.TransferRequest(documentRequestObject);
+        console.log(data + "successfull?");
+        if (data.includes("Successfully")) {
+            this.resetAdminScreens();
+            this.ShowDocumentRequests = true;
+        }
+      }
     },
     async checkDocumentExist() {
       const documentObject = {

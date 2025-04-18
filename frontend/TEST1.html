@@ -743,7 +743,7 @@
                     </tr>
                     </thead>
                     <tbody class="divide-y border-green w-full">
-                    <tr v-for="req in requestslist" class="border-green" @click="ShowRequestPopup = true; focusrequest = req">
+                    <tr v-for="req in requestslist" class="border-green" @click="ShowRequestPopup = true; focusrequest = req; documentRequestStatus = focusrequest.req_status">
                         <td class="px-3 py-2 ">{{req.req_track_id}}</td>
                         <td class="px-3 py-2 ">{{[req.stud_fname,req.stud_mname,req.stud_lname].filter(Boolean).join(' ')}}</td>
                         <td class="px-3 py-2 ">{{req.stud_lrn}}</td>
@@ -774,16 +774,16 @@
                                     <select
                                             name="Headline"
                                             id="Headline"
-                                            class="w-full h-full p-0 bg-transparent focus:outline-none focus:ring-0 focus:rounded-none" >
+                                            class="w-full h-full p-0 bg-transparent focus:outline-none focus:ring-0 focus:rounded-none" v-model="documentRequestStatus" >
                                         <option value="Pending">Pending</option>
                                         <option value="Rejected">Rejected</option>
-                                        <option value="Waitlisted">Ready</option>
+                                        <option value="Waitedlist">Ready</option>
                                         <option value="Accepted">Retrieved</option>
                                     </select>
                                 </div>
                             </label>
                             <a class="w-full text-center block bg-green px-6 py-3 text-base font-bold text-warm-white hover-bg-mid-green"
-                               href="#" @click="ShowRequestPopup = false">
+                               href="#" @click="UpdateDocumentRequest()">
                                 Save changes
                             </a>
                         </div>
@@ -986,7 +986,7 @@
                                     <select
                                             name="Headline"
                                             id="Headline"
-                                            class="w-full h-full p-0 bg-transparent focus:outline-none focus:ring-0 focus:rounded-none" >
+                                            class="w-full h-full p-0 bg-transparent focus:outline-none focus:ring-0 focus:rounded-none" v-model="AdmissionRequestStatus" >
                                         <option value="Pending">Pending</option>
                                         <option value="Rejected">Rejected</option>
                                         <option value="Waitlisted">Waitlisted</option>

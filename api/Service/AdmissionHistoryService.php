@@ -19,11 +19,27 @@ class AdmissionHistoryService{
         $AdmissionHistory = $this->AdmissionHistoryRepository->getAllAdmissionHistory();
         return $this->serviceLogic->checkGetMethod($AdmissionHistory,"No Admission History Found");
     }
-    public function getAllAdmissionHistoryWithYear(){
-        $AdmissionHistory = $this->AdmissionHistoryRepository->getAllAdmissionHistory();
-        
-        return $this->serviceLogic->checkGetMethod($AdmissionHistory,"No Admission History Found");
+    public function getAllAdmissionHistoryWithYear()
+    {
+        $AdmissionHistory = $this->AdmissionHistoryRepository->getAllAdmissionHistoryWithYear();
+
+        if (empty($AdmissionHistory)) {
+            return $this->serviceLogic->checkGetMethod([], "No Admission History Found");
+        }
+
+        $groupedByYear = [];
+
+        foreach ($AdmissionHistory as $row) {
+            $year = $row['year'];
+            if (!isset($groupedByYear[$year])) {
+                $groupedByYear[$year] = [];
+            }
+            $groupedByYear[$year][] = $row;
+        }
+
+        return $this->serviceLogic->checkGetMethod($groupedByYear, "No Admission History Found");
     }
+
 
     public function getAdmissionHistoryById($id)
     {
