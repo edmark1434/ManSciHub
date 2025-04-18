@@ -370,7 +370,7 @@
                             id="Headline"
                             class="w-full h-full p-0 bg-transparent focus:outline-none focus:ring-0 focus:rounded-none" >
                         <option value="" selected disabled hidden>Please select</option>
-                        <option  :value="">{{  }}</option>
+                        <option v-for="docu in docType" :value="docu.docu_id">{{docu.docu_type}}</option>
                     </select>
                 </div>
                 <p v-if="submitted && !documentType" class="text-sm text-error">This field is required.</p>
@@ -1054,7 +1054,7 @@
                                 Change password
                             </a>
                             <a class="w-full text-center block bg-green px-6 py-3 text-base font-bold text-warm-white hover-bg-mid-green"
-                               href="#" @click="ShowAreYouSurePopup = true; ShowAdminPopup = false">
+                               href="#" @click="ShowAreYouSurePopup = true; ShowAdminPopup = false; Process = 'Remove'">
                                 Remove
                             </a>
                             <a class="w-full text-center block bg-ivory px-6 py-3 text-base font-bold text-green hover:bg-[#F1D580]/50"
@@ -1610,11 +1610,11 @@
 
                         <div class="flex flex-col justify-center items-center mt-9 gap-2">
                             <a class="w-full text-center block bg-green px-6 py-3 text-base font-bold text-warm-white hover-bg-mid-green"
-                               href="#" @click="ShowDocTypeRenamePopup = true; ShowDocTypePopup = false;">
+                               href="#" @click="ShowDocTypeRenamePopup = true; ShowDocTypePopup = false; documentTypeRename = focusdoctype.docu_type">
                                 Rename
                             </a>
                             <a class="w-full text-center block bg-green px-6 py-3 text-base font-bold text-warm-white hover-bg-mid-green"
-                               href="#" @click="ShowAreYouSurePopup = true; ShowDocTypePopup = false;">
+                               href="#" @click="ShowAreYouSurePopup = true; ShowDocTypePopup = false; Process = 'Delete Document'">
                                 Remove
                             </a>
                             <a class="w-full text-center block bg-ivory px-6 py-3 text-base font-bold text-green hover:bg-[#F1D580]/50"
@@ -1636,12 +1636,13 @@
                         <div class="flex flex-col justify-center items-center mt-9 gap-2">
                             <div class="flex flex-col w-full items-start">
 
-                                <input type="text" id="firstName" v-model="username"
+                                <input type="text" id="firstName" v-model="documentTypeRename"
                                        class="mt-0.5 mb-2 w-full h-12 px-3 border-2 border-green outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none" />
 
                             </div>
+                            <p v-if="checkDocument" class="text-sm" :class="checkDocument ? 'text-error' : 'text-green'">Document is already exist</p>
                             <a class="w-full text-center block bg-green px-6 py-3 text-base font-bold text-warm-white hover-bg-mid-green"
-                               href="#" @click="ShowDocTypeRenamePopup = false; ShowLoading = true">
+                               href="#" @click="(documentTypeRename !== this.focusdoctype.docu_type) ? checkDocumentExist() : (showDocumentTypes = true, ShowDocTypeRenamePopup = false);">
                                 Save changes
                             </a>
                         </div>
@@ -1669,7 +1670,7 @@
 
                     <div class="flex flex-col justify-center gap-2">
                         <a class="w-full text-center inline-block mt-9 bg-green px-6 py-3 text-base font-bold text-warm-white hover-bg-mid-green"
-                           href="#" @click="documentCreate()">
+                           href="#" @click="documentCreate();">
                             Add
                         </a>
                         <a class="w-full text-center block bg-ivory px-6 py-3 text-base font-bold text-green hover:bg-[#F1D580]/50"
@@ -1691,7 +1692,7 @@
 
                     <div class="flex flex-col justify-center items-center mt-9 gap-2">
                         <a class="w-full text-center block bg-green px-6 py-3 text-base font-bold text-warm-white hover-bg-mid-green"
-                           href="#" @click="ShowAreYouSurePopup = false; ShowPasswordConfirm = true; confirmPassword = ''; Process = 'Remove'">
+                           href="#" @click="ShowAreYouSurePopup = false; ShowPasswordConfirm = true; confirmPassword = '';">
                             Continue
                         </a>
                         <a class="w-full text-center block bg-ivory px-6 py-3 text-base font-bold text-green hover:bg-[#F1D580]/50"
