@@ -58,6 +58,16 @@ export async function getAllAdmissionHistory() {
         return data.message;
     }
 }
+export async function getAllAdmissionHistoryWithYear() {
+    const response = await fetch("http://localhost:8000/api/AdmissionHistoryWithYear");
+    let data = {};
+    if (response.ok) {
+        data = await response.json();
+        return data;
+    } else {
+        return data.message;
+    }
+}
 export async function getAllChangeHistory() {
     const response = await fetch("http://localhost:8000/api/ChangeHistory");
     let data = {};
