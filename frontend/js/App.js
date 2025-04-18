@@ -56,6 +56,7 @@ createApp({
       extension: '',
       extensionReq: '',
       dateOfBirth: '',
+      documentTypeRename: '',
       lrn: '',
       createAdminUsername: '',
       createAdminPassword: '',
@@ -66,6 +67,7 @@ createApp({
       confirmPasswordIncorrect: false,
       checkUsername: false,
       checkPassword: false,
+      checkDocument: false,
       lrnReq: '',
       homeAddress: '',
       email: '',
@@ -144,9 +146,7 @@ createApp({
     setTimeout(() => {
       this.goToMenu();
     }, 2000);
-    fetch.getAllDocuments().then((data) => {
-      this.docType = data;
-    });
+    this.getAllDocuments();
   },
   methods: {
     resetAdminScreens() {
@@ -183,6 +183,48 @@ createApp({
       this.request["req_purpose"] = this.purpose;
       this.request["docu_id"] = this.documentType;
       return this.request;
+    },
+    async checkDocumentExist() {
+      const documentObject = {
+        "docu_id": this.focusdoctype.docu_id,
+        "docu_type": this.documentTypeRename,
+        "docu_is_active": this.focusdoctype.docu_is_active
+      };
+      const Exists = Object.values(this.docType).some(document => document.docu_type === this.documentTypeRename);
+      if (Exists) {
+        this.checkDocument = true;
+      } else {
+        const data = await send.UpdateDocument(documentObject);
+        this.getAllDocuments();
+        this.resetAdminScreens();
+        this.ShowLoading = true;
+        this.loadingMessage = data + this.focusdoctype.docu_type;
+        this.loadingScreenTimeout();
+        this.ShowDocumentTypes = true;
+      }
+    },
+    async removeDocument() {
+      const documentObject = {
+        "confirm_password": this.confirmPassword,
+        "admin_password": this.adminDetails.admin_password,
+        "docu_id": this.focusdoctype.docu_id,
+        "docu_type": this.focusdoctype.docu_type,
+        "docu_is_active": "false"
+        };
+      const data = await send.RemoveDocument(documentObject);
+      if (data.includes('Successfully')) {
+        this.getAllDocuments();
+        this.resetAdminScreens();
+        this.checkDocument = false;
+        this.ShowDocType = false;
+        this.ShowLoading = true;
+        this.loadingMessage = data + this.focusdoctype.docu_type;
+        this.loadingScreenTimeout();
+        this.ShowDocumentTypes = true;
+      } else {
+        this.confirmPasswordIncorrect = true;
+        this.confirmPasswordMessage = "Password is incorrect.";
+      }
     },
     admissionObject() {
       this.admission["stud_fname"] = this.firstName;
@@ -244,6 +286,8 @@ createApp({
         this.adminUsername = '';
         this.adminPassword = '';
         this.documentType = '';
+        this.documentTypeRename = '';
+        this.confirmPassword = '';
       },3000);
     },
     async documentCreate() {
@@ -257,9 +301,7 @@ createApp({
         this.documentExist = true;
       } else {
         const data = await send.documentCreate(documentObject);
-        fetch.getAllDocuments().then((docu_data) => {
-          this.docType = docu_data;
-        });
+        this.getAllDocuments();
         this.resetAdminScreens();
         this.ShowLoading = true;
         this.loadingMessage = data +" "+this.documentType;
@@ -348,8 +390,11 @@ createApp({
               this.confirmPasswordMessage = "Password is incorrect.";
           }
             break;
+          case 'Delete Document':
+            this.removeDocument();
+            break;
           default:
-             const adminObjectCreate = {
+            const adminObjectCreate = {
               "admin_fname": "Jodeci",
               "admin_lname": "Pacibe",
               "admin_username": this.createAdminUsername,
@@ -390,6 +435,10 @@ createApp({
     async getAllRequest(){
       const data = await fetch.getAllRequest();
       this.requestslist = data.data;
+    },
+    async getAllDocuments() {
+      const data = await fetch.getAllDocuments();
+      this.docType = data.filter(document => document.docu_is_active === true);
     },
     async getAllStudent() {
       const data = await fetch.getAllStudent();

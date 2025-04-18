@@ -237,6 +237,30 @@ export async function UpdateAdminDetails(data) {
     console.log(response);
     return response_data.message;
 }
+export async function RemoveDocument(data) {
+    const response = await fetch("http://localhost:8000/api/Service/Document/Update", {
+        method: 'PUT',
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data),
+    })
+    const response_data = await response.json();
+    console.log(response);
+    return response_data.message;
+}
+export async function UpdateDocument(data) {
+    const response = await fetch("http://localhost:8000/api/Document/Update", {
+        method: 'PUT',
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data),
+    })
+    const response_data = await response.json();
+    console.log(response);
+    return response_data.message;
+}
 export async function DeleteAdmin(data) {
     const response = await fetch(`http://localhost:8000/api/Admin/Delete/${data}`, {
         method: 'DELETE',
