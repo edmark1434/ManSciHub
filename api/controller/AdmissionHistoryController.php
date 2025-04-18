@@ -17,6 +17,15 @@ class AdmissionHistoryController{
             echo json_encode(["message" => $e->getMessage()]);
         }
     }
+    public function getAllAdmissionHistoryWithYear(){
+        try{
+            $AdmissionHistory = $this->AdmissionHistoryService->getAllAdmissionHistoryWithYear();
+            echo json_encode(["message" => "Successfully get Admission", "data" => $AdmissionHistory]);
+        } catch (Exception $e) {
+            http_response_code(400);
+            echo json_encode(["message" => $e->getMessage()]);
+        }
+    }
     public function getAdmissionHistoryById($id){
         try{
             $AdmissionHistory = $this->AdmissionHistoryService->getAdmissionHistoryById($id);
