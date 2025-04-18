@@ -163,6 +163,15 @@ createApp({
 
       studentsort: 'stud_lname',
       studentorder: 'asc',
+
+      // searching
+      requestsearchlive: '',
+      admissionsearchlive: '',
+      studentsearchlive: '',
+
+      requestsearch: '',
+      admissionsearch: '',
+      studentsearch: '',
     };
   },
   mounted() {
@@ -650,7 +659,15 @@ createApp({
       this.loginMessage = "";
       this.firstNameMessage = 'This field is required.';
     },
-
+    snapRequestSearch() {
+      this.requestsearch = this.requestsearchlive;
+    },
+    snapAdmissionSearch() {
+      this.admissionsearch = this.admissionsearchlive;
+    },
+    snapStudentSearch() {
+      this.studentsearch = this.studentsearchlive;
+    },
   },
   computed: {
     requestslist() {
@@ -659,6 +676,13 @@ createApp({
         final = [...this.activerequestslist];
       } else if (requestview === 'archived') {
         final = [...this.archivedrequestslist];
+      }
+
+      if (this.requestsearch) {
+        const q = this.requestsearch.toString().toLowerCase();
+        final = final.filter(item =>
+            item.req_track_id.toString().toLowerCase().startsWith(q)
+        );
       }
 
       final = final.sort((a, b) => {
@@ -688,6 +712,14 @@ createApp({
         final = [...(this.archivedadmissionslist[this.requestview])];
       }
 
+      if (this.admissionsearch) {
+        const q = this.admissionsearch.toString().toLowerCase();
+        final = final.filter(item =>
+            ([item.stud_fname, item.stud_mname, item.stud_lname, item.stud_suffix].filter(Boolean).join(' '))
+                .toLowerCase().includes(q)
+        );
+      }
+
       final = final.sort((a, b) => {
         const valA = a[this.admissionsort].toUpperCase();
         const valB = b[this.admissionsort].toUpperCase();
@@ -708,7 +740,15 @@ createApp({
       );
     },
     studentslist() {
-      const final = [...this.studentslist];
+      let final = [...this.studentslist];
+
+      if (this.studentsearch) {
+        const q = this.studentsearch.toString().toLowerCase();
+        final = final.filter(item =>
+            ([item.stud_fname, item.stud_mname, item.stud_lname, item.stud_suffix].filter(Boolean).join(' '))
+                .toLowerCase().includes(q)
+        );
+      }
 
       return final.sort((a, b) => {
         const valA = a[this.studentsort];
