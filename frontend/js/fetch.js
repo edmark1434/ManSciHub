@@ -40,9 +40,8 @@ export async function getAllStudent() {
 }
 export async function getAllRequestHistory() {
     const response = await fetch("http://localhost:8000/api/RequestHistory");
-    let data = {};
+    const data = await response.json();
     if (response.ok) {
-        data = await response.json();
         return data;
     } else {
         return data.message;

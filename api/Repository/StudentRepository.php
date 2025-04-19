@@ -57,7 +57,7 @@ class StudentRepository{
     WHERE stud_id IN (
         SELECT stud_id
         FROM Admission_History
-        WHERE admhs_status != 'ACCEPTED')";
+        WHERE admhs_status != 'Accepted')";
     $this->repository->executeQuery($query, []);
     }
     public function deleteStudent($id): void

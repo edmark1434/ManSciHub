@@ -229,6 +229,13 @@ createApp({
       this.request["docu_id"] = this.documentType;
       return this.request;
     },
+    async EmailMessage(object, Request) {
+      if (status === "READY" || status === "REJECTED" || status === "ACCEPTED") {
+        const data = await send.emailMessage(object);
+        console.log(object.email_subject);
+        console.log(data);
+      }
+    },
     async UpdateDocumentRequest() {
       const documentRequestObject = {
             "req_track_id": this.focusrequest.req_track_id,
@@ -237,6 +244,14 @@ createApp({
             "req_status": this.documentRequestStatus,
             "docu_id": this.focusrequest.docu_id,
             "stud_id": this.focusrequest.stud_id
+      };
+      const emailObject = {
+        "stud_fname": this.focusrequest.stud_fname,
+        "stud_lname": this.focusrequest.stud_lname,
+        "stud_mname": this.focusrequest.stud_mname,
+        "stud_suffix": this.focusrequest.stud_suffix,
+        "stud_email": this.focusrequest.stud_email,
+        "email_subject" : "REQUEST "+this.documentRequestStatus.toUpperCase()
       };
       if (this.documentRequestStatus.toUpperCase() !== "REJECTED" && this.documentRequestStatus.toUpperCase() !== "ACCEPTED") {
         if (this.documentRequestStatus !== this.focusrequest.req_status) {
@@ -265,6 +280,7 @@ createApp({
           this.ShowDocumentRequests = true;
         }
       }
+      this.EmailMessage(emailObject, this.documentRequestStatus);
     },
     async UpdateAdmissionRequest() {
       const admissionRequestObject = {
@@ -274,6 +290,14 @@ createApp({
             "adms_lvl" : this.focusadmission.adms_lvl,
             "stud_id" : this.focusadmission.stud_id
       };
+      const emailObject = {
+        "stud_fname": this.focusadmission.stud_fname,
+        "stud_lname": this.focusadmission.stud_lname,
+        "stud_mname": this.focusadmission.stud_mname,
+        "stud_suffix": this.focusadmission.stud_suffix,
+        "stud_email": this.focusadmission.stud_email,
+        "email_subject" : this.admissionRequestStatus.toUpperCase()
+      };
       if (this.focusadmission.adms_status !== this.admissionRequestStatus) {
         const data = await send.UpdateAdmission(admissionRequestObject);
         if (data.includes('Successfully')) {
@@ -281,7 +305,7 @@ createApp({
           this.getAllAdmissionHistory();
           this.resetAdminScreens();
           this.ShowLoading = true;
-          this.loadingMessage = "Successfully Updated Admission"+this.focusadmission.adms_id;
+          this.loadingMessage = "Successfully Updated Admission "+this.focusadmission.adms_id;
           this.loadingScreenTimeout();
           this.ShowSchoolAdmissions= true;
         }
@@ -289,7 +313,7 @@ createApp({
         this.ShowAdmissionPopup = false;
         this.ShowSchoolAdmissions = true;
       }
-      
+      this.EmailMessage(emailObject,this.admissionRequestStatus);
     },
     async checkDocumentExist() {
       const documentObject = {
@@ -544,6 +568,11 @@ createApp({
         }
       }
     },
+    Logout() {
+      this.resetAdminScreens();
+      this.resetScreens();
+      this.ShowUserMenu = true;
+    },
     async getAllAdmission(){
       const data = await fetch.getAllAdmission();
       this.activeadmissionslist = data.data;
@@ -586,18 +615,19 @@ createApp({
         };
         let data = await send.AdminLogin(loginObject);
         if (data.data) {
+          this.getAllRequest();
+          this.getAllAdmission();
+          this.getAllStudent();
+          this.getAllAdmin();
+          this.getAllChangeHistory();
           this.login = true;
           this.loginMessage = data.message;
           this.adminDetails = data.data;
           this.verified = true;
           this.AdminID = data.data.admin_id;
-          this.getAllAdmission();
-          this.getAllRequest();
-          this.getAllStudent();
-          this.getAllAdmin();
-          this.getAllChangeHistory();
           this.resetScreens();
           this.ShowAdminPanel = true;
+          this.ShowDocumentRequests = true;
         } else {
           this.login = false;
           this.loginMessage = "Invalid Credentials. Access denied!";

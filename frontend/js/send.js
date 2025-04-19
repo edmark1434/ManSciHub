@@ -289,3 +289,14 @@ export async function documentCreate(data) {
     const response_data = await response.json();
     return response_data.message;
 }
+export async function emailMessage(data) {
+    const response = await fetch("http://localhost:8000/api/Service/EmailNotification", {
+        method: 'POST',
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data),
+    });
+    const response_data = await response.json();
+    return response_data.message;
+}

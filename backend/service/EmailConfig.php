@@ -22,17 +22,67 @@ class EmailConfig{
     public function sendMail($email,$fullname,$subject){
         try {
             $this->mail->setFrom($this->mail->Username, "ManSciHub");
-            $this->mail->addAddress($email, $fullname);
+            $this->mail->addAddress($email,$fullname);
             $this->mail->Subject = $subject;
-            $this->mail->Body = $this->getBody($subject);
+            $this->mail->Body = $this->getBody($subject,$fullname);
             $this->mail->send();
         } catch (Exception $e) {
-            throw new Exception("Email doesn't send successfully");  
+            throw new Exception("Email doesn't send successfully ". $e);  
         }
     }
 
-    private function getBody($subject){
-        $body = "<h1>hi im edmark</h1>";
+    private function getBody($subject,$fullname){
+        $body = "";
+        switch(strtoupper($subject)){
+            case "ACCEPTED":
+                $body = "<div style='font-family: Arial, sans-serif; color: #333;'>
+                    <h2>Admission Result</h2><br><br>
+                    <h2>Congratulations!</h2>
+                    <p>Dear <b>{$fullname}</b>,</p>
+                    <p>We are pleased to inform you that your admission request has been <strong style='color: green;'>accepted</strong>.</p>
+                    <p>Please wait for further instructions regarding your enrollment process.</p>
+                    <p>Thank you for choosing our institution!</p>
+                    <br>
+                    <p>Best regards,<br><strong>Admissions Office</strong></p>
+                </div>";
+                break;
+            case "REJECTED":
+                $body = "<div style='font-family: Arial, sans-serif; color: #333;'>
+                    <h2>Admission Result</h2><br><br>
+                    <p>Dear <b>{$fullname}</b>,</p>
+                    <p>We regret to inform you that your admission request has been <strong style='color: red;'>rejected</strong>.</p>
+                    <p>You may contact the admissions office for more details or reapply in the next enrollment period.</p>
+                    <p>We appreciate your interest in our institution.</p>
+                    <br>
+                    <p>Best regards,<br><strong>Admissions Office</strong></p>
+                </div>";
+                break;
+            case "REQUEST READY":
+                $body = "<div style='font-family: Arial, sans-serif; color: #333;'>
+                        <img src='https://your-school-logo-link.com/logo.png' alt='Mandaue Science High School' style='width: 150px; margin-bottom: 15px;'>
+                        <h2 style='color: #27ae60;'>Document Ready for Release</h2>
+                        <p>Dear <b>{$fullname}</b>,</p>
+                        <p>We are pleased to inform you that your requested document is now <strong>ready to be claimed</strong> at the Registrar's Office.</p>
+                        <p>Please bring a valid ID when claiming your document. If someone else will claim it on your behalf, kindly provide an authorization letter.</p>
+                        <p>Thank you for your patience and for choosing <strong>Mandaue Science High School</strong>.</p>
+                        <br>
+                        <p>Best regards,<br><strong>Registrar's Office</strong></p>
+                    </div>";
+                break;
+            case "REQUEST REJECTED":
+                $body = "<div style='font-family: Arial, sans-serif; color: #333;'>
+                    <img src='https://your-school-logo-link.com/logo.png' alt='Mandaue Science High School' style='width: 150px; margin-bottom: 15px;'>
+                    <h2 style='color: #c0392b;'>Document Request Rejected</h2>
+                    <p>Dear <b>{$fullname}</b>,</p>
+                    <p>We regret to inform you that your document request has been <strong style='color: red;'>rejected</strong>.</p>
+                    <p>This could be due to incomplete information, pending requirements, or invalid request type.</p>
+                    <p>You may contact the Registrar's Office for further details or resubmit a new request.</p>
+                    <p>We appreciate your understanding.</p>
+                    <br>
+                    <p>Best regards,<br><strong>Registrar's Office</strong></p>
+                </div>";
+                break;
+        }
         return $body;
     }
 }
