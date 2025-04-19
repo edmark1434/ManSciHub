@@ -230,6 +230,7 @@ createApp({
       return this.request;
     },
     async EmailMessage(object, Request) {
+      const status = Request.toUpperCase();
       if (status === "READY" || status === "REJECTED" || status === "ACCEPTED") {
         const data = await send.emailMessage(object);
         console.log(object.email_subject);
