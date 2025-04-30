@@ -134,7 +134,8 @@ createApp({
       archivedadmissionslist: {},
       adminslist: [],
       fullstudentslist: [],
-      fullauditslist: [],
+      requestauditslist: [],
+      admissionauditslist: [],
       doctypeslist: [],
       controls: [],
 
@@ -602,9 +603,13 @@ createApp({
       const data = await fetch.getAllAdmin();
       this.adminslist = data.data.filter(admin => admin.admin_is_active);
     },
-    async getAllChangeHistory() {
-      const data = await fetch.getAllChangeHistory();
-      this.fullauditslist = data.data;
+    async getAllAuditLogAdmission() {
+      const data = await fetch.getAllAuditLogAdmission();
+      this.admissionauditslist = data.data;
+    },
+    async getAllAuditLogRequest() {
+      const data = await fetch.getAllAuditLogRequest();
+      this.requestauditslist = data.data;
     },
     async checkLogin() {
       this.submitted = true;
@@ -620,7 +625,6 @@ createApp({
           this.getAllAdmission();
           this.getAllStudent();
           this.getAllAdmin();
-          this.getAllChangeHistory();
           this.login = true;
           this.loginMessage = data.message;
           this.adminDetails = data.data;
@@ -922,7 +926,24 @@ createApp({
       });
     },
     auditslist() {
-      let final = [...this.fullauditslist];
+
+      const requestCopies = this.requestauditslist.map(item =>
+        ({ ...item })
+      );
+      const admissionCopies = this.admissionauditslist.map(item =>
+        ({ ...item })
+      );
+
+      const requestTagged = requestCopies.map(item => ({
+        ...item,
+        chg_type: "Document Request"
+      }));
+      const admissionTagged = admissionCopies.map(item => ({
+        ...item,
+        chg_type: "School Admission"
+      }));
+
+      let final = [...requestTagged, ...admissionTagged];
 
       if (this.ShowAuditLogByAdmin) {
         final = final.filter(aud => aud.admin_id === focusadmin.admin_id);
@@ -931,14 +952,14 @@ createApp({
       if (this.auditfilterdate) {
         const start = new Date(this.auditfilterdate);
         final = final.filter(aud => {
-          const changed = new Date(aud.chg_date);
+          const changed = new Date(aud.chg_datetime);
           return changed >= start;
         });
       }
 
       const filters = [];
-      if (this.auditshowrequest) filters.push(aud => aud.chg_table.toUpperCase() === 'DOCUMENT REQUEST');
-      if (this.auditshowadmission) filters.push(aud => aud.adms_status.toUpperCase() === 'SCHOOL ADMISSION');
+      if (this.auditshowrequest) filters.push(aud => aud.chg_type.toUpperCase() === 'DOCUMENT REQUEST');
+      if (this.auditshowadmission) filters.push(aud => aud.chg_type.toUpperCase() === 'SCHOOL ADMISSION');
 
       return final.filter(item =>
           filters.some(fn => fn(item)) // item passes if it matches ANY active filter

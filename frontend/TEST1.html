@@ -1284,9 +1284,9 @@
                     </thead>
                     <tbody class="divide-y border-green w-full">
                     <tr v-for="aud in auditslist" class="border-green">
-                        <td class="px-3 py-2 ">{{ aud.chg_table }}</td>
+                        <td class="px-3 py-2 ">{{ aud.chg_type }}</td>
                         <td class="px-3 py-2 ">{{ [aud.stud_fname, aud.stud_mname, aud.stud_lname, aud.stud_suffix].filter(Boolean).join(' ') }}</td>
-                        <td class="px-3 py-2 ">{{ aud.chg_table === 'Document Request' ? aud.req_date : aud.adms_date }}</td>
+                        <td class="px-3 py-2 ">{{ aud.track_date }}</td>
                         <td class="px-3 py-2 ">{{ aud.chg_old_val }} >> {{ aud.chg_new_val }}</td>
                         <td class="px-3 py-2 ">{{ aud.chg_datetime }}</td>
                         <td class="px-3 py-2 ">{{ aud.admin_username }}</td>
