@@ -1,9 +1,8 @@
 <?php
 
-class ChangeHistory{
+class AuditLogAdmission{
     public $chg_id;
-    public $chg_table;
-    public $chg_table_id;
+    public $adms_id;
     public $chg_old_val;
     public $chg_new_val;
     public $chg_datetime;

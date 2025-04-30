@@ -5,7 +5,8 @@ require_once "api/Controller/StudentController.php";
 require_once "api/Controller/AdmissionController.php";
 require_once "api/Controller/RequestController.php";
 require_once "api/Controller/DocumentController.php";
-require_once "api/Controller/ChangeHistoryController.php";
+require_once "api/Controller/AuditLogRequestController.php";
+require_once "api/Controller/AuditLogAdmissionController.php";
 require_once "api/Controller/AdmissionHistoryController.php";
 require_once "api/Controller/RequestHistoryController.php";
 require_once "api/Controller/AdminControlsController.php";
@@ -24,7 +25,8 @@ class Router{
     private AdmissionController $admissioncontroller;
     private RequestController $requestcontroller;
     private DocumentController $documentcontroller;
-    private ChangeHistoryController $changeHistoryController;
+    private AuditLogAdmissionController $auditLogAdmissionController;
+    private AuditLogRequestController $auditLogRequestController;
     private RequestHistoryController $requestHistoryController;
     private AdmissionHistoryController $admissionHistorycontroller;
     private AdminControlsController $adminControlsController;
@@ -44,7 +46,8 @@ class Router{
         $this->admissioncontroller = new AdmissionController();
         $this->requestcontroller = new RequestController();
         $this->documentcontroller = new DocumentController();
-        $this->changeHistoryController = new ChangeHistoryController();
+        $this->auditLogRequestController = new AuditLogRequestController();
+        $this->auditLogAdmissionController = new AuditLogAdmissionController();
         $this->admissionHistorycontroller = new AdmissionHistoryController();
         $this->requestHistoryController = new RequestHistoryController();
         $this->adminControlsController = new AdminControlsController();
@@ -72,7 +75,8 @@ class Router{
                 $this->getRequest("Admission",$requestUri,$this->admissioncontroller,'getAdmissionById','getAllAdmission');
                 $this->getRequest("Request",$requestUri,$this->requestcontroller,'getRequestById','getAllRequest');
                 $this->getRequest("Document",$requestUri,$this->documentcontroller,'getDocumentById','getAllDocument');
-                $this->getRequest("ChangeHistory",$requestUri,$this->changeHistoryController,'getChangeHistoryById','getAllChangeHistory');
+                $this->getRequest("AuditLog-Admission",$requestUri,$this->auditLogAdmissionController,'getAuditLogAdmissionById','getAllAuditLogAdmission');
+                $this->getRequest("AuditLog-Request",$requestUri,$this->auditLogRequestController,'getAuditLogRequestById','getAllAuditLogRequest');
                 $this->getRequest("RequestHistory",$requestUri,$this->requestHistoryController,'getRequestHistoryById','getAllRequestHistory');
                 $this->getRequest("AdmissionHistory",$requestUri,$this->admissionHistorycontroller,'getAdmissionHistoryById','getAllAdmissionHistory');
                 $this->getRequest("AdmissionHistoryWithYear",$requestUri,$this->admissionHistorycontroller,'','getAllAdmissionHistoryWithYear');
@@ -88,7 +92,8 @@ class Router{
                 $this->postAndPutRequest("Admission",$requestUri,$this->admissioncontroller,"addAdmission");
                 $this->postAndPutRequest("Request",$requestUri,$this->requestcontroller,"addRequest");
                 $this->postAndPutRequest("Document",$requestUri,$this->documentcontroller,"addDocument");
-                $this->postAndPutRequest("ChangeHistory",$requestUri,$this->changeHistoryController,"addChangeHistory");
+                $this->postAndPutRequest("AuditLog-Request",$requestUri,$this->auditLogRequestController,"addAuditLogRequest");
+                $this->postAndPutRequest("AuditLog-Admission",$requestUri,$this->auditLogAdmissionController,"addAuditLogAdmission");
                 $this->postAndPutRequest("RequestHistory",$requestUri,$this->requestHistoryController,"addRequestHistory");
                 $this->postAndPutRequest("AdmissionHistory",$requestUri,$this->admissionHistorycontroller,"addAdmissionHistory");
                 $this->postAndPutRequest("AdminControls",$requestUri,$this->adminControlsController,"addAdminControls");
@@ -117,7 +122,6 @@ class Router{
                 $this->postAndPutRequest("Admission",$requestUri,$this->admissioncontroller,"updateAdmission");
                 $this->postAndPutRequest("Request",$requestUri,$this->requestcontroller,"updateRequest");
                 $this->postAndPutRequest("Document",$requestUri,$this->documentcontroller,"updateDocument");
-                $this->postAndPutRequest("ChangeHistory",$requestUri,$this->changeHistoryController,"updateChangeHistory");
                 $this->postAndPutRequest("RequestHistory",$requestUri,$this->requestHistoryController,"updateRequestHistory");
                 $this->postAndPutRequest("AdmissionHistory",$requestUri,$this->admissionHistorycontroller,"updateAdmissionHistory");
                 $this->postAndPutRequest("AdminControls",$requestUri,$this->adminControlsController,"updateAdminControls");
@@ -130,7 +134,6 @@ class Router{
                 $this->deleteRequest("Admission",$requestUri,$this->admissioncontroller,"deleteAdmission");
                 $this->deleteRequest("Request",$requestUri,$this->requestcontroller,"deleteRequest");
                 $this->deleteRequest("Document",$requestUri,$this->documentcontroller,"deleteDocument");
-                $this->deleteRequest("ChangeHistory",$requestUri,$this->changeHistoryController,"deleteChangeHistory");
                 $this->deleteRequest("RequestHistory",$requestUri,$this->requestHistoryController,"deleteRequestHistory");
                 $this->deleteRequest("AdmissionHistory",$requestUri,$this->admissionHistorycontroller,"deleteAdmissionHistory");
                 $this->deleteRequest("AdminControls",$requestUri,$this->adminControlsController,"deleteAdminControls");

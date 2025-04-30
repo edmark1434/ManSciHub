@@ -91,6 +91,24 @@ export async function getAdminById(id) {
         return data.message;
     }
 }
+export async function getAllAuditLogAdmission() {
+    const response = await fetch(`http://localhost:8000/api/AuditLog-Admission`);
+    const data = await response.json();
+    if (response.ok) {
+        return data;
+    } else {
+        return data.message;
+    }
+}
+export async function getAllAuditLogRequest() {
+    const response = await fetch(`http://localhost:8000/api/AuditLog-Request`);
+    const data = await response.json();
+    if (response.ok) {
+        return data;
+    } else {
+        return data.message;
+    }
+}
 
 //this function is for admission close
 // this will automatically transfer the all record admissions in admission_history
