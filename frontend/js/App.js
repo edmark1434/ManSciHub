@@ -85,6 +85,7 @@ createApp({
       docType: {},
       request: {},
       requestTrack: null,
+      interval : null,
       admission: {},
       requestDetail: {},
       admissionResponse: {},
@@ -110,6 +111,7 @@ createApp({
       // fields Validation Request
       errorStatus: false,
       firstNameReqField: false,
+      isProcessing : false,
       lastNameReqField: false,
       emailReqField: false,
       lrnReqField: false,
@@ -185,10 +187,13 @@ createApp({
     setTimeout(() => {
       this.goToMenu();
     }, 2000);
-    this.getAllDocuments();
-    fetch.getAllDocuments().then((data) => {
-      this.docType = data.filter(doc => doc.docu_is_active);
-    });
+      this.getAllDocuments();
+      fetch.getAllDocuments().then((data) => {
+        this.docType = data.filter(doc => doc.docu_is_active);
+      });
+  },
+  beforeUnmount() {
+    clearInterval(this.interval);
   },
   methods: {
     resetAdminScreens() {
@@ -215,6 +220,13 @@ createApp({
       this.ShowDocTypeCreatePopup= false;
       this.ShowLoading= false;
     },
+    intervalUpdate() {
+      this.latestFetchRequest();
+      this.interval = setInterval(() => {
+        this.latestFetchRequest();
+        this.getAllRequest();
+      }, 10000);
+    },
     async getAdminById() {
       const data = await fetch.getAdminById(this.focusadmin.admin_id);
       this.adminDetails = data.data;
@@ -229,6 +241,65 @@ createApp({
       this.request["req_purpose"] = this.purpose;
       this.request["docu_id"] = this.documentType;
       return this.request;
+    },
+async latestFetchRequest() {
+  if (this.isProcessing) return; 
+  this.isProcessing = true;
+
+  let data = await fetch.getRequestForms();
+  const latestFetch = localStorage.getItem("latestFetch");
+
+  if (latestFetch) {
+    data = data.filter(d => new Date(d["Timestamp"]) > new Date(latestFetch));
+  }
+
+  if (data.length === 0) {
+    console.log("No new requests.");
+    this.isProcessing = false;
+    return;
+  }
+
+  for (const req of data) {
+    const timestamp = new Date(req["Timestamp"]);
+    if (latestFetch && timestamp <= new Date(latestFetch)) {
+      continue; // Already processed, skip this entry
+    }
+    const requestObject = {
+      stud_fname:   req["First name"],
+      stud_mname:   req["Middle name"],
+      stud_lname:   req["Last name"],
+      stud_suffix:  req["Extension"],
+      stud_email:   req["Email address"],
+      stud_lrn:     parseInt(req["Lrn"]),
+      docu_id:      this.getDocumentID(req["Document Type"]),
+      req_purpose:  req["Purpose of request"]
+    };
+
+    const res = await send.DocumentRequest(requestObject);
+
+    if (res.message.includes("Email")) { 
+      localStorage.setItem("latestFetch", req["Timestamp"]);
+      console.warn("Email already exists");
+    } 
+    if (res.message.includes("Lrn")) {
+      localStorage.setItem("latestFetch", req["Timestamp"]);
+      console.warn("LRN already exists");
+    } 
+    if (res.message.includes("Successfully")) {
+      localStorage.setItem("latestFetch", req["Timestamp"]);
+      console.log("Created OK")
+    };
+  }
+  this.isProcessing = false;
+},
+
+
+
+    getDocumentID(document_name) {
+      const data = this.docType.find(data => data.docu_type.trim().toLowerCase() === document_name.trim().toLowerCase());
+      console.log(data);
+      console.log(document_name);
+      return data.docu_id;
     },
     async EmailMessage(object, Request) {
       const status = Request.toUpperCase();
@@ -574,6 +645,7 @@ createApp({
       this.resetAdminScreens();
       this.resetScreens();
       this.ShowUserMenu = true;
+      clearInterval(this.interval = false);
     },
     async getAllAdmission(){
       const data = await fetch.getAllAdmission();
@@ -631,6 +703,7 @@ createApp({
           this.verified = true;
           this.AdminID = data.data.admin_id;
           this.resetScreens();
+          this.intervalUpdate();
           this.ShowAdminPanel = true;
           this.ShowDocumentRequests = true;
         } else {

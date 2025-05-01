@@ -128,4 +128,21 @@ export async function getRequestById(data) {
     return await response.json();
 }
 
+export async function getRequestForms() {
+  const url =`https://docs.google.com/spreadsheets/d/e/2PACX-1vQxrIYs_3JtRBdOmzuTe-HJCF0R7Jk9xv2yYPClGfymzOCrTjRTunCOg61QJ_jWTK3xNFg9BYXbRbiQ/pub?output=csv&gid=1449741920&&cachebust=${Date.now()}`;
 
+  const res = await fetch(url);
+  if (!res.ok) throw new Error(`Fetch failed: ${res.statusText}`);
+  const csvText = await res.text();
+
+  // Split into lines, then cells
+  const rows = csvText.trim().split(/\r?\n/).map(line => line.split(","));
+  const [header, ...body] = rows;
+
+  // Turn into array of objects
+  const data = body.map(row =>
+    Object.fromEntries(header.map((key, i) => [key, row[i]]))
+  );
+    console.log(data);
+  return data;   // ← now this async function truly returns the array
+}
