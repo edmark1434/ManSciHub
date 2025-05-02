@@ -225,7 +225,7 @@ createApp({
       this.interval = setInterval(() => {
         this.latestFetchRequest();
         this.getAllRequest();
-      }, 10000);
+      }, 90000);
     },
     async getAdminById() {
       const data = await fetch.getAdminById(this.focusadmin.admin_id);
@@ -242,7 +242,7 @@ createApp({
       this.request["docu_id"] = this.documentType;
       return this.request;
     },
-async latestFetchRequest() {
+    async latestFetchRequest() {
   if (this.isProcessing) return; 
   this.isProcessing = true;
 
@@ -274,16 +274,24 @@ async latestFetchRequest() {
       docu_id:      this.getDocumentID(req["Document Type"]),
       req_purpose:  req["Purpose of request"]
     };
-
+    const emailObject = {
+        "stud_fname": req['First name'],
+        "stud_lname": req['Middle name'],
+        "stud_mname": req['Last name'],
+        "stud_suffix": req['Extension'],
+        "stud_email": req['Email address'],
+      };
     const res = await send.DocumentRequest(requestObject);
 
     if (res.message.includes("Email")) { 
+      emailObject['email_subject'] = 'EMAIL';
       localStorage.setItem("latestFetch", req["Timestamp"]);
-      console.warn("Email already exists");
+      this.EmailMessage(emailObject, "EMAIL");
     } 
     if (res.message.includes("Lrn")) {
+      emailObject['email_subject'] = 'LRN';
       localStorage.setItem("latestFetch", req["Timestamp"]);
-      console.warn("LRN already exists");
+      this.EmailMessage(emailObject, "LRN");
     } 
     if (res.message.includes("Successfully")) {
       localStorage.setItem("latestFetch", req["Timestamp"]);
@@ -303,7 +311,7 @@ async latestFetchRequest() {
     },
     async EmailMessage(object, Request) {
       const status = Request.toUpperCase();
-      if (status === "READY" || status === "REJECTED" || status === "ACCEPTED") {
+      if (["READY", "REJECTED", "ACCEPTED", "LRN", "EMAIL"].includes(status)) {
         const data = await send.emailMessage(object);
         console.log(object.email_subject);
         console.log(data);
