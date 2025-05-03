@@ -150,6 +150,8 @@ createApp({
       focusdoctype: {},
 
       // sorting and filtering
+      showactiverequestfilters: true,
+
       requestsort: 'req_date',
       requestorder: 'desc',
       requestview: 'active',
@@ -660,7 +662,7 @@ createApp({
       this.activeadmissionslist = data.data;
     },
     async getAllAdmissionHistory(){
-      const data = await fetch.getAllAdmissionHistory();
+      const data = await fetch.getAllAdmissionHistoryWithYear();
       this.archivedadmissionslist = data.data;
     },
     async getAllRequest(){
@@ -704,7 +706,11 @@ createApp({
           this.getAllRequest();
           this.getAllAdmission();
           this.getAllStudent();
+          this.getAllRequestHistory();
+          this.getAllAdmissionHistory();
           this.getAllAdmin();
+          this.getAllAuditLogAdmission();
+          this.getAllAuditLogRequest();
           this.login = true;
           this.loginMessage = data.message;
           this.adminDetails = data.data;
@@ -1046,5 +1052,18 @@ createApp({
           filters.some(fn => fn(item)) // item passes if it matches ANY active filter
       );
     },
+  },
+  watch: {
+    requestview(newVal) {
+      if (newVal === 'active') {
+        this.requestshowpending = true;
+        this.requestshowready = true;
+        this.showactiverequestfilters = true;
+      } else {
+        this.requestshowrejected = true;
+        this.requestshowretrieved = true;
+        this.showactiverequestfilters = false;
+      }
+    }
   }
 }).mount('#app');

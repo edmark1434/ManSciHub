@@ -19,7 +19,14 @@ require_once "backend/controller/EmailController.php";
 require_once "backend/controller/UpdateAdminPasswordController.php";
 require_once "backend/controller/UpdateDocumentController.php";
 require_once "backend/controller/CreateAdminController.php";
+
+header("Content-Type: application/json");
+header('Access-Control-Allow-Origin: *');
+header("Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE");
+header("Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With");
+
 class Router{
+
     private AdminController $admincontroller;
     private StudentController $studentcontroller;
     private AdmissionController $admissioncontroller;

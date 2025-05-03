@@ -67,11 +67,6 @@ export async function getAllAdmissionHistoryWithYear() {
         return data.message;
     }
 }
-export async function getAllChangeHistory() {
-    const response = await fetch("http://localhost:8000/api/ChangeHistory");
-    const data = await response.json();
-    return data;
-}
 export async function getAllAdmin() {
     const response = await fetch("http://localhost:8000/api/Admin");
     let data = {};

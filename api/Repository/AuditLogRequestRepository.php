@@ -10,7 +10,7 @@ class AuditLogRequestRepository {
 
     public function getAllAuditLogRequest(): array {
         $query = "
-            SELECT a.chg_id, a.req_track_id as track_id, a.chg_old_val, a.chg_new_val, a.chg_datetime, ad.admin_username, r.req_date , s.stud_fname, s.stud_mname, s.stud_lname, s.stud_suffix 
+            SELECT a.chg_id, a.req_track_id as track_id, a.chg_old_val, a.chg_new_val, TO_CHAR(a.chg_datetime, 'YYYY-MM-DD HH12:MI AM'), ad.admin_username, r.req_date , s.stud_fname, s.stud_mname, s.stud_lname, s.stud_suffix 
             FROM AUDIT_LOG_REQUEST AS a
             INNER JOIN ADMIN AS ad ON a.admin_id = ad.admin_id
             INNER JOIN REQUEST as r ON a.req_track_id = r.req_track_id
@@ -20,7 +20,7 @@ class AuditLogRequestRepository {
 
     public function getAuditLogRequestById($id): ?array {
         $query = "
-            SELECT a.chg_id, a.req_track_id as track_id, a.chg_old_val, a.chg_new_val, a.chg_datetime, ad.admin_username, r.req_date , s.stud_fname, s.stud_mname, s.stud_lname, s.stud_suffix 
+            SELECT a.chg_id, a.req_track_id as track_id, a.chg_old_val, a.chg_new_val, TO_CHAR(a.chg_datetime, 'YYYY-MM-DD HH12:MI AM'), ad.admin_username, r.req_date , s.stud_fname, s.stud_mname, s.stud_lname, s.stud_suffix 
             FROM AUDIT_LOG_REQUEST AS a
             INNER JOIN ADMIN AS ad ON a.admin_id = ad.admin_id
             INNER JOIN REQUEST as r ON a.req_track_id = r.req_track_id

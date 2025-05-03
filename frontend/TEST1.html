@@ -640,27 +640,27 @@
                         <div
                                 class="z-auto divide-y border-2 border-green bg-ivory shadow-sm group-open:absolute group-open:start-0 group-open:top-14">
                             <div class="flex items-center justify-between px-3 py-2">
-                                <button type="button" @click="requestview = 'active'; requestshowpending = requestshowready = requestshowrejected = requestshowretrieved = true;" class="text-sm text-green underline ">
+                                <button type="button" @click="requestview = 'active'; requestshowpending = requestshowready = true; requestshowrejected = requestshowretrieved = false;" class="text-sm text-green underline ">
                                     Reset
                                 </button>
                             </div>
                             <fieldset class="p-3 border-t-2 border-green">
                                 <legend class="sr-only">Period</legend>
                                 <div class="flex flex-col items-start gap-3">
-                                    <label for="Option1" class="inline-flex items-center gap-3">
-                                        <input type="radio" v-model="requestview" value="active" name="requests-filter" class="size-5 border-green shadow-sm bg-warm-white" id="Option1" />
+                                    <div class="inline-flex items-center gap-3">
+                                        <input type="radio" v-model="requestview" value="active" name="requests-filter" class="size-5 border-green shadow-sm bg-warm-white" id="Option1"/>
                                         <span class="text-sm font-medium text-green"> Active </span>
-                                    </label>
-                                    <label for="Option2" class="inline-flex items-center gap-3">
-                                        <input type="radio" v-model="requestview" value="archived" name="requests-filter" class="size-5 border-green shadow-sm bg-warm-white" id="Option2" />
+                                    </div>
+                                    <div class="inline-flex items-center gap-3">
+                                        <input type="radio" v-model="requestview" value="archived" name="requests-filter" class="size-5 border-green shadow-sm bg-warm-white" id="Option2"/>
                                         <span class="text-sm font-medium text-green"> Archived </span>
-                                    </label>
+                                    </div>
 
                                 </div>
                             </fieldset>
-                            <fieldset v-if="requestview === 'active'" class="p-3 pl-6 border-t-2 border-green">
+                            <fieldset class="p-3 border-t-2 border-green">
                                 <legend class="sr-only">Status</legend>
-                                <div class="flex flex-col items-start gap-3">
+                                <div v-show="showactiverequestfilters" class="flex flex-col items-start gap-3">
                                     <label for="Option1" class="inline-flex items-center gap-3">
                                         <input type="checkbox" v-model="requestshowpending" class="size-5 border-green shadow-sm bg-warm-white" id="Option1" />
                                         <span class="text-sm font-medium text-green"> Pending </span>
@@ -670,10 +670,7 @@
                                         <span class="text-sm font-medium text-green"> Ready </span>
                                     </label>
                                 </div>
-                            </fieldset>
-                            <fieldset v-else class="p-3 pl-6 border-t-2 border-green">
-                                <legend class="sr-only">Status</legend>
-                                <div class="flex flex-col items-start gap-3">
+                                <div v-show="!showactiverequestfilters" class="flex flex-col items-start gap-3">
                                     <label for="Option2" class="inline-flex items-center gap-3">
                                         <input type="checkbox" v-model="requestshowrejected" class="size-5 border-green shadow-sm bg-warm-white" id="Option2" />
                                         <span class="text-sm font-medium text-green"> Rejected </span>
@@ -889,14 +886,14 @@
                             <fieldset class="p-3 border-t-2 border-green">
                                 <legend class="sr-only">Period</legend>
                                 <div class="flex flex-col items-start gap-3">
-                                    <label for="Option1" class="inline-flex items-center gap-3">
+                                    <div class="inline-flex items-center gap-3">
                                         <input type="radio" v-model="admissionview" value="current" name="admissions-filter" class="size-5 border-green shadow-sm bg-warm-white" id="Option1" />
                                         <span class="text-sm font-medium text-green"> Current </span>
-                                    </label>
-                                    <label for="Option2" class="inline-flex items-center gap-3">
-                                        <input type="radio" v-model="admissionview" value="2024" name="admissions-filter" class="size-5 border-green shadow-sm bg-warm-white" id="Option2" />
-                                        <span class="text-sm font-medium text-green"> 2024 </span>
-                                    </label>
+                                    </div>
+                                    <div v-for="yr in Object.keys(archivedadmissionslist).sort((a, b) => b.localeCompare(a))" class="inline-flex items-center gap-3">
+                                        <input type="radio" v-model="admissionview" value="yr" name="admissions-filter" class="size-5 border-green shadow-sm bg-warm-white" id="Option2" />
+                                        <span class="text-sm font-medium text-green"> {{ yr }} </span>
+                                    </div>
                                 </div>
                             </fieldset>
                         </div>
