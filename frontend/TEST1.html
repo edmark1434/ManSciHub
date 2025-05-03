@@ -705,7 +705,6 @@
                     <tr class="font-bold">
                         <th class="px-3 py-2 ">Tracking Code</th>
                         <th class="px-3 py-2 ">Student Name</th>
-                        <th class="px-3 py-2 ">LRN</th>
                         <th class="px-3 py-2 ">Document Type</th>
                         <th class="px-3 py-2 ">Purpose</th>
                         <th class="px-3 py-2 ">Request Date</th>
@@ -713,14 +712,13 @@
                     </tr>
                     </thead>
                     <tbody class="divide-y border-green w-full">
-                    <tr v-for="req in requestslist" class="border-green" @click="ShowRequestPopup = true; focusrequest = req">
+                    <tr v-for="req in requestslist" class="border-green" @click="ShowRequestPopup = true; focusrequest = req; documentRequestStatus = focusrequest.req_status">
                         <td class="px-3 py-2 ">{{req.req_track_id}}</td>
                         <td class="px-3 py-2 ">{{[req.stud_fname,req.stud_mname,req.stud_lname].filter(Boolean).join(' ')}}</td>
-                        <td class="px-3 py-2 ">{{req.stud_lrn}}</td>
                         <td class="px-3 py-2 ">{{req.docu_type}}</td>
-                        <td class="px-3 py-2 ">{{req.req_purpose}}</td>
-                        <td class="px-3 py-2 ">{{req.req_date}}</td>
-                        <td class="px-3 py-2 ">{{req.req_status}}</td>
+                        <td class="px-3 py-2 truncate">{{req.req_purpose ?? req.reqhs_purpose}}</td>
+                        <td class="px-3 py-2 ">{{req.req_date ?? req.reqhs_date}}</td>
+                        <td class="px-3 py-2 ">{{req.req_status ?? req.reqhs_status}}</td>
                     </tr>
                     </tbody>
                 </table>
@@ -732,7 +730,6 @@
                     <tr class="font-bold">
                         <th class="px-3 py-2 ">Tracking Code</th>
                         <th class="px-3 py-2 ">Student Name</th>
-                        <th class="px-3 py-2 ">LRN</th>
                         <th class="px-3 py-2 ">Document Type</th>
                         <th class="px-3 py-2 ">Purpose</th>
                         <th class="px-3 py-2 ">Request Date</th>
@@ -743,11 +740,10 @@
                     <tr v-for="req in requestslist" class="border-green" @click="ShowRequestPopup = true; focusrequest = req; documentRequestStatus = focusrequest.req_status">
                         <td class="px-3 py-2 ">{{req.req_track_id}}</td>
                         <td class="px-3 py-2 ">{{[req.stud_fname,req.stud_mname,req.stud_lname].filter(Boolean).join(' ')}}</td>
-                        <td class="px-3 py-2 ">{{req.stud_lrn}}</td>
                         <td class="px-3 py-2 ">{{req.docu_type}}</td>
-                        <td class="px-3 py-2 ">{{req.req_purpose}}</td>
-                        <td class="px-3 py-2 ">{{req.req_date}}</td>
-                        <td class="px-3 py-2 ">{{req.req_status}}</td>
+                        <td class="px-3 py-2 truncate">{{req.req_purpose ?? req.reqhs_purpose}}</td>
+                        <td class="px-3 py-2 ">{{req.req_date ?? req.reqhs_date}}</td>
+                        <td class="px-3 py-2 ">{{req.req_status ?? req.reqhs_status}}</td>
                     </tr>
                     </tbody>
                 </table>
@@ -891,8 +887,8 @@
                                         <span class="text-sm font-medium text-green"> Current </span>
                                     </div>
                                     <div v-for="yr in Object.keys(archivedadmissionslist).sort((a, b) => b.localeCompare(a))" class="inline-flex items-center gap-3">
-                                        <input type="radio" v-model="admissionview" value="yr" name="admissions-filter" class="size-5 border-green shadow-sm bg-warm-white" id="Option2" />
-                                        <span class="text-sm font-medium text-green"> {{ yr }} </span>
+                                        <input type="radio" v-model="admissionview" :value="yr" name="admissions-filter" class="size-5 border-green shadow-sm bg-warm-white" id="Option2" />
+                                        <span class="text-sm font-medium text-green whitespace-nowrap"> SY {{ yr }}-{{ parseInt(yr) + 1 }} </span>
                                     </div>
                                 </div>
                             </fieldset>
@@ -956,9 +952,9 @@
                         <td class="px-3 py-2 ">{{[adm.stud_fname,adm.stud_mname,adm.stud_lname].filter(Boolean).join(' ')}}</td>
                         <td class="px-3 py-2 ">{{adm.stud_lrn}}</td>
                         <td class="px-3 py-2 ">{{adm.stud_email}}</td>
-                        <td class="px-3 py-2 ">Grade {{adm.adms_lvl}}</td>
-                        <td class="px-3 py-2 ">{{adm.adms_date}}</td>
-                        <td class="px-3 py-2 ">{{adm.adms_status}}</td>
+                        <td class="px-3 py-2 ">Grade {{adm.adms_lvl ?? adm.admhs_lvl}}</td>
+                        <td class="px-3 py-2 ">{{adm.adms_date ?? adm.admhs_date}}</td>
+                        <td class="px-3 py-2 ">{{adm.adms_status ?? adm.admhs_status}}</td>
                     </tr>
                     </tbody>
                 </table>
@@ -1190,7 +1186,7 @@
         <div v-if="ShowAuditLogByAdmin" class="w-full h-full p-9">
             <div class="flex gap-4 items-center mb-9">
                 <img src="assets/audit-logs.svg" alt="Logo" class="w-12">
-                <h1 class="text-green-900 font-bold text-3xl mr-auto">ADM{{AdminID}}'s Audit Logs</h1>
+                <h1 class="text-green-900 font-bold text-3xl mr-auto">{{focusadmin.username}}'s Audit Logs</h1>
                 <a class="text-center inline-flex border-2 border-warm-white bg-ivory px-6 h-12 items-center text-base font-bold text-green hover:bg-[#F1D580]/50"
                    href="#" @click="ShowAuditLogByAdmin = false; ShowAdministrators = true">
                     Go back
@@ -1256,9 +1252,9 @@
                     </thead>
                     <tbody class="divide-y border-green w-full">
                     <tr v-for="aud in auditslist" class="border-green">
-                        <td class="px-3 py-2 ">{{ aud.chg_table }}</td>
+                        <td class="px-3 py-2 ">{{ aud.chg_type }}</td>
                         <td class="px-3 py-2 ">{{ [aud.stud_fname, aud.stud_mname, aud.stud_lname, aud.stud_suffix].filter(Boolean).join(' ') }}</td>
-                        <td class="px-3 py-2 ">{{ aud.chg_table === 'Document Request' ? aud.req_date : aud.adms_date }}</td>
+                        <td class="px-3 py-2 ">{{ aud.req_date ?? aud.adms_date }}</td>
                         <td class="px-3 py-2 ">{{ aud.chg_old_val }} >> {{ aud.chg_new_val }}</td>
                         <td class="px-3 py-2 ">{{ aud.chg_datetime }}</td>
                         <td class="px-3 py-2 ">{{ aud.admin_username }}</td>
@@ -1283,7 +1279,7 @@
                     <tr v-for="aud in auditslist" class="border-green">
                         <td class="px-3 py-2 ">{{ aud.chg_type }}</td>
                         <td class="px-3 py-2 ">{{ [aud.stud_fname, aud.stud_mname, aud.stud_lname, aud.stud_suffix].filter(Boolean).join(' ') }}</td>
-                        <td class="px-3 py-2 ">{{ aud.track_date }}</td>
+                        <td class="px-3 py-2 ">{{ aud.req_date ?? aud.adms_date }}</td>
                         <td class="px-3 py-2 ">{{ aud.chg_old_val }} >> {{ aud.chg_new_val }}</td>
                         <td class="px-3 py-2 ">{{ aud.chg_datetime }}</td>
                         <td class="px-3 py-2 ">{{ aud.admin_username }}</td>
@@ -1370,7 +1366,6 @@
                         <th class="px-3 py-2 ">LRN</th>
                         <th class="px-3 py-2 ">Date of Birth</th>
                         <th class="px-3 py-2 ">Email Address</th>
-                        <th class="px-3 py-2 ">Home Address</th>
                     </tr>
                     </thead>
                     <tbody class="divide-y border-green w-full">
@@ -1379,7 +1374,6 @@
                         <td class="px-3 py-2 ">{{stud.stud_lrn}}</td>
                         <td class="px-3 py-2 ">{{stud.stud_dob}}</td>
                         <td class="px-3 py-2 ">{{stud.stud_email}}</td>
-                        <td class="px-3 py-2 ">{{stud.stud_add}}</td>
                     </tr>
                     </tbody>
                 </table>
@@ -1393,7 +1387,6 @@
                         <th class="px-3 py-2 ">LRN</th>
                         <th class="px-3 py-2 ">Date of Birth</th>
                         <th class="px-3 py-2 ">Email Address</th>
-                        <th class="px-3 py-2 ">Home Address</th>
                     </tr>
                     </thead>
                     <tbody class="divide-y border-green w-full">
@@ -1402,7 +1395,6 @@
                         <td class="px-3 py-2 ">{{stud.stud_lrn}}</td>
                         <td class="px-3 py-2 ">{{stud.stud_dob}}</td>
                         <td class="px-3 py-2 ">{{stud.stud_email}}</td>
-                        <td class="px-3 py-2 ">{{stud.stud_add}}</td>
                     </tr>
                     </tbody>
                 </table>
@@ -1483,9 +1475,9 @@
                     </thead>
                     <tbody class="divide-y border-green w-full">
                     <tr v-for="aud in auditslist" class="border-green">
-                        <td class="px-3 py-2 ">{{ aud.chg_table }}</td>
+                        <td class="px-3 py-2 ">{{ aud.chg_type }}</td>
                         <td class="px-3 py-2 ">{{ [aud.stud_fname, aud.stud_mname, aud.stud_lname, aud.stud_suffix].filter(Boolean).join(' ') }}</td>
-                        <td class="px-3 py-2 ">{{ aud.chg_table === 'Document Request' ? aud.req_date : aud.adms_date }}</td>
+                        <td class="px-3 py-2 ">{{ aud.req_date ?? aud.adms_date }}</td>
                         <td class="px-3 py-2 ">{{ aud.chg_old_val }} >> {{ aud.chg_new_val }}</td>
                         <td class="px-3 py-2 ">{{ aud.chg_datetime }}</td>
                         <td class="px-3 py-2 ">{{ aud.admin_username }}</td>
@@ -1508,9 +1500,9 @@
                     </thead>
                     <tbody class="divide-y border-green w-full">
                     <tr v-for="aud in auditslist" class="border-green">
-                        <td class="px-3 py-2 ">{{ aud.chg_table }}</td>
+                        <td class="px-3 py-2 ">{{ aud.chg_type }}</td>
                         <td class="px-3 py-2 ">{{ [aud.stud_fname, aud.stud_mname, aud.stud_lname, aud.stud_suffix].filter(Boolean).join(' ') }}</td>
-                        <td class="px-3 py-2 ">{{ aud.chg_table === 'Document Request' ? aud.req_date : aud.adms_date }}</td>
+                        <td class="px-3 py-2 ">{{ aud.req_date ?? aud.adms_date }}</td>
                         <td class="px-3 py-2 ">{{ aud.chg_old_val }} >> {{ aud.chg_new_val }}</td>
                         <td class="px-3 py-2 ">{{ aud.chg_datetime }}</td>
                         <td class="px-3 py-2 ">{{ aud.admin_username }}</td>
