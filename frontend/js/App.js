@@ -8,6 +8,7 @@ createApp({
       // Screen controls
       ShowUserBoot: true,
       ShowAdminBoot: false,
+      ShowAdminSplash: false,
       ShowAdminLogin: false,
       ShowUserMenu: false,
       ShowUserRequest: false,
@@ -98,6 +99,7 @@ createApp({
       firstNameMessage: 'This field is required.',
       loadingMessage: 'Loading Changes....',
       confirmPasswordMessage: '',
+      adminBootMessage: '',
 
       // fields Validation Admission
       firstNameField: false,
@@ -183,6 +185,11 @@ createApp({
       requestsearch: '',
       admissionsearch: '',
       studentsearch: '',
+
+      // button texts
+      loginButtonText: 'Login',
+      passwordConfirmButtonText: 'Verify',
+      documentRenameButtonText: 'Save changes',
     };
   },
   mounted() {
@@ -319,7 +326,7 @@ createApp({
         console.log(data);
       }
     },
-    async UpdateDocumentRequest() {
+    async UpdateDocumentRequest(event) {
       const documentRequestObject = {
             "req_track_id": this.focusrequest.req_track_id,
             "req_date": this.focusrequest.req_date,
@@ -338,13 +345,14 @@ createApp({
       };
       if (this.documentRequestStatus.toUpperCase() !== "REJECTED" && this.documentRequestStatus.toUpperCase() !== "ACCEPTED") {
         if (this.documentRequestStatus !== this.focusrequest.req_status) {
+          event.currentTarget.textContent = "...";
           const data = await send.UpdateRequest(documentRequestObject);
           if (data.includes("Successfully")) {
           this.getAllRequest();
           this.getAllRequestHistory();
           this.resetAdminScreens();
           this.ShowLoading = true;
-          this.loadingMessage = "Successfully Updated Document Request "+this.focusrequest.req_track_id;
+          this.loadingMessage = "Successfully Updated Request " + this.focusrequest.req_track_id;
           this.loadingScreenTimeout();
           this.ShowDocumentRequests = true;
           }
@@ -358,14 +366,14 @@ createApp({
           this.getAllRequestHistory();
           this.resetAdminScreens();
           this.ShowLoading = true;
-          this.loadingMessage = "Successfully Updated "+this.focusrequest.req_track_id;
+          this.loadingMessage = "Successfully Updated Request " + this.focusrequest.req_track_id;
           this.loadingScreenTimeout();
           this.ShowDocumentRequests = true;
         }
       }
       this.EmailMessage(emailObject, this.documentRequestStatus);
     },
-    async UpdateAdmissionRequest() {
+    async UpdateAdmissionRequest(event) {
       const admissionRequestObject = {
             "adms_id": this.focusadmission.adms_id,
             "adms_status" : this.admissionRequestStatus,
@@ -382,13 +390,14 @@ createApp({
         "email_subject" : this.admissionRequestStatus.toUpperCase()
       };
       if (this.focusadmission.adms_status !== this.admissionRequestStatus) {
+        event.currentTarget.textContent = "...";
         const data = await send.UpdateAdmission(admissionRequestObject);
         if (data.includes('Successfully')) {
           this.getAllAdmission();
           this.getAllAdmissionHistory();
           this.resetAdminScreens();
           this.ShowLoading = true;
-          this.loadingMessage = "Successfully Updated Admission "+this.focusadmission.adms_id;
+          this.loadingMessage = "Successfully Updated Admission " + this.focusadmission.adms_id;
           this.loadingScreenTimeout();
           this.ShowSchoolAdmissions= true;
         }
@@ -408,14 +417,16 @@ createApp({
       if (Exists) {
         this.checkDocument = true;
       } else {
+        this.documentRenameButtonText = '...';
         const data = await send.UpdateDocument(documentObject);
         this.getAllDocuments();
         this.resetAdminScreens();
         this.ShowLoading = true;
-        this.loadingMessage = data + this.focusdoctype.docu_type;
+        this.loadingMessage = data + ": " + this.focusdoctype.docu_type;
         this.loadingScreenTimeout();
         this.ShowDocumentTypes = true;
       }
+        this.documentRenameButtonText = 'Save changes';
     },
     async removeDocument() {
       const documentObject = {
@@ -432,7 +443,7 @@ createApp({
         this.checkDocument = false;
         this.ShowDocType = false;
         this.ShowLoading = true;
-        this.loadingMessage = data + this.focusdoctype.docu_type;
+        this.loadingMessage = data + ": " + this.focusdoctype.docu_type;
         this.loadingScreenTimeout();
         this.ShowDocumentTypes = true;
       } else {
@@ -496,6 +507,7 @@ createApp({
     },
     loadingScreenTimeout() {
       setTimeout(() => {
+        this.ShowAdminBoot = false;
         this.ShowLoading = false;
         this.createAdminUsername = '';
         this.createAdminPassword = '';
@@ -505,7 +517,7 @@ createApp({
         this.documentTypeRename = '';
         this.confirmPassword = '';
         this.Process = '';
-      },3000);
+      },2000);
     },
     async documentCreate() {
       const documentObject = {
@@ -521,7 +533,7 @@ createApp({
         this.getAllDocuments();
         this.resetAdminScreens();
         this.ShowLoading = true;
-        this.loadingMessage = data +" "+this.documentType;
+        this.loadingMessage = data + ": " + this.documentType;
         this.loadingScreenTimeout();
         this.ShowDocumentTypes = true;
       }
@@ -532,6 +544,7 @@ createApp({
       this.confirmPasswordIncorrect = false;
       this.confirmPasswordMessage = '';
       if (this.confirmPassword) {
+        this.passwordConfirmButtonText = '...';
         switch (this.Process) {
           case 'Change Username':
             const adminObject = {
@@ -549,7 +562,7 @@ createApp({
             this.getAllAdmin();
             this.resetAdminScreens();
             this.ShowLoading = true;
-            this.loadingMessage = data + this.newAdminUsername;
+            this.loadingMessage = data + ": " + this.newAdminUsername;
             this.loadingScreenTimeout();
             this.ShowAdministrators = true;
           } else {
@@ -571,10 +584,10 @@ createApp({
             const data_password = await send.UpdateAdminDetails(adminObjectPassword);
             if (data_password.includes('Successfully')) {
             this.getAllAdmin();
-            this.getAdminById(); 
+            this.getAdminById();
             this.resetAdminScreens();
             this.ShowLoading = true;
-            this.loadingMessage = data_password + this.newAdminUsername;
+            this.loadingMessage = data_password + ": " + this.newAdminUsername;
             this.loadingScreenTimeout();
             this.ShowAdministrators = true;
             }else {
@@ -598,7 +611,7 @@ createApp({
               this.getAllAdmin();
               this.resetAdminScreens();
               this.ShowLoading = true;
-              this.loadingMessage = "Successfully deleted Admin " + this.focusadmin.admin_username;
+              this.loadingMessage = "Successfully deleted " + this.focusadmin.admin_username;
               this.loadingScreenTimeout();
               this.ShowAdministrators = true;
             } else {
@@ -608,6 +621,24 @@ createApp({
             break;
           case 'Delete Document':
             this.removeDocument();
+            break;
+          case 'Toggle Admissions':
+            let control = this.controls.find(control => control.ctrl_key === "toggle_admissions");
+            const controlObject = {
+              "ctrl_key": "toggle_admissions",
+              "ctrl_value": String(!control.ctrl_value),
+            };
+            const data_toggle = await send.UpdateAdminControls(controlObject);
+            if (data_toggle.includes('Successfully')) {
+              this.ShowPasswordConfirm = false;
+              this.ShowLoading = true;
+              control.ctrl_value = !control.ctrl_value;
+              this.loadingMessage = `Successfully ${control.ctrl_value ? 'opened' : 'closed'} admissions`;
+              this.loadingScreenTimeout();
+            } else {
+              this.confirmPasswordIncorrect = true;
+              this.confirmPasswordMessage = "Password is incorrect.";
+            }
             break;
           default:
             const adminObjectCreate = {
@@ -623,9 +654,9 @@ createApp({
               this.getAllAdmin();
               this.resetAdminScreens();
               this.ShowLoading = true;
-              this.loadingMessage = data_create + this.createAdminUsername;
+              this.loadingMessage = data_create + ": " + this.createAdminUsername;
               this.loadingScreenTimeout();
-              this.ShowAdministrators = true;              
+              this.ShowAdministrators = true;
             } else {
               this.confirmPasswordIncorrect = true;
               this.confirmPasswordMessage = data_create;
@@ -636,15 +667,16 @@ createApp({
         this.confirmPasswordIncorrect = true;
         this.confirmPasswordMessage = "Field is empty!";
       }
+      this.passwordConfirmButtonText = 'Verify';
     },
-    async submitTrackID() {
+    async submitTrackID(event) {
       this.requestTrackMessage = '';
       this.submitted = true;
       if (this.trackID) {
-        alert('Tracking request!');
         this.resetScreens();
         this.ShowRequestDetails = true;
-        const response = await fetch.getRequestById(this.trackID); 
+        event.currentTarget.textContent = "...";
+        const response = await fetch.getRequestById(this.trackID);
         this.requestTrack = response.data;
         if (!this.requestTrack) {
           this.errorStatus = true;
@@ -693,9 +725,14 @@ createApp({
       const data = await fetch.getAllAuditLogRequest();
       this.requestauditslist = data.data;
     },
+    async getAdminControls() {
+      const data = await fetch.getAdminControls();
+      this.controls = data.data;
+    },
     async checkLogin() {
       this.submitted = true;
       this.login = true;
+      this.loginButtonText = '...';
       if (this.username && this.password) {
         const loginObject = {
           username: this.username,
@@ -703,21 +740,41 @@ createApp({
         };
         let data = await send.AdminLogin(loginObject);
         if (data.data) {
-          this.getAllRequest();
-          this.getAllAdmission();
-          this.getAllStudent();
-          this.getAllRequestHistory();
-          this.getAllAdmissionHistory();
-          this.getAllAdmin();
-          this.getAllAuditLogAdmission();
-          this.getAllAuditLogRequest();
-          this.login = true;
+          this.ShowAdminLogin = false;
+          this.ShowAdminSplash = true;
+
+          this.adminBootMessage = "Fetching admin controls...";
+          await this.getAdminControls();
+
+          this.adminBootMessage = "Fetching document requests...";
+          await this.getAllRequest();
+          await this.getAllRequestHistory();
+
+          this.adminBootMessage = "Fetching admission forms...";
+          await this.getAllAdmission();
+          await this.getAllAdmissionHistory();
+
+          this.adminBootMessage = "Fetching student users...";
+          await this.getAllStudent();
+
+          this.adminBootMessage = "Fetching administrators...";
+          await this.getAllAdmin();
+
+          this.adminBootMessage = "Fetching audit logs...";
+          await this.getAllAuditLogAdmission();
+          await this.getAllAuditLogRequest();
+
           this.loginMessage = data.message;
           this.adminDetails = data.data;
           this.verified = true;
           this.AdminID = data.data.admin_id;
           this.resetScreens();
           this.intervalUpdate();
+
+          this.ShowAdminSplash = false;
+          this.ShowAdminBoot = true;
+          this.loadingScreenTimeout();
+
           this.ShowAdminPanel = true;
           this.ShowDocumentRequests = true;
         } else {
@@ -727,9 +784,10 @@ createApp({
       } else {
         this.loginMessage = "Please enter username or password!";
       }
+      this.loginButtonText = 'Login';
     },
-    
-    async submitRequest() {
+
+    async submitRequest(event) {
       this.submitted = true;
       this.emailReqMessage = !this.emailReq ? 'This field is required.' : !this.isEmailValid(this.emailReq) ? 'Please enter valid email' :'';
       this.lrnReqMessage = !this.lrnReq ? 'This field is required.' : '';
@@ -740,6 +798,7 @@ createApp({
       this.lrnReqField = this.lrnReq ? true : false;
       this.isLrnValid();
       if (this.lrnReqField && this.emailReqField) {
+        event.currentTarget.textContent = "...";
         const response = await send.DocumentRequest(this.requestObject());
         const responseMessage = response.message.toLowerCase();
         this.requestDetail = response.data;
@@ -832,7 +891,7 @@ createApp({
         }
       }
     },
-    async validateAdmissionForm() {
+    async validateAdmissionForm(event) {
       let response = {};
       this.submitted = true;
       this.firstNameMessage = 'This field is required.';
@@ -846,6 +905,7 @@ createApp({
       this.emailField = (this.email && this.isEmailValid(this.email)) ? true : false;
       this.isLrnValid();
       if (this.emailField && this.lrnField) {
+        event.currentTarget.textContent = "...";
         this.admissionResponse = await send.AdmissionRequest(this.admissionObject());
         response = this.admissionResponse.data;
         const responseMessage = this.admissionResponse.message.toLowerCase();

@@ -105,6 +105,17 @@ export async function getAllAuditLogRequest() {
     }
 }
 
+export async function getAdminControls() {
+    const response = await fetch(`http://localhost:8000/api/AdminControls`);
+    const data = await response.json();
+    if (response.ok) {
+        return data;
+    } else {
+        return data.message;
+    }
+}
+
+
 //this function is for admission close
 // this will automatically transfer the all record admissions in admission_history
 // and automatically update stud_enroll to false if rejected in the admission

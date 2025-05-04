@@ -54,3 +54,15 @@ div:has(table) {
 .cardlist::-webkit-scrollbar-track {
     box-shadow: none;
 }
+
+a.bg-green, a.bg-mid-green {
+    transition: transform 0.1s ease;
+}
+
+a.bg-green:active, a.bg-mid-green:active {
+    transform: scale(0.95);
+}
+
+a.bg-green:active {
+    background-color: var(--green) !important;
+}

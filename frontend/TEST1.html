@@ -12,18 +12,12 @@
     <script type="module" src="js/App.js" async></script>
 </head>
 
-<body class="w-screen h-[100svh] bg-warm-white text-green">
+<body class="w-screen h-[100svh] bg-warm-white text-green overflow-x-hidden">
 
 <!-- TEMPORARY DIV -->
 <div id="app" class="w-full flex flex-col gap-64 justify-center items-center">
 
-    <!-- Admin boot Screen -->
-    <section v-if="ShowAdminBoot" class="w-screen h-screen">
-        <div class="w-full h-full flex justify-center items-center transition-opacity duration-500">
-            <p class="text-3xl font-bold">Welcome, Administrator!</p>
-        </div>
 
-    </section>
 
     <!-- ADMIN Login Screen -->
     <section v-if="ShowAdminLogin" class="w-screen h-screen flex justify-center items-center bg-ivory">
@@ -62,17 +56,24 @@
 
             <div class="flex justify-center">
                 <a class="w-full text-center inline-block mt-9 bg-green px-6 py-3 text-base font-bold text-warm-white hover-bg-mid-green"
-                   href="#" @click="checkLogin">
-                    Login
+                   href="#" @click="checkLogin()">
+                    {{ loginButtonText }}
                 </a>
             </div>
+        </div>
+    </section>
+
+    <!-- ADMIN BOOT SCREEN  -->
+    <section v-if="ShowAdminBoot" class="w-screen h-screen">
+        <div class="w-full h-full flex justify-center items-center">
+            <p class="text-green text-xl font-bold">Welcome, Administrator!</p>
         </div>
     </section>
 
     <!-- USER BOOT SCREEN  -->
     <section v-if="ShowUserBoot" class="w-screen h-screen">
         <div class="w-full h-full flex justify-center items-center">
-            <p class="text-green text-3xl font-bold">Welcome, Scihiyista!</p>
+            <p class="text-green text-xl font-bold">Welcome, Scihiyista!</p>
         </div>
     </section>
 
@@ -123,7 +124,7 @@
     </section>
 
     <!-- ADMISSION FORM  -->
-    <section v-if="ShowAdmissionForm" class="w-screen flex justify-center items-center p-8 bg-ivory">
+    <section v-if="ShowAdmissionForm" class="w-screen flex justify-center items-center p-9 bg-ivory">
         <div class="bg-warm-white border-2 border-green p-9 w-[720px] shadow-lg text-green">
             <img src="assets/school-admissions.svg" alt="Logo" class="w-12 mb-9">
             <div class="flex items-center mb-3">
@@ -255,7 +256,7 @@
                 </a>
 
                 <a class="text-center inline-block bg-green px-6 py-3 text-base font-bold text-warm-white hover-bg-mid-green"
-                   href="#" @click.prevent="validateAdmissionForm">
+                   href="#" @click.prevent="validateAdmissionForm($event)">
                     Submit form
                 </a>
             </div>
@@ -263,8 +264,8 @@
         </div>
     </section>
 
-    <!-- DOCUMENT REQUEST SCREEN -->
-    <section v-if="ShowUserRequest" class="w-screen flex justify-center items-center p-8 bg-ivory">
+    <!-- DOCUMENT REQUEST -->
+    <section v-if="ShowUserRequest" class="w-screen flex justify-center items-center p-9 bg-ivory">
         <div class="bg-warm-white border-2 border-green p-9 w-[720px] shadow-lg text-green">
             <img src="assets/document-requests.svg" alt="Logo" class="w-12 mb-9">
             <div class="flex items-center mb-3">
@@ -395,7 +396,7 @@
                 </a>
 
                 <a class="text-center inline-block bg-green px-6 py-3 text-base font-bold text-warm-white hover-bg-mid-green"
-                   href="#" @click.prevent="submitRequest">
+                   href="#" @click.prevent="submitRequest($event)">
                     Submit request
                 </a>
             </div>
@@ -458,15 +459,15 @@
 
             <label>
                 <input type="text" id="Username" v-model="trackID" @input="isNumeric" :class="[
-                    'mt-0.5 w-full h-12 mb-6 px-3 outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none',
+                    'mt-0.5 w-full h-12 mb-2 px-3 outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none',
                     submitted && !trackID ? 'transition-colors duration-500 border-[3px] border-red-500 font-bold' : 'border-2 border-green'
                   ]" />
             </label>
-            <p v-if="submitted && !trackID" class="text-base text-error mb-4">This field is required.</p>
+            <p v-if="submitted && !trackID" class="text-sm text-error mb-4">This field is required.</p>
 
-            <div class="flex justify-center">
+            <div class="flex justify-center mt-9">
                 <a class="w-full text-center inline-block bg-green px-6 py-3 text-base font-bold text-warm-white hover-bg-mid-green"
-                   href="#" @click.prevent="submitTrackID">
+                   href="#" @click.prevent="submitTrackID($event)">
                     Track request
                 </a>
 
@@ -480,7 +481,7 @@
         <div
                 class="w-[30rem] min-h-[320px] p-9 bg-warm-white border-2 border-green flex justify-center items-center shadow-md">
                 <div class="text-center">
-                <p class="text-base" v-if="requestTrack == null">Fetching data ....</p>
+                <p class="text-base" v-if="requestTrack == null && !errorStatus">Fetching data ....</p>
                 <p v-if="errorStatus >=400 " class="text-center">{{requestTrackMessage}}</p>
                 <div v-if="requestTrack != null">
                 <h2 class="text-xl font-bold text-green-900 mb-9">Request Tracking</h2>
@@ -492,8 +493,8 @@
                 <p class="text-green text-base">Purpose: {{requestTrack.req_purpose}}</p>
                 <p class="font-bold text-green text-base">Status: {{requestTrack.req_status}}</p>
                 </div>
-                <div v-if="errorStatus"><p class="text-green">No result found</p></div>
-                <div class="flex justify-center mt-9">
+                <div v-if="errorStatus"><p class="text-green">No result found.<br>Try a different tracking code.</p></div>
+                <div v-if="errorStatus" class="flex justify-center mt-9">
                     <a class="text-center inline-block bg-green px-6 py-3 text-base font-bold text-warm-white hover-bg-mid-green"
                        href="#" @click.prevent="goToMenu">
                         Back to menu
@@ -502,6 +503,11 @@
             </div>
         </div>
     </section>
+
+    <!-- Admin Splash Screen -->
+    <div v-if="ShowAdminSplash" class="w-screen h-screen transition-colors flex justify-center items-center fixed top-0 left-0 z-999" :class="login ? 'bg-warm-white' : 'bg-green'">
+        <p class="text-xl font-bold" :class="login ? 'text-green' : 'text-warm-white'">{{adminBootMessage}}</p>
+    </div>
 
     <!-- ADMIN PANEL -->
     <section v-if="ShowAdminPanel" class="w-screen h-screen flex">
@@ -776,7 +782,7 @@
                                 </div>
                             </label>
                             <a class="w-full text-center block bg-green px-6 py-3 text-base font-bold text-warm-white hover-bg-mid-green"
-                               href="#" @click="UpdateDocumentRequest()">
+                               href="#" @click="UpdateDocumentRequest($event)">
                                 Save changes
                             </a>
                         </div>
@@ -918,18 +924,18 @@
                         <th class="px-3 py-2 ">LRN</th>
                         <th class="px-3 py-2 ">Email Address</th>
                         <th class="px-3 py-2 ">Level</th>
-                        <th class="px-3 py-2 ">Admission Date</th>
+                        <th class="px-3 py-2 ">Application Date</th>
                         <th class="px-3 py-2 ">Status</th>
                     </tr>
                     </thead>
                     <tbody class="divide-y border-green w-full">
-                    <tr v-for="adm in admissionslist" class="border-green" @click="ShowAdmissionPopup = true; focusadmission = adm">
+                    <tr v-for="adm in admissionslist" class="border-green" @click="ShowAdmissionPopup = true; focusadmission = adm; admissionRequestStatus = focusadmission.adms_status">
                         <td class="px-3 py-2 ">{{[adm.stud_fname,adm.stud_mname,adm.stud_lname].filter(Boolean).join(' ')}}</td>
                         <td class="px-3 py-2 ">{{adm.stud_lrn}}</td>
                         <td class="px-3 py-2 ">{{adm.stud_email}}</td>
-                        <td class="px-3 py-2 ">Grade {{adm.adms_lvl}}</td>
-                        <td class="px-3 py-2 ">{{adm.adms_date}}</td>
-                        <td class="px-3 py-2 ">{{adm.adms_status}}</td>
+                        <td class="px-3 py-2 ">Grade {{adm.adms_lvl ?? adm.admhs_lvl}}</td>
+                        <td class="px-3 py-2 ">{{adm.adms_date ?? adm.admhs_date}}</td>
+                        <td class="px-3 py-2 ">{{adm.adms_status ?? adm.admhs_status}}</td>
                     </tr>
                     </tbody>
                 </table>
@@ -943,7 +949,7 @@
                         <th class="px-3 py-2 ">LRN</th>
                         <th class="px-3 py-2 ">Email Address</th>
                         <th class="px-3 py-2 ">Level</th>
-                        <th class="px-3 py-2 ">Admission Date</th>
+                        <th class="px-3 py-2 ">Application Date</th>
                         <th class="px-3 py-2 ">Status</th>
                     </tr>
                     </thead>
@@ -988,7 +994,7 @@
                                 </div>
                             </label>
                             <a class="w-full text-center block bg-green px-6 py-3 text-base font-bold text-warm-white hover-bg-mid-green"
-                                href="#" @click="UpdateAdmissionRequest()">
+                                href="#" @click="UpdateAdmissionRequest($event)">
                                 Save changes
                             </a>
                         </div>
@@ -1555,10 +1561,11 @@
                         <span>
                             <h2 class="text-xl text-green font-bold mb-3">Toggle Admissions</h2>
                             <p>Control the admission period by opening or closing submissions. <br> When open, students can submit their applications. When closed, submissions are disabled.</p>
+                            <p class="font-bold mt-3">Status: {{ controls.find(control => control.ctrl_key === "toggle_admissions").ctrl_value ? 'Open' : 'Closed' }}</p>
                         </span>
                     <a class="w-32 text-center inline-block bg-green px-6 py-3 text-base font-bold text-warm-white hover-bg-mid-green"
-                       href="#" @click="ShowPasswordConfirm = true;">
-                        Close
+                       href="#" @click="ShowPasswordConfirm = true; Process = 'Toggle Admissions';">
+                        {{ controls.find(control => control.ctrl_key === "toggle_admissions").ctrl_value ? 'Close' : 'Open' }}
                     </a>
                 </div>
             </div>
@@ -1626,10 +1633,10 @@
                                        class="mt-0.5 mb-2 w-full h-12 px-3 border-2 border-green outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none" />
 
                             </div>
-                            <p v-if="checkDocument" class="text-sm" :class="checkDocument ? 'text-error' : 'text-green'">Document is already exist</p>
+                            <p v-if="checkDocument" class="text-sm" :class="checkDocument ? 'text-error' : 'text-green'">Document already exists</p>
                             <a class="w-full text-center block bg-green px-6 py-3 text-base font-bold text-warm-white hover-bg-mid-green"
                                href="#" @click="(documentTypeRename !== this.focusdoctype.docu_type) ? checkDocumentExist() : (showDocumentTypes = true, ShowDocTypeRenamePopup = false);">
-                                Save changes
+                                {{ documentRenameButtonText }}
                             </a>
                         </div>
                     </div>
@@ -1709,7 +1716,11 @@
 
                         <a class="w-full text-center block bg-green px-6 py-3 text-base font-bold text-warm-white hover-bg-mid-green"
                            href="#" @click="PasswordConfirmation()">
-                            Verify
+                            {{ passwordConfirmButtonText }}
+                        </a>
+                        <a class="w-full text-center block bg-ivory px-6 py-3 text-base font-bold text-green hover:bg-[#F1D580]/50"
+                           href="#" @click="ShowPasswordConfirm = false">
+                            Cancel
                         </a>
 
                         <p v-if="confirmPasswordIncorrect" class="text-sm text-error">{{confirmPasswordMessage}}</p>
