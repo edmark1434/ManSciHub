@@ -10,13 +10,14 @@ require_once "api/Controller/AuditLogAdmissionController.php";
 require_once "api/Controller/AdmissionHistoryController.php";
 require_once "api/Controller/RequestHistoryController.php";
 require_once "api/Controller/AdminControlsController.php";
-require_once "backend/controller/loginController.php";
+require_once "backend/Controller/UpdateAdminControlsController.php";
+require_once "backend/controller/LoginController.php";
 require_once "backend/controller/DocumentRequestController.php";
 require_once "backend/controller/AdmissionRequestController.php";
 require_once "backend/controller/TransferAdmissionHistoryController.php";
 require_once "backend/controller/TransferRequestHistoryController.php";
 require_once "backend/controller/EmailController.php";
-require_once "backend/controller/UpdateAdminPasswordController.php";
+require_once "backend/controller/UpdateAdminDetailsController.php";
 require_once "backend/controller/UpdateDocumentController.php";
 require_once "backend/controller/CreateAdminController.php";
 
@@ -35,14 +36,15 @@ class Router{
     private AuditLogAdmissionController $auditLogAdmissionController;
     private AuditLogRequestController $auditLogRequestController;
     private RequestHistoryController $requestHistoryController;
-    private AdmissionHistoryController $admissionHistorycontroller;
+    private AdmissionHistoryController $admissionHistoryController;
     private AdminControlsController $adminControlsController;
+    private UpdateAdminControlsController $updateAdminControlsController;
     private LoginController $loginController;
     private DocumentRequestController $documentRequestController;
     private AdmissionRequestController $admissionRequestController;
     private TransferAdmissionHistoryController $transferAdmissionHistoryController;
     private TransferRequestHistoryController $transferRequestHistoryController;
-    private UpdateAdminPasswordController $updateAdminPasswordController;
+    private UpdateAdminDetailsController $updateAdminDetailsController;
     private EmailController $emailController;
     private UpdateDocumentController $updateDocumentController;
     private CreateAdminController $createAdminController;
@@ -55,16 +57,17 @@ class Router{
         $this->documentcontroller = new DocumentController();
         $this->auditLogRequestController = new AuditLogRequestController();
         $this->auditLogAdmissionController = new AuditLogAdmissionController();
-        $this->admissionHistorycontroller = new AdmissionHistoryController();
+        $this->admissionHistoryController = new AdmissionHistoryController();
         $this->requestHistoryController = new RequestHistoryController();
         $this->adminControlsController = new AdminControlsController();
+        $this->updateAdminControlsController = new UpdateAdminControlsController();
         $this->loginController = new LoginController();
         $this->documentRequestController = new DocumentRequestController();
         $this->admissionRequestController = new AdmissionRequestController();
         $this->transferAdmissionHistoryController = new TransferAdmissionHistoryController();
         $this->transferRequestHistoryController = new TransferRequestHistoryController();
         $this->emailController = new EmailController();
-        $this->updateAdminPasswordController = new UpdateAdminPasswordController();
+        $this->updateAdminDetailsController = new UpdateAdminDetailsController();
         $this->updateDocumentController = new UpdateDocumentController();
         $this->createAdminController = new CreateAdminController();
     }
@@ -85,13 +88,9 @@ class Router{
                 $this->getRequest("AuditLog-Admission",$requestUri,$this->auditLogAdmissionController,'getAuditLogAdmissionById','getAllAuditLogAdmission');
                 $this->getRequest("AuditLog-Request",$requestUri,$this->auditLogRequestController,'getAuditLogRequestById','getAllAuditLogRequest');
                 $this->getRequest("RequestHistory",$requestUri,$this->requestHistoryController,'getRequestHistoryById','getAllRequestHistory');
-                $this->getRequest("AdmissionHistory",$requestUri,$this->admissionHistorycontroller,'getAdmissionHistoryById','getAllAdmissionHistory');
-                $this->getRequest("AdmissionHistoryWithYear",$requestUri,$this->admissionHistorycontroller,'','getAllAdmissionHistoryWithYear');
+                $this->getRequest("AdmissionHistory",$requestUri,$this->admissionHistoryController,'getAdmissionHistoryById','getAllAdmissionHistory');
+                $this->getRequest("AdmissionHistoryWithYear",$requestUri,$this->admissionHistoryController,'','getAllAdmissionHistoryWithYear');
                 $this->getRequest("AdminControls",$requestUri,$this->adminControlsController,'getAdminControlsByKey','getAllAdminControls');
-                //Transfer Admission
-                if($requestUri === "/api/Service/TransferAdmission"){
-                    $this->transferAdmissionHistoryController->TransferAllAdmission();
-                }
                 break;
             case 'POST':
                 $this->postAndPutRequest("Admin",$requestUri,$this->admincontroller,"addAdmin");
@@ -102,7 +101,7 @@ class Router{
                 $this->postAndPutRequest("AuditLog-Request",$requestUri,$this->auditLogRequestController,"addAuditLogRequest");
                 $this->postAndPutRequest("AuditLog-Admission",$requestUri,$this->auditLogAdmissionController,"addAuditLogAdmission");
                 $this->postAndPutRequest("RequestHistory",$requestUri,$this->requestHistoryController,"addRequestHistory");
-                $this->postAndPutRequest("AdmissionHistory",$requestUri,$this->admissionHistorycontroller,"addAdmissionHistory");
+                $this->postAndPutRequest("AdmissionHistory",$requestUri,$this->admissionHistoryController,"addAdmissionHistory");
                 $this->postAndPutRequest("AdminControls",$requestUri,$this->adminControlsController,"addAdminControls");
                 $this->postAndPutRequest("Student/Filter",$requestUri,$this->studentcontroller,"getStudentByFilter");
                 //Document Request
@@ -113,6 +112,8 @@ class Router{
                 $this->BackendLogicRequest("TransferRequest", $requestUri, $this->transferRequestHistoryController, "transferRequestHistory");
                 $this->BackendLogicRequest("EmailNotification", $requestUri, $this->emailController, "EmailNotification");
                 $this->BackendLogicRequest("Admin", $requestUri, $this->createAdminController, "addAdmin");
+                //Transfer Admission
+                $this->BackendLogicRequest("TransferAdmission", $requestUri, $this->transferAdmissionHistoryController, "TransferAllAdmission");
                 //login
                 if($requestUri === "/api/Admin/login"){
                     $data = json_decode(file_get_contents("php://input"), true);
@@ -130,9 +131,9 @@ class Router{
                 $this->postAndPutRequest("Request",$requestUri,$this->requestcontroller,"updateRequest");
                 $this->postAndPutRequest("Document",$requestUri,$this->documentcontroller,"updateDocument");
                 $this->postAndPutRequest("RequestHistory",$requestUri,$this->requestHistoryController,"updateRequestHistory");
-                $this->postAndPutRequest("AdmissionHistory",$requestUri,$this->admissionHistorycontroller,"updateAdmissionHistory");
-                $this->postAndPutRequest("AdminControls",$requestUri,$this->adminControlsController,"updateAdminControls");
-                $this->BackendLogicRequest("Update/Admin", $requestUri, $this->updateAdminPasswordController, "UpdateAdminPass");
+                $this->postAndPutRequest("AdmissionHistory",$requestUri,$this->admissionHistoryController,"updateAdmissionHistory");
+                $this->BackendLogicRequest("AdminControls",$requestUri,$this->updateAdminControlsController,"updateAdminControls");
+                $this->BackendLogicRequest("Update/Admin", $requestUri, $this->updateAdminDetailsController, "updateAdminDetails");
                 $this->BackendLogicRequest("Document/Update", $requestUri, $this->updateDocumentController, "updateDocumentStatus");
                 break;
             case 'DELETE':
@@ -142,8 +143,8 @@ class Router{
                 $this->deleteRequest("Request",$requestUri,$this->requestcontroller,"deleteRequest");
                 $this->deleteRequest("Document",$requestUri,$this->documentcontroller,"deleteDocument");
                 $this->deleteRequest("RequestHistory",$requestUri,$this->requestHistoryController,"deleteRequestHistory");
-                $this->deleteRequest("AdmissionHistory",$requestUri,$this->admissionHistorycontroller,"deleteAdmissionHistory");
-                $this->deleteRequest("AdminControls",$requestUri,$this->adminControlsController,"deleteAdminControls");
+                $this->deleteRequest("AdmissionHistory",$requestUri,$this->admissionHistoryController,"deleteAdmissionHistory");
+                $this->deleteRequest("AdminControls",$requestUri,$this->updateAdminControlsController,"deleteAdminControls");
                 break;
             default:
                 http_response_code(404);

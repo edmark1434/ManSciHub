@@ -1,13 +1,13 @@
 <?php
 require_once "api/Controller/AdminController.php";
-class updateAdminPassword{
+class UpdateAdminDetails{
     private AdminController $adminController;
     public function __construct()
     {
         $this->adminController = new AdminController();
     }
 
-    public function updateAdminPassword($request)
+    public function updateAdmin($request)
     {
         if(password_verify($request["confirm_password"],$request["admin_old_password"])){
             if (!$this->isBcrypt($request["admin_password"])) {

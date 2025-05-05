@@ -59,6 +59,23 @@ export async function TransferRequest(data) {
         return response_data.message;
     }
 }
+
+//this function is for admission close
+// this will automatically transfer the all record admissions in admission_history
+// and automatically update stud_enroll to false if rejected in the admission
+export async function AdmissionClose() {
+    const response = await fetch("http://localhost:8000/api/Service/TransferAdmission", {
+        method: 'POST'
+    })
+    let data = {};
+    data = await response.json();
+    if (response.ok) {
+        return data.message;
+    } else {
+        return data.message;
+    }
+}
+
 export async function AdminLogin(data) {
     const response = await fetch("http://localhost:8000/api/Admin/login", {
         method: 'POST',
@@ -177,7 +194,7 @@ export async function UpdateRequest(data) {
 }
 export async function UpdateAdminControls(data) {
     let response_data = {};
-    const response = await fetch("http://localhost:8000/api/AdminControls/Update", {
+    const response = await fetch("http://localhost:8000/api/Service/AdminControls", {
         method: 'PUT',
         headers: {
             "Content-Type": "application/json"

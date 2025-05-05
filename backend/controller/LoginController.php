@@ -1,7 +1,7 @@
 <?php
-require_once "backend/service/login.php";
+require_once "backend/service/Login.php";
 
-class LoginController extends login{
+class LoginController extends Login{
     public function loginController($username,$password){
         try{
             $admin = $this->login($username,$password);

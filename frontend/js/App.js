@@ -41,9 +41,9 @@ createApp({
       ShowDocTypeRenamePopup: false,
       ShowDocTypeCreatePopup: false,
       ShowLoading: false,
+      ShowLogoutConfirm: false,
 
       AdminID: 0,
-      hmm: false,
 
       // Form fields
       username: '',
@@ -111,7 +111,6 @@ createApp({
       lrnField: false,
       homeAddressField: false,
       emailField: false,
-      currentDate: new Date().toISOString().split('T')[0],
 
       // fields Validation Request
       errorStatus: false,
@@ -132,7 +131,7 @@ createApp({
       documentExist: false,
 
       // today
-      today: new Date().toISOString().split('T')[0],
+      today: new Date().toLocaleDateString('en-CA'),
 
       // lists for admin panel
       activerequestslist: [],
@@ -193,16 +192,15 @@ createApp({
       loginButtonText: 'Login',
       passwordConfirmButtonText: 'Verify',
       documentRenameButtonText: 'Save changes',
+      documentCreateButtonText: 'Add',
     };
   },
-  mounted() {
+  async mounted() {
+    await this.getAllDocuments();
+    await this.getAdminControls();
     setTimeout(() => {
       this.goToMenu();
     }, 2000);
-      this.getAllDocuments();
-      fetch.getAllDocuments().then((data) => {
-        this.docType = data.filter(doc => doc.docu_is_active);
-      });
   },
   beforeUnmount() {
     clearInterval(this.interval);
@@ -441,12 +439,12 @@ createApp({
         };
       const data = await send.RemoveDocument(documentObject);
       if (data.includes('Successfully')) {
-        this.getAllDocuments();
+        await this.getAllDocuments();
         this.resetAdminScreens();
         this.checkDocument = false;
         this.ShowDocType = false;
         this.ShowLoading = true;
-        this.loadingMessage = data + ": " + this.focusdoctype.docu_type;
+        this.loadingMessage = "Successfully removed " + this.focusdoctype.docu_type;
         this.loadingScreenTimeout();
         this.ShowDocumentTypes = true;
       } else {
@@ -519,6 +517,7 @@ createApp({
     loadingScreenTimeout() {
       setTimeout(() => {
         this.ShowAdminBoot = false;
+        this.ShowAdminPanel = true;
         this.ShowLoading = false;
         this.createAdminUsername = '';
         this.createAdminPassword = '';
@@ -547,6 +546,7 @@ createApp({
         this.documentExist = true;
         this.documentMessage = "That document type already exists.";
       } else {
+        this.documentCreateButtonText = '...';
         const data = await send.documentCreate(documentObject);
         this.getAllDocuments();
         this.resetAdminScreens();
@@ -555,6 +555,7 @@ createApp({
         this.loadingScreenTimeout();
         this.ShowDocumentTypes = true;
       }
+      this.documentCreateButtonText = 'Add';
     },
     async PasswordConfirmation() {
       console.log(this.Process);
@@ -578,9 +579,10 @@ createApp({
           const data = await send.UpdateAdminDetails(adminObject);
           if (data.includes('Successfully')) {
             this.getAllAdmin();
+            this.adminDetails.admin_username = this.newAdminUsername;
             this.resetAdminScreens();
             this.ShowLoading = true;
-            this.loadingMessage = data + ": " + this.newAdminUsername;
+            this.loadingMessage = "Successfully updated " + this.newAdminUsername;
             this.loadingScreenTimeout();
             this.ShowAdministrators = true;
           } else {
@@ -605,7 +607,7 @@ createApp({
             this.getAdminById();
             this.resetAdminScreens();
             this.ShowLoading = true;
-            this.loadingMessage = data_password + ": " + this.newAdminUsername;
+            this.loadingMessage = "Successfully updated " + this.focusadmin.admin_username;
             this.loadingScreenTimeout();
             this.ShowAdministrators = true;
             }else {
@@ -638,20 +640,27 @@ createApp({
           }
             break;
           case 'Delete Document':
-            this.removeDocument();
+            await this.removeDocument();
             break;
           case 'Toggle Admissions':
             let control = this.controls.find(control => control.ctrl_key === "toggle_admissions");
             const controlObject = {
               "ctrl_key": "toggle_admissions",
-              "ctrl_value": String(!control.ctrl_value),
+              "ctrl_value": control.ctrl_value === 'Open' ? 'Closed' : 'Open',
+              "admin_password": this.adminDetails.admin_password,
+              "confirm_password": this.confirmPassword
             };
             const data_toggle = await send.UpdateAdminControls(controlObject);
             if (data_toggle.includes('Successfully')) {
+              control.ctrl_value = control.ctrl_value === 'Open' ? 'Closed' : 'Open'
+              if (control.ctrl_value === 'Closed') {
+                await send.AdmissionClose();
+                this.activeadmissionslist = [];
+                this.getAllAdmissionHistory();
+              }
               this.ShowPasswordConfirm = false;
               this.ShowLoading = true;
-              control.ctrl_value = !control.ctrl_value;
-              this.loadingMessage = `Successfully ${control.ctrl_value ? 'opened' : 'closed'} admissions`;
+              this.loadingMessage = `Successfully ${control.ctrl_value === 'Open' ? 'opened' : 'closed'} admissions`;
               this.loadingScreenTimeout();
             } else {
               this.confirmPasswordIncorrect = true;
@@ -709,43 +718,43 @@ createApp({
     },
     async getAllAdmission(){
       const data = await fetch.getAllAdmission();
-      this.activeadmissionslist = data.data;
+      this.activeadmissionslist = data?.data ? data.data : [];
     },
     async getAllAdmissionHistory(){
       const data = await fetch.getAllAdmissionHistoryWithYear();
-      this.archivedadmissionslist = data.data;
+      this.archivedadmissionslist = data?.data ? data.data : [];
     },
     async getAllRequest(){
       const data = await fetch.getAllRequest();
-      this.activerequestslist = data.data;
+      this.activerequestslist = data?.data ? data.data : [];
     },
     async getAllRequestHistory(){
       const data = await fetch.getAllRequestHistory();
-      this.archivedrequestslist = data.data;
+      this.archivedrequestslist = data?.data ? data.data : [];
     },
     async getAllDocuments() {
       const data = await fetch.getAllDocuments();
-      this.docType = data.filter(document => document.docu_is_active === true);
+      this.docType = data?.data?.filter(document => document.docu_is_active === true);
     },
     async getAllStudent() {
       const data = await fetch.getAllStudent();
-      this.fullstudentslist = data.data;
+      this.fullstudentslist = data?.data ? data.data : [];
     },
     async getAllAdmin() {
       const data = await fetch.getAllAdmin();
-      this.adminslist = data.data.filter(admin => admin.admin_is_active);
+      this.adminslist = data?.data?.filter(admin => admin.admin_is_active);
     },
     async getAllAuditLogAdmission() {
       const data = await fetch.getAllAuditLogAdmission();
-      this.admissionauditslist = data.data;
+      this.admissionauditslist = data?.data ? data.data : [];
     },
     async getAllAuditLogRequest() {
       const data = await fetch.getAllAuditLogRequest();
-      this.requestauditslist = data.data;
+      this.requestauditslist = data?.data ? data.data : [];
     },
     async getAdminControls() {
       const data = await fetch.getAdminControls();
-      this.controls = data.data;
+      this.controls = data?.data ? data.data : [];
     },
     async checkLogin() {
       this.verified = true;
@@ -761,9 +770,6 @@ createApp({
         if (data.data) {
           this.ShowAdminLogin = false;
           this.ShowAdminSplash = true;
-
-          this.adminBootMessage = "Fetching admin controls...";
-          await this.getAdminControls();
 
           this.adminBootMessage = "Fetching document requests...";
           await this.getAllRequest();
@@ -794,7 +800,6 @@ createApp({
           this.ShowAdminBoot = true;
           this.loadingScreenTimeout();
 
-          this.ShowAdminPanel = true;
           this.ShowDocumentRequests = true;
         } else {
           this.verified = false;
@@ -1020,8 +1025,8 @@ createApp({
       }
 
       final = final.sort((a, b) => {
-        const valA = a[this.requestsort]?.toUpperCase();
-        const valB = b[this.requestsort]?.toUpperCase();
+        const valA = a[this.requestsort]?.toUpperCase() ?? a[this.requestsort === 'req_date' ? 'reqhs_date' : '']?.toUpperCase();
+        const valB = b[this.requestsort]?.toUpperCase() ?? b[this.requestsort === 'req_date' ? 'reqhs_date' : '']?.toUpperCase();
 
         if (valA < valB) return this.requestorder === 'asc' ? -1 : 1;
         if (valA > valB) return this.requestorder === 'asc' ? 1 : -1;
@@ -1056,8 +1061,8 @@ createApp({
       }
 
       final = final.sort((a, b) => {
-        const valA = a[this.admissionsort]?.toUpperCase();
-        const valB = b[this.admissionsort]?.toUpperCase();
+        const valA = a[this.admissionsort]?.toUpperCase() ?? a[this.admissionsort === 'adms_date' ? 'admhs_date' : '']?.toUpperCase();
+        const valB = b[this.admissionsort]?.toUpperCase() ?? b[this.admissionsort === 'adms_date' ? 'admhs_date' : '']?.toUpperCase();
 
         if (valA < valB) return this.admissionorder === 'asc' ? -1 : 1;
         if (valA > valB) return this.admissionorder === 'asc' ? 1 : -1;
