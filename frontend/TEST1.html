@@ -704,57 +704,65 @@
                         </span>
                 </div>
             </div>
-            <!-- thead -->
-            <div class="border-2 border-green shadow-sm mt-4 max-h-12 overflow-hidden bg-ivory">
-                <table class="min-w-full">
-                    <thead class="text-left bg-ivory h-12">
-                    <tr class="font-bold">
-                        <th class="px-3 py-2 ">Tracking Code</th>
-                        <th class="px-3 py-2 ">Student Name</th>
-                        <th class="px-3 py-2 ">Document Type</th>
-                        <th class="px-3 py-2 ">Purpose</th>
-                        <th class="px-3 py-2 ">Request Date</th>
-                        <th class="px-3 py-2 ">Status</th>
-                    </tr>
-                    </thead>
-                    <tbody class="divide-y border-green w-full">
-                    <tr v-for="req in requestslist" class="border-green" @click="ShowRequestPopup = true; focusrequest = req; documentRequestStatus = focusrequest.req_status">
-                        <td class="px-3 py-2 ">{{req.req_track_id}}</td>
-                        <td class="px-3 py-2 ">{{[req.stud_fname,req.stud_mname,req.stud_lname].filter(Boolean).join(' ')}}</td>
-                        <td class="px-3 py-2 ">{{req.docu_type}}</td>
-                        <td class="px-3 py-2 truncate">{{req.req_purpose ?? req.reqhs_purpose}}</td>
-                        <td class="px-3 py-2 ">{{req.req_date ?? req.reqhs_date}}</td>
-                        <td class="px-3 py-2 ">{{req.req_status ?? req.reqhs_status}}</td>
-                    </tr>
-                    </tbody>
-                </table>
+            <!-- empty -->
+            <div v-if="requestslist.length === 0" class="w-full h-[calc(100vh-9.75rem)]">
+                <div class="w-full h-full flex justify-center items-center">
+                    <p class="text-green text-xl font-bold">No results found</p>
+                </div>
             </div>
-            <!-- tbody -->
-            <div class="border-2 border-t-0 border-green shadow-sm max-h-[calc(100vh-13.875rem)] overflow-auto">
-                <table class="min-w-full -mt-12">
-                    <thead class="text-left bg-ivory h-12 invisible">
-                    <tr class="font-bold">
-                        <th class="px-3 py-2 ">Tracking Code</th>
-                        <th class="px-3 py-2 ">Student Name</th>
-                        <th class="px-3 py-2 ">Document Type</th>
-                        <th class="px-3 py-2 ">Purpose</th>
-                        <th class="px-3 py-2 ">Request Date</th>
-                        <th class="px-3 py-2 ">Status</th>
-                    </tr>
-                    </thead>
-                    <tbody class="divide-y border-green w-full">
-                    <tr v-for="req in requestslist" class="border-green" @click="ShowRequestPopup = true; focusrequest = req; documentRequestStatus = focusrequest.req_status">
-                        <td class="px-3 py-2 ">{{req.req_track_id}}</td>
-                        <td class="px-3 py-2 ">{{[req.stud_fname,req.stud_mname,req.stud_lname].filter(Boolean).join(' ')}}</td>
-                        <td class="px-3 py-2 ">{{req.docu_type}}</td>
-                        <td class="px-3 py-2 truncate">{{req.req_purpose ?? req.reqhs_purpose}}</td>
-                        <td class="px-3 py-2 ">{{req.req_date ?? req.reqhs_date}}</td>
-                        <td class="px-3 py-2 ">{{req.req_status ?? req.reqhs_status}}</td>
-                    </tr>
-                    </tbody>
-                </table>
+            <div v-else>
+                <!-- thead -->
+                <div class="border-2 border-green shadow-sm mt-4 max-h-12 overflow-hidden bg-ivory">
+                    <table class="min-w-full">
+                        <thead class="text-left bg-ivory h-12">
+                        <tr class="font-bold">
+                            <th class="px-3 py-2 ">Tracking Code</th>
+                            <th class="px-3 py-2 ">Student Name</th>
+                            <th class="px-3 py-2 ">Document Type</th>
+                            <th class="px-3 py-2 ">Purpose</th>
+                            <th class="px-3 py-2 ">Request Date</th>
+                            <th class="px-3 py-2 ">Status</th>
+                        </tr>
+                        </thead>
+                        <tbody class="divide-y border-green w-full">
+                        <tr v-for="req in requestslist" class="border-green" @click="ShowRequestPopup = true; focusrequest = req; documentRequestStatus = focusrequest.req_status">
+                            <td class="px-3 py-2 ">{{req.req_track_id}}</td>
+                            <td class="px-3 py-2 ">{{[req.stud_fname,req.stud_mname,req.stud_lname].filter(Boolean).join(' ')}}</td>
+                            <td class="px-3 py-2 ">{{req.docu_type}}</td>
+                            <td class="px-3 py-2 truncate">{{req.req_purpose ?? req.reqhs_purpose}}</td>
+                            <td class="px-3 py-2 ">{{req.req_date ?? req.reqhs_date}}</td>
+                            <td class="px-3 py-2 ">{{req.req_status ?? req.reqhs_status}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- tbody -->
+                <div class="border-2 border-t-0 border-green shadow-sm max-h-[calc(100vh-13.875rem)] overflow-auto">
+                    <table class="min-w-full -mt-12">
+                        <thead class="text-left bg-ivory h-12 invisible">
+                        <tr class="font-bold">
+                            <th class="px-3 py-2 ">Tracking Code</th>
+                            <th class="px-3 py-2 ">Student Name</th>
+                            <th class="px-3 py-2 ">Document Type</th>
+                            <th class="px-3 py-2 ">Purpose</th>
+                            <th class="px-3 py-2 ">Request Date</th>
+                            <th class="px-3 py-2 ">Status</th>
+                        </tr>
+                        </thead>
+                        <tbody class="divide-y border-green w-full">
+                        <tr v-for="req in requestslist" class="border-green" @click="ShowRequestPopup = true; focusrequest = req; documentRequestStatus = focusrequest.req_status">
+                            <td class="px-3 py-2 ">{{req.req_track_id}}</td>
+                            <td class="px-3 py-2 ">{{[req.stud_fname,req.stud_mname,req.stud_lname].filter(Boolean).join(' ')}}</td>
+                            <td class="px-3 py-2 ">{{req.docu_type}}</td>
+                            <td class="px-3 py-2 truncate">{{req.req_purpose ?? req.reqhs_purpose}}</td>
+                            <td class="px-3 py-2 ">{{req.req_date ?? req.reqhs_date}}</td>
+                            <td class="px-3 py-2 ">{{req.req_status ?? req.reqhs_status}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p class="text-base font-bold text-green w-full text-right mt-3">{{requestslist.length}} records found</p>
             </div>
-            <p class="text-base font-bold text-green w-full text-right mt-3">{{requestslist.length}} records found</p>
             <!-- popup -->
             <div v-if="ShowRequestPopup" class="w-screen h-screen bg-[#325930]/20 flex justify-center items-center fixed top-0 left-0 z-999">
 
@@ -915,57 +923,65 @@
                         </span>
                 </div>
             </div>
-            <!-- thead -->
-            <div class="border-2 border-green shadow-sm mt-4 max-h-12 overflow-hidden bg-ivory">
-                <table class="min-w-full">
-                    <thead class="text-left bg-ivory h-12">
-                    <tr class="font-bold">
-                        <th class="px-3 py-2 ">Name</th>
-                        <th class="px-3 py-2 ">LRN</th>
-                        <th class="px-3 py-2 ">Email Address</th>
-                        <th class="px-3 py-2 ">Level</th>
-                        <th class="px-3 py-2 ">Application Date</th>
-                        <th class="px-3 py-2 ">Status</th>
-                    </tr>
-                    </thead>
-                    <tbody class="divide-y border-green w-full">
-                    <tr v-for="adm in admissionslist" class="border-green" @click="ShowAdmissionPopup = true; focusadmission = adm; admissionRequestStatus = focusadmission.adms_status">
-                        <td class="px-3 py-2 ">{{[adm.stud_fname,adm.stud_mname,adm.stud_lname].filter(Boolean).join(' ')}}</td>
-                        <td class="px-3 py-2 ">{{adm.stud_lrn}}</td>
-                        <td class="px-3 py-2 ">{{adm.stud_email}}</td>
-                        <td class="px-3 py-2 ">Grade {{adm.adms_lvl ?? adm.admhs_lvl}}</td>
-                        <td class="px-3 py-2 ">{{adm.adms_date ?? adm.admhs_date}}</td>
-                        <td class="px-3 py-2 ">{{adm.adms_status ?? adm.admhs_status}}</td>
-                    </tr>
-                    </tbody>
-                </table>
+            <!-- empty -->
+            <div v-if="admissionslist.length === 0" class="w-full h-[calc(100vh-9.75rem)]">
+                <div class="w-full h-full flex justify-center items-center">
+                    <p class="text-green text-xl font-bold">No results found</p>
+                </div>
             </div>
-            <!-- tbody -->
-            <div class="border-2 border-t-0 border-green shadow-sm max-h-[calc(100vh-13.875rem)] overflow-auto">
-                <table class="min-w-full -mt-12">
-                    <thead class="text-left bg-ivory h-12 invisible">
-                    <tr class="font-bold">
-                        <th class="px-3 py-2 ">Name</th>
-                        <th class="px-3 py-2 ">LRN</th>
-                        <th class="px-3 py-2 ">Email Address</th>
-                        <th class="px-3 py-2 ">Level</th>
-                        <th class="px-3 py-2 ">Application Date</th>
-                        <th class="px-3 py-2 ">Status</th>
-                    </tr>
-                    </thead>
-                    <tbody class="divide-y border-green w-full">
-                    <tr v-for="adm in admissionslist" class="border-green" @click="ShowAdmissionPopup = true; focusadmission = adm; admissionRequestStatus = focusadmission.adms_status">
-                        <td class="px-3 py-2 ">{{[adm.stud_fname,adm.stud_mname,adm.stud_lname].filter(Boolean).join(' ')}}</td>
-                        <td class="px-3 py-2 ">{{adm.stud_lrn}}</td>
-                        <td class="px-3 py-2 ">{{adm.stud_email}}</td>
-                        <td class="px-3 py-2 ">Grade {{adm.adms_lvl ?? adm.admhs_lvl}}</td>
-                        <td class="px-3 py-2 ">{{adm.adms_date ?? adm.admhs_date}}</td>
-                        <td class="px-3 py-2 ">{{adm.adms_status ?? adm.admhs_status}}</td>
-                    </tr>
-                    </tbody>
-                </table>
+            <div v-else>
+                <!-- thead -->
+                <div class="border-2 border-green shadow-sm mt-4 max-h-12 overflow-hidden bg-ivory">
+                    <table class="min-w-full">
+                        <thead class="text-left bg-ivory h-12">
+                        <tr class="font-bold">
+                            <th class="px-3 py-2 ">Name</th>
+                            <th class="px-3 py-2 ">LRN</th>
+                            <th class="px-3 py-2 ">Email Address</th>
+                            <th class="px-3 py-2 ">Level</th>
+                            <th class="px-3 py-2 ">Application Date</th>
+                            <th class="px-3 py-2 ">Status</th>
+                        </tr>
+                        </thead>
+                        <tbody class="divide-y border-green w-full">
+                        <tr v-for="adm in admissionslist" class="border-green" @click="ShowAdmissionPopup = true; focusadmission = adm; admissionRequestStatus = focusadmission.adms_status">
+                            <td class="px-3 py-2 ">{{[adm.stud_fname,adm.stud_mname,adm.stud_lname].filter(Boolean).join(' ')}}</td>
+                            <td class="px-3 py-2 ">{{adm.stud_lrn}}</td>
+                            <td class="px-3 py-2 ">{{adm.stud_email}}</td>
+                            <td class="px-3 py-2 ">Grade {{adm.adms_lvl ?? adm.admhs_lvl}}</td>
+                            <td class="px-3 py-2 ">{{adm.adms_date ?? adm.admhs_date}}</td>
+                            <td class="px-3 py-2 ">{{adm.adms_status ?? adm.admhs_status}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- tbody -->
+                <div class="border-2 border-t-0 border-green shadow-sm max-h-[calc(100vh-13.875rem)] overflow-auto">
+                    <table class="min-w-full -mt-12">
+                        <thead class="text-left bg-ivory h-12 invisible">
+                        <tr class="font-bold">
+                            <th class="px-3 py-2 ">Name</th>
+                            <th class="px-3 py-2 ">LRN</th>
+                            <th class="px-3 py-2 ">Email Address</th>
+                            <th class="px-3 py-2 ">Level</th>
+                            <th class="px-3 py-2 ">Application Date</th>
+                            <th class="px-3 py-2 ">Status</th>
+                        </tr>
+                        </thead>
+                        <tbody class="divide-y border-green w-full">
+                        <tr v-for="adm in admissionslist" class="border-green" @click="ShowAdmissionPopup = true; focusadmission = adm; admissionRequestStatus = focusadmission.adms_status">
+                            <td class="px-3 py-2 ">{{[adm.stud_fname,adm.stud_mname,adm.stud_lname].filter(Boolean).join(' ')}}</td>
+                            <td class="px-3 py-2 ">{{adm.stud_lrn}}</td>
+                            <td class="px-3 py-2 ">{{adm.stud_email}}</td>
+                            <td class="px-3 py-2 ">Grade {{adm.adms_lvl ?? adm.admhs_lvl}}</td>
+                            <td class="px-3 py-2 ">{{adm.adms_date ?? adm.admhs_date}}</td>
+                            <td class="px-3 py-2 ">{{adm.adms_status ?? adm.admhs_status}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p class="text-base font-bold text-green w-full text-right mt-3">{{admissionslist.length}} records found</p>
             </div>
-            <p class="text-base font-bold text-green w-full text-right mt-3">{{admissionslist.length}} records found</p>
             <!-- popup -->
             <div v-if="ShowAdmissionPopup" class="w-screen h-screen bg-[#325930]/20 flex justify-center items-center fixed top-0 left-0 z-999">
 
@@ -1018,8 +1034,14 @@
                     &plus; Add administrator
                 </a>
             </div>
+            <!-- empty -->
+            <div v-if="adminslist.length === 0" class="w-full h-[calc(100vh-9.75rem)]">
+                <div class="w-full h-full flex justify-center items-center">
+                    <p class="text-green text-xl font-bold">No administrators found</p>
+                </div>
+            </div>
             <!-- list -->
-            <div class="w-full max-h-[calc(100vh-9.75rem)] overflow-auto grid grid-cols-4 gap-4 cardlist px-4">
+            <div v-else class="w-full max-h-[calc(100vh-9.75rem)] overflow-auto grid grid-cols-4 gap-4 cardlist px-4">
                 <div v-for="admin in adminslist"
                      class="h-48 border-2 border-green p-6 col-span-1 bg-ivory hover:bg-[#F1D580]/50"
                      @click="ShowAdminPopup = true; focusadmin = admin; (AdminID === admin.admin_id) ? verified = true : verified = false;">
@@ -1243,57 +1265,65 @@
                     </details>
                 </div>
             </div>
-            <!-- thead -->
-            <div class="border-2 border-green shadow-sm mt-4 max-h-12 overflow-hidden bg-ivory">
-                <table class="min-w-full">
-                    <thead class="text-left bg-ivory h-12">
-                    <tr class="font-bold">
-                        <th class="px-3 py-2 ">Record Type</th>
-                        <th class="px-3 py-2 ">Student Name</th>
-                        <th class="px-3 py-2 ">Record Date</th>
-                        <th class="px-3 py-2 ">Audit Description</th>
-                        <th class="px-3 py-2 ">Audit Date</th>
-                        <th class="px-3 py-2 ">Admin</th>
-                    </tr>
-                    </thead>
-                    <tbody class="divide-y border-green w-full">
-                    <tr v-for="aud in auditslist" class="border-green">
-                        <td class="px-3 py-2 ">{{ aud.chg_type }}</td>
-                        <td class="px-3 py-2 ">{{ [aud.stud_fname, aud.stud_mname, aud.stud_lname, aud.stud_suffix].filter(Boolean).join(' ') }}</td>
-                        <td class="px-3 py-2 ">{{ aud.req_date ?? aud.adms_date }}</td>
-                        <td class="px-3 py-2 ">{{ aud.chg_old_val }} >> {{ aud.chg_new_val }}</td>
-                        <td class="px-3 py-2 ">{{ aud.chg_datetime }}</td>
-                        <td class="px-3 py-2 ">{{ aud.admin_username }}</td>
-                    </tr>
-                    </tbody>
-                </table>
+            <!-- empty -->
+            <div v-if="auditslist.length === 0" class="w-full h-[calc(100vh-9.75rem)]">
+                <div class="w-full h-full flex justify-center items-center">
+                    <p class="text-green text-xl font-bold">No results found</p>
+                </div>
             </div>
-            <!-- tbody -->
-            <div class="border-2 border-t-0 border-green shadow-sm max-h-[calc(100vh-13.875rem)] overflow-auto">
-                <table class="min-w-full -mt-12">
-                    <thead class="text-left bg-ivory h-12 invisible">
-                    <tr class="font-bold">
-                        <th class="px-3 py-2 ">Record Type</th>
-                        <th class="px-3 py-2 ">Student Name</th>
-                        <th class="px-3 py-2 ">Record Date</th>
-                        <th class="px-3 py-2 ">Audit Description</th>
-                        <th class="px-3 py-2 ">Audit Date</th>
-                        <th class="px-3 py-2 ">Admin</th>
-                    </tr>
-                    </thead>
-                    <tbody class="divide-y border-green w-full">
-                    <tr v-for="aud in auditslist" class="border-green">
-                        <td class="px-3 py-2 ">{{ aud.chg_type }}</td>
-                        <td class="px-3 py-2 ">{{ [aud.stud_fname, aud.stud_mname, aud.stud_lname, aud.stud_suffix].filter(Boolean).join(' ') }}</td>
-                        <td class="px-3 py-2 ">{{ aud.req_date ?? aud.adms_date }}</td>
-                        <td class="px-3 py-2 ">{{ aud.chg_old_val }} >> {{ aud.chg_new_val }}</td>
-                        <td class="px-3 py-2 ">{{ aud.chg_datetime }}</td>
-                        <td class="px-3 py-2 ">{{ aud.admin_username }}</td>
-                    </tr>
-                    </tbody>
-                </table>
+            <div v-else>
+                <!-- thead -->
+                <div class="border-2 border-green shadow-sm mt-4 max-h-12 overflow-hidden bg-ivory">
+                    <table class="min-w-full">
+                        <thead class="text-left bg-ivory h-12">
+                        <tr class="font-bold">
+                            <th class="px-3 py-2 ">Record Type</th>
+                            <th class="px-3 py-2 ">Student Name</th>
+                            <th class="px-3 py-2 ">Record Date</th>
+                            <th class="px-3 py-2 ">Audit Description</th>
+                            <th class="px-3 py-2 ">Audit Date</th>
+                            <th class="px-3 py-2 ">Admin</th>
+                        </tr>
+                        </thead>
+                        <tbody class="divide-y border-green w-full">
+                        <tr v-for="aud in auditslist" class="border-green">
+                            <td class="px-3 py-2 ">{{ aud.chg_type }}</td>
+                            <td class="px-3 py-2 ">{{ [aud.stud_fname, aud.stud_mname, aud.stud_lname, aud.stud_suffix].filter(Boolean).join(' ') }}</td>
+                            <td class="px-3 py-2 ">{{ aud.req_date ?? aud.adms_date }}</td>
+                            <td class="px-3 py-2 ">{{ aud.chg_old_val }} >> {{ aud.chg_new_val }}</td>
+                            <td class="px-3 py-2 ">{{ aud.chg_datetime }}</td>
+                            <td class="px-3 py-2 ">{{ aud.admin_username }}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- tbody -->
+                <div class="border-2 border-t-0 border-green shadow-sm max-h-[calc(100vh-13.875rem)] overflow-auto">
+                    <table class="min-w-full -mt-12">
+                        <thead class="text-left bg-ivory h-12 invisible">
+                        <tr class="font-bold">
+                            <th class="px-3 py-2 ">Record Type</th>
+                            <th class="px-3 py-2 ">Student Name</th>
+                            <th class="px-3 py-2 ">Record Date</th>
+                            <th class="px-3 py-2 ">Audit Description</th>
+                            <th class="px-3 py-2 ">Audit Date</th>
+                            <th class="px-3 py-2 ">Admin</th>
+                        </tr>
+                        </thead>
+                        <tbody class="divide-y border-green w-full">
+                        <tr v-for="aud in auditslist" class="border-green">
+                            <td class="px-3 py-2 ">{{ aud.chg_type }}</td>
+                            <td class="px-3 py-2 ">{{ [aud.stud_fname, aud.stud_mname, aud.stud_lname, aud.stud_suffix].filter(Boolean).join(' ') }}</td>
+                            <td class="px-3 py-2 ">{{ aud.req_date ?? aud.adms_date }}</td>
+                            <td class="px-3 py-2 ">{{ aud.chg_old_val }} >> {{ aud.chg_new_val }}</td>
+                            <td class="px-3 py-2 ">{{ aud.chg_datetime }}</td>
+                            <td class="px-3 py-2 ">{{ aud.admin_username }}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p class="text-base font-bold text-green w-full text-right mt-3">{{auditslist.length}} records found</p>
             </div>
-            <p class="text-base font-bold text-green w-full text-right mt-3">{{auditslist.length}} records found</p>
         </div>
 
         <!-- Student Users -->
@@ -1363,51 +1393,59 @@
                         </span>
                 </div>
             </div>
-            <!-- thead -->
-            <div class="border-2 border-green shadow-sm mt-4 max-h-12 overflow-hidden bg-ivory">
-                <table class="min-w-full">
-                    <thead class="text-left bg-ivory h-12">
-                    <tr class="font-bold">
-                        <th class="px-3 py-2 ">Name</th>
-                        <th class="px-3 py-2 ">LRN</th>
-                        <th class="px-3 py-2 ">Date of Birth</th>
-                        <th class="px-3 py-2 ">Email Address</th>
-                    </tr>
-                    </thead>
-                    <tbody class="divide-y border-green w-full">
-                    <tr v-for="stud in studentslist" class="border-green" @click="focusstudent = stud">
-                        <td class="px-3 py-2 ">{{stud.stud_fname+" "+stud.stud_mname+" "+stud.stud_lname}}</td>
-                        <td class="px-3 py-2 ">{{stud.stud_lrn}}</td>
-                        <td class="px-3 py-2 ">{{stud.stud_dob}}</td>
-                        <td class="px-3 py-2 ">{{stud.stud_email}}</td>
-                    </tr>
-                    </tbody>
-                </table>
+            <!-- empty -->
+            <div v-if="studentslist.length === 0" class="w-full h-[calc(100vh-9.75rem)]">
+                <div class="w-full h-full flex justify-center items-center">
+                    <p class="text-green text-xl font-bold">No results found</p>
+                </div>
             </div>
-            <!-- tbody -->
-            <div class="border-2 border-t-0 border-green shadow-sm max-h-[calc(100vh-13.875rem)] overflow-auto">
-                <table class="min-w-full -mt-12">
-                    <thead class="text-left bg-ivory h-12 invisible">
-                    <tr class="font-bold">
-                        <th class="px-3 py-2 ">Name</th>
-                        <th class="px-3 py-2 ">LRN</th>
-                        <th class="px-3 py-2 ">Date of Birth</th>
-                        <th class="px-3 py-2 ">Email Address</th>
-                    </tr>
-                    </thead>
-                    <tbody class="divide-y border-green w-full">
-                    <tr v-for="stud in studentslist" class="border-green" @click="focusstudent = stud">
-                        <td class="px-3 py-2 ">{{stud.stud_fname+" "+stud.stud_mname+" "+stud.stud_lname}}</td>
-                        <td class="px-3 py-2 ">{{stud.stud_lrn}}</td>
-                        <td class="px-3 py-2 ">{{stud.stud_dob}}</td>
-                        <td class="px-3 py-2 ">{{stud.stud_email}}</td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="w-full mt-3 flex justify-between">
-                <p class="text-base text-green"><span class="font-bold">Note: </span>This list consists only of students that interacted with the system.</p>
-                <p class="text-base font-bold text-green">{{studentslist.length}} records found</p>
+            <div v-else>
+                <!-- thead -->
+                <div class="border-2 border-green shadow-sm mt-4 max-h-12 overflow-hidden bg-ivory">
+                    <table class="min-w-full">
+                        <thead class="text-left bg-ivory h-12">
+                        <tr class="font-bold">
+                            <th class="px-3 py-2 ">Name</th>
+                            <th class="px-3 py-2 ">LRN</th>
+                            <th class="px-3 py-2 ">Date of Birth</th>
+                            <th class="px-3 py-2 ">Email Address</th>
+                        </tr>
+                        </thead>
+                        <tbody class="divide-y border-green w-full">
+                        <tr v-for="stud in studentslist" class="border-green" @click="focusstudent = stud">
+                            <td class="px-3 py-2 ">{{stud.stud_fname+" "+stud.stud_mname+" "+stud.stud_lname}}</td>
+                            <td class="px-3 py-2 ">{{stud.stud_lrn}}</td>
+                            <td class="px-3 py-2 ">{{stud.stud_dob}}</td>
+                            <td class="px-3 py-2 ">{{stud.stud_email}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- tbody -->
+                <div class="border-2 border-t-0 border-green shadow-sm max-h-[calc(100vh-13.875rem)] overflow-auto">
+                    <table class="min-w-full -mt-12">
+                        <thead class="text-left bg-ivory h-12 invisible">
+                        <tr class="font-bold">
+                            <th class="px-3 py-2 ">Name</th>
+                            <th class="px-3 py-2 ">LRN</th>
+                            <th class="px-3 py-2 ">Date of Birth</th>
+                            <th class="px-3 py-2 ">Email Address</th>
+                        </tr>
+                        </thead>
+                        <tbody class="divide-y border-green w-full">
+                        <tr v-for="stud in studentslist" class="border-green" @click="focusstudent = stud">
+                            <td class="px-3 py-2 ">{{stud.stud_fname+" "+stud.stud_mname+" "+stud.stud_lname}}</td>
+                            <td class="px-3 py-2 ">{{stud.stud_lrn}}</td>
+                            <td class="px-3 py-2 ">{{stud.stud_dob}}</td>
+                            <td class="px-3 py-2 ">{{stud.stud_email}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="w-full mt-3 flex justify-between">
+                    <p class="text-base text-green"><span class="font-bold">Note: </span>This list consists only of students that interacted with the system.</p>
+                    <p class="text-base font-bold text-green">{{studentslist.length}} records found</p>
+                </div>
             </div>
         </div>
 
@@ -1466,57 +1504,65 @@
                     </details>
                 </div>
             </div>
-            <!-- thead -->
-            <div class="border-2 border-green shadow-sm mt-4 max-h-12 overflow-hidden bg-ivory">
-                <table class="min-w-full">
-                    <thead class="text-left bg-ivory h-12">
-                    <tr class="font-bold">
-                        <th class="px-3 py-2 ">Record Type</th>
-                        <th class="px-3 py-2 ">Student Name</th>
-                        <th class="px-3 py-2 ">Record Date</th>
-                        <th class="px-3 py-2 ">Audit Description</th>
-                        <th class="px-3 py-2 ">Audit Date</th>
-                        <th class="px-3 py-2 ">Admin</th>
-                    </tr>
-                    </thead>
-                    <tbody class="divide-y border-green w-full">
-                    <tr v-for="aud in auditslist" class="border-green">
-                        <td class="px-3 py-2 ">{{ aud.chg_type }}</td>
-                        <td class="px-3 py-2 ">{{ [aud.stud_fname, aud.stud_mname, aud.stud_lname, aud.stud_suffix].filter(Boolean).join(' ') }}</td>
-                        <td class="px-3 py-2 ">{{ aud.req_date ?? aud.adms_date }}</td>
-                        <td class="px-3 py-2 ">{{ aud.chg_old_val }} >> {{ aud.chg_new_val }}</td>
-                        <td class="px-3 py-2 ">{{ aud.chg_datetime }}</td>
-                        <td class="px-3 py-2 ">{{ aud.admin_username }}</td>
-                    </tr>
-                    </tbody>
-                </table>
+            <!-- empty -->
+            <div v-if="auditslist.length === 0" class="w-full h-[calc(100vh-9.75rem)]">
+                <div class="w-full h-full flex justify-center items-center">
+                    <p class="text-green text-xl font-bold">No results found</p>
+                </div>
             </div>
-            <!-- tbody -->
-            <div class="border-2 border-t-0 border-green shadow-sm max-h-[calc(100vh-13.875rem)] overflow-auto">
-                <table class="min-w-full -mt-12">
-                    <thead class="text-left bg-ivory h-12 invisible">
-                    <tr class="font-bold">
-                        <th class="px-3 py-2 ">Record Type</th>
-                        <th class="px-3 py-2 ">Student Name</th>
-                        <th class="px-3 py-2 ">Record Date</th>
-                        <th class="px-3 py-2 ">Audit Description</th>
-                        <th class="px-3 py-2 ">Audit Date</th>
-                        <th class="px-3 py-2 ">Admin</th>
-                    </tr>
-                    </thead>
-                    <tbody class="divide-y border-green w-full">
-                    <tr v-for="aud in auditslist" class="border-green">
-                        <td class="px-3 py-2 ">{{ aud.chg_type }}</td>
-                        <td class="px-3 py-2 ">{{ [aud.stud_fname, aud.stud_mname, aud.stud_lname, aud.stud_suffix].filter(Boolean).join(' ') }}</td>
-                        <td class="px-3 py-2 ">{{ aud.req_date ?? aud.adms_date }}</td>
-                        <td class="px-3 py-2 ">{{ aud.chg_old_val }} >> {{ aud.chg_new_val }}</td>
-                        <td class="px-3 py-2 ">{{ aud.chg_datetime }}</td>
-                        <td class="px-3 py-2 ">{{ aud.admin_username }}</td>
-                    </tr>
-                    </tbody>
-                </table>
+            <div v-else>
+                <!-- thead -->
+                <div class="border-2 border-green shadow-sm mt-4 max-h-12 overflow-hidden bg-ivory">
+                    <table class="min-w-full">
+                        <thead class="text-left bg-ivory h-12">
+                        <tr class="font-bold">
+                            <th class="px-3 py-2 ">Record Type</th>
+                            <th class="px-3 py-2 ">Student Name</th>
+                            <th class="px-3 py-2 ">Record Date</th>
+                            <th class="px-3 py-2 ">Audit Description</th>
+                            <th class="px-3 py-2 ">Audit Date</th>
+                            <th class="px-3 py-2 ">Admin</th>
+                        </tr>
+                        </thead>
+                        <tbody class="divide-y border-green w-full">
+                        <tr v-for="aud in auditslist" class="border-green">
+                            <td class="px-3 py-2 ">{{ aud.chg_type }}</td>
+                            <td class="px-3 py-2 ">{{ [aud.stud_fname, aud.stud_mname, aud.stud_lname, aud.stud_suffix].filter(Boolean).join(' ') }}</td>
+                            <td class="px-3 py-2 ">{{ aud.req_date ?? aud.adms_date }}</td>
+                            <td class="px-3 py-2 ">{{ aud.chg_old_val }} >> {{ aud.chg_new_val }}</td>
+                            <td class="px-3 py-2 ">{{ aud.chg_datetime }}</td>
+                            <td class="px-3 py-2 ">{{ aud.admin_username }}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- tbody -->
+                <div class="border-2 border-t-0 border-green shadow-sm max-h-[calc(100vh-13.875rem)] overflow-auto">
+                    <table class="min-w-full -mt-12">
+                        <thead class="text-left bg-ivory h-12 invisible">
+                        <tr class="font-bold">
+                            <th class="px-3 py-2 ">Record Type</th>
+                            <th class="px-3 py-2 ">Student Name</th>
+                            <th class="px-3 py-2 ">Record Date</th>
+                            <th class="px-3 py-2 ">Audit Description</th>
+                            <th class="px-3 py-2 ">Audit Date</th>
+                            <th class="px-3 py-2 ">Admin</th>
+                        </tr>
+                        </thead>
+                        <tbody class="divide-y border-green w-full">
+                        <tr v-for="aud in auditslist" class="border-green">
+                            <td class="px-3 py-2 ">{{ aud.chg_type }}</td>
+                            <td class="px-3 py-2 ">{{ [aud.stud_fname, aud.stud_mname, aud.stud_lname, aud.stud_suffix].filter(Boolean).join(' ') }}</td>
+                            <td class="px-3 py-2 ">{{ aud.req_date ?? aud.adms_date }}</td>
+                            <td class="px-3 py-2 ">{{ aud.chg_old_val }} >> {{ aud.chg_new_val }}</td>
+                            <td class="px-3 py-2 ">{{ aud.chg_datetime }}</td>
+                            <td class="px-3 py-2 ">{{ aud.admin_username }}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p class="text-base font-bold text-green w-full text-right mt-3">{{auditslist.length}} records found</p>
             </div>
-            <p class="text-base font-bold text-green w-full text-right mt-3">{{auditslist.length}} records found</p>
         </div>
 
         <!-- Admin Controls -->
@@ -1585,8 +1631,14 @@
                     &plus; Add document type
                 </a>
             </div>
+            <!-- empty -->
+            <div v-if="docType.length === 0" class="w-full h-[calc(100vh-9.75rem)]">
+                <div class="w-full h-full flex justify-center items-center">
+                    <p class="text-green text-xl font-bold">No results found</p>
+                </div>
+            </div>
             <!-- list -->
-            <div class="bg-ivory w-full h-[calc(100vh-9.75rem)] max-h-[calc(100vh-9.75rem)] overflow-auto flex justify-center items-center cardlist p-4 border-2 border-green">
+            <div v-else class="bg-ivory w-full h-[calc(100vh-9.75rem)] max-h-[calc(100vh-9.75rem)] overflow-auto flex justify-center items-center cardlist p-4 border-2 border-green">
                 <div class="flex flex-wrap gap-4 justify-center items-center w-full">
                     <a v-for="docu in docType"class="text-center inline-block px-6 py-3 w-[16vw] h-12 border-2 border-green text-base text-green bg-warm-white hover:bg-[#F1D580]/50"
                        href="#" @click="ShowDocTypePopup = true; focusdoctype = docu">
