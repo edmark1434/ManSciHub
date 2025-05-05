@@ -11,5 +11,7 @@ class Student
     public $stud_email;
     public $stud_dob;
     public $stud_enroll;
+    public $stud_created;
+
 }   
 ?>

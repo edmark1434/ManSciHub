@@ -83,20 +83,20 @@ class EmailConfig{
                 </div>";
                 break;
             case "EMAIL":
-                `<div style="font-family: Arial, sans-serif; padding: 20px; border: 1px solid #ddd; border-radius: 8px; background-color: #fef4f4; color: #b20000; max-width: 600px; margin: auto;">
-                    <h2 style="margin-top: 0;">Document Request Failed</h2>
+                $body ="<div style=\"font-family: Arial, sans-serif; padding: 20px; border: 1px solid #ddd; border-radius: 8px; background-color: #fef4f4; color: #b20000; max-width: 600px; margin: auto;\">
+                    <h2 style=\"margin-top: 0;\">Document Request Failed</h2>
                     <p>The email address you used already exists in our system.</p>
                     <p><strong>Please submit your request again using the link below.</strong></p>
-                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSek5ijTAGq3_swRrX6x0pTdQwNAkLha_5bf_v6t5-9StvtM0Q/viewform" target="_blank" style="display: inline-block; margin-top: 15px; padding: 10px 20px; background-color: #b20000; color: white; text-decoration: none; border-radius: 4px;">Resubmit Request</a>
-                </div>`;
+                    <a href=\"https://docs.google.com/forms/d/e/1FAIpQLSek5ijTAGq3_swRrX6x0pTdQwNAkLha_5bf_v6t5-9StvtM0Q/viewform\" target=\"_blank\" style=\"display: inline-block; margin-top: 15px; padding: 10px 20px; background-color: #b20000; color: white; text-decoration: none; border-radius: 4px;\">Resubmit Request</a>
+                </div>";
                 break;
             case "LRN":
-                `<div style="font-family: Arial, sans-serif; padding: 20px; border: 1px solid #ddd; border-radius: 8px; background-color: #fef4f4; color: #b20000; max-width: 600px; margin: auto;">
-                    <h2 style="margin-top: 0;">Document Request Failed</h2>
+                $body = "<div style=\"font-family: Arial, sans-serif; padding: 20px; border: 1px solid #ddd; border-radius: 8px; background-color: #fef4f4; color: #b20000; max-width: 600px; margin: auto;\">
+                    <h2 style=\"margin-top: 0;\">Document Request Failed</h2>
                     <p>The Lrn you used already exists in our system.</p>
                     <p><strong>Please submit your request again using the link below.</strong></p>
-                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSek5ijTAGq3_swRrX6x0pTdQwNAkLha_5bf_v6t5-9StvtM0Q/viewform" target="_blank" style="display: inline-block; margin-top: 15px; padding: 10px 20px; background-color: #b20000; color: white; text-decoration: none; border-radius: 4px;">Resubmit Request</a>
-                </div>`;
+                    <a href=\"https://docs.google.com/forms/d/e/1FAIpQLSek5ijTAGq3_swRrX6x0pTdQwNAkLha_5bf_v6t5-9StvtM0Q/viewform\" target=\"_blank\" style=\"display: inline-block; margin-top: 15px; padding: 10px 20px; background-color: #b20000; color: white; text-decoration: none; border-radius: 4px;\">Resubmit Request</a>
+                </div>";
                 break;
         }
         return $body;

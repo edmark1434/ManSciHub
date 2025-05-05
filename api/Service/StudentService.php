@@ -66,6 +66,7 @@ class StudentService{
         $student->stud_add = $entity['stud_add'] ?? NULL;
         $student->stud_dob = $entity['stud_dob'] ?? NULL;
         $student->stud_enroll = $entity['stud_enroll'] ?? NULL;
+        $student->stud_created = $entity['stud_created'] ?? NULL;
         return $student;
     }
 

@@ -52,6 +52,7 @@ class RequestHistoryService{
         $requestHistory->reqhs_proc_date = $entity["reqhs_proc_date"] ?? NULL;
         $requestHistory->docu_id = $entity["docu_id"] ?? NULL;
         $requestHistory->stud_id = $entity["stud_id"] ?? NULL;
+        $requestHistory->reqhs_track_id = $entity["reqhs_track_id"] ?? NULL;
 
         return $requestHistory;
     }

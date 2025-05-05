@@ -23,6 +23,7 @@ class TransferRequestHistory{
             "reqhs_id" => $request["req_track_id"],
             "reqhs_status" => $request["req_status"],
             "reqhs_date" => $request["req_date"],
+            'reqhs_track_id' => $request["req_track_id"],
             "docu_id" => $request["docu_id"],
             "stud_id" => $request["stud_id"],
             "reqhs_purpose" => $request["req_purpose"]
