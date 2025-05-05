@@ -58,6 +58,7 @@ createApp({
       extensionReq: '',
       dateOfBirth: '',
       documentTypeRename: '',
+      documentMessage : '',
       lrn: '',
       createAdminUsername: '',
       createAdminPassword: '',
@@ -80,6 +81,8 @@ createApp({
       trackID: '',
       status: '',
       loginFailed: '',
+      fieldValidation: '',
+      adminCreateMessage : '',
       documentType: '',
       documentRequestStatus: '',
       admissionRequestStatus: '',
@@ -293,14 +296,14 @@ createApp({
     const res = await send.DocumentRequest(requestObject);
 
     if (res.message.includes("Email")) { 
-      emailObject['email_subject'] = 'EMAIL';
+      emailObject["email_subject"] = 'EMAIL';
       localStorage.setItem("latestFetch", req["Timestamp"]);
-      this.EmailMessage(emailObject, "EMAIL");
+      this.EmailMessage(emailObject,"EMAIL");
     } 
     if (res.message.includes("Lrn")) {
-      emailObject['email_subject'] = 'LRN';
+      emailObject["email_subject"] = 'LRN';
       localStorage.setItem("latestFetch", req["Timestamp"]);
-      this.EmailMessage(emailObject, "LRN");
+      this.EmailMessage(emailObject,"LRN");
     } 
     if (res.message.includes("Successfully")) {
       localStorage.setItem("latestFetch", req["Timestamp"]);
@@ -486,11 +489,19 @@ createApp({
       this.ShowAdminLogin = true;
     },
     showConfirmPassword() {
+      this.adminCreateMessage = '';
       this.checkUsername = false;
+      this.fieldValidation = false;
       const exists = Object.values(this.adminslist).some(
       admin => admin.admin_username === this.createAdminUsername);
+      if (!(this.createAdminFirstname && this.createAdminLastname && this.createAdminPassword && this.createAdminUsername)) {
+        this.fieldValidation = true;
+        this.adminCreateMessage = 'The field is required';
+        return;
+      }
       if (exists) {
         this.checkUsername = true;
+        this.adminCreateMessage = 'The username is already exist!';
       } else {
         this.ShowAdminCreatePopup = false;
         this.ShowPasswordConfirm = true;
@@ -520,14 +531,21 @@ createApp({
       },2000);
     },
     async documentCreate() {
+      this.documentMessage = '';
       const documentObject = {
         "docu_type" : this.documentType
       }
       this.documentExist = false;
       const exists = Object.values(this.docType).some(
         document => document.docu_type === this.documentType);
+      if (!this.documentType) {
+        this.documentExist = true;
+        this.documentMessage = "The field is required";
+        return;
+      }
       if (exists) {
         this.documentExist = true;
+        this.documentMessage = "That document type already exists.";
       } else {
         const data = await send.documentCreate(documentObject);
         this.getAllDocuments();
@@ -730,6 +748,7 @@ createApp({
       this.controls = data.data;
     },
     async checkLogin() {
+      this.verified = true;
       this.submitted = true;
       this.login = true;
       this.loginButtonText = '...';
@@ -778,10 +797,12 @@ createApp({
           this.ShowAdminPanel = true;
           this.ShowDocumentRequests = true;
         } else {
+          this.verified = false;
           this.login = false;
           this.loginMessage = "Invalid Credentials. Access denied!";
         }
       } else {
+        this.verified = false;
         this.loginMessage = "Please enter username or password!";
       }
       this.loginButtonText = 'Login';

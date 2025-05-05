@@ -36,9 +36,9 @@ class RequestHistoryRepository {
 
     public function addRequest($request): void {
         $query = "INSERT INTO REQUEST_HISTORY (REQHS_ID,REQHS_DATE, REQHS_PURPOSE, 
-                REQHS_STATUS, DOCU_ID, STUD_ID) VALUES 
+                REQHS_STATUS, DOCU_ID, STUD_ID, REQHS_TRACK_ID) VALUES 
                 ( :REQHS_ID, :REQHS_DATE, :REQHS_PURPOSE, :REQHS_STATUS, 
-                :DOCU_ID, :STUD_ID)
+                :DOCU_ID, :STUD_ID, :REQHS_TRACK_ID)
         ";
         $params = $this->RequestHistoryParameter($request);
         $this->repository->executeQuery($query, $params);
@@ -51,6 +51,7 @@ class RequestHistoryRepository {
                 REQHS_STATUS = :REQHS_STATUS, 
                 DOCU_ID = :DOCU_ID,
                 STUD_ID = :STUD_ID,
+                REQHS_TRACK_ID = :REQHS_TRACK_ID,
                 REQHS_PROC_DATE = :REQHS_PROC_DATE
             WHERE REQHS_ID = :REQHS_ID
         ";
@@ -69,6 +70,7 @@ class RequestHistoryRepository {
             ":REQHS_DATE" => $request->reqhs_date,
             ":REQHS_PURPOSE" => $request->reqhs_purpose, 
             ":REQHS_STATUS" => $request->reqhs_status,
+            ":REQHS_TRACK_ID" => $request->reqhs_track_id,
             ":DOCU_ID" => $request->docu_id,
             ":STUD_ID" => $request->stud_id,
         ];

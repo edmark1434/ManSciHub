@@ -6,6 +6,7 @@ class Admin{
     public $admin_fname;
     public $admin_lname;
     public $admin_is_active;
+    public $admin_created;
 }
 
 ?>

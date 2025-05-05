@@ -52,7 +52,7 @@
             </div>
 
             <!-- Show this only when login fails -->
-            <p v-if="login || !login" class="text-sm" :class="(submitted && !login && !verified) ? 'text-error' : 'text-green'">{{ loginMessage }}</p>
+            <p v-if="!verified" class="text-sm" :class="(submitted && !login && !verified) ? 'text-error' : 'text-green'">{{ loginMessage }}</p>
 
             <div class="flex justify-center">
                 <a class="w-full text-center inline-block mt-9 bg-green px-6 py-3 text-base font-bold text-warm-white hover-bg-mid-green"
@@ -494,7 +494,7 @@
                 <p class="font-bold text-green text-base">Status: {{requestTrack.req_status}}</p>
                 </div>
                 <div v-if="errorStatus"><p class="text-green">No result found.<br>Try a different tracking code.</p></div>
-                <div v-if="errorStatus" class="flex justify-center mt-9">
+                <div v-if="requestTrack != null || errorStatus" class="flex justify-center mt-9">
                     <a class="text-center inline-block bg-green px-6 py-3 text-base font-bold text-warm-white hover-bg-mid-green"
                        href="#" @click.prevent="goToMenu">
                         Back to menu
@@ -726,7 +726,7 @@
                         </thead>
                         <tbody class="divide-y border-green w-full">
                         <tr v-for="req in requestslist" class="border-green" @click="ShowRequestPopup = true; focusrequest = req; documentRequestStatus = focusrequest.req_status">
-                            <td class="px-3 py-2 ">{{req.req_track_id}}</td>
+                            <td class="px-3 py-2 ">{{req.req_track_id ?? req.reqhs_track_id}}</td>
                             <td class="px-3 py-2 ">{{[req.stud_fname,req.stud_mname,req.stud_lname].filter(Boolean).join(' ')}}</td>
                             <td class="px-3 py-2 ">{{req.docu_type}}</td>
                             <td class="px-3 py-2 truncate">{{req.req_purpose ?? req.reqhs_purpose}}</td>
@@ -751,7 +751,7 @@
                         </thead>
                         <tbody class="divide-y border-green w-full">
                         <tr v-for="req in requestslist" class="border-green" @click="ShowRequestPopup = true; focusrequest = req; documentRequestStatus = focusrequest.req_status">
-                            <td class="px-3 py-2 ">{{req.req_track_id}}</td>
+                            <td class="px-3 py-2 ">{{req.req_track_id ?? req.reqhs_track_id}}</td>
                             <td class="px-3 py-2 ">{{[req.stud_fname,req.stud_mname,req.stud_lname].filter(Boolean).join(' ')}}</td>
                             <td class="px-3 py-2 ">{{req.docu_type}}</td>
                             <td class="px-3 py-2 truncate">{{req.req_purpose ?? req.reqhs_purpose}}</td>
@@ -1162,7 +1162,7 @@
 
                         <input type="text" id="firstName" v-model="createAdminUsername" :class="[
                                     'mt-0.5 w-full h-12 px-3 outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none',
-                                    hmm ? 'transition-colors duration-500 border-[3px] border-red-500' : 'border-2 border-green'
+                                    (fieldValidation && !createAdminUsername) || checkUsername ? 'transition-colors duration-500 border-[3px] border-red-500' : 'border-2 border-green'
                                 ]" />
                     </div>
 
@@ -1171,7 +1171,7 @@
 
                         <input type="text" id="firstName" v-model="createAdminFirstname" :class="[
                                     'mt-0.5 w-full h-12 mb-2 px-3 outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none',
-                                    hmm ? 'transition-colors duration-500 border-[3px] border-red-500' : 'border-2 border-green'
+                                    fieldValidation && !createAdminFirstname ? 'transition-colors duration-500 border-[3px] border-red-500' : 'border-2 border-green'
                                 ]" />
                     </div>
 
@@ -1180,7 +1180,7 @@
 
                         <input type="text" id="firstName" v-model="createAdminLastname" :class="[
                                     'mt-0.5 w-full h-12 mb-2 px-3 outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none',
-                                    hmm ? 'transition-colors duration-500 border-[3px] border-red-500' : 'border-2 border-green'
+                                    fieldValidation && !createAdminLastname ? 'transition-colors duration-500 border-[3px] border-red-500' : 'border-2 border-green'
                                 ]" />
                     </div>
 
@@ -1189,12 +1189,12 @@
 
                         <input type="password" id="firstName" v-model="createAdminPassword" :class="[
                                     'mt-0.5 w-full h-12 mb-2 px-3 outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none',
-                                    hmm ? 'transition-colors duration-500 border-[3px] border-red-500' : 'border-2 border-green'
+                                    fieldValidation && !createAdminPassword ? 'transition-colors duration-500 border-[3px] border-red-500' : 'border-2 border-green'
                                 ]" />
                     </div>
 
                     <!-- Show this only when login fails -->
-                    <p v-if="checkUsername" class="text-sm" :class="checkUsername ? 'text-error' : 'text-green'">An admin with the given username already exists.</p>
+                    <p v-if="fieldValidation || checkUsername" class="text-sm" :class="checkUsername || fieldValidation ? 'text-error' : 'text-green'">{{adminCreateMessage}}</p>
 
                     <div class="flex flex-col justify-center gap-2">
                         <a class="w-full text-center inline-block mt-9 bg-green px-6 py-3 text-base font-bold text-warm-white hover-bg-mid-green"
@@ -1706,12 +1706,12 @@
 
                         <input type="text" id="firstName" v-model="documentType" :class="[
                                     'mt-0.5 mb-2 w-full h-12 px-3 outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none',
-                                    hmm ? 'transition-colors duration-500 border-[3px] border-red-500' : 'border-2 border-green'
+                                    documentExist ? 'transition-colors duration-500 border-[3px] border-red-500' : 'border-2 border-green'
                                 ]" />
                     </div>
 
                     <!-- Show this only when login fails -->
-                    <p v-if="documentExist" class="text-sm" :class="documentExist ? 'text-error' : 'text-green'">That document type already exists.</p>
+                    <p v-if="documentExist" class="text-sm" :class="documentExist ? 'text-error' : 'text-green'">{{documentMessage}}</p>
 
                     <div class="flex flex-col justify-center gap-2">
                         <a class="w-full text-center inline-block mt-9 bg-green px-6 py-3 text-base font-bold text-warm-white hover-bg-mid-green"
