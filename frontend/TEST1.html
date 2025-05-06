@@ -881,7 +881,7 @@
                             <div
                                     class="z-auto divide-y border-2 border-green bg-ivory shadow-sm group-open:absolute group-open:start-0 group-open:top-14">
                                 <div class="flex items-center justify-between px-3 py-2">
-                                    <button type="button" @click="admissionview = 'current'; admissionshowpending = admissionshowrejected = admissionshowwaitlisted = admissionshowaccepted = true;" class="text-sm text-green underline ">
+                                    <button type="button" @click="admissionview = 'current'; admissionshowpending = admissionshowrejected = admissionshowwaitlisted = admissionshowaccepted = admissionshowgr7 = admissionshowgr11 = true;" class="text-sm text-green underline ">
                                         Reset
                                     </button>
                                 </div>
@@ -903,6 +903,19 @@
                                         <label for="Option3" class="inline-flex items-center gap-3">
                                             <input type="checkbox" v-model="admissionshowaccepted" class="size-5 border-green shadow-sm bg-warm-white" id="Option3" />
                                             <span class="text-sm font-medium text-green"> Accepted </span>
+                                        </label>
+                                    </div>
+                                </fieldset>
+                                <fieldset class="p-3 border-t-2 border-green">
+                                    <legend class="sr-only">Level</legend>
+                                    <div class="flex flex-col items-start gap-3">
+                                        <label for="Option1" class="inline-flex items-center gap-3">
+                                            <input type="checkbox" v-model="admissionshowgr7" class="size-5 border-green shadow-sm bg-warm-white" id="Option1" />
+                                            <span class="text-sm font-medium text-green"> Grade 7 </span>
+                                        </label>
+                                        <label for="Option2" class="inline-flex items-center gap-3">
+                                            <input type="checkbox" v-model="admissionshowgr11" class="size-5 border-green shadow-sm bg-warm-white" id="Option2" />
+                                            <span class="text-sm font-medium text-green"> Grade 11 </span>
                                         </label>
                                     </div>
                                 </fieldset>

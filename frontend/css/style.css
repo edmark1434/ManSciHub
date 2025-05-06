@@ -59,8 +59,14 @@ a.bg-green, a.bg-mid-green {
     transition: transform 0.1s ease;
 }
 
-a.bg-green:active, a.bg-mid-green:active {
+a.bg-green:active,
+a.bg-mid-green:active {
     transform: scale(0.95);
+}
+
+li a.bg-green:active,
+li a.bg-mid-green:active {
+    transform: none !important;
 }
 
 a.bg-green:active {

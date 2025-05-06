@@ -172,6 +172,8 @@ createApp({
       admissionshowrejected: true,
       admissionshowwaitlisted: true,
       admissionshowaccepted: true,
+      admissionshowgr7: true,
+      admissionshowgr11: true,
 
       studentsort: 'stud_lname',
       studentorder: 'asc',
@@ -301,12 +303,12 @@ createApp({
     if (res.message.includes("Email")) { 
       emailObject["email_subject"] = 'EMAIL';
       localStorage.setItem("latestFetch", req["Timestamp"]);
-      this.EmailMessage(emailObject,"EMAIL");
+      await this.EmailMessage(emailObject, "EMAIL");
     } 
     if (res.message.includes("Lrn")) {
       emailObject["email_subject"] = 'LRN';
       localStorage.setItem("latestFetch", req["Timestamp"]);
-      this.EmailMessage(emailObject,"LRN");
+      await this.EmailMessage(emailObject, "LRN");
     } 
     if (res.message.includes("Successfully")) {
       localStorage.setItem("latestFetch", req["Timestamp"]);
@@ -361,8 +363,8 @@ createApp({
           const data = await send.UpdateRequest(documentRequestObject);
           await send.CreateAuditLogRequest(auditObject);
           if (data.includes("Successfully")) {
-          this.getAllRequest();
-          this.getAllRequestHistory();
+          await this.getAllRequest();
+          await this.getAllRequestHistory();
           this.resetAdminScreens();
           this.ShowLoading = true;
           this.loadingMessage = "Successfully Updated Request " + this.focusrequest.req_track_id;
@@ -375,9 +377,9 @@ createApp({
       } else {
         const data = await send.TransferRequest(documentRequestObject);
         if (data.includes("Successfully")) {
-          this.getAllRequest();
-          this.getAllRequestHistory();
-          this.getAllAuditLogRequest();
+          await this.getAllRequest();
+          await this.getAllRequestHistory();
+          await this.getAllAuditLogRequest();
           this.resetAdminScreens();
           this.ShowLoading = true;
           this.loadingMessage = "Successfully Updated Request " + this.focusrequest.req_track_id;
@@ -385,7 +387,7 @@ createApp({
           this.ShowDocumentRequests = true;
         }
       }
-      this.EmailMessage(emailObject, this.documentRequestStatus);
+      await this.EmailMessage(emailObject, this.documentRequestStatus);
     },
     async UpdateAdmissionRequest(event) {
       const admissionRequestObject = {
@@ -414,9 +416,9 @@ createApp({
         const data = await send.UpdateAdmission(admissionRequestObject);
         await send.CreateAuditLogAdmission(auditObject);
         if (data.includes('Successfully')) {
-          this.getAllAdmission();
-          this.getAllAdmissionHistory();
-          this.getAllAuditLogAdmission();
+          await this.getAllAdmission();
+          await this.getAllAdmissionHistory();
+          await this.getAllAuditLogAdmission();
           this.resetAdminScreens();
           this.ShowLoading = true;
           this.loadingMessage = "Successfully Updated Admission " + this.focusadmission.adms_id;
@@ -427,7 +429,7 @@ createApp({
         this.ShowAdmissionPopup = false;
         this.ShowSchoolAdmissions = true;
       }
-      this.EmailMessage(emailObject,this.admissionRequestStatus);
+      await this.EmailMessage(emailObject, this.admissionRequestStatus);
     },
     async checkDocumentExist() {
       const documentObject = {
@@ -441,7 +443,7 @@ createApp({
       } else {
         this.documentRenameButtonText = '...';
         const data = await send.UpdateDocument(documentObject);
-        this.getAllDocuments();
+        await this.getAllDocuments();
         this.resetAdminScreens();
         this.ShowLoading = true;
         this.loadingMessage = data + ": " + this.focusdoctype.docu_type;
@@ -527,13 +529,8 @@ createApp({
       }
     },
     checkUsernameAvailability() {
-      const exists = Object.values(this.adminslist).some(
-      admin => admin.admin_username === this.newAdminUsername);
-      if (exists) {
-        return true;
-      } else {
-        return false;
-      }
+      return Object.values(this.adminslist).some(
+          admin => admin.admin_username === this.newAdminUsername);
     },
     loadingScreenTimeout() {
       setTimeout(() => {
@@ -569,7 +566,7 @@ createApp({
       } else {
         this.documentCreateButtonText = '...';
         const data = await send.documentCreate(documentObject);
-        this.getAllDocuments();
+        await this.getAllDocuments();
         this.resetAdminScreens();
         this.ShowLoading = true;
         this.loadingMessage = data + ": " + this.documentType;
@@ -599,7 +596,7 @@ createApp({
           };
           const data = await send.UpdateAdminDetails(adminObject);
           if (data.includes('Successfully')) {
-            this.getAllAdmin();
+            await this.getAllAdmin();
             this.adminDetails.admin_username = this.newAdminUsername;
             this.resetAdminScreens();
             this.ShowLoading = true;
@@ -624,8 +621,8 @@ createApp({
             };
             const data_password = await send.UpdateAdminDetails(adminObjectPassword);
             if (data_password.includes('Successfully')) {
-            this.getAllAdmin();
-            this.getAdminById();
+            await this.getAllAdmin();
+            await this.getAdminById();
             this.resetAdminScreens();
             this.ShowLoading = true;
             this.loadingMessage = "Successfully updated " + this.focusadmin.admin_username;
@@ -649,7 +646,7 @@ createApp({
             };
             const data_remove = await send.UpdateAdminDetails(adminObjectRemove);
             if (data_remove.includes('Successfully')) {
-              this.getAllAdmin();
+              await this.getAllAdmin();
               this.resetAdminScreens();
               this.ShowLoading = true;
               this.loadingMessage = "Successfully deleted " + this.focusadmin.admin_username;
@@ -677,7 +674,7 @@ createApp({
               if (control.ctrl_value === 'Closed') {
                 await send.AdmissionClose();
                 this.activeadmissionslist = [];
-                this.getAllAdmissionHistory();
+                await this.getAllAdmissionHistory();
               }
               this.ShowPasswordConfirm = false;
               this.ShowLoading = true;
@@ -699,7 +696,7 @@ createApp({
             };
             const data_create = await send.CreateAdmin(adminObjectCreate);
             if (data_create.includes('Successfully')) {
-              this.getAllAdmin();
+              await this.getAllAdmin();
               this.resetAdminScreens();
               this.ShowLoading = true;
               this.loadingMessage = data_create + ": " + this.createAdminUsername;
@@ -735,7 +732,7 @@ createApp({
       this.resetAdminScreens();
       this.resetScreens();
       this.ShowUserMenu = true;
-      clearInterval(this.interval = false);
+      clearInterval(this.interval = 0);
     },
     async getAllAdmission(){
       const data = await fetch.getAllAdmission();
@@ -1053,7 +1050,8 @@ createApp({
       if (this.requestsearch) {
         const q = this.requestsearch.toString().toLowerCase();
         final = final.filter(item =>
-            item.req_track_id.toString().toLowerCase().startsWith(q)
+            ([item.stud_fname, item.stud_mname, item.stud_lname, item.stud_suffix].filter(Boolean).join(' '))
+                .toLowerCase().includes(q) || item.req_track_id.toString().toLowerCase().startsWith(q)
         );
       }
 
@@ -1089,7 +1087,7 @@ createApp({
         const q = this.admissionsearch.toString().toLowerCase();
         final = final.filter(item =>
             ([item.stud_fname, item.stud_mname, item.stud_lname, item.stud_suffix].filter(Boolean).join(' '))
-                .toLowerCase().includes(q)
+                .toLowerCase().includes(q) || item.stud_lrn.toString().startsWith(q)
         );
       }
 
@@ -1102,11 +1100,19 @@ createApp({
         return 0;
       });
 
-      const filters = [];
+      let filters = [];
       if (this.admissionshowpending) filters.push(adm => (adm.adms_status ?? adm.admhs_status)?.toUpperCase() === 'PENDING');
       if (this.admissionshowrejected) filters.push(adm => (adm.adms_status ?? adm.admhs_status)?.toUpperCase() === 'REJECTED');
       if (this.admissionshowwaitlisted) filters.push(adm => (adm.adms_status ?? adm.admhs_status)?.toUpperCase() === 'WAITLISTED');
       if (this.admissionshowaccepted) filters.push(adm => (adm.adms_status ?? adm.admhs_status)?.toUpperCase() === 'ACCEPTED');
+
+      final = final.filter(item =>
+          filters.some(fn => fn(item)) // item passes if it matches ANY active filter
+      );
+
+      filters = [];
+      if (this.admissionshowgr7) filters.push(adm => (adm.adms_lvl ?? adm.admhs_lvl) === 7);
+      if (this.admissionshowgr11) filters.push(adm => (adm.adms_lvl ?? adm.admhs_lvl) === 11);
 
       return final.filter(item =>
           filters.some(fn => fn(item)) // item passes if it matches ANY active filter
@@ -1116,10 +1122,10 @@ createApp({
       let final = [...this.fullstudentslist];
 
       if (this.studentsearch) {
-        const q = this.studentsearch.toString().toLowerCase();
+        const q = this.admissionsearch.toString().toLowerCase();
         final = final.filter(item =>
             ([item.stud_fname, item.stud_mname, item.stud_lname, item.stud_suffix].filter(Boolean).join(' '))
-                .toLowerCase().includes(q)
+                .toLowerCase().includes(q) || item.stud_lrn.toString().startsWith(q)
         );
       }
 
@@ -1190,11 +1196,7 @@ createApp({
       }
     },
     admissionview(newVal) {
-      if (newVal === 'current') {
-        this.allowAdmissionChanges = true;
-      } else {
-        this.allowAdmissionChanges = false;
-      }
+      this.allowAdmissionChanges = newVal === 'current';
     },
   }
 }).mount('#app');
