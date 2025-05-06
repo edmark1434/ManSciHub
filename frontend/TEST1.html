@@ -786,7 +786,7 @@
                                         <option value="Pending">Pending</option>
                                         <option value="Rejected">Rejected</option>
                                         <option value="Ready">Ready</option>
-                                        <option value="Accepted">Retrieved</option>
+                                        <option value="Retrieved">Retrieved</option>
                                     </select>
                                 </div>
                             </label>
@@ -1367,7 +1367,7 @@
                                         <span class="text-sm font-medium text-green"> Last Name </span>
                                     </label>
                                     <label for="Option2" class="inline-flex items-center gap-3">
-                                        <input type="radio" v-model="studentsort" value="stud_id" name="students-sort" class="size-5 border-green shadow-sm bg-warm-white" id="Option2" />
+                                        <input type="radio" v-model="studentsort" value="stud_created" name="students-sort" class="size-5 border-green shadow-sm bg-warm-white" id="Option2" />
                                         <span class="text-sm font-medium text-green whitespace-nowrap"> Date Added </span>
                                     </label>
                                 </div>
@@ -1418,6 +1418,7 @@
                             <th class="px-3 py-2 ">LRN</th>
                             <th class="px-3 py-2 ">Date of Birth</th>
                             <th class="px-3 py-2 ">Email Address</th>
+                            <th class="px-3 py-2 ">Date Added</th>
                         </tr>
                         </thead>
                         <tbody class="divide-y border-green w-full">
@@ -1426,6 +1427,7 @@
                             <td class="px-3 py-2 ">{{stud.stud_lrn}}</td>
                             <td class="px-3 py-2 ">{{stud.stud_dob}}</td>
                             <td class="px-3 py-2 ">{{stud.stud_email}}</td>
+                            <td class="px-3 py-2 ">{{stud.stud_created}}</td>
                         </tr>
                         </tbody>
                     </table>
@@ -1439,6 +1441,7 @@
                             <th class="px-3 py-2 ">LRN</th>
                             <th class="px-3 py-2 ">Date of Birth</th>
                             <th class="px-3 py-2 ">Email Address</th>
+                            <th class="px-3 py-2 ">Date Added</th>
                         </tr>
                         </thead>
                         <tbody class="divide-y border-green w-full">
@@ -1447,6 +1450,7 @@
                             <td class="px-3 py-2 ">{{stud.stud_lrn}}</td>
                             <td class="px-3 py-2 ">{{stud.stud_dob}}</td>
                             <td class="px-3 py-2 ">{{stud.stud_email}}</td>
+                            <td class="px-3 py-2 ">{{stud.stud_created}}</td>
                         </tr>
                         </tbody>
                     </table>
@@ -1649,7 +1653,7 @@
             <!-- list -->
             <div v-else class="bg-ivory w-full h-[calc(100vh-9.75rem)] max-h-[calc(100vh-9.75rem)] overflow-auto flex justify-center items-center cardlist p-4 border-2 border-green">
                 <div class="flex flex-wrap gap-4 justify-center items-center w-full">
-                    <a v-for="docu in docType"class="text-center inline-block px-6 py-3 w-[16vw] h-12 border-2 border-green text-base text-green bg-warm-white hover:bg-[#F1D580]/50"
+                    <a v-for="docu in docType" class="text-center inline-block px-6 py-3 w-[16vw] h-12 border-2 border-green text-base text-green bg-warm-white hover:bg-[#F1D580]/50"
                        href="#" @click="ShowDocTypePopup = true; focusdoctype = docu">
                         {{docu.docu_type}}
                     </a>
