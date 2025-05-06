@@ -116,10 +116,10 @@ export async function CreateAdmin(data) {
         return response_data.message;
     }
 }
-//create change history
-export async function CreateChangeHistory(data) {
+//create audit log
+export async function CreateAuditLogRequest(data) {
     let response_data = {};
-    const response = await fetch("http://localhost:8000/api/Change/History", {
+    const response = await fetch("http://localhost:8000/api/AuditLog-Request", {
         method: 'POST',
         headers: {
             "Content-Type": "application/json"
@@ -128,11 +128,35 @@ export async function CreateChangeHistory(data) {
     });
     //create admin
     //sample data to pass
-    // "chg_column" : "admission",
+    // "req_track_id" : 12345678,
     // "chg_old_val" : "pending",
-    // "chg_new_val" : "complete",
+    // "chg_new_val" : "retrieved",
     // "admin_id": 12017
     
+    response_data = await response.json();
+    if (response.ok) {
+        return response_data.message;
+    } else {
+        return response_data.message;
+    }
+}
+
+export async function CreateAuditLogAdmission(data) {
+    let response_data = {};
+    const response = await fetch("http://localhost:8000/api/AuditLog-Admission", {
+        method: 'POST',
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data),
+    });
+    //create admin
+    //sample data to pass
+    // "adms_id" : 2,
+    // "chg_old_val" : "pending",
+    // "chg_new_val" : "retrieved",
+    // "admin_id": 12017
+
     response_data = await response.json();
     if (response.ok) {
         return response_data.message;

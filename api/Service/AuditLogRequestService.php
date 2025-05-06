@@ -34,7 +34,7 @@ class AuditLogRequestService{
 
 
     private function AuditLogRequestObject($entity){
-        $auditLogAdmission = new AuditLogAdmission();
+        $auditLogAdmission = new AuditLogRequest();
         $auditLogAdmission->chg_id = $entity["chg_id"] ?? NULL;
         $auditLogAdmission->req_track_id = $entity["req_track_id"] ?? NULL;
         $auditLogAdmission->chg_old_val = $entity["chg_old_val"] ?? NULL;

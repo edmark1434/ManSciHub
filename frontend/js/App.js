@@ -31,6 +31,7 @@ createApp({
 
       ShowRequestPopup: false,
       ShowAdmissionPopup: false,
+      ShowStudentPopup: false,
       ShowAdminPopup: false,
       ShowDocTypePopup: false,
       ShowAreYouSurePopup: false,
@@ -193,6 +194,10 @@ createApp({
       passwordConfirmButtonText: 'Verify',
       documentRenameButtonText: 'Save changes',
       documentCreateButtonText: 'Add',
+
+      // allow popups
+      allowRequestChanges: true,
+      allowAdmissionChanges: true,
     };
   },
   async mounted() {
@@ -317,7 +322,7 @@ createApp({
       const data = this.docType.find(data => data.docu_type.trim().toLowerCase() === document_name.trim().toLowerCase());
       console.log(data);
       console.log(document_name);
-      return data.docu_id;
+      return data?.docu_id;
     },
     async EmailMessage(object, Request) {
       const status = Request.toUpperCase();
@@ -344,10 +349,17 @@ createApp({
         "stud_email": this.focusrequest.stud_email,
         "email_subject" : "REQUEST "+this.documentRequestStatus.toUpperCase()
       };
-      if (this.documentRequestStatus.toUpperCase() !== "REJECTED" && this.documentRequestStatus.toUpperCase() !== "ACCEPTED") {
+      const auditObject = {
+        "req_track_id" : this.focusrequest.req_track_id,
+        "chg_old_val" : this.focusrequest.req_status,
+        "chg_new_val" : this.documentRequestStatus,
+        "admin_id": this.AdminID
+      };
+      if (this.documentRequestStatus.toUpperCase() !== "REJECTED" && this.documentRequestStatus.toUpperCase() !== "RETRIEVED") {
         if (this.documentRequestStatus !== this.focusrequest.req_status) {
           event.currentTarget.textContent = "...";
           const data = await send.UpdateRequest(documentRequestObject);
+          await send.CreateAuditLogRequest(auditObject);
           if (data.includes("Successfully")) {
           this.getAllRequest();
           this.getAllRequestHistory();
@@ -365,6 +377,7 @@ createApp({
         if (data.includes("Successfully")) {
           this.getAllRequest();
           this.getAllRequestHistory();
+          this.getAllAuditLogRequest();
           this.resetAdminScreens();
           this.ShowLoading = true;
           this.loadingMessage = "Successfully Updated Request " + this.focusrequest.req_track_id;
@@ -390,12 +403,20 @@ createApp({
         "stud_email": this.focusadmission.stud_email,
         "email_subject" : this.admissionRequestStatus.toUpperCase()
       };
+      const auditObject = {
+        "adms_id" : this.focusadmission.adms_id,
+        "chg_old_val" : this.focusadmission.adms_status,
+        "chg_new_val" : this.admissionRequestStatus,
+        "admin_id": this.AdminID
+      };
       if (this.focusadmission.adms_status !== this.admissionRequestStatus) {
         event.currentTarget.textContent = "...";
         const data = await send.UpdateAdmission(admissionRequestObject);
+        await send.CreateAuditLogAdmission(auditObject);
         if (data.includes('Successfully')) {
           this.getAllAdmission();
           this.getAllAdmissionHistory();
+          this.getAllAuditLogAdmission();
           this.resetAdminScreens();
           this.ShowLoading = true;
           this.loadingMessage = "Successfully Updated Admission " + this.focusadmission.adms_id;
@@ -1007,6 +1028,18 @@ createApp({
     snapStudentSearch() {
       this.studentsearch = this.studentsearchlive;
     },
+    formatDateTime(datetimeStr) {
+      const date = new Date(datetimeStr);
+
+      const datePart = date.toLocaleDateString('en-CA'); // YYYY-MM-DD
+      const timePart = date.toLocaleTimeString('en-US', {
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: true
+      });
+
+      return `${datePart} ${timePart}`;
+    }
   },
   computed: {
     requestslist() {
@@ -1119,14 +1152,16 @@ createApp({
 
       let final = [...requestTagged, ...admissionTagged];
 
+      final.sort((a, b) => new Date(b.chg_datetime) - new Date(a.chg_datetime));
+
       if (this.ShowAuditLogByAdmin) {
-        final = final.filter(aud => aud.admin_id === this.focusadmin.admin_id);
+        final = final.filter(aud => aud.admin_username === this.focusadmin.admin_username);
       }
 
       if (this.auditfilterdate) {
-        const start = new Date(this.auditfilterdate);
+        const start = new Date(this.auditfilterdate).toLocaleDateString('en-CA');
         final = final.filter(aud => {
-          const changed = new Date(aud.chg_datetime);
+          const changed = new Date(aud.chg_datetime).toLocaleDateString('en-CA');
           return changed >= start;
         });
       }
@@ -1146,11 +1181,20 @@ createApp({
         this.requestshowpending = true;
         this.requestshowready = true;
         this.showactiverequestfilters = true;
+        this.allowRequestChanges = true;
       } else {
         this.requestshowrejected = true;
         this.requestshowretrieved = true;
         this.showactiverequestfilters = false;
+        this.allowRequestChanges = false;
       }
-    }
+    },
+    admissionview(newVal) {
+      if (newVal === 'current') {
+        this.allowAdmissionChanges = true;
+      } else {
+        this.allowAdmissionChanges = false;
+      }
+    },
   }
 }).mount('#app');

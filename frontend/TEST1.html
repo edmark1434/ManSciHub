@@ -772,11 +772,12 @@
                         <p class="font-bold text-green text-base">{{ [focusrequest.stud_fname, focusrequest.stud_mname, focusrequest.stud_lname, focusrequest.stud_suffix].filter(Boolean).join(' ') }}</p>
                         <p class="font-bold text-green text-base mb-4">Document: {{ focusrequest.docu_type }}</p>
                         <p class="text-green text-base">LRN: {{ focusrequest.stud_lrn }}</p>
-                        <p class="text-green text-base">Purpose: {{ focusrequest.req_purpose }}</p>
+                        <p class="text-green text-base">Purpose: {{ focusrequest.req_purpose ?? focusrequest.reqhs_purpose }}</p>
                         <p class="text-green text-base">Email Address: {{ focusrequest.stud_email }}</p>
-                        <p class="text-green text-base">Request Date: {{ focusrequest.req_date }}</p>
+                        <p class="text-green text-base">Request Date: {{ focusrequest.req_date ?? focusrequest.reqhs_date }}</p>
+                        <p class="text-green text-base">Status: {{ focusrequest.req_status ?? focusrequest.reqhs_status }}</p>
 
-                        <div class="flex flex-col justify-center items-center mt-9 gap-2">
+                        <div v-if="allowRequestChanges" class="flex flex-col justify-center items-center mt-9 gap-2">
                             <label class="w-full">
                                 <div class="mt-0.5 w-full h-12 px-2 border-2 border-green outline-green bg-warm-white shadow-sm text-base focus:outline-none focus:ring-0 focus:rounded-none" >
                                     <select
@@ -795,6 +796,10 @@
                                 Save changes
                             </a>
                         </div>
+                        <a v-else class="w-full text-center block bg-ivory mt-9 px-6 py-3 text-base font-bold text-green hover:bg-[#F1D580]/50"
+                           href="#" @click="ShowRequestPopup = false">
+                            Go back
+                        </a>
                     </div>
                 </div>
 
@@ -996,14 +1001,15 @@
                     <div class="w-[30rem] min-h-[320px] p-9 bg-warm-white border-2 border-green flex justify-center items-center shadow-md">
                         <div class="text-center w-full">
                             <p class="font-bold text-green text-base">{{ [focusadmission.stud_fname, focusadmission.stud_mname, focusadmission.stud_lname, focusadmission.stud_suffix].filter(Boolean).join(' ') }}</p>
-                            <p class="font-bold text-green text-base mb-4">Level: Grade {{ focusadmission.adms_lvl }}</p>
+                            <p class="font-bold text-green text-base mb-4">Level: Grade {{ focusadmission.adms_lvl ?? focusadmission.admhs_lvl }}</p>
                             <p class="text-green text-base">LRN: {{ focusadmission.stud_lrn }}</p>
-                            <p class="text-green text-base">Date of Birth: {{ focusadmission.adms_date }}</p>
+                            <p class="text-green text-base">Date of Birth: {{ focusadmission.stud_dob }}</p>
                             <p class="text-green text-base">Email Address: {{ focusadmission.stud_email }}</p>
                             <p class="text-green text-base">Home Address: {{ focusadmission.stud_add }}</p>
-                            <p class="text-green text-base">Application Date: {{ focusadmission.adms_date }}</p>
+                            <p class="text-green text-base">Application Date: {{ focusadmission.adms_date ?? focusadmission.admhs_date }}</p>
+                            <p class="text-green text-base">Status: {{ focusadmission.adms_status ?? focusadmission.admhs_status }}</p>
 
-                            <div class="flex flex-col justify-center items-center mt-9 gap-2">
+                            <div v-if="allowAdmissionChanges" class="flex flex-col justify-center items-center mt-9 gap-2">
                                 <label class="w-full">
                                     <div class="mt-0.5 w-full h-12 px-2 border-2 border-green outline-green bg-warm-white shadow-sm text-base focus:outline-none focus:ring-0 focus:rounded-none" >
                                         <select
@@ -1022,6 +1028,10 @@
                                     Save changes
                                 </a>
                             </div>
+                            <a v-else class="w-full text-center block bg-ivory mt-9 px-6 py-3 text-base font-bold text-green hover:bg-[#F1D580]/50"
+                               href="#" @click="ShowAdmissionPopup = false">
+                                Go back
+                            </a>
                         </div>
                     </div>
 
@@ -1300,7 +1310,7 @@
                             <td class="px-3 py-2 ">{{ [aud.stud_fname, aud.stud_mname, aud.stud_lname, aud.stud_suffix].filter(Boolean).join(' ') }}</td>
                             <td class="px-3 py-2 ">{{ aud.req_date ?? aud.adms_date }}</td>
                             <td class="px-3 py-2 ">{{ aud.chg_old_val }} >> {{ aud.chg_new_val }}</td>
-                            <td class="px-3 py-2 ">{{ aud.chg_datetime }}</td>
+                            <td class="px-3 py-2 ">{{ formatDateTime(aud.chg_datetime) }}</td>
                             <td class="px-3 py-2 ">{{ aud.admin_username }}</td>
                         </tr>
                         </tbody>
@@ -1325,7 +1335,7 @@
                             <td class="px-3 py-2 ">{{ [aud.stud_fname, aud.stud_mname, aud.stud_lname, aud.stud_suffix].filter(Boolean).join(' ') }}</td>
                             <td class="px-3 py-2 ">{{ aud.req_date ?? aud.adms_date }}</td>
                             <td class="px-3 py-2 ">{{ aud.chg_old_val }} >> {{ aud.chg_new_val }}</td>
-                            <td class="px-3 py-2 ">{{ aud.chg_datetime }}</td>
+                            <td class="px-3 py-2 ">{{ formatDateTime(aud.chg_datetime) }}</td>
                             <td class="px-3 py-2 ">{{ aud.admin_username }}</td>
                         </tr>
                         </tbody>
@@ -1445,7 +1455,7 @@
                         </tr>
                         </thead>
                         <tbody class="divide-y border-green w-full">
-                        <tr v-for="stud in studentslist" class="border-green" @click="focusstudent = stud">
+                        <tr v-for="stud in studentslist" class="border-green" @click="focusstudent = stud; ShowStudentPopup = true">
                             <td class="px-3 py-2 ">{{stud.stud_fname+" "+stud.stud_mname+" "+stud.stud_lname}}</td>
                             <td class="px-3 py-2 ">{{stud.stud_lrn}}</td>
                             <td class="px-3 py-2 ">{{stud.stud_dob}}</td>
@@ -1458,6 +1468,27 @@
                 <div class="w-full mt-3 flex justify-between">
                     <p class="text-base text-green"><span class="font-bold">Note: </span>This list consists only of students that interacted with the system.</p>
                     <p class="text-base font-bold text-green">{{studentslist.length}} records found</p>
+                </div>
+
+                <!-- popup -->
+                <div v-if="ShowStudentPopup" class="w-screen h-screen bg-[#325930]/20 flex justify-center items-center fixed top-0 left-0 z-999">
+
+                    <div class="w-[30rem] min-h-[320px] p-9 bg-warm-white border-2 border-green flex justify-center items-center shadow-md">
+                        <div class="text-center w-full">
+                            <p class="font-bold text-green text-base mb-4">{{ [focusstudent.stud_fname, focusstudent.stud_mname, focusstudent.stud_lname, focusstudent.stud_suffix].filter(Boolean).join(' ') }}</p>
+                            <p class="text-green text-base">LRN: {{ focusstudent.stud_lrn }}</p>
+                            <p class="text-green text-base">Date of Birth: {{ focusstudent.stud_dob }}</p>
+                            <p class="text-green text-base">Email Address: {{ focusstudent.stud_email }}</p>
+                            <p class="text-green text-base">Home Address: {{ focusstudent.stud_add }}</p>
+                            <p class="text-green text-base">Date Added: {{ focusstudent.stud_created }}</p>
+
+                            <a v-else class="w-full text-center block bg-ivory mt-9 px-6 py-3 text-base font-bold text-green hover:bg-[#F1D580]/50"
+                               href="#" @click="ShowStudentPopup = false">
+                                Go back
+                            </a>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -1543,7 +1574,7 @@
                             <td class="px-3 py-2 ">{{ [aud.stud_fname, aud.stud_mname, aud.stud_lname, aud.stud_suffix].filter(Boolean).join(' ') }}</td>
                             <td class="px-3 py-2 ">{{ aud.req_date ?? aud.adms_date }}</td>
                             <td class="px-3 py-2 ">{{ aud.chg_old_val }} >> {{ aud.chg_new_val }}</td>
-                            <td class="px-3 py-2 ">{{ aud.chg_datetime }}</td>
+                            <td class="px-3 py-2 ">{{ formatDateTime(aud.chg_datetime) }}</td>
                             <td class="px-3 py-2 ">{{ aud.admin_username }}</td>
                         </tr>
                         </tbody>
@@ -1568,7 +1599,7 @@
                             <td class="px-3 py-2 ">{{ [aud.stud_fname, aud.stud_mname, aud.stud_lname, aud.stud_suffix].filter(Boolean).join(' ') }}</td>
                             <td class="px-3 py-2 ">{{ aud.req_date ?? aud.adms_date }}</td>
                             <td class="px-3 py-2 ">{{ aud.chg_old_val }} >> {{ aud.chg_new_val }}</td>
-                            <td class="px-3 py-2 ">{{ aud.chg_datetime }}</td>
+                            <td class="px-3 py-2 ">{{ formatDateTime(aud.chg_datetime) }}</td>
                             <td class="px-3 py-2 ">{{ aud.admin_username }}</td>
                         </tr>
                         </tbody>
