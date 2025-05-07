@@ -1,0 +1,1875 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test</title>
+    <script src="js/tailwind-3.4.16.js"></script>
+    <script src="js/vue.global.js"></script>
+    <link rel="stylesheet" href="css/colors.css">
+    <link rel="stylesheet" href="css/style.css">
+    <script type="module" src="js/App.js" async></script>
+</head>
+
+<body class="w-screen h-[100svh] bg-warm-white text-green overflow-x-hidden">
+
+<!-- TEMPORARY DIV -->
+<div id="app" class="w-full flex flex-col gap-64 justify-center items-center">
+
+
+
+    <!-- ADMIN Login Screen -->
+    <section v-if="ShowAdminLogin" class="w-screen h-screen flex justify-center items-center bg-ivory">
+        <div class="bg-warm-white p-9 shadow-md w-[540px] border-2 border-green ">
+
+            <a class="inline-block text-green hover:bg-[#325930] hover:text-[#F8EED1] focus:ring-3 focus:outline-none"
+               href="#" @click="goToMenu">
+                <svg class="size-5 rotate-180" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                     stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                </svg>
+            </a>
+
+            <h2 class="text-xl font-bold text-green-900 mt-9 mb-4">Administrator Login</h2>
+
+            <div>
+                <span class="text-base font-medium text-green">Username</span>
+
+                <input type="text" v-model="username" :class="[
+                        'mt-0.5 w-full h-12 px-3 outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none',
+                        submitted && !login && !verified ? 'transition-colors duration-500 border-[3px] border-red-500' : 'border-2 border-green'
+                      ]" />
+            </div>
+
+            <div class="mt-4">
+                <span class="text-base font-medium text-green">Password</span>
+
+                <input type="password" v-model="password" :class="[
+                        'mt-0.5 w-full h-12 mb-2 px-3 outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none',
+                        submitted && !login && !verified ? 'transition-colors duration-500 border-[3px] border-red-500' : 'border-2 border-green'
+                      ]" />
+            </div>
+
+            <!-- Show this only when login fails -->
+            <p v-if="!verified" class="text-sm" :class="(submitted && !login && !verified) ? 'text-error' : 'text-green'">{{ loginMessage }}</p>
+
+            <div class="flex justify-center">
+                <a class="w-full text-center inline-block mt-9 bg-green px-6 py-3 text-base font-bold text-warm-white hover-bg-mid-green"
+                   href="#" @click="checkLogin()">
+                    {{ loginButtonText }}
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ADMIN BOOT SCREEN  -->
+    <section v-if="ShowAdminBoot" class="w-screen h-screen">
+        <div class="w-full h-full flex justify-center items-center">
+            <p class="text-green text-xl font-bold">Welcome, Administrator!</p>
+        </div>
+    </section>
+
+    <!-- USER BOOT SCREEN  -->
+    <section v-if="ShowUserBoot" class="w-screen h-screen">
+        <div class="w-full h-full flex justify-center items-center">
+            <p class="text-green text-xl font-bold">Welcome, Scihiyista!</p>
+        </div>
+    </section>
+
+    <!-- USER MENU SCREEN -->
+    <section v-if="ShowUserMenu" class="w-screen h-screen flex justify-center items-center bg-warm-white">
+        <div class="text-center">
+            <a @click="goToAdminLogin"><img src="assets/logo.svg" alt="Logo" class="mx-auto mb-4 w-12"></a>
+            <h1 class="text-xl font-bold text-green-900">Mandaue City Science National<br>High School Student Services System</h1>
+            <p class="mt-9 text-base text-green">Please select a service:</p>
+
+            <div class="mt-6 flex flex-col sm:flex-row justify-center gap-6">
+
+                <a v-if="controls.find(control => control.ctrl_key === 'toggle_admissions').ctrl_value === 'Open'"
+                   href="#" @click.prevent="goToAdmissionForm" class="group block w-[360px]">
+                    <div
+                        class="flex flex-col px-12 py-12 justify-center items-center border-2 border-green bg-ivory group-hover:bg-[#F1D580]/50">
+                        <img src="assets/school-admissions.svg" class="size-16">
+                        <h2 class="mt-9 text-xl text-green font-bold">School Admission</h2>
+                        <p class="mt-2 text-base text-green">
+                            Submit an application form to complete your admission
+                        </p>
+                    </div>
+                </a>
+
+                <a href="#" @click.prevent="goToRequestForm" class="group block w-[360px]">
+                    <div
+                            class="flex flex-col px-12 py-12 justify-center items-center border-2 border-green bg-ivory group-hover:bg-[#F1D580]/50">
+                        <img src="assets/document-requests.svg" class="size-16">
+                        <h2 class="mt-9 text-xl text-green font-bold">Document Requests</h2>
+                        <p class="mt-2 text-base text-green">
+                            Request student documents from the school registrar
+                        </p>
+                    </div>
+                </a>
+
+                <a href="#" @click.prevent="trackRequest" class="group block w-[360px]">
+                    <div
+                            class="flex flex-col px-12 py-12 justify-center items-center border-2 border-green bg-ivory group-hover:bg-[#F1D580]/50">
+                        <img src="assets/request-tracking.svg" class="size-16">
+                        <h2 class="mt-9 text-xl text-green font-bold">Request Tracking</h2>
+                        <p class="mt-2 text-base text-green">
+                            View details of your document request with a tracking code
+                        </p>
+                    </div>
+                </a>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ADMISSION FORM  -->
+    <section v-if="ShowAdmissionForm" class="w-screen flex justify-center items-center p-9 bg-ivory">
+        <div class="bg-warm-white border-2 border-green p-9 w-[720px] shadow-lg text-green">
+            <img src="assets/school-admissions.svg" alt="Logo" class="w-12 mb-9">
+            <div class="flex items-center mb-3">
+                <h1 class="text-green-900 font-bold text-3xl">School Admission Form</h1>
+            </div>
+            <p class="text-base text-green mb-9">
+                Fill out all fields marked with an asterisk (*).<br>
+                Email address will only be used to notify you of regarding your admission.
+            </p>
+
+            <!-- Personal Information -->
+            <div class="mb-9">
+
+                <div>
+                    <span class="text-base font-medium text-green">First name*</span>
+
+                    <input type="text"  v-model="firstName" :class="[
+                        'mt-0.5 w-full h-12 mb-2 px-3 outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none',
+                        submitted && !firstNameField ? 'transition-colors duration-500 border-[3px] border-red-500' : 'border-2 border-green'
+                      ]" />
+                </div>
+                <p v-if="submitted && !firstNameField" class="text-sm text-error">{{ firstNameMessage }}</p>
+
+                <div class="mt-4">
+                    <span class="text-base font-medium text-green">Middle name</span>
+
+                    <input type="text" v-model="middleName"
+                           class="mt-0.5 mb-2 w-full h-12 px-3 border-2 border-green outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none" />
+                </div>
+
+                <div class="flex gap-4 mt-4">
+                    <div class="flex-1">
+                        <div>
+                            <span class="text-base font-medium text-green">Last name*</span>
+
+                            <input type="text" v-model="lastName" :class="[
+                    'mt-0.5 w-full h-12 mb-2 px-3 outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none',
+                    submitted && !lastNameField ? 'transition-colors duration-500 border-[3px] border-red-500 font-bold' : 'border-2 border-green'
+                  ]" />
+                        </div>
+                        <p v-if="submitted && !lastNameField" class="text-sm text-error">This field is required.</p>
+                    </div>
+                    <div class="w-36">
+                        <div>
+                            <span class="text-base font-medium text-green">Extension</span>
+                            <div class="mt-0.5 w-full h-12 px-2 border-2 border-green outline-green bg-warm-white shadow-sm text-base focus:outline-none focus:ring-0 focus:rounded-none" >
+                                <select
+                                        v-model="extension"
+                                        name="Headline"
+                                        class="w-full h-full p-0 bg-transparent focus:outline-none focus:ring-0 focus:rounded-none" >
+                                    <option value="">N/A</option>
+                                    <option value="Jr.">Jr.</option>
+                                    <option value="Sr.">Sr.</option>
+                                    <option value="I">I</option>
+                                    <option value="II">II</option>
+                                    <option value="III">III</option>
+                                    <option value="IV">IV</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-4">
+                    <span class="text-base font-medium text-green">Date of birth*</span>
+
+                    <input type="date"  :max="today" v-model="dateOfBirth" :class="[
+                        'mt-0.5 w-full h-12 mb-2 px-3 outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none',
+                        submitted && !dateOfBirthField ? 'transition-colors duration-500 border-[3px] border-red-500 ' : 'border-2 border-green'
+                      ]" />
+                </div>
+                <p v-if="submitted && !dateOfBirthField" class="text-sm text-error">Please enter a valid date of birth.
+                </p>
+
+                <div class="mt-4">
+                    <span class="text-base font-medium text-green">Learner reference number*</span>
+
+                    <input type="text"  @input="isNumeric" v-model="lrn" :class="[
+                        'mt-0.5 w-full h-12 mb-2 px-3 outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none',
+                        submitted && !lrnField ? 'transition-colors duration-500 border-[3px] border-red-500 ' : 'border-2 border-green'
+                      ]" />
+                </div>
+                <p v-if="submitted && !lrnField" class="text-sm text-error">{{lrnMessage}}</p>
+
+                <div class="mt-4">
+                    <span class="text-base font-medium text-green">Home address*</span>
+
+                    <input type="text"  v-model="homeAddress" :class="[
+                        'mt-0.5 w-full h-12 mb-2 px-3 outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none',
+                        submitted && !homeAddressField ? 'transition-colors duration-500 border-[3px] border-red-500 ' : 'border-2 border-green'
+                      ]" />
+                </div>
+                <p v-if="submitted && !homeAddressField" class="text-sm text-error">This field is required.</p>
+
+                <div class="mt-4">
+                    <span class="text-base font-medium text-green">Email address</span>
+
+                    <input type="text"  v-model="email" :class="[
+                        'mt-0.5 w-full h-12 mb-2 px-3 outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none',
+                        submitted && !emailField && !isEmailValid() ? 'transition-colors duration-500 border-[3px] border-red-500 ' : 'border-2 border-green'
+                      ]" />
+                </div>
+                <p v-if="submitted && !emailField && !isEmailValid()" class="text-sm text-error">{{emailMessage}}</p>
+                <div class="mt-4">
+                    <span class="text-base font-medium text-green">Grade level*</span>
+
+                    <div class="inline-block mt-0.5 mb-2 w-full h-12 px-2 border-2 border-green outline-green bg-warm-white shadow-sm text-base focus:outline-none focus:ring-0 focus:rounded-none"
+                         :class="submitted && !admissionLevel ? 'transition-colors duration-500 border-[3px] border-red-500 ' : 'border-2 border-green'">
+                        <select
+                                v-model="admissionLevel"
+                                name="Headline"
+                               
+                                class="w-full h-full p-0 bg-transparent focus:outline-none focus:ring-0 focus:rounded-none" >
+                            <option value="" selected disabled hidden>Please select</option>
+                            <option value="7">Grade 7</option>
+                            <option value="11">Grade 11</option>
+                        </select>
+                    </div>
+                    <p v-if="submitted && !admissionLevel" class="text-sm text-error">This field is required.</p>
+                </div>
+            </div>
+
+            <!-- Buttons -->
+            <div class="flex justify-between">
+                <a class="text-center inline-block border-2 border-warm-white bg-ivory px-6 py-3 text-base font-bold text-green hover:bg-[#F1D580]/50"
+                   href="#" @click.prevent="goToMenu">
+                    Cancel
+                </a>
+
+                <a class="text-center inline-block bg-green px-6 py-3 text-base font-bold text-warm-white hover-bg-mid-green"
+                   href="#" @click.prevent="validateAdmissionForm($event)">
+                    Submit form
+                </a>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- DOCUMENT REQUEST -->
+    <section v-if="ShowUserRequest" class="w-screen flex justify-center items-center p-9 bg-ivory">
+        <div class="bg-warm-white border-2 border-green p-9 w-[720px] shadow-lg text-green">
+            <img src="assets/document-requests.svg" alt="Logo" class="w-12 mb-9">
+            <div class="flex items-center mb-3">
+                <h1 class="text-green-900 font-bold text-3xl">Document Request Form</h1>
+            </div>
+            <p class="text-base text-green mb-9">
+                Fill out all fields marked with an asterisk (*).<br>
+                Email address will only be used to notify you of the status of your request.
+            </p>
+
+            <!-- Personal Information -->
+            <div class="mb-9">
+                <h2 class="text-green text-xl font-bold mb-4">Personal Information</h2>
+
+                <div>
+                    <span class="text-base font-medium text-green">First name*</span>
+
+                    <input type="text"  v-model="firstNameReq" :class="[
+                        'mt-0.5 w-full h-12 mb-2 px-3 outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none',
+                        submitted && !firstNameReqField ? 'transition-colors duration-500 border-[3px] border-red-500' : 'border-2 border-green']" />
+                </div>
+                <p v-if="submitted && !firstNameReqField" class="text-sm text-error">This field is required.</p>
+
+
+                <div class="mt-4">
+                    <span class="text-base font-medium text-green">Middle name</span>
+
+                    <input type="text" 
+                           class="mt-0.5 mb-2 w-full h-12 px-3 border-2 border-green outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none" />
+                </div>
+
+                <div class="flex gap-4 mt-4">
+                    <div class="flex-1">
+                        <div>
+                            <span class="text-base font-medium text-green">Last name*</span>
+
+                            <input type="text"  v-model="lastNameReq" :class="[
+                                'mt-0.5 w-full h-12 mb-2 px-3 outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none',
+                                submitted && !lastNameReqField ? 'transition-colors duration-500 border-[3px] border-red-500 ' : 'border-2 border-green'
+                              ]" />
+                        </div>
+                        <p v-if="submitted && !lastNameReqField" class="text-sm text-error">This field is required.</p>
+
+                    </div>
+
+                    <div class="w-36 flex flex-col">
+
+                        <div class="w-36">
+                            <label>
+                                <span class="text-base font-medium text-green">Extension</span>
+
+                                <div class="mt-0.5 w-full h-12 px-2 border-2 border-green outline-green bg-warm-white shadow-sm text-base focus:outline-none focus:ring-0 focus:rounded-none" >
+                                    <select
+                                            v-model="extension"
+                                            name="Headline"
+                                            class="w-full h-full p-0 bg-transparent focus:outline-none focus:ring-0 focus:rounded-none" >
+                                        <option value="">N/A</option>
+                                        <option value="Jr.">Jr.</option>
+                                        <option value="Sr.">Sr.</option>
+                                        <option value="I">I</option>
+                                        <option value="II">II</option>
+                                        <option value="III">III</option>
+                                        <option value="IV">IV</option>
+                                    </select>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <span class="text-base font-medium text-green">Learner reference number*</span>
+
+                    <input type="text"  @input="isNumeric" v-model="lrnReq" :class="[
+                        'mt-0.5 w-full h-12 mb-2 px-3 outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none',
+                        submitted && !lrnReqField ? 'transition-colors duration-500 border-[3px] border-red-500 ' : 'border-2 border-green'
+                    ]" />
+                </div>
+                <p v-if="submitted && !lrnReqField " class="text-sm text-error">{{ lrnReqMessage }}</p>
+
+                <div class="mt-4">
+                    <span class="text-base font-medium text-green">Email address</span>
+
+                    <input type="text"  v-model="emailReq" :class="[
+                        'mt-0.5 w-full h-12 mb-2 px-3 outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none',
+                        submitted && !emailReqField && !isEmailValid() ? 'transition-colors duration-500 border-[3px] border-red-500 ' : 'border-2 border-green'
+                      ]" />
+                </div>
+                <p v-if="submitted && !emailReqField && !isEmailValid()" class="text-sm text-error">{{emailReqMessage}}</p>
+            </div>
+
+            <!-- Request Details -->
+            <div class="mb-9">
+                <h2 class="text-green text-xl font-bold mb-4">Request Details</h2>
+
+                <span class="text-base font-medium text-green">Document type*</span>
+
+                <div class="inline-block mt-0.5 mb-2 w-full h-12 px-2 border-2 border-green outline-green bg-warm-white shadow-sm text-base focus:outline-none focus:ring-0 focus:rounded-none"
+                     :class="submitted && !documentType ? 'transition-colors duration-500 border-[3px] border-red-500 ' : 'border-2 border-green'">
+                    <select
+                            v-model="documentType"
+                            name="Headline"
+                           
+                            class="w-full h-full p-0 bg-transparent focus:outline-none focus:ring-0 focus:rounded-none" >
+                        <option value="" selected disabled hidden>Please select</option>
+                        <option v-for="docu in docType" :value="docu.docu_id">{{docu.docu_type}}</option>
+                    </select>
+                </div>
+                <p v-if="submitted && !documentType" class="text-sm text-error">This field is required.</p>
+
+                <div class="mt-4">
+                    <span class="text-base font-medium text-green">Purpose of request*</span>
+
+                    <input type="text" v-model="purpose" :class="[
+                        'mt-0.5 w-full h-12 mb-2 px-3 outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none',
+                        submitted && !purposeReqField ? 'transition-colors duration-500 border-[3px] border-red-500 ' : 'border-2 border-green'
+                      ]" />
+                </div>
+                <p v-if="submitted && !purposeReqField" class="text-sm text-error">This field is required.</p>
+
+            </div>
+
+            <!-- Buttons -->
+            <div class="flex justify-between">
+                <a class="text-center inline-block border-2 border-warm-white bg-ivory px-6 py-3 text-base font-bold text-green hover:bg-[#F1D580]/50"
+                   href="#" @click.prevent="goToMenu">
+                    Cancel
+                </a>
+
+                <a class="text-center inline-block bg-green px-6 py-3 text-base font-bold text-warm-white hover-bg-mid-green"
+                   href="#" @click.prevent="submitRequest($event)">
+                    Submit request
+                </a>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- SERVICE SUCCESS  REQUEST SCREEN-->
+    <section v-if="ShowServiceRequestSuccess" class="w-screen h-screen flex justify-center items-center bg-ivory">
+        <div
+                class="w-[30rem] min-h-[320px] p-9 bg-warm-white border-2 border-green flex justify-center items-center shadow-md">
+            <div class="text-center">
+                <p class="text-green text-base">We have sent your document request!</p>
+                <p class="text-green text-base">Your tracking code is: <span class="font-bold">{{ requestDetail.req_track_id }}</span></p>
+
+                <div class="flex justify-center mt-9">
+                    <a class="text-center inline-block bg-green px-6 py-3 text-base font-bold text-warm-white hover-bg-mid-green"
+                       href="#" @click.prevent="goToMenu">
+                        Back to menu
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SERVICE SUCCESS  ADMISSION SCREEN-->
+    <section v-if="ShowServiceAdmissionSuccess" class="w-screen h-screen flex justify-center items-center bg-ivory">
+        <div
+                class="w-[30rem] min-h-[320px] p-9 bg-warm-white border-2 border-green flex justify-center items-center shadow-md">
+            <div class="text-center">
+                <p class="text-green text-base">Successfully submitted your Admission application!</p>
+                <p class="text-green text-base">Your Admission id is: <span class="font-bold">{{admissionResponse.adms_id}}</span></p>
+
+                <div class="flex justify-center mt-9">
+                    <a class="text-center inline-block bg-green px-6 py-3 text-base font-bold text-warm-white hover-bg-mid-green"
+                       href="#" @click.prevent="goToMenu">
+                        Back to menu
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- REQUEST TRACKING SCREEN-->
+    <section v-if="ShowTrackRequest" class="w-screen h-screen flex justify-center items-center bg-ivory">
+        <div class="bg-warm-white p-9 shadow-md w-[540px] border-2 border-green ">
+
+            <a class="inline-block text-green hover:bg-[#325930] hover:text-[#F8EED1] focus:ring-3 focus:outline-none"
+               href="#" @click.prevent="goToMenu">
+                <svg class="size-5 rotate-180" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                     stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                </svg>
+            </a>
+
+
+            <h2 class="text-xl font-bold text-green-900 mt-9 mb-3">Request Tracking</h2>
+            <p class="text-green text-base mb-4">Enter request ID to see details and status.</p>
+
+            <label>
+                <input type="text" v-model="trackID" @input="isNumeric" :class="[
+                    'mt-0.5 w-full h-12 mb-2 px-3 outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none',
+                    submitted && !trackID ? 'transition-colors duration-500 border-[3px] border-red-500 font-bold' : 'border-2 border-green'
+                  ]" />
+            </label>
+            <p v-if="submitted && !trackID" class="text-sm text-error mb-4">This field is required.</p>
+
+            <div class="flex justify-center mt-9">
+                <a class="w-full text-center inline-block bg-green px-6 py-3 text-base font-bold text-warm-white hover-bg-mid-green"
+                   href="#" @click.prevent="submitTrackID($event)">
+                    Track request
+                </a>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- REQUEST DETAILS -->
+    <section v-if="ShowRequestDetails" class="w-screen h-screen flex justify-center items-center bg-ivory">
+        <div
+                class="w-[30rem] min-h-[320px] p-9 bg-warm-white border-2 border-green flex justify-center items-center shadow-md">
+                <div class="text-center">
+                <p class="text-base" v-if="requestTrack == null && !errorStatus">Fetching data ....</p>
+                <p v-if="errorStatus >=400 " class="text-center">{{requestTrackMessage}}</p>
+                <div v-if="requestTrack != null">
+                <h2 class="text-xl font-bold text-green-900 mb-9">Request Tracking</h2>
+                <p class="mb-4 font-bold text-green text-base">Tracking Code: {{requestTrack.req_track_id}}</p>
+
+                <p class="text-green text-base">Document: {{requestTrack.docu_type}}</p>
+                <p class="text-green text-base">Requested by: {{requestTrack.stud_fname + " " +requestTrack.stud_mname+" "+ requestTrack.stud_lname}}</p>
+                <p class="text-green text-base">Email Address: {{requestTrack.stud_email}}</p>
+                <p class="text-green text-base">Purpose: {{requestTrack.req_purpose}}</p>
+                <p class="font-bold text-green text-base">Status: {{requestTrack.req_status}}</p>
+                </div>
+                <div v-if="errorStatus"><p class="text-green">No result found.<br>Try a different tracking code.</p></div>
+                <div v-if="requestTrack != null || errorStatus" class="flex justify-center mt-9">
+                    <a class="text-center inline-block bg-green px-6 py-3 text-base font-bold text-warm-white hover-bg-mid-green"
+                       href="#" @click.prevent="goToMenu">
+                        Back to menu
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Admin Splash Screen -->
+    <div v-if="ShowAdminSplash" class="w-screen h-screen transition-colors flex justify-center items-center fixed top-0 left-0 z-999" :class="login ? 'bg-warm-white' : 'bg-green'">
+        <p class="text-xl font-bold" :class="login ? 'text-green' : 'text-warm-white'">{{adminBootMessage}}</p>
+    </div>
+
+    <!-- ADMIN PANEL -->
+    <section v-if="ShowAdminPanel" class="w-screen h-screen flex">
+        <!-- Sidebar -->
+        <div class="w-1/4 flex h-screen flex-col justify-between border-e-2 border-green bg-ivory">
+            <div class="py-9">
+                <img src="assets/logo.svg" alt="Logo" class="mx-auto w-12">
+                <h1 class="mt-3 w-full text-center text-xl font-bold text-green-900 mb-9">ManSciHub<br>Admin Panel</h1>
+
+                <ul class="mt-6 space-y-1">
+                    <li>
+                        <a class="inline-block px-9 py-2 w-full text-base" :class="ShowDocumentRequests ? 'font-bold text-ivory bg-green' : 'text-green hover:bg-[#F1D580]/50'"
+                           href="#"
+                           @click="ShowDocumentRequests = true;
+                                    ShowSchoolAdmissions = ShowAdministrators = ShowStudents = ShowAdminControls = ShowAuditLogByAdmin = ShowAuditLogAll = ShowDocumentTypes = false;">
+                            Document Requests
+                        </a>
+                    </li>
+
+                    <li>
+                        <a class="inline-block px-9 py-2 w-full text-base" :class="ShowSchoolAdmissions ? 'font-bold text-ivory bg-green' : 'text-green hover:bg-[#F1D580]/50'"
+                           href="#"
+                           @click="ShowSchoolAdmissions = true;
+                                    ShowDocumentRequests = ShowAdministrators = ShowStudents = ShowAdminControls = ShowAuditLogByAdmin = ShowAuditLogAll = ShowDocumentTypes = false;">
+                            School Admissions
+                        </a>
+                    </li>
+
+                    <li>
+                        <a class="inline-block px-9 py-2 w-full text-base" :class="ShowStudents ? 'font-bold text-ivory bg-green' : 'text-green hover:bg-[#F1D580]/50'"
+                           href="#"
+                           @click="ShowStudents = true;
+                                    ShowDocumentRequests = ShowSchoolAdmissions = ShowAdministrators = ShowAdminControls = ShowAuditLogByAdmin = ShowAuditLogAll = ShowDocumentTypes = false;">
+                            Student Users
+                        </a>
+                    </li>
+
+                    <li>
+                        <a class="inline-block px-9 py-2 w-full text-base" :class="(ShowAdminControls || ShowAuditLogAll || ShowAuditLogByAdmin || ShowDocumentTypes || ShowAdministrators) ? 'font-bold text-ivory bg-green' : 'text-green hover:bg-[#F1D580]/50'"
+                           href="#"
+                           @click="ShowAdminControls = true;
+                                    ShowDocumentRequests = ShowSchoolAdmissions = ShowAdministrators = ShowStudents = ShowAuditLogByAdmin = ShowAuditLogAll = ShowDocumentTypes = false;">
+                            Admin Controls
+                        </a>
+                    </li>
+
+                    <li>
+                        <a class="inline-block px-9 py-2 w-full text-base text-green hover:bg-[#F1D580]/50"
+                        href="#" @click.prevent="ShowLogoutConfirm = true">
+                            Logout
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="sticky inset-x-0 bottom-0 border-t-2 border-green">
+                <div class="flex items-center gap-4 bg-ivory px-9 py-4">
+                    <img src="assets/admin.svg" alt="Logo" class="w-10">
+
+                    <div>
+                        <p class="text-sm">
+                            <strong class="block font-bold">{{adminDetails.admin_username}}</strong>
+
+                            <span> {{adminDetails.admin_fname+" "+adminDetails.admin_lname}} </span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Requests -->
+        <div v-if="ShowDocumentRequests" class="w-full h-full p-9">
+            <div class="flex gap-4 items-center mb-9">
+                <img src="assets/document-requests.svg" alt="Logo" class="w-12">
+                <h1 class="text-green-900 font-bold text-3xl mr-auto">Document Requests</h1>
+                <div class="flex gap-4">
+                    <details class="group relative">
+                        <summary
+                                class="flex items-center gap-2 border-green text-green [&::-webkit-details-marker]:hidden border-2 border-green px-3 h-12">
+                            <span class="text-base font-bold"> Sort By </span>
+                            <span class="transition-transform group-open:-rotate-180">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
+                                         stroke="currentColor" class="size-4">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                                    </svg>
+                                </span>
+                        </summary>
+                        <div
+                                class="z-auto divide-y border-2 border-green bg-ivory shadow-sm group-open:absolute group-open:start-0 group-open:top-14">
+                            <div class="flex items-center justify-between px-3 py-2">
+                                <button type="button" @click="requestsort = 'req_date'; requestorder = 'desc';" class="text-sm text-green underline ">
+                                    Reset
+                                </button>
+                            </div>
+                            <fieldset class="p-3 border-green">
+                                <legend class="sr-only">Sort</legend>
+                                <div class="flex flex-col items-start gap-3">
+                                    <label for="Option1" class="inline-flex items-center gap-3">
+                                        <input type="radio" v-model="requestsort" value="stud_lname" name="requests-sort" class="size-5 border-green shadow-sm bg-warm-white"  />
+                                        <span class="text-sm font-medium text-green"> Last Name </span>
+                                    </label>
+                                    <label for="Option2" class="inline-flex items-center gap-3">
+                                        <input type="radio" v-model="requestsort" value="req_date" name="requests-sort" class="size-5 border-green shadow-sm bg-warm-white"  />
+                                        <span class="text-sm font-medium text-green whitespace-nowrap"> Request Date </span>
+                                    </label>
+                                </div>
+                            </fieldset>
+                            <fieldset class="p-3 border-t-2 border-green">
+                                <legend class="sr-only">Order</legend>
+                                <div class="flex flex-col items-start gap-3">
+                                    <label for="Option1" class="inline-flex items-center gap-3">
+                                        <input type="radio" v-model="requestorder" value="asc" name="requests-sort-order" class="size-5 border-green shadow-sm bg-warm-white"  />
+                                        <span class="text-sm font-medium text-green"> Ascending </span>
+                                    </label>
+                                    <label for="Option2" class="inline-flex items-center gap-3">
+                                        <input type="radio" v-model="requestorder" value="desc" name="requests-sort-order" class="size-5 border-green shadow-sm bg-warm-white"  />
+                                        <span class="text-sm font-medium text-green"> Descending </span>
+                                    </label>
+                                </div>
+                            </fieldset>
+                        </div>
+                    </details>
+                </div>
+                <div class="flex gap-4">
+                    <details class="group relative">
+                        <summary
+                                class="flex items-center gap-2 border-green text-green [&::-webkit-details-marker]:hidden border-2 border-green px-3 h-12">
+                            <span class="text-base font-bold"> Filter By </span>
+                            <span class="transition-transform group-open:-rotate-180">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
+                                         stroke="currentColor" class="size-4">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                                    </svg>
+                                </span>
+                        </summary>
+                        <div
+                                class="z-auto divide-y border-2 border-green bg-ivory shadow-sm group-open:absolute group-open:start-0 group-open:top-14">
+                            <div class="flex items-center justify-between px-3 py-2">
+                                <button type="button" @click="requestview = 'active'; requestshowpending = requestshowready = true; requestshowrejected = requestshowretrieved = false;" class="text-sm text-green underline ">
+                                    Reset
+                                </button>
+                            </div>
+                            <fieldset class="p-3 border-t-2 border-green">
+                                <legend class="sr-only">Period</legend>
+                                <div class="flex flex-col items-start gap-3">
+                                    <div class="inline-flex items-center gap-3">
+                                        <input type="radio" v-model="requestview" value="active" name="requests-filter" class="size-5 border-green shadow-sm bg-warm-white" />
+                                        <span class="text-sm font-medium text-green"> Active </span>
+                                    </div>
+                                    <div class="inline-flex items-center gap-3">
+                                        <input type="radio" v-model="requestview" value="archived" name="requests-filter" class="size-5 border-green shadow-sm bg-warm-white" />
+                                        <span class="text-sm font-medium text-green"> Archived </span>
+                                    </div>
+
+                                </div>
+                            </fieldset>
+                            <fieldset class="p-3 border-t-2 border-green">
+                                <legend class="sr-only">Status</legend>
+                                <div v-show="showactiverequestfilters" class="flex flex-col items-start gap-3">
+                                    <label for="Option1" class="inline-flex items-center gap-3">
+                                        <input type="checkbox" v-model="requestshowpending" class="size-5 border-green shadow-sm bg-warm-white"  />
+                                        <span class="text-sm font-medium text-green"> Pending </span>
+                                    </label>
+                                    <label for="Option3" class="inline-flex items-center gap-3">
+                                        <input type="checkbox" v-model="requestshowready" class="size-5 border-green shadow-sm bg-warm-white"  />
+                                        <span class="text-sm font-medium text-green"> Ready </span>
+                                    </label>
+                                </div>
+                                <div v-show="!showactiverequestfilters" class="flex flex-col items-start gap-3">
+                                    <label for="Option2" class="inline-flex items-center gap-3">
+                                        <input type="checkbox" v-model="requestshowrejected" class="size-5 border-green shadow-sm bg-warm-white"  />
+                                        <span class="text-sm font-medium text-green"> Rejected </span>
+                                    </label>
+                                    <label for="Option3" class="inline-flex items-center gap-3">
+                                        <input type="checkbox" v-model="requestshowretrieved" class="size-5 border-green shadow-sm bg-warm-white"  />
+                                        <span class="text-sm font-medium text-green"> Retrieved </span>
+                                    </label>
+                                </div>
+                            </fieldset>
+                        </div>
+                    </details>
+                </div>
+                <div class="relative">
+                    <input type="text" v-model="requestsearchlive"  placeholder="Search"
+                           class="w-full h-12 pl-3 pr-11 border-2 border-green outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none" />
+                    <span class="absolute inset-y-0 right-2 grid w-8 place-content-center">
+                            <button type="button" @click="snapRequestSearch()" aria-label="Submit" class="rounded-full p-1.5 text-green ">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
+                                     stroke="currentColor" class="size-4">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                          d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                                </svg>
+                            </button>
+                        </span>
+                </div>
+            </div>
+            <!-- empty -->
+            <div v-if="requestslist.length === 0" class="w-full h-[calc(100vh-9.75rem)]">
+                <div class="w-full h-full flex justify-center items-center">
+                    <p class="text-green text-xl font-bold">No results found</p>
+                </div>
+            </div>
+            <div v-else>
+                <!-- thead -->
+                <div class="border-2 border-green shadow-sm mt-4 max-h-12 overflow-hidden bg-ivory">
+                    <table class="min-w-full">
+                        <thead class="text-left bg-ivory h-12">
+                        <tr class="font-bold">
+                            <th class="px-3 py-2 ">Tracking Code</th>
+                            <th class="px-3 py-2 ">Student Name</th>
+                            <th class="px-3 py-2 ">Document Type</th>
+                            <th class="px-3 py-2 ">Purpose</th>
+                            <th class="px-3 py-2 ">Request Date</th>
+                            <th class="px-3 py-2 ">Status</th>
+                        </tr>
+                        </thead>
+                        <tbody class="divide-y border-green w-full">
+                        <tr v-for="req in requestslist" class="border-green" @click="ShowRequestPopup = true; focusrequest = req; documentRequestStatus = focusrequest.req_status">
+                            <td class="px-3 py-2 ">{{req.req_track_id ?? req.reqhs_track_id}}</td>
+                            <td class="px-3 py-2 ">{{[req.stud_fname,req.stud_mname,req.stud_lname].filter(Boolean).join(' ')}}</td>
+                            <td class="px-3 py-2 ">{{req.docu_type}}</td>
+                            <td class="px-3 py-2 truncate">{{req.req_purpose ?? req.reqhs_purpose}}</td>
+                            <td class="px-3 py-2 ">{{req.req_date ?? req.reqhs_date}}</td>
+                            <td class="px-3 py-2 ">{{req.req_status ?? req.reqhs_status}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- tbody -->
+                <div class="border-2 border-t-0 border-green shadow-sm max-h-[calc(100vh-13.875rem)] overflow-auto">
+                    <table class="min-w-full -mt-12">
+                        <thead class="text-left bg-ivory h-12 invisible">
+                        <tr class="font-bold">
+                            <th class="px-3 py-2 ">Tracking Code</th>
+                            <th class="px-3 py-2 ">Student Name</th>
+                            <th class="px-3 py-2 ">Document Type</th>
+                            <th class="px-3 py-2 ">Purpose</th>
+                            <th class="px-3 py-2 ">Request Date</th>
+                            <th class="px-3 py-2 ">Status</th>
+                        </tr>
+                        </thead>
+                        <tbody class="divide-y border-green w-full">
+                        <tr v-for="req in requestslist" class="border-green" @click="ShowRequestPopup = true; focusrequest = req; documentRequestStatus = focusrequest.req_status">
+                            <td class="px-3 py-2 ">{{req.req_track_id ?? req.reqhs_track_id}}</td>
+                            <td class="px-3 py-2 ">{{[req.stud_fname,req.stud_mname,req.stud_lname].filter(Boolean).join(' ')}}</td>
+                            <td class="px-3 py-2 ">{{req.docu_type}}</td>
+                            <td class="px-3 py-2 truncate">{{req.req_purpose ?? req.reqhs_purpose}}</td>
+                            <td class="px-3 py-2 ">{{req.req_date ?? req.reqhs_date}}</td>
+                            <td class="px-3 py-2 ">{{req.req_status ?? req.reqhs_status}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p class="text-base font-bold text-green w-full text-right mt-3">{{requestslist.length}} records found</p>
+            </div>
+            <!-- popup -->
+            <div v-if="ShowRequestPopup" class="w-screen h-screen bg-[#325930]/20 flex justify-center items-center fixed top-0 left-0 z-999">
+
+                <div class="w-[30rem] min-h-[320px] p-9 bg-warm-white border-2 border-green flex justify-center items-center shadow-md">
+                    <div class="text-center w-full">
+                        <p class="font-bold text-green text-base">{{ [focusrequest.stud_fname, focusrequest.stud_mname, focusrequest.stud_lname, focusrequest.stud_suffix].filter(Boolean).join(' ') }}</p>
+                        <p class="font-bold text-green text-base mb-4">Document: {{ focusrequest.docu_type }}</p>
+                        <p class="text-green text-base">LRN: {{ focusrequest.stud_lrn }}</p>
+                        <p class="text-green text-base">Purpose: {{ focusrequest.req_purpose ?? focusrequest.reqhs_purpose }}</p>
+                        <p class="text-green text-base">Email Address: {{ focusrequest.stud_email }}</p>
+                        <p class="text-green text-base">Request Date: {{ focusrequest.req_date ?? focusrequest.reqhs_date }}</p>
+                        <p class="text-green text-base">Status: {{ focusrequest.req_status ?? focusrequest.reqhs_status }}</p>
+
+                        <div v-if="allowRequestChanges" class="flex flex-col justify-center items-center mt-9 gap-2">
+                            <label class="w-full">
+                                <div class="mt-0.5 w-full h-12 px-2 border-2 border-green outline-green bg-warm-white shadow-sm text-base focus:outline-none focus:ring-0 focus:rounded-none" >
+                                    <select
+                                            name="Headline"
+                                           
+                                            class="w-full h-full p-0 bg-transparent focus:outline-none focus:ring-0 focus:rounded-none" v-model="documentRequestStatus" >
+                                        <option value="Pending">Pending</option>
+                                        <option value="Rejected">Rejected</option>
+                                        <option value="Ready">Ready</option>
+                                        <option value="Retrieved">Retrieved</option>
+                                    </select>
+                                </div>
+                            </label>
+                            <a class="w-full text-center block bg-green px-6 py-3 text-base font-bold text-warm-white hover-bg-mid-green"
+                               href="#" @click="UpdateDocumentRequest($event)">
+                                Save changes
+                            </a>
+                        </div>
+                        <a v-else class="w-full text-center block bg-ivory mt-9 px-6 py-3 text-base font-bold text-green hover:bg-[#F1D580]/50"
+                           href="#" @click="ShowRequestPopup = false">
+                            Go back
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Admissions -->
+        <div v-if="ShowSchoolAdmissions" class="w-full h-full p-9">
+            <div v-if="controls.find(control => control.ctrl_key === 'toggle_admissions').ctrl_value === 'Closed'" class="w-full h-full">
+                <div class="w-full h-full flex justify-center items-center">
+                    <p class="text-green text-xl font-bold text-center">Admissions are closed.<br>Open admissions via admin controls.</p>
+                </div>
+            </div>
+
+            <div v-else>
+                <div class="flex gap-4 items-center mb-9">
+                    <img src="assets/school-admissions.svg" alt="Logo" class="w-12">
+                    <h1 class="text-green-900 font-bold text-3xl mr-auto">School Admissions</h1>
+                    <div class="flex gap-4">
+                        <details class="group relative">
+                            <summary
+                                    class="flex items-center gap-2 border-green text-green [&::-webkit-details-marker]:hidden border-2 border-green px-3 h-12">
+                                <span class="text-base font-bold"> Sort By </span>
+                                <span class="transition-transform group-open:-rotate-180">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
+                                         stroke="currentColor" class="size-4">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                                    </svg>
+                                </span>
+                            </summary>
+                            <div
+                                    class="z-auto divide-y border-2 border-green bg-ivory shadow-sm group-open:absolute group-open:start-0 group-open:top-14">
+                                <div class="flex items-center justify-between px-3 py-2">
+                                    <button type="button" @click="admissionsort = 'adms_date'; admissionorder = 'desc';" class="text-sm text-green underline ">
+                                        Reset
+                                    </button>
+                                </div>
+                                <fieldset class="p-3 border-green">
+                                    <legend class="sr-only">Sort</legend>
+                                    <div class="flex flex-col items-start gap-3">
+                                        <label for="Option1" class="inline-flex items-center gap-3">
+                                            <input type="radio" v-model="admissionsort" value="stud_lname" name="admissions-sort" class="size-5 border-green shadow-sm bg-warm-white"  />
+                                            <span class="text-sm font-medium text-green"> Last Name </span>
+                                        </label>
+                                        <label for="Option2" class="inline-flex items-center gap-3">
+                                            <input type="radio" v-model="admissionsort" value="adms_date" name="admissions-sort" class="size-5 border-green shadow-sm bg-warm-white"  />
+                                            <span class="text-sm font-medium text-green whitespace-nowrap"> Admission Date </span>
+                                        </label>
+                                    </div>
+                                </fieldset>
+                                <fieldset class="p-3 border-t-2 border-green">
+                                    <legend class="sr-only">Order</legend>
+                                    <div class="flex flex-col items-start gap-3">
+                                        <label for="Option1" class="inline-flex items-center gap-3">
+                                            <input type="radio" v-model="admissionorder" value="asc" name="admissions-sort-order" class="size-5 border-green shadow-sm bg-warm-white"  />
+                                            <span class="text-sm font-medium text-green"> Ascending </span>
+                                        </label>
+                                        <label for="Option2" class="inline-flex items-center gap-3">
+                                            <input type="radio" v-model="admissionorder" value="desc" name="admissions-sort-order" class="size-5 border-green shadow-sm bg-warm-white"  />
+                                            <span class="text-sm font-medium text-green"> Descending </span>
+                                        </label>
+                                    </div>
+                                </fieldset>
+                            </div>
+                        </details>
+                    </div>
+                    <div class="flex gap-4">
+                        <details class="group relative">
+                            <summary
+                                    class="flex items-center gap-2 border-green text-green [&::-webkit-details-marker]:hidden border-2 border-green px-3 h-12">
+                                <span class="text-base font-bold"> Filter By </span>
+                                <span class="transition-transform group-open:-rotate-180">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
+                                         stroke="currentColor" class="size-4">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                                    </svg>
+                                </span>
+                            </summary>
+                            <div
+                                    class="z-auto divide-y border-2 border-green bg-ivory shadow-sm group-open:absolute group-open:start-0 group-open:top-14">
+                                <div class="flex items-center justify-between px-3 py-2">
+                                    <button type="button" @click="admissionview = 'current'; admissionshowpending = admissionshowrejected = admissionshowwaitlisted = admissionshowaccepted = admissionshowgr7 = admissionshowgr11 = true;" class="text-sm text-green underline ">
+                                        Reset
+                                    </button>
+                                </div>
+                                <fieldset class="p-3 border-t-2 border-green">
+                                    <legend class="sr-only">Status</legend>
+                                    <div class="flex flex-col items-start gap-3">
+                                        <label for="Option1" class="inline-flex items-center gap-3">
+                                            <input type="checkbox" v-model="admissionshowpending" class="size-5 border-green shadow-sm bg-warm-white"  />
+                                            <span class="text-sm font-medium text-green"> Pending </span>
+                                        </label>
+                                        <label for="Option2" class="inline-flex items-center gap-3">
+                                            <input type="checkbox" v-model="admissionshowrejected" class="size-5 border-green shadow-sm bg-warm-white"  />
+                                            <span class="text-sm font-medium text-green"> Rejected </span>
+                                        </label>
+                                        <label for="Option3" class="inline-flex items-center gap-3">
+                                            <input type="checkbox" v-model="admissionshowwaitlisted" class="size-5 border-green shadow-sm bg-warm-white"  />
+                                            <span class="text-sm font-medium text-green"> Waitlisted </span>
+                                        </label>
+                                        <label for="Option3" class="inline-flex items-center gap-3">
+                                            <input type="checkbox" v-model="admissionshowaccepted" class="size-5 border-green shadow-sm bg-warm-white"  />
+                                            <span class="text-sm font-medium text-green"> Accepted </span>
+                                        </label>
+                                    </div>
+                                </fieldset>
+                                <fieldset class="p-3 border-t-2 border-green">
+                                    <legend class="sr-only">Level</legend>
+                                    <div class="flex flex-col items-start gap-3">
+                                        <label for="Option1" class="inline-flex items-center gap-3">
+                                            <input type="checkbox" v-model="admissionshowgr7" class="size-5 border-green shadow-sm bg-warm-white"  />
+                                            <span class="text-sm font-medium text-green"> Grade 7 </span>
+                                        </label>
+                                        <label for="Option2" class="inline-flex items-center gap-3">
+                                            <input type="checkbox" v-model="admissionshowgr11" class="size-5 border-green shadow-sm bg-warm-white"  />
+                                            <span class="text-sm font-medium text-green"> Grade 11 </span>
+                                        </label>
+                                    </div>
+                                </fieldset>
+                                <fieldset class="p-3 border-t-2 border-green">
+                                    <legend class="sr-only">Period</legend>
+                                    <div class="flex flex-col items-start gap-3">
+                                        <div class="inline-flex items-center gap-3">
+                                            <input type="radio" v-model="admissionview" value="current" name="admissions-filter" class="size-5 border-green shadow-sm bg-warm-white"  />
+                                            <span class="text-sm font-medium text-green"> Current </span>
+                                        </div>
+                                        <div v-for="yr in Object.keys(archivedadmissionslist).sort((a, b) => b.localeCompare(a))" class="inline-flex items-center gap-3">
+                                            <input type="radio" v-model="admissionview" :value="yr" name="admissions-filter" class="size-5 border-green shadow-sm bg-warm-white"  />
+                                            <span class="text-sm font-medium text-green whitespace-nowrap"> SY {{ yr }}-{{ parseInt(yr) + 1 }} </span>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            </div>
+                        </details>
+                    </div>
+                    <div class="relative">
+                        <input type="text" v-model="admissionsearchlive"  placeholder="Search"
+                               class="w-full h-12 pl-3 pr-11 border-2 border-green outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none" />
+                        <span class="absolute inset-y-0 right-2 grid w-8 place-content-center">
+                            <button type="button" @click="snapAdmissionSearch()" aria-label="Submit" class="rounded-full p-1.5 text-green ">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
+                                     stroke="currentColor" class="size-4">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                          d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                                </svg>
+                            </button>
+                        </span>
+                    </div>
+                </div>
+                <!-- empty -->
+                <div v-if="admissionslist.length === 0" class="w-full h-[calc(100vh-9.75rem)]">
+                    <div class="w-full h-full flex justify-center items-center">
+                        <p class="text-green text-xl font-bold">No results found</p>
+                    </div>
+                </div>
+                <div v-else>
+                    <!-- thead -->
+                    <div class="border-2 border-green shadow-sm mt-4 max-h-12 overflow-hidden bg-ivory">
+                        <table class="min-w-full">
+                            <thead class="text-left bg-ivory h-12">
+                            <tr class="font-bold">
+                                <th class="px-3 py-2 ">Name</th>
+                                <th class="px-3 py-2 ">LRN</th>
+                                <th class="px-3 py-2 ">Email Address</th>
+                                <th class="px-3 py-2 ">Level</th>
+                                <th class="px-3 py-2 ">Application Date</th>
+                                <th class="px-3 py-2 ">Status</th>
+                            </tr>
+                            </thead>
+                            <tbody class="divide-y border-green w-full">
+                            <tr v-for="adm in admissionslist" class="border-green" @click="ShowAdmissionPopup = true; focusadmission = adm; admissionRequestStatus = focusadmission.adms_status">
+                                <td class="px-3 py-2 ">{{[adm.stud_fname,adm.stud_mname,adm.stud_lname].filter(Boolean).join(' ')}}</td>
+                                <td class="px-3 py-2 ">{{adm.stud_lrn}}</td>
+                                <td class="px-3 py-2 ">{{adm.stud_email}}</td>
+                                <td class="px-3 py-2 ">Grade {{adm.adms_lvl ?? adm.admhs_lvl}}</td>
+                                <td class="px-3 py-2 ">{{adm.adms_date ?? adm.admhs_date}}</td>
+                                <td class="px-3 py-2 ">{{adm.adms_status ?? adm.admhs_status}}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- tbody -->
+                    <div class="border-2 border-t-0 border-green shadow-sm max-h-[calc(100vh-13.875rem)] overflow-auto">
+                        <table class="min-w-full -mt-12">
+                            <thead class="text-left bg-ivory h-12 invisible">
+                            <tr class="font-bold">
+                                <th class="px-3 py-2 ">Name</th>
+                                <th class="px-3 py-2 ">LRN</th>
+                                <th class="px-3 py-2 ">Email Address</th>
+                                <th class="px-3 py-2 ">Level</th>
+                                <th class="px-3 py-2 ">Application Date</th>
+                                <th class="px-3 py-2 ">Status</th>
+                            </tr>
+                            </thead>
+                            <tbody class="divide-y border-green w-full">
+                            <tr v-for="adm in admissionslist" class="border-green" @click="ShowAdmissionPopup = true; focusadmission = adm; admissionRequestStatus = focusadmission.adms_status">
+                                <td class="px-3 py-2 ">{{[adm.stud_fname,adm.stud_mname,adm.stud_lname].filter(Boolean).join(' ')}}</td>
+                                <td class="px-3 py-2 ">{{adm.stud_lrn}}</td>
+                                <td class="px-3 py-2 ">{{adm.stud_email}}</td>
+                                <td class="px-3 py-2 ">Grade {{adm.adms_lvl ?? adm.admhs_lvl}}</td>
+                                <td class="px-3 py-2 ">{{adm.adms_date ?? adm.admhs_date}}</td>
+                                <td class="px-3 py-2 ">{{adm.adms_status ?? adm.admhs_status}}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <p class="text-base font-bold text-green w-full text-right mt-3">{{admissionslist.length}} records found</p>
+                </div>
+                <!-- popup -->
+                <div v-if="ShowAdmissionPopup" class="w-screen h-screen bg-[#325930]/20 flex justify-center items-center fixed top-0 left-0 z-999">
+
+                    <div class="w-[30rem] min-h-[320px] p-9 bg-warm-white border-2 border-green flex justify-center items-center shadow-md">
+                        <div class="text-center w-full">
+                            <p class="font-bold text-green text-base">{{ [focusadmission.stud_fname, focusadmission.stud_mname, focusadmission.stud_lname, focusadmission.stud_suffix].filter(Boolean).join(' ') }}</p>
+                            <p class="font-bold text-green text-base mb-4">Level: Grade {{ focusadmission.adms_lvl ?? focusadmission.admhs_lvl }}</p>
+                            <p class="text-green text-base">LRN: {{ focusadmission.stud_lrn }}</p>
+                            <p class="text-green text-base">Date of Birth: {{ focusadmission.stud_dob }}</p>
+                            <p class="text-green text-base">Email Address: {{ focusadmission.stud_email }}</p>
+                            <p class="text-green text-base">Home Address: {{ focusadmission.stud_add }}</p>
+                            <p class="text-green text-base">Application Date: {{ focusadmission.adms_date ?? focusadmission.admhs_date }}</p>
+                            <p class="text-green text-base">Status: {{ focusadmission.adms_status ?? focusadmission.admhs_status }}</p>
+
+                            <div v-if="allowAdmissionChanges" class="flex flex-col justify-center items-center mt-9 gap-2">
+                                <label class="w-full">
+                                    <div class="mt-0.5 w-full h-12 px-2 border-2 border-green outline-green bg-warm-white shadow-sm text-base focus:outline-none focus:ring-0 focus:rounded-none" >
+                                        <select
+                                                name="Headline"
+                                                
+                                                class="w-full h-full p-0 bg-transparent focus:outline-none focus:ring-0 focus:rounded-none" v-model="admissionRequestStatus" >
+                                            <option value="Pending">Pending</option>
+                                            <option value="Rejected">Rejected</option>
+                                            <option value="Waitlisted">Waitlisted</option>
+                                            <option value="Accepted">Accepted</option>
+                                        </select>
+                                    </div>
+                                </label>
+                                <a class="w-full text-center block bg-green px-6 py-3 text-base font-bold text-warm-white hover-bg-mid-green"
+                                   href="#" @click="UpdateAdmissionRequest($event)">
+                                    Save changes
+                                </a>
+                            </div>
+                            <a v-else class="w-full text-center block bg-ivory mt-9 px-6 py-3 text-base font-bold text-green hover:bg-[#F1D580]/50"
+                               href="#" @click="ShowAdmissionPopup = false">
+                                Go back
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- Administrators -->
+        <div v-if="ShowAdministrators" class="w-full h-full p-9">
+            <div class="flex gap-4 items-center mb-9">
+                <img src="assets/admin.svg" alt="Logo" class="w-12">
+                <h1 class="text-green-900 font-bold text-3xl mr-auto">Administrators</h1>
+                <a class="text-center inline-flex border-2 border-warm-white bg-ivory px-6 h-12 items-center text-base font-bold text-green hover:bg-[#F1D580]/50"
+                   href="#" @click="ShowAdministrators = false; ShowAdminControls = true">
+                    Go back
+                </a>
+                <a class="text-center inline-block bg-green px-6 py-3 text-base font-bold text-warm-white hover-bg-mid-green"
+                   href="#" @click="ShowAdminCreatePopup = true">
+                    &plus; Add administrator
+                </a>
+            </div>
+            <!-- empty -->
+            <div v-if="adminslist.length === 0" class="w-full h-[calc(100vh-9.75rem)]">
+                <div class="w-full h-full flex justify-center items-center">
+                    <p class="text-green text-xl font-bold">No administrators found</p>
+                </div>
+            </div>
+            <!-- list -->
+            <div v-else class="w-full max-h-[calc(100vh-9.75rem)] overflow-auto grid grid-cols-4 gap-4 cardlist px-4">
+                <div v-for="admin in adminslist"
+                     class="h-48 border-2 border-green p-6 col-span-1 bg-ivory hover:bg-[#F1D580]/50"
+                     @click="ShowAdminPopup = true; focusadmin = admin; (AdminID === admin.admin_id) ? verified = true : verified = false;">
+                    <p class="mt-auto text-xl text-green font-bold">{{admin.admin_username}}</p>
+                    <p class="text-base text-green">{{[admin.admin_fname, admin.admin_lname].filter(Boolean).join(' ')}}</p>
+                </div>
+            </div>
+            <!-- popup -->
+            <div v-if="ShowAdminPopup" class="w-screen h-screen bg-[#325930]/20 flex justify-center items-center fixed top-0 left-0 z-999">
+
+                <div class="w-[30rem] min-h-[320px] p-9 bg-warm-white border-2 border-green flex justify-center items-center shadow-md">
+                    <div class="text-center w-full">
+                        <p class="font-bold text-green text-base">Username: {{ focusadmin.admin_username }}</p>
+                        <p class="text-green text-base">Name: {{ [focusadmin.admin_fname, focusadmin.admin_lname].filter(Boolean).join(' ') }}</p>
+
+                        <div class="flex flex-col justify-center items-center mt-9 gap-2">
+                            <a class="w-full text-center block bg-green px-6 py-3 text-base font-bold text-warm-white hover-bg-mid-green"
+                               href="#" @click="auditshowrequest = auditshowadmission = true; auditfilterdate = null; ShowAuditLogByAdmin = true; ShowAdministrators = ShowAdminPopup = false;">
+                                View audit log
+                            </a>
+                            <a class="w-full text-center block bg-green px-6 py-3 text-base font-bold text-warm-white hover-bg-mid-green"
+                               href="#" v-if="verified" @click="ShowUsernameChange = true; ShowAdminPopup = false; newAdminUsername = focusadmin.admin_username">
+                                Change username
+                            </a>
+                            <a class="w-full text-center block bg-green px-6 py-3 text-base font-bold text-warm-white hover-bg-mid-green"
+                               href="#" v-if="verified" @click="ShowPasswordChange = true; ShowAdminPopup = false">
+                                Change password
+                            </a>
+                            <a class="w-full text-center block bg-green px-6 py-3 text-base font-bold text-warm-white hover-bg-mid-green"
+                               href="#" @click="ShowAreYouSurePopup = true; ShowAdminPopup = false; Process = 'Remove'">
+                                Remove
+                            </a>
+                            <a class="w-full text-center block bg-ivory px-6 py-3 text-base font-bold text-green hover:bg-[#F1D580]/50"
+                               href="#" @click="ShowAdminPopup = false">
+                                Close
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <!-- change username -->
+            <div v-if="ShowUsernameChange" class="w-screen h-screen bg-[#325930]/20 flex justify-center items-center fixed top-0 left-0 z-999">
+
+                <div class="w-[30rem] p-9 bg-warm-white border-2 border-green flex justify-center items-center shadow-md">
+                    <div class="text-center w-full">
+                        <h2 class="text-xl font-bold text-green-900 mb-9">Change Username</h2>
+
+                        <div class="flex flex-col justify-center items-center mt-9 gap-2">
+                            <div class="flex flex-col w-full items-start">
+                                <span class="text-base font-medium text-green">Username</span>
+
+                                <input type="text"  v-model="newAdminUsername"
+                                    class="mt-0.5 mb-2 w-full h-12 px-3 border-2 border-green outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none" />
+
+                            </div>
+                            <p v-if="checkUsername" class="text-sm" :class="checkUsername ? 'text-error' : 'text-green'">An admin with the given username already exists.</p>
+                            <a class="w-full text-center block bg-green px-6 py-3 text-base font-bold text-warm-white hover-bg-mid-green"
+                                href="#" @click="() => {
+                                const isTaken = checkUsernameAvailability(); 
+
+                                if (newAdminUsername !== focusadmin.admin_username && !isTaken) {
+                                    ShowUsernameChange = false;
+                                    ShowPasswordConfirm = true;
+                                    checkUsername = false;
+                                    confirmPassword = '';
+                                } else if (newAdminUsername !== focusadmin.admin_username && isTaken) {
+                                    ShowUsernameChange = true;
+                                    checkUsername = true;
+                                } else {
+                                    showAdministrators = true;
+                                    ShowUsernameChange = false;
+                                    checkUsername = false;
+                                }
+                                Process = 'Change Username';
+                                }">
+                                Save changes
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <!-- change password -->
+            <div v-if="ShowPasswordChange" class="w-screen h-screen bg-[#325930]/20 flex justify-center items-center fixed top-0 left-0 z-999">
+
+                <div class="w-[30rem] p-9 bg-warm-white border-2 border-green flex justify-center items-center shadow-md">
+                    <div class="text-center w-full">
+                        <h2 class="text-xl font-bold text-green-900 mb-9">Change Password</h2>
+
+                        <div class="flex flex-col justify-center items-center mt-9 gap-2">
+                            <div class="flex flex-col w-full items-start">
+                                <span class="text-base font-medium text-green">New password</span>
+
+                                <input type="password"  v-model="newAdminPassword"
+                                       class="mt-0.5 mb-2 w-full h-12 px-3 border-2 border-green outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none" />
+
+                            </div>
+                            <p v-if="checkPassword" class="text-sm" :class="checkPassword ? 'text-error' : 'text-green'">Field is empty</p>
+                            <a class="w-full text-center block bg-green px-6 py-3 text-base font-bold text-warm-white hover-bg-mid-green"
+                            href="#" @click=" newAdminPassword ? (ShowPasswordConfirm = true, ShowPasswordChange = false,checkPassword = false, confirmPassword = '') : (ShowPasswordConfirm = false, ShowPasswordChange = true,checkPassword = true); Process = 'Change Password'">
+                                Save changes
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- create -->
+            <div v-if="ShowAdminCreatePopup" class="w-screen h-screen bg-[#325930]/20 flex justify-center items-center fixed top-0 left-0 z-999">
+                <div class="bg-warm-white p-9 shadow-md w-[540px] border-2 border-green ">
+
+                    <h2 class="text-xl font-bold text-green-900 mb-4 text-center">Add Administrator</h2>
+
+                    <div>
+                        <span class="text-base font-medium text-green">Username</span>
+
+                        <input type="text"  v-model="createAdminUsername" :class="[
+                                    'mt-0.5 w-full h-12 px-3 outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none',
+                                    (fieldValidation && !createAdminUsername) || checkUsername ? 'transition-colors duration-500 border-[3px] border-red-500' : 'border-2 border-green'
+                                ]" />
+                    </div>
+
+                    <div class="mt-4">
+                        <span class="text-base font-medium text-green">First name</span>
+
+                        <input type="text"  v-model="createAdminFirstname" :class="[
+                                    'mt-0.5 w-full h-12 mb-2 px-3 outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none',
+                                    fieldValidation && !createAdminFirstname ? 'transition-colors duration-500 border-[3px] border-red-500' : 'border-2 border-green'
+                                ]" />
+                    </div>
+
+                    <div class="mt-4">
+                        <span class="text-base font-medium text-green">Last name</span>
+
+                        <input type="text"  v-model="createAdminLastname" :class="[
+                                    'mt-0.5 w-full h-12 mb-2 px-3 outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none',
+                                    fieldValidation && !createAdminLastname ? 'transition-colors duration-500 border-[3px] border-red-500' : 'border-2 border-green'
+                                ]" />
+                    </div>
+
+                    <div class="mt-4">
+                        <span class="text-base font-medium text-green">Password</span>
+
+                        <input type="password"  v-model="createAdminPassword" :class="[
+                                    'mt-0.5 w-full h-12 mb-2 px-3 outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none',
+                                    fieldValidation && !createAdminPassword ? 'transition-colors duration-500 border-[3px] border-red-500' : 'border-2 border-green'
+                                ]" />
+                    </div>
+
+                    <!-- Show this only when login fails -->
+                    <p v-if="fieldValidation || checkUsername" class="text-sm" :class="checkUsername || fieldValidation ? 'text-error' : 'text-green'">{{adminCreateMessage}}</p>
+
+                    <div class="flex flex-col justify-center gap-2">
+                        <a class="w-full text-center inline-block mt-9 bg-green px-6 py-3 text-base font-bold text-warm-white hover-bg-mid-green"
+                           href="#" @click="showConfirmPassword()">
+                            Register
+                        </a>
+                        <a class="w-full text-center block bg-ivory px-6 py-3 text-base font-bold text-green hover:bg-[#F1D580]/50"
+                           href="#" @click="ShowAdminCreatePopup = false">
+                            Close
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Audit Logs - By Admin -->
+        <div v-if="ShowAuditLogByAdmin" class="w-full h-full p-9">
+            <div class="flex gap-4 items-center mb-9">
+                <img src="assets/audit-logs.svg" alt="Logo" class="w-12">
+                <h1 class="text-green-900 font-bold text-3xl mr-auto">{{focusadmin.admin_username}}'s Audit Logs</h1>
+                <a class="text-center inline-flex border-2 border-warm-white bg-ivory px-6 h-12 items-center text-base font-bold text-green hover:bg-[#F1D580]/50"
+                   href="#" @click="ShowAuditLogByAdmin = false; ShowAdministrators = true">
+                    Go back
+                </a>
+                <div class="flex gap-4">
+                    <details class="group relative">
+                        <summary
+                                class="flex items-center gap-2 border-green text-green [&::-webkit-details-marker]:hidden border-2 border-green px-3 h-12">
+                            <span class="text-base font-bold"> Filter By </span>
+                            <span class="transition-transform group-open:-rotate-180">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
+                                         stroke="currentColor" class="size-4">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                                    </svg>
+                                </span>
+                        </summary>
+                        <div
+                                class="z-auto divide-y border-2 border-green bg-ivory shadow-sm group-open:absolute group-open:end-0 group-open:top-14">
+                            <div class="flex items-center justify-between px-3 py-2">
+                                <button type="button" @click="auditshowrequest = auditshowadmission = true; auditfilterdate = null;" class="text-sm text-green underline ">
+                                    Reset
+                                </button>
+                            </div>
+                            <fieldset class="p-3 border-t-2 border-green">
+                                <legend class="sr-only">Table</legend>
+                                <div class="flex flex-col items-start gap-3">
+                                    <label for="Option1" class="inline-flex items-center gap-3">
+                                        <input type="checkbox" v-model="auditshowrequest" class="size-5 border-green shadow-sm bg-warm-white"  />
+                                        <span class="text-sm font-medium text-green whitespace-nowrap"> Document Requests </span>
+                                    </label>
+                                    <label for="Option2" class="inline-flex items-center gap-3">
+                                        <input type="checkbox" v-model="auditshowadmission" class="size-5 border-green shadow-sm bg-warm-white"  />
+                                        <span class="text-sm font-medium text-green whitespace-nowrap"> School Admissions </span>
+                                    </label>
+                                </div>
+                            </fieldset>
+                            <div class="p-3 border-t-2 border-green">
+                                <legend class="sr-only">Date</legend>
+                                <div class="flex flex-col items-start gap-3">
+                                    <label for="MinPrice">
+                                        <span class="text-sm text-green"> From </span>
+                                        <input type="date" :max="today" id="MinPrice" v-model="auditfilterdate"
+                                               class="mt-0.5 w-full h-10 px-3 border-2 border-green outline-green bg-white shadow-sm sm:text-sm focus:outline-none focus:ring-0 focus:rounded-none" />
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </details>
+                </div>
+            </div>
+            <!-- empty -->
+            <div v-if="auditslist.length === 0" class="w-full h-[calc(100vh-9.75rem)]">
+                <div class="w-full h-full flex justify-center items-center">
+                    <p class="text-green text-xl font-bold">No results found</p>
+                </div>
+            </div>
+            <div v-else>
+                <!-- thead -->
+                <div class="border-2 border-green shadow-sm mt-4 max-h-12 overflow-hidden bg-ivory">
+                    <table class="min-w-full">
+                        <thead class="text-left bg-ivory h-12">
+                        <tr class="font-bold">
+                            <th class="px-3 py-2 ">Record Type</th>
+                            <th class="px-3 py-2 ">Student Name</th>
+                            <th class="px-3 py-2 ">Record Date</th>
+                            <th class="px-3 py-2 ">Audit Description</th>
+                            <th class="px-3 py-2 ">Audit Date</th>
+                            <th class="px-3 py-2 ">Admin</th>
+                        </tr>
+                        </thead>
+                        <tbody class="divide-y border-green w-full">
+                        <tr v-for="aud in auditslist" class="border-green">
+                            <td class="px-3 py-2 ">{{ aud.chg_type }}</td>
+                            <td class="px-3 py-2 ">{{ [aud.stud_fname, aud.stud_mname, aud.stud_lname, aud.stud_suffix].filter(Boolean).join(' ') }}</td>
+                            <td class="px-3 py-2 ">{{ aud.req_date ?? aud.adms_date }}</td>
+                            <td class="px-3 py-2 ">{{ aud.chg_old_val }} >> {{ aud.chg_new_val }}</td>
+                            <td class="px-3 py-2 ">{{ formatDateTime(aud.chg_datetime) }}</td>
+                            <td class="px-3 py-2 ">{{ aud.admin_username }}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- tbody -->
+                <div class="border-2 border-t-0 border-green shadow-sm max-h-[calc(100vh-13.875rem)] overflow-auto">
+                    <table class="min-w-full -mt-12">
+                        <thead class="text-left bg-ivory h-12 invisible">
+                        <tr class="font-bold">
+                            <th class="px-3 py-2 ">Record Type</th>
+                            <th class="px-3 py-2 ">Student Name</th>
+                            <th class="px-3 py-2 ">Record Date</th>
+                            <th class="px-3 py-2 ">Audit Description</th>
+                            <th class="px-3 py-2 ">Audit Date</th>
+                            <th class="px-3 py-2 ">Admin</th>
+                        </tr>
+                        </thead>
+                        <tbody class="divide-y border-green w-full">
+                        <tr v-for="aud in auditslist" class="border-green">
+                            <td class="px-3 py-2 ">{{ aud.chg_type }}</td>
+                            <td class="px-3 py-2 ">{{ [aud.stud_fname, aud.stud_mname, aud.stud_lname, aud.stud_suffix].filter(Boolean).join(' ') }}</td>
+                            <td class="px-3 py-2 ">{{ aud.req_date ?? aud.adms_date }}</td>
+                            <td class="px-3 py-2 ">{{ aud.chg_old_val }} >> {{ aud.chg_new_val }}</td>
+                            <td class="px-3 py-2 ">{{ formatDateTime(aud.chg_datetime) }}</td>
+                            <td class="px-3 py-2 ">{{ aud.admin_username }}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p class="text-base font-bold text-green w-full text-right mt-3">{{auditslist.length}} records found</p>
+            </div>
+        </div>
+
+        <!-- Student Users -->
+        <div v-if="ShowStudents" class="w-full h-full p-9">
+            <div class="flex gap-4 items-center mb-9">
+                <img src="assets/students.svg" alt="Logo" class="w-12">
+                <h1 class="text-green-900 font-bold text-3xl mr-auto">Student Users</h1>
+                <div class="flex gap-4">
+                    <details class="group relative">
+                        <summary
+                                class="flex items-center gap-2 border-green text-green [&::-webkit-details-marker]:hidden border-2 border-green px-3 h-12">
+                            <span class="text-base font-bold"> Sort By </span>
+                            <span class="transition-transform group-open:-rotate-180">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
+                                         stroke="currentColor" class="size-4">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                                    </svg>
+                                </span>
+                        </summary>
+                        <div
+                                class="z-auto divide-y border-2 border-green bg-ivory shadow-sm group-open:absolute group-open:start-0 group-open:top-14">
+                            <div class="flex items-center justify-between px-3 py-2">
+                                <button type="button" @click="studentsort = 'stud_lname'; studentorder = 'asc';" class="text-sm text-green underline ">
+                                    Reset
+                                </button>
+                            </div>
+                            <fieldset class="p-3 border-green">
+                                <legend class="sr-only">Sort</legend>
+                                <div class="flex flex-col items-start gap-3">
+                                    <label for="Option1" class="inline-flex items-center gap-3">
+                                        <input type="radio" v-model="studentsort" value="stud_lname" name="students-sort" class="size-5 border-green shadow-sm bg-warm-white"  />
+                                        <span class="text-sm font-medium text-green"> Last Name </span>
+                                    </label>
+                                    <label for="Option2" class="inline-flex items-center gap-3">
+                                        <input type="radio" v-model="studentsort" value="stud_created" name="students-sort" class="size-5 border-green shadow-sm bg-warm-white"  />
+                                        <span class="text-sm font-medium text-green whitespace-nowrap"> Date Added </span>
+                                    </label>
+                                </div>
+                            </fieldset>
+                            <fieldset class="p-3 border-t-2 border-green">
+                                <legend class="sr-only">Order</legend>
+                                <div class="flex flex-col items-start gap-3">
+                                    <label for="Option1" class="inline-flex items-center gap-3">
+                                        <input type="radio" v-model="studentorder" value="asc" name="students-sort-order" class="size-5 border-green shadow-sm bg-warm-white"  />
+                                        <span class="text-sm font-medium text-green"> Ascending </span>
+                                    </label>
+                                    <label for="Option2" class="inline-flex items-center gap-3">
+                                        <input type="radio" v-model="studentorder" value="desc" name="students-sort-order" class="size-5 border-green shadow-sm bg-warm-white"  />
+                                        <span class="text-sm font-medium text-green"> Descending </span>
+                                    </label>
+                                </div>
+                            </fieldset>
+                        </div>
+                    </details>
+                </div>
+                <div class="relative">
+                    <input type="text" v-model="studentsearchlive"  placeholder="Search"
+                           class="w-full h-12 pl-3 pr-11 border-2 border-green outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none" />
+                    <span class="absolute inset-y-0 right-2 grid w-8 place-content-center">
+                            <button type="button" @click="snapStudentSearch()" aria-label="Submit" class="rounded-full p-1.5 text-green ">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
+                                     stroke="currentColor" class="size-4">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                          d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                                </svg>
+                            </button>
+                        </span>
+                </div>
+            </div>
+            <!-- empty -->
+            <div v-if="studentslist.length === 0" class="w-full h-[calc(100vh-9.75rem)]">
+                <div class="w-full h-full flex justify-center items-center">
+                    <p class="text-green text-xl font-bold">No results found</p>
+                </div>
+            </div>
+            <div v-else>
+                <!-- thead -->
+                <div class="border-2 border-green shadow-sm mt-4 max-h-12 overflow-hidden bg-ivory">
+                    <table class="min-w-full">
+                        <thead class="text-left bg-ivory h-12">
+                        <tr class="font-bold">
+                            <th class="px-3 py-2 ">Name</th>
+                            <th class="px-3 py-2 ">LRN</th>
+                            <th class="px-3 py-2 ">Date of Birth</th>
+                            <th class="px-3 py-2 ">Email Address</th>
+                            <th class="px-3 py-2 ">Date Added</th>
+                        </tr>
+                        </thead>
+                        <tbody class="divide-y border-green w-full">
+                        <tr v-for="stud in studentslist" class="border-green" @click="focusstudent = stud">
+                            <td class="px-3 py-2 ">{{stud.stud_fname+" "+stud.stud_mname+" "+stud.stud_lname}}</td>
+                            <td class="px-3 py-2 ">{{stud.stud_lrn}}</td>
+                            <td class="px-3 py-2 ">{{stud.stud_dob}}</td>
+                            <td class="px-3 py-2 ">{{stud.stud_email}}</td>
+                            <td class="px-3 py-2 ">{{stud.stud_created}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- tbody -->
+                <div class="border-2 border-t-0 border-green shadow-sm max-h-[calc(100vh-13.875rem)] overflow-auto">
+                    <table class="min-w-full -mt-12">
+                        <thead class="text-left bg-ivory h-12 invisible">
+                        <tr class="font-bold">
+                            <th class="px-3 py-2 ">Name</th>
+                            <th class="px-3 py-2 ">LRN</th>
+                            <th class="px-3 py-2 ">Date of Birth</th>
+                            <th class="px-3 py-2 ">Email Address</th>
+                            <th class="px-3 py-2 ">Date Added</th>
+                        </tr>
+                        </thead>
+                        <tbody class="divide-y border-green w-full">
+                        <tr v-for="stud in studentslist" class="border-green" @click="focusstudent = stud; ShowStudentPopup = true">
+                            <td class="px-3 py-2 ">{{stud.stud_fname+" "+stud.stud_mname+" "+stud.stud_lname}}</td>
+                            <td class="px-3 py-2 ">{{stud.stud_lrn}}</td>
+                            <td class="px-3 py-2 ">{{stud.stud_dob}}</td>
+                            <td class="px-3 py-2 ">{{stud.stud_email}}</td>
+                            <td class="px-3 py-2 ">{{stud.stud_created}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="w-full mt-3 flex justify-between">
+                    <p class="text-base text-green"><span class="font-bold">Note: </span>This list consists only of students that interacted with the system.</p>
+                    <p class="text-base font-bold text-green">{{studentslist.length}} records found</p>
+                </div>
+
+                <!-- popup -->
+                <div v-if="ShowStudentPopup" class="w-screen h-screen bg-[#325930]/20 flex justify-center items-center fixed top-0 left-0 z-999">
+
+                    <div class="w-[30rem] min-h-[320px] p-9 bg-warm-white border-2 border-green flex justify-center items-center shadow-md">
+                        <div class="text-center w-full">
+                            <p class="font-bold text-green text-base mb-4">{{ [focusstudent.stud_fname, focusstudent.stud_mname, focusstudent.stud_lname, focusstudent.stud_suffix].filter(Boolean).join(' ') }}</p>
+                            <p class="text-green text-base">LRN: {{ focusstudent.stud_lrn }}</p>
+                            <p class="text-green text-base">Date of Birth: {{ focusstudent.stud_dob }}</p>
+                            <p class="text-green text-base">Email Address: {{ focusstudent.stud_email }}</p>
+                            <p class="text-green text-base">Home Address: {{ focusstudent.stud_add }}</p>
+                            <p class="text-green text-base">Date Added: {{ focusstudent.stud_created }}</p>
+
+                            <a v-else class="w-full text-center block bg-ivory mt-9 px-6 py-3 text-base font-bold text-green hover:bg-[#F1D580]/50"
+                               href="#" @click="ShowStudentPopup = false">
+                                Go back
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- Audit Logs - All -->
+        <div v-if="ShowAuditLogAll" class="w-full h-full p-9">
+            <div class="flex gap-4 items-center mb-9">
+                <img src="assets/audit-logs.svg" alt="Logo" class="w-12 h-12">
+                <h1 class="text-green-900 font-bold text-3xl mr-auto">Audit Logs</h1>
+                <a class="text-center inline-flex border-2 border-warm-white bg-ivory px-6 h-12 items-center text-base font-bold text-green hover:bg-[#F1D580]/50"
+                   href="#" @click="ShowAuditLogAll = false; ShowAdminControls = true">
+                    Go back
+                </a>
+                <div class="flex gap-4">
+                    <details class="group relative">
+                        <summary
+                                class="flex items-center gap-2 border-green text-green [&::-webkit-details-marker]:hidden border-2 border-green px-3 h-12">
+                            <span class="text-base font-bold"> Filter By </span>
+                            <span class="transition-transform group-open:-rotate-180">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
+                                         stroke="currentColor" class="size-4">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                                    </svg>
+                                </span>
+                        </summary>
+                        <div
+                                class="z-auto divide-y border-2 border-green bg-ivory shadow-sm group-open:absolute group-open:end-0 group-open:top-14">
+                            <div class="flex items-center justify-between px-3 py-2">
+                                <button type="button" @click="auditshowrequest = auditshowadmission = true; auditfilterdate = null;" class="text-sm text-green underline ">
+                                    Reset
+                                </button>
+                            </div>
+                            <fieldset class="p-3 border-t-2 border-green">
+                                <legend class="sr-only">Table</legend>
+                                <div class="flex flex-col items-start gap-3">
+                                    <label for="Option1" class="inline-flex items-center gap-3">
+                                        <input type="checkbox" v-model="auditshowrequest" class="size-5 border-green shadow-sm bg-warm-white"  />
+                                        <span class="text-sm font-medium text-green whitespace-nowrap"> Document Requests </span>
+                                    </label>
+                                    <label for="Option2" class="inline-flex items-center gap-3">
+                                        <input type="checkbox" v-model="auditshowadmission" class="size-5 border-green shadow-sm bg-warm-white"  />
+                                        <span class="text-sm font-medium text-green whitespace-nowrap"> School Admissions </span>
+                                    </label>
+                                </div>
+                            </fieldset>
+                            <div class="p-3 border-t-2 border-green">
+                                <legend class="sr-only">Date</legend>
+                                <div class="flex flex-col items-start gap-3">
+                                    <label for="MinPrice">
+                                        <span class="text-sm text-green"> From </span>
+                                        <input type="date" :max="today" id="MinPrice" v-model="auditfilterdate"
+                                               class="mt-0.5 w-full h-10 px-3 border-2 border-green outline-green bg-white shadow-sm sm:text-sm focus:outline-none focus:ring-0 focus:rounded-none" />
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </details>
+                </div>
+            </div>
+            <!-- empty -->
+            <div v-if="auditslist.length === 0" class="w-full h-[calc(100vh-9.75rem)]">
+                <div class="w-full h-full flex justify-center items-center">
+                    <p class="text-green text-xl font-bold">No results found</p>
+                </div>
+            </div>
+            <div v-else>
+                <!-- thead -->
+                <div class="border-2 border-green shadow-sm mt-4 max-h-12 overflow-hidden bg-ivory">
+                    <table class="min-w-full">
+                        <thead class="text-left bg-ivory h-12">
+                        <tr class="font-bold">
+                            <th class="px-3 py-2 ">Record Type</th>
+                            <th class="px-3 py-2 ">Student Name</th>
+                            <th class="px-3 py-2 ">Record Date</th>
+                            <th class="px-3 py-2 ">Audit Description</th>
+                            <th class="px-3 py-2 ">Audit Date</th>
+                            <th class="px-3 py-2 ">Admin</th>
+                        </tr>
+                        </thead>
+                        <tbody class="divide-y border-green w-full">
+                        <tr v-for="aud in auditslist" class="border-green">
+                            <td class="px-3 py-2 ">{{ aud.chg_type }}</td>
+                            <td class="px-3 py-2 ">{{ [aud.stud_fname, aud.stud_mname, aud.stud_lname, aud.stud_suffix].filter(Boolean).join(' ') }}</td>
+                            <td class="px-3 py-2 ">{{ aud.req_date ?? aud.adms_date }}</td>
+                            <td class="px-3 py-2 ">{{ aud.chg_old_val }} >> {{ aud.chg_new_val }}</td>
+                            <td class="px-3 py-2 ">{{ formatDateTime(aud.chg_datetime) }}</td>
+                            <td class="px-3 py-2 ">{{ aud.admin_username }}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- tbody -->
+                <div class="border-2 border-t-0 border-green shadow-sm max-h-[calc(100vh-13.875rem)] overflow-auto">
+                    <table class="min-w-full -mt-12">
+                        <thead class="text-left bg-ivory h-12 invisible">
+                        <tr class="font-bold">
+                            <th class="px-3 py-2 ">Record Type</th>
+                            <th class="px-3 py-2 ">Student Name</th>
+                            <th class="px-3 py-2 ">Record Date</th>
+                            <th class="px-3 py-2 ">Audit Description</th>
+                            <th class="px-3 py-2 ">Audit Date</th>
+                            <th class="px-3 py-2 ">Admin</th>
+                        </tr>
+                        </thead>
+                        <tbody class="divide-y border-green w-full">
+                        <tr v-for="aud in auditslist" class="border-green">
+                            <td class="px-3 py-2 ">{{ aud.chg_type }}</td>
+                            <td class="px-3 py-2 ">{{ [aud.stud_fname, aud.stud_mname, aud.stud_lname, aud.stud_suffix].filter(Boolean).join(' ') }}</td>
+                            <td class="px-3 py-2 ">{{ aud.req_date ?? aud.adms_date }}</td>
+                            <td class="px-3 py-2 ">{{ aud.chg_old_val }} >> {{ aud.chg_new_val }}</td>
+                            <td class="px-3 py-2 ">{{ formatDateTime(aud.chg_datetime) }}</td>
+                            <td class="px-3 py-2 ">{{ aud.admin_username }}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p class="text-base font-bold text-green w-full text-right mt-3">{{auditslist.length}} records found</p>
+            </div>
+        </div>
+
+        <!-- Admin Controls -->
+        <div v-if="ShowAdminControls" class="w-full h-full p-9">
+            <div class="flex gap-4 items-center mb-9">
+                <img src="assets/admin-controls.svg" alt="Logo" class="w-12">
+                <h1 class="text-green-900 font-bold text-3xl mr-auto">Admin Controls</h1>
+            </div>
+            <!-- list -->
+            <div class="w-full h-[calc(100vh-9.75rem)] overflow-auto flex flex-col gap-6">
+                <div class="flex justify-between items-start bg-ivory p-6 ">
+                        <span>
+                            <h2 class="text-xl text-green font-bold mb-3">Audit Logs</h2>
+                            <p>View a detailed record of all changes made by administrators to system data — track who did what and when.</p>
+                        </span>
+                    <a class="w-32 text-center inline-block bg-green px-6 py-3 text-base font-bold text-warm-white hover-bg-mid-green"
+                       href="#" @click="auditshowrequest = auditshowadmission = true; auditfilterdate = null; ShowAuditLogAll = true; ShowAdminControls = false;">
+                        View
+                    </a>
+                </div>
+                <div class="flex justify-between items-start bg-ivory p-6 ">
+                        <span>
+                            <h2 class="text-xl text-green font-bold mb-3">Administrators</h2>
+                            <p>Manage admin accounts — add, remove, or update usernames and passwords, and view their audit logs.</p>
+                        </span>
+                    <a class="w-32 text-center inline-block bg-green px-6 py-3 text-base font-bold text-warm-white hover-bg-mid-green"
+                       href="#" @click="ShowAdministrators = true; ShowAdminControls = false;">
+                        View
+                    </a>
+                </div>
+                <div class="flex justify-between items-start bg-ivory p-6 ">
+                        <span>
+                            <h2 class="text-xl text-green font-bold mb-3">Document Types</h2>
+                                <p>Manage the list of documents that can be requested from the registrar. Add, edit, or remove as needed.</p>
+                        </span>
+                    <a class="w-32 text-center inline-block bg-green px-6 py-3 text-base font-bold text-warm-white hover-bg-mid-green"
+                       href="#" @click="ShowDocumentTypes = true; ShowAdminControls = false;">
+                        View
+                    </a>
+                </div>
+                <div class="flex justify-between items-start bg-ivory p-6 ">
+                        <span>
+                            <h2 class="text-xl text-green font-bold mb-3">Toggle Admissions</h2>
+                            <p>Control the admission period by opening or closing submissions. <br> When open, students can submit their applications. When closed, submissions are disabled.</p>
+                            <p class="font-bold mt-3">Status: {{ controls.find(control => control.ctrl_key === "toggle_admissions").ctrl_value }}</p>
+                        </span>
+                    <a class="w-32 text-center inline-block bg-green px-6 py-3 text-base font-bold text-warm-white hover-bg-mid-green"
+                       href="#" @click="ShowPasswordConfirm = true; Process = 'Toggle Admissions';">
+                        {{ controls.find(control => control.ctrl_key === "toggle_admissions").ctrl_value === 'Open' ? 'Close' : 'Open' }}
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Document Types -->
+        <div v-if="ShowDocumentTypes" class="w-full h-full p-9">
+            <div class="flex gap-4 items-center mb-9">
+                <img src="assets/document-requests.svg" alt="Logo" class="w-12">
+                <h1 class="text-green-900 font-bold text-3xl mr-auto">Document Types</h1>
+                <a class="text-center inline-flex border-2 border-warm-white bg-ivory px-6 h-12 items-center text-base font-bold text-green hover:bg-[#F1D580]/50"
+                   href="#" @click="ShowDocumentTypes = false; ShowAdminControls = true">
+                    Go back
+                </a>
+                <a class="text-center inline-block bg-green px-6 py-3 text-base font-bold text-warm-white hover-bg-mid-green"
+                   href="#" @click="ShowDocTypeCreatePopup = true">
+                    &plus; Add document type
+                </a>
+            </div>
+            <!-- empty -->
+            <div v-if="docType.length === 0" class="w-full h-[calc(100vh-9.75rem)]">
+                <div class="w-full h-full flex justify-center items-center">
+                    <p class="text-green text-xl font-bold">No results found</p>
+                </div>
+            </div>
+            <!-- list -->
+            <div v-else class="bg-ivory w-full h-[calc(100vh-9.75rem)] max-h-[calc(100vh-9.75rem)] overflow-auto flex justify-center items-center cardlist p-4 border-2 border-green">
+                <div class="flex flex-wrap gap-4 justify-center items-center w-full">
+                    <a v-for="docu in docType" class="text-center inline-block px-6 py-3 w-[16vw] h-12 border-2 border-green text-base text-green bg-warm-white hover:bg-[#F1D580]/50"
+                       href="#" @click="ShowDocTypePopup = true; focusdoctype = docu">
+                        {{docu.docu_type}}
+                    </a>
+                </div>
+            </div>
+            <!-- popup -->
+            <div v-if="ShowDocTypePopup" class="w-screen h-screen bg-[#325930]/20 flex justify-center items-center fixed top-0 left-0 z-999">
+
+                <div class="w-[30rem] min-h-[320px] p-9 bg-warm-white border-2 border-green flex justify-center items-center shadow-md">
+                    <div class="text-center w-full">
+                        <p class="font-bold text-green text-base">Document Type: {{ focusdoctype.docu_type }}</p>
+
+                        <div class="flex flex-col justify-center items-center mt-9 gap-2">
+                            <a class="w-full text-center block bg-green px-6 py-3 text-base font-bold text-warm-white hover-bg-mid-green"
+                               href="#" @click="ShowDocTypeRenamePopup = true; ShowDocTypePopup = false; documentTypeRename = focusdoctype.docu_type">
+                                Rename
+                            </a>
+                            <a class="w-full text-center block bg-green px-6 py-3 text-base font-bold text-warm-white hover-bg-mid-green"
+                               href="#" @click="ShowAreYouSurePopup = true; ShowDocTypePopup = false; Process = 'Delete Document'">
+                                Remove
+                            </a>
+                            <a class="w-full text-center block bg-ivory px-6 py-3 text-base font-bold text-green hover:bg-[#F1D580]/50"
+                               href="#" @click="ShowDocTypePopup = false">
+                                Close
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <!-- rename -->
+            <div v-if="ShowDocTypeRenamePopup" class="w-screen h-screen bg-[#325930]/20 flex justify-center items-center fixed top-0 left-0 z-999">
+
+                <div class="w-[30rem] p-9 bg-warm-white border-2 border-green flex justify-center items-center shadow-md">
+                    <div class="text-center w-full">
+                        <h2 class="text-xl font-bold text-green-900 mb-9">Rename Document Type</h2>
+
+                        <div class="flex flex-col justify-center items-center mt-9 gap-2">
+                            <div class="flex flex-col w-full items-start">
+
+                                <input type="text"  v-model="documentTypeRename"
+                                       class="mt-0.5 mb-2 w-full h-12 px-3 border-2 border-green outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none" />
+
+                            </div>
+                            <p v-if="checkDocument" class="text-sm" :class="checkDocument ? 'text-error' : 'text-green'">Document already exists</p>
+                            <a class="w-full text-center block bg-green px-6 py-3 text-base font-bold text-warm-white hover-bg-mid-green"
+                               href="#" @click="(documentTypeRename !== this.focusdoctype.docu_type) ? checkDocumentExist() : (showDocumentTypes = true, ShowDocTypeRenamePopup = false);">
+                                {{ documentRenameButtonText }}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- create -->
+            <div v-if="ShowDocTypeCreatePopup" class="w-screen h-screen bg-[#325930]/20 flex justify-center items-center fixed top-0 left-0 z-999">
+                <div class="bg-warm-white p-9 shadow-md w-[540px] border-2 border-green ">
+
+                    <h2 class="text-xl font-bold text-green-900 mb-4 text-center">Add Document Type</h2>
+
+                    <div>
+
+                        <input type="text"  v-model="documentType" :class="[
+                                    'mt-0.5 mb-2 w-full h-12 px-3 outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none',
+                                    documentExist ? 'transition-colors duration-500 border-[3px] border-red-500' : 'border-2 border-green'
+                                ]" />
+                    </div>
+
+                    <!-- Show this only when login fails -->
+                    <p v-if="documentExist" class="text-sm" :class="documentExist ? 'text-error' : 'text-green'">{{documentMessage}}</p>
+
+                    <div class="flex flex-col justify-center gap-2">
+                        <a class="w-full text-center inline-block mt-9 bg-green px-6 py-3 text-base font-bold text-warm-white hover-bg-mid-green"
+                           href="#" @click="documentCreate();">
+                            {{ documentCreateButtonText }}
+                        </a>
+                        <a class="w-full text-center block bg-ivory px-6 py-3 text-base font-bold text-green hover:bg-[#F1D580]/50"
+                           href="#" @click="ShowDocTypeCreatePopup = false">
+                            Close
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- are you sure popup -->
+        <div v-if="ShowAreYouSurePopup" class="w-screen h-screen bg-[#325930]/20 flex justify-center items-center fixed top-0 left-0 z-999">
+
+            <div class="w-[30rem] p-9 bg-warm-white border-2 border-green flex justify-center items-center shadow-md">
+                <div class="text-center w-full">
+                    <p class="text-green text-base">This action is permanent and cannot be undone.</p>
+
+
+                    <div class="flex flex-col justify-center items-center mt-9 gap-2">
+                        <a class="w-full text-center block bg-green px-6 py-3 text-base font-bold text-warm-white hover-bg-mid-green"
+                           href="#" @click="ShowAreYouSurePopup = false; ShowPasswordConfirm = true; confirmPassword = '';">
+                            Continue
+                        </a>
+                        <a class="w-full text-center block bg-ivory px-6 py-3 text-base font-bold text-green hover:bg-[#F1D580]/50"
+                           href="#" @click="ShowAreYouSurePopup = false">
+                            Cancel
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- logout confirmation -->
+        <div v-if="ShowLogoutConfirm" class="w-screen h-screen bg-[#325930]/20 flex justify-center items-center fixed top-0 left-0 z-999">
+
+            <div class="w-[30rem] p-9 bg-warm-white border-2 border-green flex justify-center items-center shadow-md">
+                <div class="text-center w-full">
+                    <p class="text-green text-base">Are you sure you want to log out?</p>
+
+
+                    <div class="flex flex-col justify-center items-center mt-9 gap-2">
+                        <a class="w-full text-center block bg-green px-6 py-3 text-base font-bold text-warm-white hover-bg-mid-green"
+                           href="#" @click="ShowLogoutConfirm = false; Logout();">
+                            Confirm
+                        </a>
+                        <a class="w-full text-center block bg-ivory px-6 py-3 text-base font-bold text-green hover:bg-[#F1D580]/50"
+                           href="#" @click="ShowLogoutConfirm = false">
+                            Cancel
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- password confirmation -->
+        <div v-if="ShowPasswordConfirm" class="w-screen h-screen bg-[#325930]/20 flex justify-center items-center fixed top-0 left-0 z-999">
+
+            <div class="w-[30rem] p-9 bg-warm-white border-2 border-green flex justify-center items-center shadow-md">
+                <div class="text-center w-full">
+                    <h2 class="text-xl font-bold text-green-900 mb-9">Password Confirmation</h2>
+
+                    <div class="flex flex-col justify-center items-center mt-9 gap-2">
+                        <div class="flex flex-col w-full items-start">
+
+                            <input type="password"  v-model="confirmPassword"
+                                   :class="[
+                                'mt-0.5 w-full h-12 mb-2 px-3 outline-green bg-warm-white shadow-sm sm:text-base focus:outline-none focus:ring-0 focus:rounded-none',
+                                confirmPasswordIncorrect ? 'transition-colors duration-500 border-[3px] border-red-500' : 'border-2 border-green']" />
+                        </div>
+
+                        <a class="w-full text-center block bg-green px-6 py-3 text-base font-bold text-warm-white hover-bg-mid-green"
+                           href="#" @click="PasswordConfirmation()">
+                            {{ passwordConfirmButtonText }}
+                        </a>
+                        <a class="w-full text-center block bg-ivory px-6 py-3 text-base font-bold text-green hover:bg-[#F1D580]/50"
+                           href="#" @click="ShowPasswordConfirm = false">
+                            Cancel
+                        </a>
+
+                        <p v-if="confirmPasswordIncorrect" class="text-sm text-error">{{confirmPasswordMessage}}</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- loading changes -->
+        <div v-if="ShowLoading" class="w-screen h-screen transition-colors bg-[#325930]/60 flex justify-center items-center fixed top-0 left-0 z-999">
+            <p class="text-warm-white text-xl font-bold">{{loadingMessage}}</p>
+        </div>
+    </section>
+
+</div>
+
+
+
+</body>
+
+</html>
